@@ -1,4 +1,4 @@
-# unitstats
+# unit-builder
 
 ## Project setup
 ```

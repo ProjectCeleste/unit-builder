@@ -1,0 +1,10 @@
+$font-family: "Calibri", "Carlito", sans-serif;
+
+* {
+  font-family: $font-family;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

@@ -1,4 +1,5 @@
 @import "vars/all";
+
 @import "bulma/sass/base/minireset.sass";
 @import "bulma/sass/elements/title.sass";
 @import "bulma/sass/elements/container.sass";
@@ -9,3 +10,5 @@
 @import "bulma/sass/helpers/typography.sass";
 @import "bulma/sass/helpers/visibility.sass";
 @import "bulma/sass/grid/columns.sass";
+
+@import "fonts";
