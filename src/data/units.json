@@ -1,0 +1,46 @@
+{
+    "greeks": [
+        {
+            "id": "unitid",
+            "name": "Hoplite",
+            "icon": "Hoplite64.png"
+        },
+        {
+            "id": "unitid1",
+            "name": "Hoplite 1",
+            "icon": "Hoplite64.png"
+        },
+        {
+            "id": "unitid2",
+            "name": "Hoplite 2",
+            "icon": "Hoplite64.png"
+        },
+        {
+            "id": "unitid3",
+            "name": "Hoplite 3",
+            "icon": "Hoplite64.png"
+        },
+        {
+            "id": "unitid4",
+            "name": "Hoplite 4",
+            "icon": "Hoplite64.png"
+        },
+        {
+            "id": "unitid5",
+            "name": "Hoplite 5",
+            "icon": "Hoplite64.png"
+        }
+    ],
+    "egyptians": [
+        {
+            "id": "unitid",
+            "name": "Camel",
+            "icon": "Hoplite64.png"
+        }
+    ],
+    "celts": [],
+    "persians": [],
+    "babylonians": [],
+    "norse": [],
+    "romans": []
+}

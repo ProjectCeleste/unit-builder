@@ -1,11 +1,9 @@
 <template>
   <div
-    class="collapse is-flex is-flex-direction-column is-flex-justify-flex-start"
+    class="collapse is-flex is-flex-direction-column"
     :class="{ 'is-open': open }"
   >
-    <div>
-      <span class="title is-relative" @click="open = !open">{{ title }}</span>
-    </div>
+    <span class="title is-relative" @click="open = !open">{{ title }}</span>
     <div :class="{ 'is-hidden': !open }">
       <slot />
     </div>
@@ -37,7 +35,7 @@ export default {
       position: absolute;
       left: 0;
       top: 0;
-      line-height: 45px;
+      line-height: 36px;
       font-weight: bold;
       font-size: 125%;
     }

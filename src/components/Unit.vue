@@ -1,10 +1,13 @@
 <template>
-  <div></div>
+  <UnitSelector />
 </template>
 
 <script>
+import UnitSelector from "./UnitSelector.vue"
+
 export default {
-  name: "Unit"
+  name: "Unit",
+  components: { UnitSelector }
 }
 </script>
 
