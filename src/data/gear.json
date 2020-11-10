@@ -2,7 +2,8 @@
     "lightspear": [
         {
             "name": "Zahhak",
-            "icon": "32.png"
+            "icon": "32.png",
+            "effects": []
         }
     ],
     "shield": [],

@@ -15,6 +15,8 @@
         class="mr-1 is-align-self-flex-end"
       />
     </div>
+  </div>
+  <div>
     {{ JSON.stringify(gear) }}
   </div>
 </template>

@@ -2,15 +2,10 @@
   <div class="gear-selector is-relative">
     <div class="selected-gear" @click="open = !open">
       {{ type }}
-      {{ JSON.stringify(gear) }}
+      {{ JSON.stringify(modelValue) }}
     </div>
     <keep-alive>
-      <Dropdown
-        v-if="open"
-        v-model="gear"
-        :contents="contents"
-        @selected="open = false"
-      />
+      <Dropdown v-if="open" :contents="contents" @selected="onSelected" />
     </keep-alive>
   </div>
 </template>
@@ -27,23 +22,40 @@ export default {
     modelValue: {
       type: Object,
       default() {
-        return {
-          name: "None",
-          icon: "32.png",
-          effects: []
-        }
+        return {}
       }
     }
   },
+  emits: ["update:modelValue"],
   data() {
     return {
-      gear: {},
       open: false
     }
   },
   computed: {
     contents() {
       return Gear[this.type]
+    }
+  },
+  activated() {
+    this.onActivate()
+  },
+  mounted() {
+    this.onActivate()
+  },
+  methods: {
+    onSelected(gear) {
+      this.open = false
+      this.$emit("update:modelValue", gear)
+    },
+    onActivate() {
+      if (!Object.keys(this.modelValue).length) {
+        this.$emit("update:modelValue", {
+          name: "None",
+          icon: "32.png",
+          effects: []
+        })
+      }
     }
   }
 }
