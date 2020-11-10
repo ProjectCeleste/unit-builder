@@ -16,21 +16,20 @@
       />
     </div>
   </div>
-  <div>
-    {{ JSON.stringify(gear) }}
-  </div>
+  <Stats :gear="gear" />
 </template>
 
 <script>
 import UnitSelector from "./UnitSelector.vue"
 import GearSelector from "./GearSelector.vue"
+import Stats from "./Stats.vue"
 
 export default {
   name: "Unit",
-  components: { UnitSelector, GearSelector },
+  components: { UnitSelector, GearSelector, Stats },
   data() {
     return {
-      selection: { civ: "greeks", unit: { name: "None", icon: "32.png" } },
+      selection: { civ: "greek", unit: { name: "None", icon: "32.png" } },
       gear: {}
     }
   },

@@ -50,7 +50,7 @@ export default {
     modelValue: {
       type: Object,
       default() {
-        return { civ: "greeks", unit: { name: "None", icon: "32.png" } }
+        return { civ: "greek", unit: { name: "None", icon: "32.png" } }
       }
     }
   },
@@ -58,7 +58,7 @@ export default {
   data() {
     return {
       open: false,
-      civ: "greeks"
+      civ: "greek"
     }
   },
   computed: {

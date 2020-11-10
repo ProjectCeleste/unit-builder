@@ -1,5 +1,5 @@
 {
-    "greeks": [
+    "greek": [
         {
             "id": "unitid",
             "name": "Hoplite",
@@ -37,16 +37,16 @@
             "icon": "Hoplite64.png"
         }
     ],
-    "egyptians": [
+    "egyptian": [
         {
             "id": "unitid",
             "name": "Camel",
             "icon": "Hoplite64.png"
         }
     ],
-    "celts": [],
-    "persians": [],
-    "babylonians": [],
+    "celtic": [],
+    "persian": [],
+    "babylonian": [],
     "norse": [],
-    "romans": []
+    "roman": []
 }

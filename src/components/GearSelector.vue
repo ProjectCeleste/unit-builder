@@ -2,7 +2,6 @@
   <div class="gear-selector is-relative">
     <div class="selected-gear" @click="open = !open">
       {{ type }}
-      {{ JSON.stringify(modelValue) }}
     </div>
     <keep-alive>
       <Dropdown v-if="open" :contents="contents" @selected="onSelected" />
