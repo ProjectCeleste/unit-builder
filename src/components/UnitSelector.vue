@@ -7,11 +7,17 @@
     </div>
     <div class="selected-unit is-flex" @click="open = !open">
       <img
-        :src="require(`../assets/img/Art/${selected.icon}`)"
+        :src="require(`../assets/img/Art/${modelValue.unit.icon}`)"
         class="small-img mr-2"
       />
-      <span class="is-flex-grow-1 has-text-left">{{ selected.name }}</span>
-      <img src="https://via.placeholder.com/32" class="small-img ml-2" />
+      <span class="is-flex-grow-1 has-text-left">{{
+        modelValue.unit.name
+      }}</span>
+      <img
+        v-if="selectedUnitCiv"
+        :src="require(`../assets/img/Art/civs/${selectedUnitCiv}.png`)"
+        class="small-img ml-2"
+      />
       <span class="select-arrow px-2">▼</span>
     </div>
     <keep-alive>
@@ -40,20 +46,41 @@ const civs = require("../data/units.json")
 export default {
   name: "UnitSelector",
   components: { Dropdown, CivSelector },
+  props: {
+    modelValue: {
+      type: Object,
+      default() {
+        return { civ: "greeks", unit: { name: "None", icon: "32.png" } }
+      }
+    }
+  },
+  emits: ["update:modelValue"],
   data() {
     return {
       open: false,
-      units: civs.greeks,
-      selected: { name: "None", icon: "32.png" }
+      selectedUnitCiv: undefined
+    }
+  },
+  computed: {
+    units() {
+      return civs[this.modelValue.civ]
+    }
+  },
+  watch: {
+    modelValue(val) {
+      if (val.unit.name != this.modelValue.unit.name) {
+        this.selectedUnitCiv = val.civ
+      }
     }
   },
   methods: {
     selectedUnitChanged(s) {
-      this.selected = s
       this.open = false
+      this.selectedUnitCiv = this.modelValue.civ
+      this.$emit("update:modelValue", { civ: this.modelValue.civ, unit: s })
     },
     selectedCivChanged(s) {
-      this.units = civs[s]
+      this.$emit("update:modelValue", { civ: s, unit: this.modelValue.unit })
     },
     onClickOutside() {
       this.open = false
