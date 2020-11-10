@@ -14,8 +14,8 @@
         modelValue.unit.name
       }}</span>
       <img
-        v-if="selectedUnitCiv"
-        :src="require(`../assets/img/Art/civs/${selectedUnitCiv}.png`)"
+        v-if="modelValue.unit.name != 'None'"
+        :src="require(`../assets/img/Art/civs/${modelValue.civ}.png`)"
         class="small-img ml-2"
       />
       <span class="select-arrow px-2">▼</span>
@@ -28,7 +28,7 @@
         @selected="selectedUnitChanged"
       >
         <template #header>
-          <CivSelector @selected="selectedCivChanged" />
+          <CivSelector v-model="civ" />
         </template>
       </Dropdown>
     </keep-alive>
@@ -58,29 +58,18 @@ export default {
   data() {
     return {
       open: false,
-      selectedUnitCiv: undefined
+      civ: "greeks"
     }
   },
   computed: {
     units() {
-      return civs[this.modelValue.civ]
-    }
-  },
-  watch: {
-    modelValue(val) {
-      if (val.unit.name != this.modelValue.unit.name) {
-        this.selectedUnitCiv = val.civ
-      }
+      return civs[this.civ]
     }
   },
   methods: {
     selectedUnitChanged(s) {
       this.open = false
-      this.selectedUnitCiv = this.modelValue.civ
-      this.$emit("update:modelValue", { civ: this.modelValue.civ, unit: s })
-    },
-    selectedCivChanged(s) {
-      this.$emit("update:modelValue", { civ: s, unit: this.modelValue.unit })
+      this.$emit("update:modelValue", { civ: this.civ, unit: s })
     },
     onClickOutside() {
       this.open = false

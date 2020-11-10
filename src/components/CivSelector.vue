@@ -4,7 +4,7 @@
       v-for="civ in civs"
       :key="civ"
       class="mx-1 civ-selector-option"
-      @click="$emit('selected', civ)"
+      @click="$emit('update:modelValue', civ)"
     >
       <img
         :src="require(`../assets/img/Art/civs/${civ}.png`)"
@@ -18,7 +18,13 @@
 <script>
 export default {
   name: "CivSelector",
-  emits: ["selected"],
+  props: {
+    modelValue: {
+      type: String,
+      required: true
+    }
+  },
+  emits: ["update:modelValue"],
   data() {
     return {
       civs: require("../data/civs.json")

@@ -15,7 +15,15 @@ export default {
   props: {
     modelValue: { type: String, default: "" }
   },
-  emits: ["update:modelValue"]
+  emits: ["update:modelValue"],
+  activated() {
+    this.focus()
+  },
+  methods: {
+    focus() {
+      this.$el.focus()
+    }
+  }
 }
 </script>
 

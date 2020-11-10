@@ -3,7 +3,13 @@
         {
             "id": "unitid",
             "name": "Hoplite",
-            "icon": "Hoplite64.png"
+            "icon": "Hoplite64.png",
+            "slots": [
+                "lightspear",
+                "shield",
+                "heavyarmor",
+                "soldiersgear"
+            ]
         },
         {
             "id": "unitid1",

@@ -7,7 +7,7 @@
         v-for="elem in actualContents"
         :key="elem.id"
         class="dropdown-element is-flex"
-        @click="$emit('selected', elem)"
+        @click="onSelect(elem)"
       >
         <img
           :src="require(`../assets/img/Art/${elem.icon}`)"
@@ -26,9 +26,15 @@ export default {
   name: "Dropdown",
   components: { Searchbar },
   props: {
+    modelValue: {
+      type: Object,
+      default() {
+        return { name: "None", icon: "32.png" }
+      }
+    },
     contents: { type: Array, default: () => [] }
   },
-  emits: ["selected"],
+  emits: ["selected", "update:modelValue"],
   data() {
     return {
       search: ""
@@ -42,6 +48,12 @@ export default {
           )
         : this.contents
     }
+  },
+  methods: {
+    onSelect(elem) {
+      this.$emit("selected", elem)
+      this.$emit("update:modelValue", elem)
+    }
   }
 }
 </script>
@@ -50,6 +62,7 @@ export default {
 .dropdown {
   position: absolute;
   width: 100%;
+  // TODO min width
   z-index: 10;
 
   .dropdown-element {
