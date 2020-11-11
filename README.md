@@ -5,6 +5,12 @@
 npm install
 ```
 
+### Generate database
+
+```
+npm run generate
+```
+
 ### Compiles and hot-reloads for development
 ```
 npm run serve

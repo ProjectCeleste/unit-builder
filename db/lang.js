@@ -13,9 +13,11 @@ export async function fetchLang() {
 export { stringtablex, equipmentstrings, econstrings }
 
 export function findLang(table, locid) {
-  table.forEach(entry => {
+  const strings = table.string
+  for (let i = 0; i < strings.length; i++) {
+    const entry = strings[i]
     if (entry["_locid"] === locid) {
-      return entry
+      return entry.text
     }
-  })
+  }
 }

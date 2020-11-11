@@ -4,6 +4,7 @@ const IMAGES_URL = "https://images.projectceleste.com/Art/"
 import axios from "axios"
 import fs from "fs"
 import https from "https"
+import xmlParser from "fast-xml-parser"
 
 axios.defaults.baseURL = API_URL
 
@@ -12,7 +13,8 @@ const cache = {}
 async function get(url) {
   if (!cache[url]) {
     console.log("GET " + url)
-    cache[url] = await axios.get(url)
+    const res = await axios.get(url)
+    cache[url] = res.data
   }
   return cache[url]
 }
@@ -34,7 +36,24 @@ export async function getUnits() {
 }
 
 export async function getTechtree() {
-  return await get("/techtree") // FIXME not correct
+  const options = {
+    attributeNamePrefix: "",
+    attrNodeName: false,
+    textNodeName: "text",
+    ignoreAttributes: false,
+    ignoreNameSpace: false,
+    allowBooleanAttributes: true,
+    parseNodeValue: true,
+    parseAttributeValue: true,
+    trimValues: true,
+    cdataTagName: "__cdata", //default is 'false'
+    cdataPositionChar: "\\c",
+    localeRange: "", //To support non english character in tag/attribute values.
+    parseTrueNumberOnly: false
+  }
+  return xmlParser.parse(fs.readFileSync("./techtreex.xml").toString(), options)
+    .TechTree.Tech
+  // return await get("/techtree") // FIXME not correct
 }
 
 export async function getEquipments() {

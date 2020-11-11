@@ -2,7 +2,7 @@
   <UnitSelector v-model="selection" />
   <div class="unit-portrait is-flex is-flex-wrap-nowrap">
     <img
-      :src="require(`../assets/img/Art/${selection.unit.icon}`)"
+      :src="require(`../assets/img/Art/${selection.unit.icon}.png`)"
       class="medium-img mr-3"
       :title="selection.unit.name"
     />
@@ -29,7 +29,7 @@ export default {
   components: { UnitSelector, GearSelector, Stats },
   data() {
     return {
-      selection: { civ: "greek", unit: { name: "None", icon: "32.png" } },
+      selection: { civ: "greek", unit: { name: "None", icon: "32" } },
       gear: {}
     }
   },

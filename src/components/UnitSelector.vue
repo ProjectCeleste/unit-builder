@@ -7,7 +7,7 @@
     </div>
     <div class="selected-unit is-flex" @click="open = !open">
       <img
-        :src="require(`../assets/img/Art/${modelValue.unit.icon}`)"
+        :src="require(`../assets/img/Art/${modelValue.unit.icon}.png`)"
         class="small-img mr-2"
       />
       <span class="is-flex-grow-1 has-text-left">{{
@@ -23,6 +23,7 @@
     <keep-alive>
       <Dropdown
         v-if="open"
+        ref="dropdown"
         v-click-outside="onClickOutside"
         :contents="units"
         @selected="selectedUnitChanged"
@@ -50,7 +51,7 @@ export default {
     modelValue: {
       type: Object,
       default() {
-        return { civ: "greek", unit: { name: "None", icon: "32.png" } }
+        return { civ: "greek", unit: { name: "None", icon: "32" } }
       }
     }
   },
@@ -64,6 +65,13 @@ export default {
   computed: {
     units() {
       return civs[this.civ]
+    }
+  },
+  watch: {
+    civ() {
+      if (this.$refs.dropdown) {
+        this.$refs.dropdown.resetContentsScroll()
+      }
     }
   },
   methods: {

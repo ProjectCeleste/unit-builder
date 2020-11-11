@@ -3,26 +3,31 @@ import { stringtablex, findLang } from "../lang.js"
 import { findByAttribute } from "../utils.js"
 
 export async function buildUnits() {
+  console.log("Building units...")
   const equipments = await getEquipments()
 
   const results = {}
-  for (let e in Object.values(equipments)) {
+  for (let i = 0; i < equipments.length; i++) {
+    const e = equipments[i]
     const units = await convertEquipmentToUnits(e)
     const civ = e.civ.toLowerCase()
     if (!results[civ]) {
       results[civ] = []
     }
 
-    results[civ].concat(units)
+    // Filter out units that already exist in array
+    results[civ] = results[civ].concat(
+      units.filter(unit => !results[civ].some(u => u.name === unit.name))
+    )
   }
 
-  for (let civ in Object.values(results)) {
-    civ.sort(compareUnits)
+  for (let civ in results) {
+    results[civ].sort(compareUnits)
   }
 
   // WARNING: tactics files not served by API, techtreex neither
-
   // equipment -> techtreex -> units
+
   return results
 }
 
@@ -32,19 +37,24 @@ async function convertEquipmentToUnits(equipment) {
 
   const results = []
   if (equipment.reward) {
-    for (let reward in equipment.reward.rank) {
+    for (let i = 0; i < equipment.reward.rank.length; i++) {
+      const reward = equipment.reward.rank[i]
       const tech = findByAttribute(techtree, "name", reward.tech)
       if (tech) {
-        for (let effect in tech.effects) {
-          if (
-            effect.subtype === "Enable" &&
-            effect.target.type === "ProtoUnit"
-          ) {
-            const unit = findByAttribute(units, "name", effect.target.text)
-            if (unit) {
-              const u = convertUnit(unit)
-              if (includeUnit(tech, u)) {
-                results.push(u)
+        let effect = tech.Effects ? tech.Effects.Effect : undefined
+        if (effect) {
+          if (!Array.isArray(effect)) {
+            effect = [effect]
+          }
+          for (let j = 0; j < effect.length; j++) {
+            const ef = effect[j]
+            if (ef.subtype === "Enable" && ef.Target.type === "ProtoUnit") {
+              const unit = findByAttribute(units, "name", ef.Target.text)
+              if (unit) {
+                const u = convertUnit(unit)
+                if (includeUnit(tech, u)) {
+                  results.push(u)
+                }
               }
             }
           }
@@ -57,8 +67,8 @@ async function convertEquipmentToUnits(equipment) {
 }
 
 function convertUnit(unit) {
-  const icon = unit.Icon.replaceAll("\\", "/")
-  downloadImage(icon + ".png", "../../src/assets/img/Art/" + icon + ".png") //TODO gulp sprite and webp
+  const icon = unit.Icon.replace(/\\/g, "/")
+  downloadImage(icon + ".png", "../src/assets/img/Art/" + icon + ".png") //TODO gulp sprite and webp
   const u = {
     id: unit.name,
     name: findLang(stringtablex, unit.DisplayNameID),
@@ -78,5 +88,5 @@ function compareUnits(a, b) {
 }
 
 function includeUnit(tech, unit) {
-  return true
+  return !unit.id.includes("WallStraight")
 }

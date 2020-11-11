@@ -2,7 +2,10 @@
   <div class="dropdown is-flex is-flex-direction-column">
     <slot name="header" />
     <Searchbar v-model="search" />
-    <div class="dropdown-contents is-flex is-flex-direction-column">
+    <div
+      ref="contents"
+      class="dropdown-contents is-flex is-flex-direction-column"
+    >
       <div
         v-for="elem in actualContents"
         :key="elem.id"
@@ -10,7 +13,7 @@
         @click="onSelect(elem)"
       >
         <img
-          :src="require(`../assets/img/Art/${elem.icon}`)"
+          :src="require(`../assets/img/Art/${elem.icon}.png`)"
           class="small-img mr-2"
         />
         <span>{{ elem.name }}</span>
@@ -29,7 +32,7 @@ export default {
     modelValue: {
       type: Object,
       default() {
-        return { name: "None", icon: "32.png" }
+        return { name: "None", icon: "32" }
       }
     },
     contents: { type: Array, default: () => [] }
@@ -49,10 +52,20 @@ export default {
         : this.contents
     }
   },
+  watch: {
+    search() {
+      this.resetContentsScroll()
+    }
+  },
   methods: {
     onSelect(elem) {
       this.$emit("selected", elem)
       this.$emit("update:modelValue", elem)
+    },
+    resetContentsScroll() {
+      if (this.$refs.contents) {
+        this.$refs.contents.scrollTo(0, 0)
+      }
     }
   }
 }

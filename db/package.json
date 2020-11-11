@@ -4,6 +4,7 @@
         "generate": "node main.js"
     },
     "dependencies": {
-        "axios": "^0.21.0"
+        "axios": "^0.21.0",
+        "fast-xml-parser": "^3.17.4"
     }
 }

@@ -51,7 +51,7 @@ export default {
       if (!Object.keys(this.modelValue).length) {
         this.$emit("update:modelValue", {
           name: "None",
-          icon: "32.png",
+          icon: "32",
           effects: []
         })
       }

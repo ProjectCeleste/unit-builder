@@ -12,7 +12,8 @@ export async function saveFile(path, contents) {
 }
 
 export function findByAttribute(arr, attributeName, value) {
-  for (let obj in Object.values(arr)) {
+  for (let i = 0; i < arr.length; i++) {
+    const obj = arr[i]
     if (obj[attributeName] === value) {
       return obj
     }
