@@ -24,4 +24,5 @@ pnpm-debug.log*
 
 # Downloaded files for generation
 src/assets/img/Art/UserInterface
+src/assets/img/Art/Celeste
 db/techtreex.xml

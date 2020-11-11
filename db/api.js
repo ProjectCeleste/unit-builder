@@ -60,6 +60,10 @@ export async function getEquipments() {
   return await get("/equipments")
 }
 
+export async function getGear() {
+  return await get("/traits")
+}
+
 export async function downloadImage(path, dest) {
   const url = IMAGES_URL + path
   if (!fs.existsSync(dest)) {
