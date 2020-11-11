@@ -13,23 +13,57 @@ export async function buildGear() {
         results[g.traittype] = []
       }
 
-      const converted = convertGear(g)
+      const converted = await convertGear(g)
       results[g.traittype].push(converted)
     }
+  }
+
+  for (let type in results) {
+    results[type] = results[type].reverse()
+    results[type].sort((a, b) =>
+      a.rarity > b.rarity ? -1 : a.rarity == b.rarity ? 0 : 1
+    )
+
+    results[type].unshift({
+      id: type + "_none",
+      name: "None",
+      icon: "32", // TODO slot icon,
+      levels: [],
+      rarity: 0,
+      effects: []
+    })
   }
 
   return results
 }
 
-function convertGear(gear) {
-  const icon = gear.icon.replace(/\\/g, "/")
-  downloadImage(icon + ".png", "../src/assets/img/Art/" + icon + ".png") //TODO gulp sprite and webp
+async function convertGear(gear) {
+  const icon = gear.icon.replace(/\\/g, "/").toLowerCase()
+  await downloadImage(icon + ".png", "../src/assets/img/art/" + icon + ".png") //TODO gulp sprite and webp
   return {
     id: gear.name,
     name: findLang(stringtablex, gear.displaynameid),
     icon: icon,
     levels: gear.itemlevels,
+    rarity: convertRarity(gear),
     effects: convertEffects(gear)
+  }
+}
+
+function convertRarity(gear) {
+  switch (gear.rarity) {
+    case "common":
+      return 0
+    case "uncommon":
+      return 1
+    case "rare":
+      return 2
+    case "epic":
+      return 3
+    case "legendary":
+      return 4
+    default:
+      return 0
   }
 }
 

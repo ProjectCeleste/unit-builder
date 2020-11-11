@@ -51,7 +51,7 @@ async function convertEquipmentToUnits(equipment) {
             if (ef.subtype === "Enable" && ef.Target.type === "ProtoUnit") {
               const unit = findByAttribute(units, "name", ef.Target.text)
               if (unit) {
-                const u = convertUnit(unit)
+                const u = await convertUnit(unit)
                 if (includeUnit(tech, u)) {
                   results.push(u)
                 }
@@ -66,20 +66,32 @@ async function convertEquipmentToUnits(equipment) {
   return results
 }
 
-function convertUnit(unit) {
-  const icon = unit.Icon.replace(/\\/g, "/")
-  downloadImage(icon + ".png", "../src/assets/img/Art/" + icon + ".png") //TODO gulp sprite and webp
+async function convertUnit(unit) {
+  const icon = unit.Icon.replace(/\\/g, "/").toLowerCase()
+  await downloadImage(icon + ".png", "../src/assets/img/art/" + icon + ".png") //TODO gulp sprite and webp
   const u = {
     id: unit.name,
     name: findLang(stringtablex, unit.DisplayNameID),
     // TODO relevant unit types
     icon: icon,
+    slots: convertSlots(unit),
     stats: convertStats(unit)
   }
   return u
 }
 
-function convertStats() {
+function convertSlots(unit) {
+  const slots = []
+  for (let i = 1; i <= 5; i++) {
+    const trait = unit["Trait" + i]
+    if (trait) {
+      slots.push(trait)
+    }
+  }
+  return slots
+}
+
+function convertStats(unit) {
   return {}
 }
 

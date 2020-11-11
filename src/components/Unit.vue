@@ -2,7 +2,7 @@
   <UnitSelector v-model="selection" />
   <div class="unit-portrait is-flex is-flex-wrap-nowrap">
     <img
-      :src="require(`../assets/img/Art/${selection.unit.icon}.png`)"
+      :src="require(`../assets/img/art/${selection.unit.icon}.png`)"
       class="medium-img mr-3"
       :title="selection.unit.name"
     />

@@ -7,7 +7,7 @@
       @click="$emit('update:modelValue', civ)"
     >
       <img
-        :src="require(`../assets/img/Art/civs/${civ}.png`)"
+        :src="require(`../assets/img/art/civs/${civ}.png`)"
         class="small-img"
         :title="civ"
       />

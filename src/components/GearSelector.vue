@@ -49,11 +49,7 @@ export default {
     },
     onActivate() {
       if (!Object.keys(this.modelValue).length) {
-        this.$emit("update:modelValue", {
-          name: "None",
-          icon: "32",
-          effects: []
-        })
+        this.$emit("update:modelValue", this.contents[0])
       }
     }
   }

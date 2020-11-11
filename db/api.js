@@ -69,28 +69,36 @@ export async function downloadImage(path, dest) {
   if (!fs.existsSync(dest)) {
     console.log("Download image: " + url + " to " + dest)
 
-    fs.promises
-      .mkdir(dest.substring(0, dest.lastIndexOf("/")), { recursive: true })
-      .then(() => {
-        https
-          .get(url, res => {
-            if (res.statusCode == 200) {
-              const file = fs.createWriteStream(dest)
-              res.on("data", d => {
-                file.write(d)
-              })
+    return new Promise((resolve, reject) => {
+      fs.promises
+        .mkdir(dest.substring(0, dest.lastIndexOf("/")), { recursive: true })
+        .then(() => {
+          https
+            .get(url, res => {
+              if (res.statusCode == 200) {
+                const file = fs.createWriteStream(dest)
+                res.on("data", d => {
+                  file.write(d)
+                })
 
-              res.on("end", () => {
-                file.end()
-              })
-            } else {
-              console.error("GET " + url + " returned code " + res.statusCode)
-            }
-          })
-          .on("error", e => {
-            console.error(e)
-          })
-      })
-      .catch(console.error)
+                res.on("end", () => {
+                  file.end()
+                  resolve()
+                })
+              } else {
+                console.error("GET " + url + " returned code " + res.statusCode)
+                reject(res)
+              }
+            })
+            .on("error", e => {
+              console.error(e)
+              reject(e)
+            })
+        })
+        .catch(e => {
+          console.error(e)
+          reject(e)
+        })
+    })
   }
 }

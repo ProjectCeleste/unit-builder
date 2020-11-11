@@ -7,7 +7,7 @@
     </div>
     <div class="selected-unit is-flex" @click="open = !open">
       <img
-        :src="require(`../assets/img/Art/${modelValue.unit.icon}.png`)"
+        :src="require(`../assets/img/art/${modelValue.unit.icon}.png`)"
         class="small-img mr-2"
       />
       <span class="is-flex-grow-1 has-text-left">{{
@@ -15,7 +15,7 @@
       }}</span>
       <img
         v-if="modelValue.unit.name != 'None'"
-        :src="require(`../assets/img/Art/civs/${modelValue.civ}.png`)"
+        :src="require(`../assets/img/art/civs/${modelValue.civ}.png`)"
         class="small-img ml-2"
       />
       <span class="select-arrow px-2">▼</span>

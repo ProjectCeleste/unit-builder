@@ -23,6 +23,6 @@ pnpm-debug.log*
 *.sw?
 
 # Downloaded files for generation
-src/assets/img/Art/UserInterface
-src/assets/img/Art/Celeste
+src/assets/img/art/userinterface
+src/assets/img/art/celeste
 db/techtreex.xml

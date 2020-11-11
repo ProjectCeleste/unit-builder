@@ -10,10 +10,11 @@
         v-for="elem in actualContents"
         :key="elem.id"
         class="dropdown-element is-flex"
+        :title="elem.name"
         @click="onSelect(elem)"
       >
         <img
-          :src="require(`../assets/img/Art/${elem.icon}.png`)"
+          :src="require(`../assets/img/art/${elem.icon}.png`)"
           class="small-img mr-2"
         />
         <span>{{ elem.name }}</span>
@@ -74,12 +75,18 @@ export default {
 <style lang="scss">
 .dropdown {
   position: absolute;
-  width: 100%;
-  // TODO min width
+  min-width: 100%;
+  max-width: 200px;
+  white-space: nowrap;
   z-index: 10;
 
   .dropdown-element {
     line-height: 32px;
+
+    span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
     &:hover {
       cursor: pointer;
