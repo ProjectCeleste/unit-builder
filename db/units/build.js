@@ -1,6 +1,7 @@
 import { downloadImage, getUnits, getTechtree, getEquipments } from "../api.js"
 import { stringtablex, findLang } from "../lang.js"
 import { findByAttribute } from "../utils.js"
+import { convertUnitStats } from "./convert-stats.js"
 
 export async function buildUnits() {
   console.log("Building units...")
@@ -75,7 +76,7 @@ async function convertUnit(unit) {
     // TODO relevant unit types
     icon: icon,
     slots: convertSlots(unit),
-    stats: convertStats(unit)
+    stats: convertUnitStats(unit)
   }
   return u
 }
@@ -89,10 +90,6 @@ function convertSlots(unit) {
     }
   }
   return slots
-}
-
-function convertStats(unit) {
-  return {}
 }
 
 function compareUnits(a, b) {

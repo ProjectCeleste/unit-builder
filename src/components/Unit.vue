@@ -16,7 +16,7 @@
       />
     </div>
   </div>
-  <Stats :gear="gear" />
+  <Stats :base="selection.unit.stats" :gear="gear" />
 </template>
 
 <script>

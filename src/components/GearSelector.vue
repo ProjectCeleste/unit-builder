@@ -36,6 +36,13 @@ export default {
       return Gear[this.type]
     }
   },
+  watch: {
+    modelValue(val) {
+      if (!Object.keys(val).length) {
+        this.onActivate()
+      }
+    }
+  },
   activated() {
     this.onActivate()
   },

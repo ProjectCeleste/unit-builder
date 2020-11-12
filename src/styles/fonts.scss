@@ -8,3 +8,10 @@ $font-family: "Calibri", "Carlito", sans-serif;
   -ms-user-select: none;
   user-select: none;
 }
+
+input {
+  -webkit-user-select: auto;
+  -moz-user-select: auto;
+  -ms-user-select: auto;
+  user-select: auto;
+}

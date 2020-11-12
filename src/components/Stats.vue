@@ -1,6 +1,6 @@
 <template>
   <div class="stats-container">
-    {{ JSON.stringify(base) }}
+    {{ JSON.stringify(base) }}<br />
     {{ JSON.stringify(gear) }}
   </div>
 </template>
