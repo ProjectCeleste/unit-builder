@@ -19,6 +19,7 @@ export default {
   props: {
     type: { type: String, required: true },
     modelValue: {
+      // TODO model value should be different than the source gear selected
       type: Object,
       default() {
         return {}
@@ -28,7 +29,8 @@ export default {
   emits: ["update:modelValue"],
   data() {
     return {
-      open: false
+      open: false,
+      selected: {}
     }
   },
   computed: {
@@ -52,11 +54,25 @@ export default {
   methods: {
     onSelected(gear) {
       this.open = false
-      this.$emit("update:modelValue", gear)
+      const g = {
+        effects: [],
+        level: gear.levels[gear.levels.length - 1]
+      }
+      // TODO customize levels and value
+      for (let i = 0; i < gear.effects.length; i++) {
+        const effect = gear.effects[i]
+        const amount = effect.amount + effect.scaling * g.level
+        g.effects.push({
+          type: effect.type,
+          absolute: effect.absolute,
+          amount: amount
+        })
+      }
+      this.$emit("update:modelValue", g)
     },
     onActivate() {
       if (!Object.keys(this.modelValue).length) {
-        this.$emit("update:modelValue", this.contents[0])
+        this.$emit("update:modelValue", { effects: [], level: 0 })
       }
     }
   }

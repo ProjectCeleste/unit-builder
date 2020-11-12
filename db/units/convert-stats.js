@@ -1,7 +1,7 @@
 export function convertUnitStats(unit) {
   const stats = {}
   if (unit.MaxHitpoints) {
-    stats["MaxHitpoints"] = unit.MaxHitpoints
+    stats["Hitpoints"] = unit.MaxHitpoints
   }
 
   //Action effects and bonuses
@@ -37,7 +37,7 @@ export function convertUnitStats(unit) {
   }
 
   if (unit.MaxVelocity) {
-    stats["MaxVelocity"] = unit.MaxVelocity
+    stats["MaximumVelocity"] = unit.MaxVelocity
   }
 
   if (unit.TrainPoints) {
@@ -111,6 +111,7 @@ export function parseAction(action, stats) {
     }
   }
 
+  // TODO WorkRate
   if (name == "Convert") {
     if (Array.isArray(action.Rate)) {
       for (let i = 0; i < action.Rate.length; i++) {

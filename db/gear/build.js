@@ -72,6 +72,8 @@ function convertEffects(gear) {
   const res = []
   for (let i = 0; i < effects.length; i++) {
     const e = effects[i]
+    // TODO WorkRate
+    // TODO cost using resource="Food"
     res.push({
       type: e.subtype,
       visible: e.visible,
