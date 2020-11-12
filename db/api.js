@@ -53,7 +53,7 @@ export async function getTechtree() {
   }
   return xmlParser.parse(fs.readFileSync("./techtreex.xml").toString(), options)
     .TechTree.Tech
-  // return await get("/techtree") // FIXME not correct
+  // return await get("/techtree") // FIXME import techtree from api when it's available
 }
 
 export async function getEquipments() {

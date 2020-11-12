@@ -19,7 +19,6 @@ export default {
   props: {
     type: { type: String, required: true },
     modelValue: {
-      // TODO model value should be different than the source gear selected
       type: Object,
       default() {
         return {}

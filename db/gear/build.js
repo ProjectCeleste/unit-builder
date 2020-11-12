@@ -72,10 +72,36 @@ function convertEffects(gear) {
   const res = []
   for (let i = 0; i < effects.length; i++) {
     const e = effects[i]
-    // TODO WorkRate
-    // TODO cost using resource="Food"
+    let type = e.subtype
+    if (e.subtype === "WorkRate") {
+      switch (e.action) {
+        case "Gather":
+        case "Convert":
+          type = e.action + e.unittype
+          break
+        case "FishGather":
+        case "Trade":
+        case "Empower":
+          type = e.action
+          break
+        case "Heal":
+          type = "RateHeal"
+          break
+        case "Build":
+          type = e.unittype === "UnitTypeBldgWatchPost" ? "" : e.action
+          break
+      }
+    } else if (e.subtype === "CarryCapacity") {
+      type += e.resource.charAt(0).toUpperCase() + e.resource.slice(1)
+    } else if (e.subtype === "Cost") {
+      type += e.resource
+    } else if (e.subtype === "DamageBonus") {
+      type += e.unittype
+    } else if (e.subtype === "Armor") {
+      type += e.damagetype
+    }
     res.push({
-      type: e.subtype,
+      type: type,
       visible: e.visible,
       absolute: e.relativity === "Absolute", // TODO relativity == "Assign" is always when subtype is ActionEnable
       positive: e.bonus,

@@ -46,6 +46,17 @@ export function convertUnitStats(unit) {
     stats.BuildPoints = unit.BuildPoints
   }
 
+  if (unit.CarryCapacity) {
+    for (let i = 0; i < unit.CarryCapacity.length; i++) {
+      const cap = unit.CarryCapacity[i]
+      const resource =
+        cap.resourcetype.charAt(0).toUpperCase() + cap.resourcetype.slice(1)
+      stats["CarryCapacity" + resource] = cap.quantity
+    }
+  }
+
+  // TODO tactics (snare, empower, build, other ?)
+
   stats.PopulationCount = unit.PopulationCount
   stats.Cost = {}
   if (unit.Cost) {
@@ -111,7 +122,6 @@ export function parseAction(action, stats) {
     }
   }
 
-  // TODO WorkRate
   if (name == "Convert") {
     if (Array.isArray(action.Rate)) {
       for (let i = 0; i < action.Rate.length; i++) {

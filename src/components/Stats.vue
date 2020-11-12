@@ -8,7 +8,6 @@
 </template>
 
 <script>
-// TODO find out how effects are really calculated / applied
 export default {
   name: "Stats",
   props: {
@@ -60,14 +59,19 @@ export default {
         const gear = this.gear[key]
         for (let i = 0; i < gear.effects.length; i++) {
           const effect = gear.effects[i]
-          // TODO exceptions: Cost and CostAll (others?)
           if (effect.absolute) {
             stats[effect.type] += effect
             continue
           }
 
+          // TODO if stat not present, add it (some start at one, others at zero)
+          // examples: GatherHerdable, Build
+
           let mod = effect.amount
-          if (effect.type.indexOf("Convert") == 0 || effect.type == "Snare") {
+          if (
+            effect.type.indexOf("Convert") == 0 ||
+            effect.type == "TargetSpeedBoost"
+          ) {
             // TODO conversion rate too
             mod *= -1
           }
@@ -95,7 +99,7 @@ export default {
             case "CostWood":
             case "CostGold":
             case "CostStone":
-              stats[effect.type.substring(4)] *= mod
+              stats.Cost[effect.type.substring(4)] *= mod
               break
             default:
               stats[effect.type] *= mod
