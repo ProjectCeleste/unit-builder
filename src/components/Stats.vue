@@ -102,7 +102,12 @@ export default {
               stats.Cost[effect.type.substring(4)] *= mod
               break
             default:
-              stats[effect.type] *= mod
+              if (effect.type.startsWith("Armor")) {
+                stats[effect.type] =
+                  1 - (1 - stats[effect.type]) / effect.amount
+              } else {
+                stats[effect.type] *= mod
+              }
           }
         }
       }
