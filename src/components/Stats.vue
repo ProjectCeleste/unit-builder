@@ -1,13 +1,16 @@
 <template>
   <div class="stats-container">
+    <!-- TODO cost and population -->
     <div v-for="(stat, key) in computedStats" :key="key" class="my-1">
-      <span>{{ key }}</span>
+      <span>{{ effectName(key) }}</span>
       <span>{{ stat }}</span>
     </div>
   </div>
 </template>
 
 <script>
+import effects from "../data/effects.json"
+
 export default {
   name: "Stats",
   props: {
@@ -79,6 +82,7 @@ export default {
           // If type is Damage, apply to all damage subtypes
           switch (effect.type) {
             case "Damage":
+            case "AttackSpeed":
               for (let keyDmg in stats) {
                 if (
                   keyDmg.startsWith("Damage") &&
@@ -88,7 +92,14 @@ export default {
                   stats[keyDmg] *= mod
                 }
               }
-              continue
+              break
+            case "MaximumRange":
+              for (let keyRange in stats) {
+                if (keyRange.startsWith("MaximumRange")) {
+                  stats[keyRange] *= mod
+                }
+              }
+              break
             case "CostAll":
             case "Cost":
               for (let keyCost in stats.Cost) {
@@ -113,6 +124,16 @@ export default {
       }
       // TODO filter advisors, milestones and upgrades if not applied
       return stats
+    }
+  },
+  methods: {
+    effectName(name) {
+      return name == "Cost" ? name : effects[name].name
+    },
+    formatEffect(name, value) {
+      // const effect = effects[name]
+      // TODO handle effect type
+      return value
     }
   }
 }

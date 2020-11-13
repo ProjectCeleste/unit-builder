@@ -1,3 +1,5 @@
+import { addEffect } from "../effects.js"
+
 export function convertUnitStats(unit) {
   const stats = {}
   if (unit.MaxHitpoints) {
@@ -18,14 +20,14 @@ export function convertUnitStats(unit) {
   if (Array.isArray(unit.Armor)) {
     for (let keyArmor in unit.Armor) {
       const armor = unit.Armor[keyArmor]
-      if (armor.value == 0) {
+      if (armor.value === 0) {
         delete stats["Armor" + armor.type]
       } else {
         stats["Armor" + armor.type] = armor.value.toFixed(2)
       }
     }
   } else if (unit.Armor) {
-    if (unit.Armor.value == 0) {
+    if (unit.Armor.value === 0) {
       delete stats["Armor" + unit.Armor.type]
     } else {
       stats["Armor" + unit.Armor.type] = unit.Armor.value.toFixed(2)
@@ -47,6 +49,7 @@ export function convertUnitStats(unit) {
   }
 
   if (unit.CarryCapacity) {
+    // TODO ignore carry capacity on certain units (not villager)
     for (let i = 0; i < unit.CarryCapacity.length; i++) {
       const cap = unit.CarryCapacity[i]
       const resource =
@@ -56,6 +59,11 @@ export function convertUnitStats(unit) {
   }
 
   // TODO tactics (snare, empower, build, other ?)
+  // TODO empower rates
+  // <rate type="Dropsite">1.112</rate>
+  // <rate type="UnitTypeBldgEmpowerable">1.112</rate>
+  // <rate type="ActionTrain">1.112</rate>
+  // <rate type="ActionBuild">1.112</rate>
 
   stats.PopulationCount = unit.PopulationCount
   stats.Cost = {}
@@ -65,6 +73,16 @@ export function convertUnitStats(unit) {
       stats.Cost[c.resourcetype] = c.quantity
     }
   }
+
+  for (let key in stats) {
+    if (key !== "Cost") {
+      addEffect(key)
+    }
+  }
+  addEffect("CostFood")
+  addEffect("CostWood")
+  addEffect("CostGold")
+  addEffect("CostStone")
   return stats
 }
 
@@ -84,7 +102,6 @@ export function parseAction(action, stats) {
   if (action.DamageType) {
     stats["Damage" + action.DamageType] = action.Damage
   } else if (action.Damage) {
-    // Overrides not telling damage type
     const damageType = findDamageType(stats)
     if (damageType) {
       switch (name) {
@@ -99,7 +116,7 @@ export function parseAction(action, stats) {
     }
   }
 
-  if (action.DamageArea == 0) {
+  if (action.DamageArea === 0) {
     delete stats["DamageArea"]
   } else if (action.DamageArea) {
     stats["DamageArea"] = action.DamageArea
@@ -109,12 +126,12 @@ export function parseAction(action, stats) {
     if (Array.isArray(action.DamageBonus)) {
       for (let keyDmgBonus in action.DamageBonus) {
         const bonus = action.DamageBonus[keyDmgBonus]
-        if (ignoredEffects.indexOf("DamageBonus" + bonus.type) == -1) {
+        if (ignoredEffects.indexOf("DamageBonus" + bonus.type) === -1) {
           stats["DamageBonus" + bonus.type] = bonus.amount.toFixed(1)
         }
       }
     } else if (
-      ignoredEffects.indexOf("DamageBonus" + action.DamageBonus.type) == -1
+      ignoredEffects.indexOf("DamageBonus" + action.DamageBonus.type) === -1
     ) {
       stats[
         "DamageBonus" + action.DamageBonus.type
@@ -122,38 +139,38 @@ export function parseAction(action, stats) {
     }
   }
 
-  if (name == "Convert") {
+  if (name === "Convert") {
     if (Array.isArray(action.Rate)) {
       for (let i = 0; i < action.Rate.length; i++) {
         const rate = action.Rate[i]
 
-        if (rate.type == "StandardConvertable") {
+        if (rate.type === "StandardConvertable") {
           const range = action.MaxRange[i]
 
-          stats["Rate" + rate.type] = rate.amount
-          stats["MaxRangeConvert"] = range
+          stats[name + rate.type] = rate.amount
+          stats["MaximumRangeConvert"] = range
         }
       }
     }
   } else if (action.MaxRange && action.MaxRange.length) {
-    if (name == "Heal") {
+    if (name === "Heal") {
       stats["Rate" + name] = action.Rate[0].amount
-      stats["MaxRange" + name] = action.MaxRange[0]
-    } else if (name != "MeleeAttack") {
-      stats.MaxRange = action.MaxRange[0]
+      stats["MaximumRange" + name] = action.MaxRange[0]
+    } else if (name !== "MeleeAttack") {
+      stats.MaximumRange = action.MaxRange[0]
     }
   }
 
-  if (name == "Gather") {
+  if (name === "Gather") {
     if (Array.isArray(action.Rate)) {
       for (let keyGather in action.Rate) {
         const gather = action.Rate[keyGather]
-        if (ignoredEffects.indexOf(name + gather.type) == -1) {
+        if (ignoredEffects.indexOf(name + gather.type) === -1) {
           stats[name + gather.type] = gather.amount.toFixed(1)
         }
       }
     }
-  } else if (name == "FishGather") {
+  } else if (name === "FishGather") {
     stats[name] = action.Rate[0].amount.toFixed(1)
   }
 }
@@ -161,8 +178,8 @@ export function parseAction(action, stats) {
 export function findDamageType(stats) {
   for (let key in stats) {
     if (
-      key.indexOf("Damage") == 0 &&
-      key.indexOf("DamageBonus") != 0 &&
+      key.indexOf("Damage") === 0 &&
+      key.indexOf("DamageBonus") !== 0 &&
       key != "DamageArea"
     ) {
       return key

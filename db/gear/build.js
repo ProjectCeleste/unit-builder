@@ -1,5 +1,6 @@
 import { getGear, downloadImage } from "../api.js"
 import { stringtablex, findLang } from "../lang.js"
+import { addEffect } from "../effects.js"
 
 export async function buildGear() {
   console.log("Building gear...")
@@ -68,38 +69,59 @@ function convertRarity(gear) {
 }
 
 function convertEffects(gear) {
+  // TODO factor this for upgrades and advisors too
   const effects = gear.effects.effect
   const res = []
   for (let i = 0; i < effects.length; i++) {
     const e = effects[i]
     let type = e.subtype
-    if (e.subtype === "WorkRate") {
+    if (type === "WorkRate") {
       switch (e.action) {
         case "Gather":
+        case "AutoGather":
+        case "Empower":
         case "Convert":
-          type = e.action + e.unittype
+          if (e.unittype === "BerryBush") {
+            type = e.action + "AbstractFruit"
+          } else if (e.unittype === "Fish") {
+            type = e.action + "AbstractFish"
+          } else {
+            type = e.action + e.unittype
+          }
           break
         case "FishGather":
         case "Trade":
-        case "Empower":
           type = e.action
           break
         case "Heal":
           type = "RateHeal"
           break
+        case "SelfHeal":
+          type += e.action
+          break
         case "Build":
-          type = e.unittype === "UnitTypeBldgWatchPost" ? "" : e.action
+          type =
+            e.unittype === "UnitTypeBldgWatchPost" ? "BuildWatchPost" : e.action
           break
       }
-    } else if (e.subtype === "CarryCapacity") {
+    } else if (type === "CarryCapacity") {
       type += e.resource.charAt(0).toUpperCase() + e.resource.slice(1)
-    } else if (e.subtype === "Cost") {
+    } else if (type === "Cost") {
       type += e.resource
-    } else if (e.subtype === "DamageBonus") {
+    } else if (type === "DamageBonus") {
       type += e.unittype
-    } else if (e.subtype === "Armor") {
+      // TODO check if no problem with Siege and Artillery
+    } else if (type === "Armor") {
       type += e.damagetype
+    } else if (
+      (type === "MaximumRange" && e.action !== "RangedAttack") ||
+      type === "ActionEnable"
+    ) {
+      type += e.action
     }
+    // TODO rate of fire (techtree:20931), call it "AttackSpeed"
+    // TODO TargetSpeedBoostResist special case (100% instead of 1000%)
+    // TODO ActionEnable (grants charge for example) should not be editable and give no stats
     res.push({
       type: type,
       visible: e.visible,
@@ -110,6 +132,9 @@ function convertEffects(gear) {
     })
   }
 
+  for (let key in res) {
+    addEffect(res[key].type)
+  }
   return res
 }
 
