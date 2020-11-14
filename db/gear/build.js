@@ -1,6 +1,7 @@
 import { getGear, downloadImage } from "../api.js"
 import { stringtablex, findLang } from "../lang.js"
 import { addEffect } from "../effects.js"
+import { convertIconName } from "../utils.js"
 
 export async function buildGear() {
   console.log("Building gear...")
@@ -40,11 +41,12 @@ export async function buildGear() {
 
 async function convertGear(gear) {
   const icon = gear.icon.replace(/\\/g, "/").toLowerCase()
-  await downloadImage(icon + ".png", "../src/assets/img/art/" + icon + ".png") //TODO gulp sprite and webp
+  const iconDst = convertIconName(icon)
+  await downloadImage(icon + ".png", "../src/assets/gear/" + iconDst + ".png") //TODO gulp sprite and webp
   return {
     id: gear.name,
     name: findLang(stringtablex, gear.displaynameid),
-    icon: icon,
+    icon: iconDst,
     levels: gear.itemlevels,
     rarity: convertRarity(gear),
     effects: convertEffects(gear)

@@ -1,4 +1,5 @@
 import fs from "fs"
+import crypto from "crypto"
 
 export async function saveFile(path, contents) {
   fs.writeFile(
@@ -19,4 +20,17 @@ export function findByAttribute(arr, attributeName, value) {
     }
   }
   return undefined
+}
+
+export function hash(data) {
+  return crypto
+    .createHash("sha1")
+    .update(data)
+    .digest("base64")
+    .replace(/[\W]/g, "")
+    .substr(0, 8)
+}
+
+export function convertIconName(icon) {
+  return hash(icon.substring(icon.lastIndexOf("/") + 1))
 }

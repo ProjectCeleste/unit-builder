@@ -1,0 +1,12 @@
+div[class^="sprite--"] {
+  display: block;
+  background-repeat: no-repeat;
+  background-position: -100% -100%;
+  background-clip: padding-box;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+@import "gear";
+@import "icons";
+@import "units";

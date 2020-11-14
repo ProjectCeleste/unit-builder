@@ -6,17 +6,23 @@
       </h4>
     </div>
     <div class="selected-unit is-flex" @click="open = !open">
-      <img
-        :src="require(`../assets/img/art/${modelValue.unit.icon}.png`)"
-        class="small-img mr-2"
+      <Icon
+        class="mr-2"
+        sprite="units"
+        :name="modelValue.unit.icon"
+        :title="modelValue.unit.name"
+        :small="true"
       />
       <span class="is-flex-grow-1 has-text-left">{{
         modelValue.unit.name
       }}</span>
-      <img
+      <Icon
         v-if="modelValue.unit.name != 'None'"
-        :src="require(`../assets/img/art/civs/${modelValue.civ}.png`)"
-        class="small-img ml-2"
+        class="ml-2"
+        sprite="icons"
+        :name="modelValue.civ"
+        :title="modelValue.civ"
+        :small="true"
       />
       <span class="select-arrow px-2">▼</span>
     </div>
@@ -25,6 +31,7 @@
         v-if="open"
         ref="dropdown"
         v-click-outside="onClickOutside"
+        sprite="units"
         :contents="units"
         @selected="selectedUnitChanged"
       >
@@ -41,12 +48,13 @@
 
 import Dropdown from "./Dropdown.vue"
 import CivSelector from "./CivSelector.vue"
+import Icon from "./Icon.vue"
 
 const civs = require("../data/units.json")
 
 export default {
   name: "UnitSelector",
-  components: { Dropdown, CivSelector },
+  components: { Dropdown, CivSelector, Icon },
   props: {
     modelValue: {
       type: Object,

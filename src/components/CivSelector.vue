@@ -1,23 +1,22 @@
 <template>
-  <div class="civ-selector is-flex is-justify-content-center">
+  <div class="mb-2 civ-selector is-flex is-justify-content-center">
     <div
       v-for="civ in civs"
       :key="civ"
-      class="mx-1 civ-selector-option"
+      class="civ-selector-option mr-3"
       @click="$emit('update:modelValue', civ)"
     >
-      <img
-        :src="require(`../assets/img/art/civs/${civ}.png`)"
-        class="small-img"
-        :title="civ"
-      />
+      <Icon sprite="icons" :name="civ" :title="civ" :small="true" />
     </div>
   </div>
 </template>
 
 <script>
+import Icon from "./Icon.vue"
+
 export default {
   name: "CivSelector",
+  components: { Icon },
   props: {
     modelValue: {
       type: String,
@@ -34,9 +33,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.civ-selector-option {
-  &:hover {
-    cursor: pointer;
+.civ-selector {
+  .civ-selector-option {
+    display: flex;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 }
 </style>

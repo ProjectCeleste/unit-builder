@@ -18,6 +18,7 @@ if (process.env.NODE_ENV === "production") {
     },
     updatefound() {
       console.log("New content is downloading.")
+      // TODO show popup new content is available
     },
     updated() {
       console.log("New content is available; please refresh.")

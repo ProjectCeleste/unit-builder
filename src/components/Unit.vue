@@ -1,9 +1,10 @@
 <template>
   <UnitSelector v-model="selection" />
   <div class="unit-portrait is-flex is-flex-wrap-nowrap">
-    <img
-      :src="require(`../assets/img/art/${selection.unit.icon}.png`)"
-      class="medium-img mr-3"
+    <Icon
+      class="mr-3"
+      sprite="units"
+      :name="selection.unit.icon"
       :title="selection.unit.name"
     />
     <div class="gear-selector-container is-flex is-flex-wrap-nowrap">
@@ -22,11 +23,12 @@
 <script>
 import UnitSelector from "./UnitSelector.vue"
 import GearSelector from "./GearSelector.vue"
+import Icon from "./Icon.vue"
 import Stats from "./Stats.vue"
 
 export default {
   name: "Unit",
-  components: { UnitSelector, GearSelector, Stats },
+  components: { UnitSelector, GearSelector, Stats, Icon },
   data() {
     return {
       selection: { civ: "greek", unit: { name: "None", icon: "32" } },

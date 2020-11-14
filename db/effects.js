@@ -160,6 +160,8 @@ const displayNames = {
   DamageRanged: "Pierce DPS",
   DamageCavalry: "Melee-Cavalry DPS",
   DamageSiege: "Crush DPS"
+  // TODO chaos
+  // TODO damageOverTime
 }
 
 function getDisplayName(effectName) {

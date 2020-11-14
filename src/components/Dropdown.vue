@@ -13,10 +13,7 @@
         :title="elem.name"
         @click="onSelect(elem)"
       >
-        <img
-          :src="require(`../assets/img/art/${elem.icon}.png`)"
-          class="small-img mr-2"
-        />
+        <Icon class="mr-2" :sprite="sprite" :name="elem.icon" :small="true" />
         <span>{{ elem.name }}</span>
       </div>
     </div>
@@ -25,10 +22,11 @@
 
 <script>
 import Searchbar from "./Searchbar.vue"
+import Icon from "./Icon.vue"
 
 export default {
   name: "Dropdown",
-  components: { Searchbar },
+  components: { Searchbar, Icon },
   props: {
     modelValue: {
       type: Object,
@@ -36,6 +34,7 @@ export default {
         return { name: "None", icon: "32" }
       }
     },
+    sprite: { type: String, required: true },
     contents: { type: Array, default: () => [] }
   },
   emits: ["selected", "update:modelValue"],
@@ -79,6 +78,7 @@ export default {
   max-width: 200px;
   white-space: nowrap;
   z-index: 10;
+  background-color: #fff;
 
   .dropdown-element {
     line-height: 32px;

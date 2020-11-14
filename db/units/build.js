@@ -1,6 +1,6 @@
 import { downloadImage, getUnits, getTechtree, getEquipments } from "../api.js"
 import { stringtablex, findLang } from "../lang.js"
-import { findByAttribute } from "../utils.js"
+import { convertIconName, findByAttribute } from "../utils.js"
 import { convertUnitStats } from "./convert-stats.js"
 
 export async function buildUnits() {
@@ -69,12 +69,13 @@ async function convertEquipmentToUnits(equipment) {
 
 async function convertUnit(unit) {
   const icon = unit.Icon.replace(/\\/g, "/").toLowerCase()
-  await downloadImage(icon + ".png", "../src/assets/img/art/" + icon + ".png") //TODO gulp sprite and webp
+  const iconDst = convertIconName(icon)
+  await downloadImage(icon + ".png", "../src/assets/units/" + iconDst + ".png") //TODO gulp sprite and webp
   const u = {
     id: unit.name,
     name: findLang(stringtablex, unit.DisplayNameID),
     // TODO relevant unit types
-    icon: icon,
+    icon: iconDst,
     slots: convertSlots(unit),
     stats: convertUnitStats(unit)
   }
