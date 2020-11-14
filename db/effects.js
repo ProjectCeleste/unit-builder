@@ -9,6 +9,7 @@ export function addEffect(name) {
     }
     // TODO lower is better for comparison
     // TODO effect icon
+    // TODO sort value
   }
 }
 
@@ -22,9 +23,11 @@ function getBase(effectName) {
     effectName.startsWith("Empower") ||
     effectName.startsWith("ActionEnable") ||
     effectName.startsWith("Build") ||
+    effectName.startsWith("Gather") ||
     effectName === "HitPercent" ||
     effectName === "ConvertResist" ||
     effectName === "AttackSpeed" ||
+    effectName === "FishGather" ||
     effectName === "Trade"
     ? 1
     : 0
@@ -37,6 +40,8 @@ function getType(effectName) {
   if (
     effectName.startsWith("DamageBonus") ||
     effectName.startsWith("Empower") ||
+    effectName.startsWith("Gather") ||
+    effectName === "FishGather" ||
     effectName === "BuildingWorkRate" ||
     effectName === "TargetSpeedBoost" ||
     effectName === "Build" ||

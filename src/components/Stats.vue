@@ -51,31 +51,23 @@ export default {
       for (let key in this.base) {
         stats[key] = this.base[key]
       }
-      if (stats.Cost) {
-        stats.Cost = {}
-        for (let keyCost in this.base.Cost) {
-          stats.Cost[keyCost] = this.base.Cost[keyCost]
-        }
-      }
 
       for (let key in this.gear) {
         const gear = this.gear[key]
         for (let i = 0; i < gear.effects.length; i++) {
           const effect = gear.effects[i]
+          let mod = effect.amount
           if (effect.absolute) {
-            stats[effect.type] += effect
+            this.setBaseStat(stats, effect.type)
+            stats[effect.type] += mod
             continue
           }
 
-          // TODO if stat not present, add it (some start at one, others at zero)
-          // examples: GatherHerdable, Build
-
-          let mod = effect.amount
           if (
-            effect.type.indexOf("Convert") == 0 ||
-            effect.type == "TargetSpeedBoost"
+            (effect.type.indexOf("Convert") === 0 &&
+              effect.type !== "ConvertResist") ||
+            effect.type === "TargetSpeedBoost"
           ) {
-            // TODO conversion rate too
             mod *= -1
           }
 
@@ -89,6 +81,7 @@ export default {
                   !keyDmg.startsWith("DamageBonus") &&
                   keyDmg != "DamageArea"
                 ) {
+                  this.setBaseStat(stats, keyDmg)
                   stats[keyDmg] *= mod
                 }
               }
@@ -96,23 +89,24 @@ export default {
             case "MaximumRange":
               for (let keyRange in stats) {
                 if (keyRange.startsWith("MaximumRange")) {
+                  this.setBaseStat(stats, keyRange)
                   stats[keyRange] *= mod
                 }
               }
               break
             case "CostAll":
             case "Cost":
-              for (let keyCost in stats.Cost) {
-                stats.Cost[keyCost] *= mod
-              }
-              break
-            case "CostFood":
-            case "CostWood":
-            case "CostGold":
-            case "CostStone":
-              stats.Cost[effect.type.substring(4)] *= mod
+              this.setBaseStat(stats, "CostFood")
+              this.setBaseStat(stats, "CostWood")
+              this.setBaseStat(stats, "CostGold")
+              this.setBaseStat(stats, "CostStone")
+              stats.CostFood *= mod
+              stats.CostWood *= mod
+              stats.CostGold *= mod
+              stats.CostStone *= mod
               break
             default:
+              this.setBaseStat(stats, effect.type)
               if (effect.type.startsWith("Armor")) {
                 stats[effect.type] =
                   1 - (1 - stats[effect.type]) / effect.amount
@@ -128,12 +122,17 @@ export default {
   },
   methods: {
     effectName(name) {
-      return name == "Cost" ? name : effects[name].name
+      return effects[name].name
     },
     formatEffect(name, value) {
       // const effect = effects[name]
       // TODO handle effect type
       return value
+    },
+    setBaseStat(stats, effectName) {
+      if (!(effectName in stats)) {
+        stats[effectName] = effects[effectName].base
+      }
     }
   }
 }

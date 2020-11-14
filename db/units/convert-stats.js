@@ -66,11 +66,17 @@ export function convertUnitStats(unit) {
   // <rate type="ActionBuild">1.112</rate>
 
   stats.PopulationCount = unit.PopulationCount
-  stats.Cost = {}
   if (unit.Cost) {
+    stats["CostFood"] = 0
+    stats["CostWood"] = 0
+    stats["CostGold"] = 0
+    stats["CostStone"] = 0
     for (let i = 0; i < unit.Cost.length; i++) {
       const c = unit.Cost[i]
-      stats.Cost[c.resourcetype] = c.quantity
+      const resource =
+        c.resourcetype.charAt(0).toUpperCase() + c.resourcetype.slice(1)
+
+      stats["Cost" + resource] = c.quantity
     }
   }
 
