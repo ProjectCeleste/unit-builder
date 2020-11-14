@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "generate": "cd db && node main.js"
+    "generate": "cd db && node main.js",
+    "gulp": "gulp"
   },
   "dependencies": {
     "core-js": "^3.6.5",
@@ -25,9 +26,15 @@
     "@vue/eslint-config-prettier": "^6.0.0",
     "babel-eslint": "^10.1.0",
     "bulma": "^0.9.1",
+    "del": "^6.0.0",
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-vue": "^7.0.0-0",
+    "gulp": "^4.0.2",
+    "gulp-debug": "^4.0.0",
+    "gulp-responsive": "^3.0.1",
+    "gulp-webp": "^4.0.1",
+    "gulp.spritesmith": "^6.11.0",
     "node-sass": "^4.12.0",
     "prettier": "^1.19.1",
     "sass-loader": "^8.0.2",

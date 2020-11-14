@@ -11,6 +11,12 @@ npm install
 npm run generate
 ```
 
+### Generate and optimize images
+
+```
+npm run gulp
+```
+
 ### Compiles and hot-reloads for development
 ```
 npm run serve
