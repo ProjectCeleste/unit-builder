@@ -5,16 +5,10 @@
 npm install
 ```
 
-### Generate database
+### Generate database, meta, images and optimization
 
 ```
 npm run generate
-```
-
-### Generate and optimize images
-
-```
-npm run gulp
 ```
 
 ### Compiles and hot-reloads for development

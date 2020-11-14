@@ -6,8 +6,10 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "generate": "cd db && node main.js",
-    "gulp": "gulp"
+    "db": "cd db && node main.js",
+    "generate": "npm run db && npm run sitemap && npm run gulp",
+    "gulp": "gulp",
+    "sitemap": "vue-cli-service sitemap"
   },
   "dependencies": {
     "core-js": "^3.6.5",
@@ -38,6 +40,7 @@
     "node-sass": "^4.12.0",
     "prettier": "^1.19.1",
     "sass-loader": "^8.0.2",
-    "v-click-outside": "^3.1.2"
+    "v-click-outside": "^3.1.2",
+    "vue-cli-plugin-sitemap": "~2.3.0"
   }
 }
