@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build-prod": "vue-cli-service build && rm dist/robots.txt && mv dist/robots.prod.txt dist/robots.txt",
     "lint": "vue-cli-service lint",
     "db": "cd db && node main.js",
     "generate": "npm run db && npm run sitemap && npm run gulp",

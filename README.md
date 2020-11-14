@@ -16,9 +16,20 @@ npm run generate
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Compiles and minifies for pre-production
+
+(Robots.txt denies everything)
+
 ```
 npm run build
+```
+
+### Compiles and minifies for production
+
+(Robots.txt allows everything)
+
+```
+npm run build-prod
 ```
 
 ### Lints and fixes files
