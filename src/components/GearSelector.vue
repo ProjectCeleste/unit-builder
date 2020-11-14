@@ -2,20 +2,27 @@
   <div class="gear-selector is-relative">
     <div class="selected-gear" @click="open = !open">
       {{ type }}
+      <Icon sprite="gear" :name="selected.icon" :title="selected.name" />
     </div>
     <keep-alive>
-      <Dropdown v-if="open" :contents="contents" @selected="onSelected" />
+      <Dropdown
+        v-if="open"
+        :contents="contents"
+        sprite="gear"
+        @selected="onSelected"
+      />
     </keep-alive>
   </div>
 </template>
 
 <script>
 import Dropdown from "./Dropdown.vue"
+import Icon from "./Icon.vue"
 import Gear from "../data/gear.json"
 
 export default {
   name: "GearSelector",
-  components: { Dropdown },
+  components: { Dropdown, Icon },
   props: {
     type: { type: String, required: true },
     modelValue: {
@@ -29,7 +36,7 @@ export default {
   data() {
     return {
       open: false,
-      selected: {}
+      selected: { name: "None", icon: "Generic" }
     }
   },
   computed: {
@@ -53,6 +60,7 @@ export default {
   methods: {
     onSelected(gear) {
       this.open = false
+      this.selected = gear
       const g = {
         effects: [],
         level: gear.levels[gear.levels.length - 1]
@@ -71,6 +79,7 @@ export default {
     },
     onActivate() {
       if (!Object.keys(this.modelValue).length) {
+        this.selected = this.contents[0]
         this.$emit("update:modelValue", { effects: [], level: 0 })
       }
     }

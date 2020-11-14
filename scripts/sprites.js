@@ -54,7 +54,7 @@ const cssTemplate = (name, size) => data => {
 /**
  * Generates a single sprite.
  */
-const sprite = (name, size) => {
+const sprite = (name, size, extraIn) => {
   const paths = {
     in: `src/assets/${name}/*.png`,
     out: {
@@ -62,7 +62,7 @@ const sprite = (name, size) => {
       css: "src/styles/sprites"
     }
   }
-  const config = { base: `src/assets/${name}/` }
+  const config = { base: `src/assets/` }
   const imageSizes = {
     "**": {
       width: size,
@@ -74,8 +74,13 @@ const sprite = (name, size) => {
     silent: true
   }
 
+  const input = [paths.in]
+  if (extraIn) {
+    input.push(extraIn)
+  }
+
   const fn = () => {
-    const spriteData = src(paths.in, config)
+    const spriteData = src(input, config)
       .pipe(responsive(imageSizes, imageConfig))
       .pipe(
         spritesmith({
@@ -101,5 +106,5 @@ const sprite = (name, size) => {
 module.exports = parallel(
   sprite("icons", 32),
   sprite("units", 64),
-  sprite("gear", 64)
+  sprite("gear", 64, "src/assets/slot/*.png")
 )

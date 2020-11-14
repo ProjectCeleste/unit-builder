@@ -10,7 +10,7 @@ export default {
   props: {
     sprite: { type: String, required: true },
     name: { type: String, required: true },
-    small: { type: Boolean, default: false }
+    small: { type: Boolean, default: false } // TODO medium icon size
   },
   computed: {
     classObject() {

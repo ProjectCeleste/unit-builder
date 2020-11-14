@@ -29,7 +29,7 @@ export async function buildGear() {
     results[type].unshift({
       id: type + "_none",
       name: "None",
-      icon: "32", // TODO slot icon,
+      icon: type,
       levels: [],
       rarity: 0,
       effects: []
