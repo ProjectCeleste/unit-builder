@@ -6,7 +6,7 @@
       class="civ-selector-option mr-3"
       @click="$emit('update:modelValue', civ)"
     >
-      <Icon sprite="icons" :name="civ" :title="civ" :small="true" />
+      <Icon sprite="icons" :name="civ" :title="civ" size="sm" />
     </div>
   </div>
 </template>

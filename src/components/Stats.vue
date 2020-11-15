@@ -2,17 +2,20 @@
   <div class="stats-container">
     <!-- TODO cost and population -->
     <div v-for="(stat, key) in computedStats" :key="key" class="my-1">
-      <span>{{ effectName(key) }}</span>
-      <span>{{ stat }}</span>
+      <span class="is-flex-grow-1">{{ effectName(key) }}</span>
+      <span>{{ stat.toFixed(2) }}</span>
+      <Icon sprite="icons" :name="key" size="xs" />
     </div>
   </div>
 </template>
 
 <script>
 import effects from "../data/effects.json"
+import Icon from "./Icon.vue"
 
 export default {
   name: "Stats",
+  components: { Icon },
   props: {
     base: {
       type: Object,
@@ -140,10 +143,17 @@ export default {
 
 <style lang="scss">
 .stats-container {
-  display: table;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 
   div {
-    display: table-row;
+    display: flex;
+    flex-direction: row;
+
+    & > * {
+      align-self: center;
+    }
   }
 }
 </style>

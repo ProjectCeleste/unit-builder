@@ -23,14 +23,14 @@ export function convertUnitStats(unit) {
       if (armor.value === 0) {
         delete stats["Armor" + armor.type]
       } else {
-        stats["Armor" + armor.type] = armor.value.toFixed(2)
+        stats["Armor" + armor.type] = armor.value
       }
     }
   } else if (unit.Armor) {
     if (unit.Armor.value === 0) {
       delete stats["Armor" + unit.Armor.type]
     } else {
-      stats["Armor" + unit.Armor.type] = unit.Armor.value.toFixed(2)
+      stats["Armor" + unit.Armor.type] = unit.Armor.value
     }
   }
 
@@ -133,15 +133,13 @@ export function parseAction(action, stats) {
       for (let keyDmgBonus in action.DamageBonus) {
         const bonus = action.DamageBonus[keyDmgBonus]
         if (ignoredEffects.indexOf("DamageBonus" + bonus.type) === -1) {
-          stats["DamageBonus" + bonus.type] = bonus.amount.toFixed(1)
+          stats["DamageBonus" + bonus.type] = bonus.amount
         }
       }
     } else if (
       ignoredEffects.indexOf("DamageBonus" + action.DamageBonus.type) === -1
     ) {
-      stats[
-        "DamageBonus" + action.DamageBonus.type
-      ] = action.DamageBonus.amount.toFixed(1)
+      stats["DamageBonus" + action.DamageBonus.type] = action.DamageBonus.amount
     }
   }
 
@@ -172,12 +170,12 @@ export function parseAction(action, stats) {
       for (let keyGather in action.Rate) {
         const gather = action.Rate[keyGather]
         if (ignoredEffects.indexOf(name + gather.type) === -1) {
-          stats[name + gather.type] = gather.amount.toFixed(1)
+          stats[name + gather.type] = gather.amount
         }
       }
     }
   } else if (name === "FishGather") {
-    stats[name] = action.Rate[0].amount.toFixed(1)
+    stats[name] = action.Rate[0].amount
   }
 }
 

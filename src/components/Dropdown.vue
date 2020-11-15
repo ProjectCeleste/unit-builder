@@ -1,5 +1,5 @@
 <template>
-  <div class="dropdown is-flex is-flex-direction-column">
+  <div class="dropdown">
     <slot name="header" />
     <Searchbar v-model="search" />
     <div
@@ -13,8 +13,11 @@
         :title="elem.name"
         @click="onSelect(elem)"
       >
-        <Icon class="mr-2" :sprite="sprite" :name="elem.icon" :small="true" />
+        <Icon class="mr-2" :sprite="sprite" :name="elem.icon" size="sm" />
         <span>{{ elem.name }}</span>
+      </div>
+      <div v-if="!actualContents.length">
+        No results.
       </div>
     </div>
   </div>
@@ -31,7 +34,7 @@ export default {
     modelValue: {
       type: Object,
       default() {
-        return { name: "None", icon: "32" }
+        return { name: "None", icon: "Generic" }
       }
     },
     sprite: { type: String, required: true },
@@ -71,15 +74,8 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .dropdown {
-  position: absolute;
-  min-width: 100%;
-  max-width: 200px;
-  white-space: nowrap;
-  z-index: 10;
-  background-color: #fff;
-
   .dropdown-element {
     line-height: 32px;
 

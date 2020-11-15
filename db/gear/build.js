@@ -141,5 +141,5 @@ function convertEffects(gear) {
 }
 
 function includeGear(gear) {
-  return !gear.traittype.includes("Vanity")
+  return !gear.traittype.includes("Vanity") && gear.itemlevels.length
 }

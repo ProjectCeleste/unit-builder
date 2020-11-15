@@ -11,7 +11,7 @@
         sprite="units"
         :name="modelValue.unit.icon"
         :title="modelValue.unit.name"
-        :small="true"
+        size="sm"
       />
       <span class="is-flex-grow-1 has-text-left">{{
         modelValue.unit.name
@@ -22,7 +22,7 @@
         sprite="icons"
         :name="modelValue.civ"
         :title="modelValue.civ"
-        :small="true"
+        size="sm"
       />
       <span class="select-arrow px-2">▼</span>
     </div>
@@ -59,7 +59,7 @@ export default {
     modelValue: {
       type: Object,
       default() {
-        return { civ: "greek", unit: { name: "None", icon: "32" } }
+        return { civ: "greek", unit: { name: "None", icon: "Generic" } }
       }
     }
   },

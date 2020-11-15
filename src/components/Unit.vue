@@ -31,7 +31,7 @@ export default {
   components: { UnitSelector, GearSelector, Stats, Icon },
   data() {
     return {
-      selection: { civ: "greek", unit: { name: "None", icon: "32" } },
+      selection: { civ: "greek", unit: { name: "None", icon: "Generic" } },
       gear: {}
     }
   },
