@@ -1,4 +1,10 @@
 $font-family: "Calibri", "Carlito", sans-serif;
+$font-color: #fff;
+$font-size: 14px;
+$font-size-sm: 90%;
+$font-size-md: 110%;
+$font-size-lg: 120%;
+$anchor-color: #fb3;
 
 * {
   font-family: $font-family;
@@ -14,4 +20,17 @@ input {
   -moz-user-select: auto;
   -ms-user-select: auto;
   user-select: auto;
+}
+
+@each $name, $color in $text-colors {
+  .is-#{$name} {
+    color: $color;
+  }
+}
+
+@each $name, $color in $rarity-colors {
+  .rarity-#{$name} {
+    color: $color;
+  }
+  // TODO border color
 }

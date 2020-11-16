@@ -1,10 +1,16 @@
 <template>
-  <form novalidate class="stat-range">
+  <form
+    novalidate
+    class="stat-range"
+    :class="{ 'is-positive': effect.positive, 'is-negative': !effect.positive }"
+  >
     <span>{{ effectName }}</span>
     <input
       ref="input"
       class="stat-range"
-      :class="{ 'stat-range-fixed': effect.fixed }"
+      :class="{
+        'stat-range-fixed': effect.fixed
+      }"
       type="range"
       :min="min"
       :max="max"
@@ -20,7 +26,7 @@
 <script>
 import effects from "../data/effects.json"
 
-// TODO positive or negative
+// TODO invert negative stats range? (so highest value is at the right of the slider instead of left)
 
 export default {
   name: "StatRange",

@@ -19,6 +19,7 @@
       <div v-if="!actualContents.length">
         No results.
       </div>
+      <!-- TODO selector preview -->
     </div>
   </div>
 </template>
