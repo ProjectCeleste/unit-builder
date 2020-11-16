@@ -2,29 +2,37 @@
   <form
     novalidate
     class="stat-range"
-    :class="{ 'is-positive': effect.positive, 'is-negative': !effect.positive }"
+    :class="{
+      'is-positive': effect.positive,
+      'is-negative': !effect.positive,
+      'stat-range-fixed': fixed
+    }"
   >
     <span>{{ effectName }}</span>
     <input
       ref="input"
-      class="stat-range"
-      :class="{
-        'stat-range-fixed': effect.fixed
-      }"
+      class="stat-range-input"
       type="range"
       :min="min"
       :max="max"
       :value="modelValue"
       step="0.0001"
+      :title="fixed ? 'This item has fixed stats' : ''"
       @input="onInput"
     />
-    <span>{{ modelValueRounded }}</span>
-    <span v-if="!effect.absolute">%</span>
+    <span>{{
+      toDisplay(effect, effect.absolute ? modelValue : modelValue - 1)
+    }}</span>
+    <span v-if="!effect.absolute && effect.type !== 'WorkRateSelfHeal'">
+      %
+    </span>
+    <span v-if="effect.type === 'WorkRateSelfHeal'">/s</span>
   </form>
 </template>
 
 <script>
 import effects from "../data/effects.json"
+import { toDisplay } from "../stats.js"
 
 // TODO invert negative stats range? (so highest value is at the right of the slider instead of left)
 
@@ -36,7 +44,8 @@ export default {
       default: undefined
     },
     effect: { type: Object, required: true },
-    level: { type: Number, required: true }
+    level: { type: Number, required: true },
+    fixed: { type: Boolean, default: false }
   },
   emits: ["update:modelValue"],
   computed: {
@@ -44,16 +53,13 @@ export default {
       return this.effect.amount + this.effect.scaling * this.level
     },
     min() {
-      return this.med * 0.95
+      return this.fixed ? this.med : this.med * 0.95
     },
     max() {
-      return this.med * 1.05
+      return this.fixed ? this.med : this.med * 1.05
     },
     effectName() {
       return effects[this.effect.type].name
-    },
-    modelValueRounded() {
-      return ((this.modelValue - 1) * 100).toFixed(2)
     }
   },
   mounted() {
@@ -61,6 +67,7 @@ export default {
     this.$refs.input.value = this.modelValue
   },
   methods: {
+    toDisplay,
     onInput($event) {
       this.$emit("update:modelValue", parseFloat($event.target.value))
     }
@@ -71,57 +78,59 @@ export default {
 <style lang="scss" scoped>
 .stat-range {
   display: table-row;
-  height: 25px;
-  cursor: pointer;
-  font: inherit;
-  outline: none;
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-  padding-right: 15px;
-  padding-left: 15px;
 
   & > * {
     display: table-cell;
     vertical-align: middle;
   }
 
-  &::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 12px;
-    height: 12px;
-    background: #ebebeb;
-    border-radius: 50%;
+  .stat-range-input {
     cursor: pointer;
-    margin-top: -4px;
+    height: 25px;
+    padding: 0;
+    margin: 0;
+    padding-right: 15px;
+    padding-left: 15px;
+    outline: none;
+    box-sizing: border-box;
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 12px;
+      height: 12px;
+      background: #ebebeb;
+      border-radius: 50%;
+      cursor: pointer;
+      margin-top: -4px;
+    }
+
+    &::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 3px;
+      cursor: pointer;
+      background: #9a9994;
+      border-radius: 1.3px;
+      border: 0.2px solid #9a9994;
+    }
+
+    &::-moz-range-thumb {
+      width: 12px;
+      height: 12px;
+      background: #ebebeb;
+      cursor: pointer;
+    }
+
+    &::-moz-range-track {
+      width: 100%;
+      height: 3px;
+      cursor: pointer;
+      background: #9a9994;
+      border-radius: 10px;
+      border: 0.2px solid #9a9994;
+    }
   }
 
-  &::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 3px;
-    cursor: pointer;
-    background: #9a9994;
-    border-radius: 1.3px;
-    border: 0.2px solid #9a9994;
-  }
-
-  &::-moz-range-thumb {
-    width: 12px;
-    height: 12px;
-    background: #ebebeb;
-    cursor: pointer;
-  }
-
-  &::-moz-range-track {
-    width: 100%;
-    height: 3px;
-    cursor: pointer;
-    background: #9a9994;
-    border-radius: 10px;
-    border: 0.2px solid #9a9994;
-  }
-
-  &.stat-range-fixed {
+  &.stat-range-fixed .stat-range-input {
     cursor: auto;
 
     &::-webkit-slider-thumb {

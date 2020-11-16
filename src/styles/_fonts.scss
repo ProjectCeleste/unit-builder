@@ -22,6 +22,14 @@ input {
   user-select: auto;
 }
 
+.nowrap {
+  white-space: nowrap;
+}
+
+.is-size-6-5 {
+  font-size: 0.9rem !important;
+}
+
 @each $name, $color in $text-colors {
   .is-#{$name} {
     color: $color;

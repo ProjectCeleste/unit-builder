@@ -3,11 +3,12 @@
     <!-- TODO Level selector -->
     <div class="stats-range-container">
       <StatRange
-        v-for="effect in gear.effects"
+        v-for="effect in filteredGearEffects"
         :key="effect.type"
         v-model="effects[effect.type]"
         :effect="effect"
         :level="level"
+        :fixed="gear.fixed"
       />
     </div>
     <span v-if="!gear.effects.length">No effects.</span>
@@ -16,6 +17,7 @@
 
 <script>
 import StatRange from "./StatRange.vue"
+import effects from "../data/effects.json"
 
 export default {
   name: "GearStatsDropdown",
@@ -34,6 +36,11 @@ export default {
     return {
       effects: {},
       level: 43
+    }
+  },
+  computed: {
+    filteredGearEffects() {
+      return this.gear.effects.filter(e => effects[e.type].type !== "action")
     }
   },
   watch: {
@@ -56,7 +63,7 @@ export default {
         for (let type in this.effects) {
           g.effects.push({
             type: type,
-            absolute: false,
+            absolute: this.findEffect(type).absolute,
             amount: this.effects[type]
           })
         }
@@ -65,6 +72,15 @@ export default {
     }
   },
   methods: {
+    findEffect(type) {
+      for (let key in this.gear.effects) {
+        const e = this.gear.effects[key]
+        if (e.type === type) {
+          return e
+        }
+      }
+      return undefined
+    },
     reset() {
       this.effects = {}
       this.level = this.gear.levels[this.gear.levels.length - 1]

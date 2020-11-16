@@ -31,6 +31,7 @@
         v-if="open"
         ref="dropdown"
         v-click-outside="onClickOutside"
+        :preview="false"
         sprite="units"
         :contents="units"
         @selected="selectedUnitChanged"

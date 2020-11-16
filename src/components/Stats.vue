@@ -3,7 +3,7 @@
     <!-- TODO cost and population -->
     <div v-for="(stat, key) in computedStats" :key="key" class="my-1">
       <span class="is-flex-grow-1">{{ effectName(key) }}</span>
-      <span>{{ stat.toFixed(2) }}</span>
+      <span>{{ formatEffect(key, stat) }}</span>
       <Icon sprite="icons" :name="key" size="xs" />
     </div>
   </div>
@@ -59,6 +59,9 @@ export default {
         const gear = this.gear[key]
         for (let i = 0; i < gear.effects.length; i++) {
           const effect = gear.effects[i]
+          if (effects[effect.type].type === "action") {
+            continue
+          }
           let mod = effect.amount
           if (effect.absolute) {
             this.setBaseStat(stats, effect.type)
@@ -128,9 +131,24 @@ export default {
       return effects[name].name
     },
     formatEffect(name, value) {
-      // const effect = effects[name]
-      // TODO handle effect type
-      return value
+      const effect = effects[name]
+      let formattedValue = value.toFixed(2)
+
+      switch (effect.type) {
+        case "multiplier":
+          formattedValue = "x" + formattedValue
+          break
+        case "persecond":
+          formattedValue += "/s"
+          break
+        case "percent":
+          formattedValue += "%"
+          break
+        case "time":
+          formattedValue += "s"
+          break
+      }
+      return formattedValue
     },
     setBaseStat(stats, effectName) {
       if (!(effectName in stats)) {

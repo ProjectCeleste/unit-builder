@@ -32,7 +32,8 @@ export async function buildGear() {
       icon: type,
       levels: [],
       rarity: 0,
-      effects: []
+      effects: [],
+      fixed: false
     })
   }
 
@@ -42,14 +43,15 @@ export async function buildGear() {
 async function convertGear(gear) {
   const icon = gear.icon.replace(/\\/g, "/").toLowerCase()
   const iconDst = convertIconName(icon)
-  await downloadImage(icon + ".png", "../src/assets/gear/" + iconDst + ".png") //TODO gulp sprite and webp
+  await downloadImage(icon + ".png", "../src/assets/gear/" + iconDst + ".png")
   return {
     id: gear.name,
     name: findLang(stringtablex, gear.displaynameid),
     icon: iconDst,
     levels: gear.itemlevels,
     rarity: convertRarity(gear),
-    effects: convertEffects(gear)
+    effects: convertEffects(gear),
+    fixed: gear.event !== undefined
   }
 }
 

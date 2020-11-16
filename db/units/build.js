@@ -70,7 +70,7 @@ async function convertEquipmentToUnits(equipment) {
 async function convertUnit(unit) {
   const icon = unit.Icon.replace(/\\/g, "/").toLowerCase()
   const iconDst = convertIconName(icon)
-  await downloadImage(icon + ".png", "../src/assets/units/" + iconDst + ".png") //TODO gulp sprite and webp
+  await downloadImage(icon + ".png", "../src/assets/units/" + iconDst + ".png")
   const u = {
     id: unit.name,
     name: findLang(stringtablex, unit.DisplayNameID),
