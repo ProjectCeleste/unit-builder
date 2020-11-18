@@ -77,7 +77,7 @@ function getType(effectName) {
 
 const displayNames = {
   ActionEnableBurningAttack: "Burning Damage over 8s",
-  ActionEnableSelfHeal: "Enables Self-Heal Action", // TODO maybe hide self-heal
+  ActionEnableSelfHeal: "Enables Self-Heal Action",
   ActionEnableCharge: "Grants Charge Attack",
   ActionEnableHeal: "Grants Healing Action",
   ActionEnableMeleeAttack: "Grants Ability to Attack Mobile Units",

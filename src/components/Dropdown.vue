@@ -25,6 +25,7 @@
       </div>
     </div>
     <Preview v-if="preview && hoveredItem" :item="hoveredItem" />
+    <!-- TODO responsiveness -->
   </div>
 </template>
 

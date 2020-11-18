@@ -49,7 +49,7 @@ export function convertUnitStats(unit) {
   }
 
   if (unit.CarryCapacity) {
-    // TODO ignore carry capacity on certain units (not villager)
+    // TODO ignore carry capacity on certain units (not villager, caravan, transport ship)
     for (let i = 0; i < unit.CarryCapacity.length; i++) {
       const cap = unit.CarryCapacity[i]
       const resource =

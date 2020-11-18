@@ -1,6 +1,17 @@
 <template>
   <div class="dropdown">
-    <!-- TODO Level selector -->
+    <div class="level-selector-container">
+      <span class="mr-2">Level:</span>
+      <span
+        v-for="l in gear.levels"
+        :key="l"
+        class="level px-1"
+        :class="{ selected: level === l }"
+        @click="level = l"
+      >
+        {{ l - 3 }}
+      </span>
+    </div>
     <div class="stats-range-container">
       <StatRange
         v-for="effect in filteredGearEffects"
@@ -48,6 +59,7 @@ export default {
       this.reset()
     },
     level(val) {
+      this.resetEffects()
       this.$emit("update:modelValue", {
         effects: this.effects,
         level: val
@@ -82,8 +94,11 @@ export default {
       return undefined
     },
     reset() {
-      this.effects = {}
       this.level = this.gear.levels[this.gear.levels.length - 1]
+      this.resetEffects()
+    },
+    resetEffects() {
+      this.effects = {}
       this.gear.effects.forEach(e => {
         this.effects[e.type] = e.amount + e.scaling * this.level
       })
@@ -95,5 +110,17 @@ export default {
 <style lang="scss" scoped>
 .stats-range-container {
   display: table;
+}
+
+.level-selector-container {
+  .level {
+    &:hover {
+      cursor: pointer;
+    }
+
+    &:not(.selected) {
+      color: $color-muted;
+    }
+  }
 }
 </style>

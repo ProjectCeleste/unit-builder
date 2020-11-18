@@ -51,7 +51,7 @@ async function convertGear(gear) {
     levels: gear.itemlevels,
     rarity: convertRarity(gear),
     effects: convertEffects(gear),
-    fixed: gear.event !== undefined
+    fixed: gear.event !== undefined // TODO or in ReforgeBlacklist.xml
   }
 }
 

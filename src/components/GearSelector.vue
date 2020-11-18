@@ -88,7 +88,6 @@ export default {
         effects: [],
         level: gear.levels[gear.levels.length - 1]
       }
-      // TODO customize levels and value
       for (let i = 0; i < gear.effects.length; i++) {
         const effect = gear.effects[i]
         const amount = effect.amount + effect.scaling * g.level
