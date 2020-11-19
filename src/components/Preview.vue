@@ -1,5 +1,5 @@
 <template>
-  <div class="preview">
+  <div class="preview p-2">
     <div class="is-flex mb-2">
       <Icon :sprite="type" :name="item.icon" :title="item.name" class="mr-2" />
       <span class="title is-size-6">{{ item.name }}</span>
@@ -90,9 +90,13 @@ export default {
 
 <style lang="scss" scoped>
 .preview {
+  background-color: $dropdown-background-color;
   white-space: normal;
   word-break: keep-all;
-  background: #fff;
+
+  .icon {
+    border-radius: $border-radius;
+  }
 
   .title {
     word-break: keep-all !important;
@@ -100,7 +104,7 @@ export default {
 
   .preview-effects-container {
     display: table;
-    white-space: nowrap;
+    word-break: keep-all;
     width: 100%;
 
     & > * {
@@ -109,6 +113,10 @@ export default {
       & > * {
         display: table-cell;
         vertical-align: middle;
+
+        &:not(:first-child) {
+          width: 1px;
+        }
       }
     }
   }

@@ -1,10 +1,71 @@
+$dropdown-background-color-light: #192b33b3;
+$dropdown-background-color: rgba($dropdown-background-color-light, 1.5);
+$dropdown-item-background-color-hover: #3b6578;
+
 .dropdown {
   display: flex;
   flex-direction: column;
   position: absolute;
   min-width: 100%;
-  max-width: 200px;
   white-space: nowrap;
   z-index: 10;
-  background-color: #fff;
+  border-radius: $border-radius;
+  border: 2px solid $color--border;
+  overflow: hidden;
+
+  .dropdown-header {
+    background-color: $dropdown-background-color-light;
+  }
+
+  .dropdown-contents {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 160px;
+    background-color: $dropdown-background-color;
+
+    scrollbar-color: hsla(0, 0%, 100%, 0.3) $dropdown-background-color; // TODO use var color
+    scrollbar-width: auto;
+
+    .no-result {
+      line-height: 32px;
+    }
+
+    .dropdown-element {
+      display: flex;
+      flex-direction: row;
+      line-height: 32px;
+
+      .icon {
+        border-radius: 2px;
+      }
+
+      span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      &:hover {
+        cursor: pointer;
+        background-color: $dropdown-item-background-color-hover;
+      }
+    }
+  }
 }
+
+// @media screen and (min-width: $tablet) {
+//   .dropdown {
+//     & > div {
+//       min-width: 18vw;
+//       width: 18vw;
+//     }
+//   }
+// }
+
+// @media screen and (min-width: $desktop) {
+//   .dropdown {
+//     & > div {
+//       min-width: 40vw;
+//       width: 40vw;
+//     }
+//   }
+// }

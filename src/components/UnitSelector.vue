@@ -1,10 +1,5 @@
 <template>
   <div class="unit-selector is-relative">
-    <div>
-      <h4 class="title">
-        Select a unit&nbsp;:&nbsp;
-      </h4>
-    </div>
     <div class="selected-unit is-flex" @click="open = !open">
       <Icon
         class="mr-2"
@@ -99,13 +94,16 @@ export default {
 .unit-selector {
   .selected-unit {
     line-height: 32px;
+    border-radius: $border-radius-element;
+    border: 1px solid $color--border;
+    background-color: $dropdown-background-color;
 
     &:hover {
       cursor: pointer;
     }
 
     .select-arrow {
-      border-left: 1px solid #7a7a7a; // TODO use color variable
+      border-left: 1px solid $color--border; // TODO use color variable
     }
   }
 }

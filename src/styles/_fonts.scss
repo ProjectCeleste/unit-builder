@@ -1,4 +1,4 @@
-$font-family: "Calibri", "Carlito", sans-serif;
+$font-family: "Calibri", "Carlito", "Noto Sans", sans-serif;
 $font-color: #fff;
 $font-size: 14px;
 $font-size-sm: 90%;
@@ -22,6 +22,11 @@ input {
   user-select: auto;
 }
 
+.title,
+.subtitle {
+  color: white;
+}
+
 .nowrap {
   white-space: nowrap;
 }
@@ -32,13 +37,13 @@ input {
 
 @each $name, $color in $text-colors {
   .is-#{$name} {
-    color: $color;
+    color: $color !important;
   }
 }
 
 @each $name, $color in $rarity-colors {
   .rarity-#{$name} {
-    color: $color;
+    color: $color !important;
   }
   // TODO border color
 }

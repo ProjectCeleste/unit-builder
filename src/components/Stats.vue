@@ -4,7 +4,7 @@
     <div v-for="(stat, key) in computedStats" :key="key" class="my-1">
       <span class="is-flex-grow-1">{{ effectName(key) }}</span>
       <span>{{ formatEffect(key, stat) }}</span>
-      <Icon sprite="icons" :name="key" size="xs" />
+      <Icon sprite="icons" :name="key" size="xs" class="ml-1" />
     </div>
   </div>
 </template>

@@ -123,6 +123,8 @@ export default {
 .selected-gear {
   position: relative;
   display: flex;
+  border-radius: $border-radius-element;
+  overflow: hidden;
 
   &:hover {
     cursor: pointer;
@@ -140,5 +142,9 @@ export default {
   &:hover {
     cursor: pointer;
   }
+}
+
+.dropdown {
+  transform: translateX(calc(-50% + 20px));
 }
 </style>

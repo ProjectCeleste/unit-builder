@@ -1,17 +1,20 @@
 <template>
-  <div class="dropdown is-flex is-flex-direction-row">
-    <div class="is-flex is-flex-direction-column is-flex-grow-1">
-      <slot name="header" />
-      <Searchbar v-model="search" />
+  <div class="dropdown">
+    <div class="is-flex is-flex-direction-column is-flex-grow-1 is-relative">
+      <div class="dropdown-header is-flex is-flex-direction-column">
+        <slot name="header" />
+        <Searchbar v-model="search" />
+      </div>
       <div
         ref="contents"
-        class="dropdown-contents is-flex is-flex-direction-column"
+        class="dropdown-contents"
         @mouseleave="hoveredItem = null"
       >
+        <!-- TODO don't reset scroll -->
         <div
           v-for="elem in actualContents"
           :key="elem.id"
-          class="dropdown-element is-flex"
+          class="dropdown-element"
           :title="elem.name"
           @click="onSelect(elem)"
           @mouseover="hoveredItem = elem"
@@ -19,12 +22,15 @@
           <Icon class="mr-2" :sprite="sprite" :name="elem.icon" size="sm" />
           <span>{{ elem.name }}</span>
         </div>
-        <div v-if="!actualContents.length">
+        <div v-if="!actualContents.length" class="pl-1 no-result">
           No results.
         </div>
       </div>
+      <Preview
+        v-if="preview && hoveredItem && hoveredItem.name !== 'None'"
+        :item="hoveredItem"
+      />
     </div>
-    <Preview v-if="preview && hoveredItem" :item="hoveredItem" />
     <!-- TODO responsiveness -->
   </div>
 </template>
@@ -84,33 +90,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.dropdown {
-  width: 100%;
-
-  .dropdown-element {
-    line-height: 32px;
-
-    span {
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    &:hover {
-      cursor: pointer;
-    }
-  }
-
-  .dropdown-contents {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    overflow-y: auto;
-    overflow-x: hidden;
-    max-height: 160px;
-    background: #fff;
-
-    scrollbar-color: hsla(0, 0%, 100%, 0.3) #192b33b3; // TODO use var color
-    scrollbar-width: auto;
-  }
+.preview {
+  border-top: 1px solid $color--border;
 }
 </style>

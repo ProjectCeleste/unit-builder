@@ -50,6 +50,7 @@ export function convertUnitStats(unit) {
 
   if (unit.CarryCapacity) {
     // TODO ignore carry capacity on certain units (not villager, caravan, transport ship)
+    // -> has action gather or trade
     for (let i = 0; i < unit.CarryCapacity.length; i++) {
       const cap = unit.CarryCapacity[i]
       const resource =

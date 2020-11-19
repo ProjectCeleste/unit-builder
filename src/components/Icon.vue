@@ -32,15 +32,17 @@ export default {
 
 <style lang="scss" scoped>
 .icon {
-  display: inline-block;
+  display: flex;
   position: relative;
   width: 64px;
   min-width: 64px;
   height: 64px;
   min-height: 64px;
+  overflow: hidden;
 
   & > div {
     transform-origin: top left;
+    align-self: auto;
     width: 64px;
     min-width: 64px;
     height: 64px;

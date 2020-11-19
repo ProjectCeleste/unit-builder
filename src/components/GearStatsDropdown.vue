@@ -1,7 +1,10 @@
 <template>
-  <div class="dropdown">
-    <div class="level-selector-container">
-      <span class="mr-2">Level:</span>
+  <div class="dropdown p-2">
+    <div
+      v-if="gear.levels && gear.levels.length"
+      class="level-selector-container"
+    >
+      <span class="mr-1">Level:</span>
       <span
         v-for="l in gear.levels"
         :key="l"
@@ -108,6 +111,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.dropdown {
+  background-color: $dropdown-background-color;
+}
+
 .stats-range-container {
   display: table;
 }

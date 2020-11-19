@@ -4,14 +4,7 @@
 
 @import "colors";
 
-$background-color-tooltip: rgba(25, 43, 51, 0.85);
-$background-color-legal-notice: rgba(30, 30, 30, 0.9);
-
-$border-color-tooltip: #b9ad8b;
-
-/* ----- MISC ----- */
-
-$images-host: "https://images.projectceleste.com";
-$border-radius-tooltip: 6px;
+$border-radius: 6px;
+$border-radius-element: 4px;
 $tooltip-max-width: 300px;
 $tooltip-min-width: 275px;

@@ -1,23 +1,42 @@
 <template>
-  <UnitSelector v-model="selection" />
-  <div class="unit-portrait is-flex is-flex-wrap-nowrap">
-    <Icon
-      class="mr-3"
-      sprite="units"
-      :name="selection.unit.icon"
-      :title="selection.unit.name"
-    />
-    <div class="gear-selector-container is-flex is-flex-wrap-nowrap">
-      <GearSelector
-        v-for="(slot, key) in selection.unit.slots"
-        :key="key"
-        v-model="gear[slot]"
-        :type="slot"
-        class="mr-1 is-align-self-flex-end"
-      />
+  <div class="card mb-2">
+    <div class="card-header">
+      <h4 class="title is-size-5">
+        Select a unit
+      </h4>
+    </div>
+    <div class="card-content">
+      <UnitSelector v-model="selection" />
+      <div
+        v-if="selection.unit.name !== 'None'"
+        class="mt-2 unit-portrait is-flex is-flex-wrap-nowrap is-justify-content-center"
+      >
+        <Icon
+          class="mr-3"
+          sprite="units"
+          :name="selection.unit.icon"
+          :title="selection.unit.name"
+        />
+        <div class="gear-selector-container is-flex is-flex-wrap-nowrap">
+          <GearSelector
+            v-for="(slot, key) in selection.unit.slots"
+            :key="key"
+            v-model="gear[slot]"
+            :type="slot"
+            class="mr-1 is-align-self-flex-end"
+          />
+        </div>
+      </div>
     </div>
   </div>
-  <Stats :base="selection.unit.stats" :gear="gear" />
+  <div v-if="selection.unit.name !== 'None'" class="card">
+    <div class="card-header">
+      <h4 class="title is-size-5">
+        Stats
+      </h4>
+    </div>
+    <Stats :base="selection.unit.stats" :gear="gear" class="card-content" />
+  </div>
 </template>
 
 <script>

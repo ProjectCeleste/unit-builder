@@ -93,15 +93,17 @@ export default {
     padding-left: 15px;
     outline: none;
     box-sizing: border-box;
+    background: transparent;
 
     &::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 12px;
-      height: 12px;
+      width: 14px;
+      height: 14px;
       background: #ebebeb;
       border-radius: 50%;
       cursor: pointer;
       margin-top: -4px;
+      border: none;
     }
 
     &::-webkit-slider-runnable-track {
@@ -114,9 +116,10 @@ export default {
     }
 
     &::-moz-range-thumb {
-      width: 12px;
-      height: 12px;
+      width: 14px;
+      height: 14px;
       background: #ebebeb;
+      border: none;
       cursor: pointer;
     }
 

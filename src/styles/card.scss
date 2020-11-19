@@ -1,0 +1,13 @@
+.card {
+  color: white;
+  border-radius: $border-radius;
+  background-color: $color--card-background;
+
+  .card-header {
+    padding: 1rem 1rem 0;
+  }
+
+  .card-content {
+    padding: 1rem;
+  }
+}
