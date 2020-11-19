@@ -3,7 +3,7 @@
     <div class="selected-gear" @click="open = !open">
       <Icon
         sprite="gear"
-        :name="selected.icon"
+        :name="selected.icon.replace(/\s/g, '-')"
         :title="selected.name"
         size="md"
       />

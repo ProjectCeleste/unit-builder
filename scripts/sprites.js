@@ -32,7 +32,7 @@ const cssTemplate = (name, size) => data => {
   })
 
   const iconSelectorLength =
-    10 + name.length + Math.max(...data.sprites.map(s => s.name.length))
+    11 + name.length + Math.max(...data.sprites.map(s => s.name.length))
 
   const iconClasses = data.sprites
     .map(entry => {
@@ -41,7 +41,9 @@ const cssTemplate = (name, size) => data => {
       const percentX = toRoundedPercent(x / (total_width - width) || 0)
 
       return [
-        `.sprite--${name}--${entry.name}`.padEnd(iconSelectorLength) + "{",
+        `.sprite--${name}--${entry.name.replace(/\s/g, "-")}`.padEnd(
+          iconSelectorLength
+        ) + "{",
         `  background-position: ${percentX} ${percentY} !important;`.trim(),
         `}`
       ].join(" ")

@@ -1,0 +1,35 @@
+.is-flex {
+  display: flex;
+}
+
+.is-flex-direction-column {
+  flex-direction: column;
+}
+
+.is-flex-direction-row {
+  flex-direction: row;
+}
+
+.is-flex-grow-1 {
+  flex-grow: 1;
+}
+
+.is-flex-wrap-nowrap {
+  flex-wrap: nowrap;
+}
+
+.is-justify-content-center {
+  justify-content: center;
+}
+
+.is-align-self-flex-end {
+  align-self: flex-end;
+}
+
+.is-relative {
+  position: relative !important;
+}
+
+.is-hidden {
+  display: none !important;
+}

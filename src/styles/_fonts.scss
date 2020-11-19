@@ -31,6 +31,14 @@ input {
   white-space: nowrap;
 }
 
+.is-size-5 {
+  font-size: $size-5 !important;
+}
+
+.is-size-6 {
+  font-size: $size-6 !important;
+}
+
 .is-size-6-5 {
   font-size: 0.9rem !important;
 }
@@ -46,4 +54,8 @@ input {
     color: $color !important;
   }
   // TODO border color
+}
+
+.is-capitalized {
+  text-transform: capitalize !important;
 }

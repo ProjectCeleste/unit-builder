@@ -4,6 +4,11 @@
 
 @import "colors";
 
+$spacing-values: (
+  "1": 0.25rem,
+  "2": 0.5rem,
+  "3": 0.75rem,
+);
 $border-radius: 6px;
 $border-radius-element: 4px;
 $tooltip-max-width: 300px;
