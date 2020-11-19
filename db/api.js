@@ -9,6 +9,21 @@ import xmlParser from "fast-xml-parser"
 axios.defaults.baseURL = API_URL
 
 const cache = {}
+const xmlOptions = {
+  attributeNamePrefix: "",
+  attrNodeName: false,
+  textNodeName: "text",
+  ignoreAttributes: false,
+  ignoreNameSpace: false,
+  allowBooleanAttributes: true,
+  parseNodeValue: true,
+  parseAttributeValue: true,
+  trimValues: true,
+  cdataTagName: "__cdata", //default is 'false'
+  cdataPositionChar: "\\c",
+  localeRange: "", //To support non english character in tag/attribute values.
+  parseTrueNumberOnly: false
+}
 
 async function get(url) {
   if (!cache[url]) {
@@ -36,24 +51,23 @@ export async function getUnits() {
 }
 
 export async function getTechtree() {
-  const options = {
-    attributeNamePrefix: "",
-    attrNodeName: false,
-    textNodeName: "text",
-    ignoreAttributes: false,
-    ignoreNameSpace: false,
-    allowBooleanAttributes: true,
-    parseNodeValue: true,
-    parseAttributeValue: true,
-    trimValues: true,
-    cdataTagName: "__cdata", //default is 'false'
-    cdataPositionChar: "\\c",
-    localeRange: "", //To support non english character in tag/attribute values.
-    parseTrueNumberOnly: false
+  if (!cache["/techtree"]) {
+    cache["/techtree"] = xmlParser.parse(
+      fs.readFileSync("./techtreex.xml").toString(),
+      xmlOptions
+    ).TechTree.Tech
   }
-  return xmlParser.parse(fs.readFileSync("./techtreex.xml").toString(), options)
-    .TechTree.Tech
-  // return await get("/techtree") // FIXME import techtree from api when it's available
+  return cache["/techtree"]
+}
+
+export async function getReforgeBlacklist() {
+  if (!cache["/reforgeblacklist"]) {
+    cache["/reforgeblacklist"] = xmlParser.parse(
+      fs.readFileSync("./ReforgeItemBlacklist.xml").toString(),
+      xmlOptions
+    ).ReforgeItemBlacklist.ReforgeBlacklistTrait
+  }
+  return cache["/reforgeblacklist"]
 }
 
 export async function getEquipments() {

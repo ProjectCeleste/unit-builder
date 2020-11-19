@@ -1,7 +1,7 @@
-import { getGear, downloadImage } from "../api.js"
+import { getGear, getReforgeBlacklist, downloadImage } from "../api.js"
 import { stringtablex, findLang } from "../lang.js"
 import { addEffect } from "../effects.js"
-import { convertIconName } from "../utils.js"
+import { convertIconName, findByAttribute } from "../utils.js"
 
 export async function buildGear() {
   console.log("Building gear...")
@@ -41,6 +41,7 @@ export async function buildGear() {
 }
 
 async function convertGear(gear) {
+  const reforgeBlacklist = await getReforgeBlacklist()
   const icon = gear.icon.replace(/\\/g, "/").toLowerCase()
   const iconDst = convertIconName(icon)
   await downloadImage(icon + ".png", "../src/assets/gear/" + iconDst + ".png")
@@ -51,7 +52,9 @@ async function convertGear(gear) {
     levels: gear.itemlevels,
     rarity: convertRarity(gear),
     effects: convertEffects(gear),
-    fixed: gear.event !== undefined // TODO or in ReforgeBlacklist.xml
+    fixed:
+      gear.event !== undefined ||
+      findByAttribute(reforgeBlacklist, "name", gear.name) !== undefined
   }
 }
 
