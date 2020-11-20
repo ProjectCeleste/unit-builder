@@ -51,7 +51,8 @@ function getType(effectName) {
   }
   if (
     effectName.startsWith("WorkRate") ||
-    effectName.startsWith("AutoGather")
+    effectName.startsWith("AutoGather") ||
+    effectName === "RateHeal"
   ) {
     return "persecond" // ends with "/s"
   }
@@ -59,8 +60,7 @@ function getType(effectName) {
     effectName === "TargetSpeedBoostResist" ||
     effectName === "AreaDamageReduction" ||
     effectName === "DamageBonusReduction" ||
-    effectName === "HitPercent" ||
-    effectName === "RateHeal"
+    effectName === "HitPercent"
   ) {
     return "percent" // ends with "%"
   }

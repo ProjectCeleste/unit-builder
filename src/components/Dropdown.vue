@@ -81,6 +81,7 @@ export default {
   },
   methods: {
     onSelect(elem) {
+      this.hoveredItem = null
       this.$emit("selected", elem)
       this.$emit("update:modelValue", elem)
     },

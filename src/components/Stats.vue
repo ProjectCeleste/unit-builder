@@ -103,11 +103,7 @@ export default {
             continue
           }
 
-          if (
-            (effect.type.indexOf("Convert") === 0 &&
-              effect.type !== "ConvertResist") ||
-            effect.type === "TargetSpeedBoost"
-          ) {
+          if (effect.type === "TargetSpeedBoost") {
             mod *= -1
           }
 
@@ -186,7 +182,14 @@ export default {
     },
     setBaseStat(stats, effectName) {
       if (!(effectName in stats)) {
-        stats[effectName] = effects[effectName].base
+        if (
+          effectName.startsWith("Convert") &&
+          effectName !== "ConvertStandardConvertable"
+        ) {
+          stats[effectName] = stats.ConvertStandardConvertable
+        } else {
+          stats[effectName] = effects[effectName].base
+        }
       }
     }
   }

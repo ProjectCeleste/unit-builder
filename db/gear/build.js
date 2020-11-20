@@ -117,7 +117,6 @@ function convertEffects(gear) {
       type += e.resource
     } else if (type === "DamageBonus") {
       type += e.unittype
-      // TODO check if no problem with Siege and Artillery
     } else if (type === "Armor") {
       type += e.damagetype
     } else if (
@@ -128,7 +127,6 @@ function convertEffects(gear) {
     }
     // TODO rate of fire (techtree:20931), call it "AttackSpeed"
     // TODO TargetSpeedBoostResist special case (100% instead of 1000%)
-    // TODO ActionEnable (grants charge for example) should not be editable and give no stats
     res.push({
       type: type,
       visible: e.visible,
