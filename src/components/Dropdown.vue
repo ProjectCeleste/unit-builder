@@ -9,8 +9,8 @@
         ref="contents"
         class="dropdown-contents"
         @mouseleave="hoveredItem = null"
+        @scroll="updateScroll"
       >
-        <!-- TODO don't reset scroll -->
         <div
           v-for="elem in actualContents"
           :key="elem.id"
@@ -58,7 +58,8 @@ export default {
   data() {
     return {
       search: "",
-      hoveredItem: null
+      hoveredItem: null,
+      scrollPos: 0
     }
   },
   computed: {
@@ -75,10 +76,16 @@ export default {
       this.resetContentsScroll()
     }
   },
+  activated() {
+    this.$refs.contents.scrollTop = this.scrollPos
+  },
   methods: {
     onSelect(elem) {
       this.$emit("selected", elem)
       this.$emit("update:modelValue", elem)
+    },
+    updateScroll() {
+      this.scrollPos = this.$refs.contents.scrollTop
     },
     resetContentsScroll() {
       if (this.$refs.contents) {

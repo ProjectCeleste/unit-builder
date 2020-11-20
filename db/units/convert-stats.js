@@ -48,7 +48,7 @@ export function convertUnitStats(unit) {
     stats.BuildPoints = unit.BuildPoints
   }
 
-  if (unit.CarryCapacity) {
+  if (unit.CarryCapacity && canCarry(stats)) {
     // TODO ignore carry capacity on certain units (not villager, caravan, transport ship)
     // -> has action gather or trade
     for (let i = 0; i < unit.CarryCapacity.length; i++) {
@@ -177,6 +177,11 @@ export function parseAction(action, stats) {
     }
   } else if (name === "FishGather") {
     stats[name] = action.Rate[0].amount
+  } else if (name === "Trade") {
+    const rate = action.Rate[0]
+    if (rate.type === "AbstractTownCenter" || rate.type === "AbstractDock") {
+      stats[name] = rate.amount
+    }
   }
 }
 
@@ -191,4 +196,13 @@ export function findDamageType(stats) {
     }
   }
   return undefined
+}
+
+function canCarry(stats) {
+  for (let key in stats) {
+    if (key.startsWith("Gather") || key === "Trade") {
+      return true
+    }
+  }
+  return false
 }
