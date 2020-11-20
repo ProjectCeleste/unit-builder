@@ -1,7 +1,17 @@
 <template>
   <div class="stats-container">
-    <!-- TODO cost and population -->
-    <div v-for="(stat, key) in computedStats" :key="key" class="my-1">
+    <div class="my-1 cost">
+      <span class="is-flex-grow-1">Cost</span>
+      <template v-for="(stat, key) in computedStatsCost" :key="key">
+        <span class="ml-2">{{ stat.toFixed(0) }}</span>
+        <Icon sprite="icons" :name="key" size="xs" class="ml-1" />
+      </template>
+    </div>
+    <div
+      v-for="(stat, key) in computedStatsWithoutCost"
+      :key="key"
+      class="my-1"
+    >
       <span class="is-flex-grow-1">{{ effectName(key) }}</span>
       <span>{{ formatEffect(key, stat) }}</span>
       <Icon sprite="icons" :name="key" size="xs" class="ml-1" />
@@ -49,6 +59,30 @@ export default {
     }
   },
   computed: {
+    computedStatsCost() {
+      const stats = {}
+      for (let key in this.computedStats) {
+        if (key.startsWith("Cost")) {
+          stats[key] = this.computedStats[key]
+        }
+      }
+
+      if ("PopulationCount" in this.computedStats) {
+        stats["PopulationCount"] = this.computedStats["PopulationCount"]
+      }
+
+      return stats
+    },
+    computedStatsWithoutCost() {
+      const stats = {}
+      for (let key in this.computedStats) {
+        if (key !== "PopulationCount" && !key.startsWith("Cost")) {
+          stats[key] = this.computedStats[key]
+        }
+      }
+
+      return stats
+    },
     computedStats() {
       const stats = {}
       for (let key in this.base) {
