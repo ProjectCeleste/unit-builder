@@ -1,6 +1,6 @@
 import { getGear, getReforgeBlacklist, downloadImage } from "../api.js"
 import { stringtablex, findLang } from "../lang.js"
-import { addEffect } from "../effects.js"
+import { convertEffects } from "../effects.js"
 import { convertIconName, findByAttribute } from "../utils.js"
 
 export async function buildGear() {
@@ -51,7 +51,7 @@ async function convertGear(gear) {
     icon: iconDst,
     levels: gear.itemlevels,
     rarity: convertRarity(gear),
-    effects: convertEffects(gear),
+    effects: convertEffects(gear.effects.effect),
     fixed:
       gear.event !== undefined ||
       findByAttribute(reforgeBlacklist, "name", gear.name) !== undefined
@@ -73,74 +73,6 @@ function convertRarity(gear) {
     default:
       return 0
   }
-}
-
-function convertEffects(gear) {
-  // TODO factor this for upgrades and advisors too
-  const effects = gear.effects.effect
-  const res = []
-  for (let i = 0; i < effects.length; i++) {
-    const e = effects[i]
-    let type = e.subtype
-    if (type === "WorkRate") {
-      switch (e.action) {
-        case "Gather":
-        case "AutoGather":
-        case "Empower":
-        case "Convert":
-          if (e.unittype === "BerryBush") {
-            type = e.action + "AbstractFruit"
-          } else if (e.unittype === "Fish") {
-            type = e.action + "AbstractFish"
-          } else {
-            type = e.action + e.unittype
-          }
-          break
-        case "FishGather":
-        case "Trade":
-          type = e.action
-          break
-        case "Heal":
-          type = "RateHeal"
-          break
-        case "SelfHeal":
-          type += e.action
-          break
-        case "Build":
-          type =
-            e.unittype === "UnitTypeBldgWatchPost" ? "BuildWatchPost" : e.action
-          break
-      }
-    } else if (type === "CarryCapacity") {
-      type += e.resource.charAt(0).toUpperCase() + e.resource.slice(1)
-    } else if (type === "Cost") {
-      type += e.resource
-    } else if (type === "DamageBonus") {
-      type += e.unittype
-    } else if (type === "Armor") {
-      type += e.damagetype
-    } else if (
-      (type === "MaximumRange" && e.action !== "RangedAttack") ||
-      type === "ActionEnable"
-    ) {
-      type += e.action
-    }
-    // TODO rate of fire (techtree:20931), call it "AttackSpeed"
-    // TODO TargetSpeedBoostResist special case (100% instead of 1000%)
-    res.push({
-      type: type,
-      visible: e.visible,
-      absolute: e.relativity === "Absolute", // TODO relativity == "Assign" is always when subtype is ActionEnable
-      positive: e.bonus,
-      amount: e.amount,
-      scaling: e.scaling
-    })
-  }
-
-  for (let key in res) {
-    addEffect(res[key].type)
-  }
-  return res
 }
 
 function includeGear(gear) {

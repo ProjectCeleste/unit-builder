@@ -34,3 +34,25 @@ export function hash(data) {
 export function convertIconName(icon) {
   return hash(icon.substring(icon.lastIndexOf("/") + 1))
 }
+
+export function convertMarkup(text) {
+  return text
+    .replace(/\\n/g, "<br>")
+    .replace(
+      /<color=0\.32 0\.65 1\.0>(.*?)<\/color>/g,
+      '<span class="is-highlight">$1</span>'
+    )
+    .replace(
+      /<color=0\.0 1\.0 0\.0>(.*?)<\/color>/g,
+      '<span class="is-positive">$1</span>'
+    )
+    .replace(
+      /<color=1\.0 0\.0 0\.0>(.*?)<\/color>/g,
+      '<span class="is-negative">$1</span>'
+    )
+    .replace(
+      /<color=1\.0 1\.0 0\.0>(.*?)<\/color>/g,
+      '<span class="is-average">$1</span>'
+    )
+    .replace(/<\/color>/g, "") // Fix for persian spearman champion
+}

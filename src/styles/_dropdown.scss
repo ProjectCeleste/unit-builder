@@ -23,7 +23,7 @@ $dropdown-item-background-color-hover: #3b6578;
     max-height: 160px;
     background-color: $dropdown-background-color;
 
-    scrollbar-color: hsla(0, 0%, 100%, 0.3) $dropdown-background-color; // TODO use var color
+    scrollbar-color: hsla(0, 0%, 100%, 0.3) $dropdown-background-color;
     scrollbar-width: auto;
 
     .no-result {

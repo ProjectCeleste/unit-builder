@@ -94,7 +94,6 @@ export default {
         g.effects.push({
           type: effect.type,
           absolute: effect.absolute,
-          // TODO fixed
           amount: amount
         })
       }

@@ -52,6 +52,7 @@ export async function getUnits() {
 
 export async function getTechtree() {
   if (!cache["/techtree"]) {
+    console.log("GET techtree")
     cache["/techtree"] = xmlParser.parse(
       fs.readFileSync("./techtreex.xml").toString(),
       xmlOptions
@@ -62,6 +63,7 @@ export async function getTechtree() {
 
 export async function getReforgeBlacklist() {
   if (!cache["/reforgeblacklist"]) {
+    console.log("GET reforgeblacklist")
     cache["/reforgeblacklist"] = xmlParser.parse(
       fs.readFileSync("./ReforgeItemBlacklist.xml").toString(),
       xmlOptions

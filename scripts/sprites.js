@@ -108,5 +108,6 @@ const sprite = (name, size, extraIn) => {
 module.exports = parallel(
   sprite("icons", 32),
   sprite("units", 64),
+  sprite("upgrades", 64),
   sprite("gear", 64, "src/assets/slot/*.png")
 )

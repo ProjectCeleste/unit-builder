@@ -103,7 +103,7 @@ export default {
     }
 
     .select-arrow {
-      border-left: 1px solid $color--border; // TODO use color variable
+      border-left: 1px solid $color--border;
     }
   }
 }

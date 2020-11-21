@@ -42,6 +42,10 @@ export function convertUnitStats(unit) {
     stats["MaximumVelocity"] = unit.MaxVelocity
   }
 
+  if (unit.MaxContained) {
+    stats["MaximumContained"] = unit.MaxContained
+  }
+
   if (unit.TrainPoints) {
     stats.TrainPoints = unit.TrainPoints
   } else if (unit.BuildPoints) {
@@ -164,6 +168,10 @@ export function parseAction(action, stats) {
     } else if (name !== "MeleeAttack") {
       stats.MaximumRange = action.MaxRange[0]
     }
+  }
+
+  if (action.MinRange) {
+    stats.MinimumRange = action.MinRange
   }
 
   if (name === "Gather") {
