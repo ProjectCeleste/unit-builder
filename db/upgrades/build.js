@@ -14,7 +14,9 @@ export async function buildUpgrades() {
     const e = equipments[i]
     const upgrades = await convertEquipmentToUpgrades(e)
 
-    results = results.concat(upgrades)
+    results = results.concat(
+      upgrades.filter(u => !results.some(up => up.id === u.id))
+    )
   }
 
   for (let i = 0; i < results.length; i++) {

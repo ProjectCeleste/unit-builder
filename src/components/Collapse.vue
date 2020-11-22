@@ -1,9 +1,13 @@
 <template>
   <div
-    class="collapse is-flex is-flex-direction-column"
+    class="collapse is-flex is-flex-direction-column card"
     :class="{ 'is-open': open }"
   >
-    <span class="title is-relative" @click="open = !open">{{ title }}</span>
+    <div class="card-header">
+      <span class="title is-size-5 is-relative" @click="open = !open">{{
+        title
+      }}</span>
+    </div>
     <div :class="{ 'is-hidden': !open }">
       <slot />
     </div>
@@ -18,7 +22,7 @@ export default {
   },
   data() {
     return {
-      open: false
+      open: true
     }
   }
 }
@@ -26,16 +30,21 @@ export default {
 
 <style lang="scss" scoped>
 .collapse {
+  .card-header {
+    padding-bottom: 1rem;
+  }
+
   .title {
     text-align: left;
-    padding-left: 2rem;
+    padding-left: 1.25rem;
+    line-height: 28px;
 
     &::before {
       content: ">";
       position: absolute;
       left: 0;
       top: 0;
-      line-height: 36px;
+      line-height: 28px;
       font-weight: bold;
       font-size: 125%;
     }
@@ -45,8 +54,13 @@ export default {
     }
   }
 
-  &.is-open .title::before {
-    transform: rotate(90deg);
+  &.is-open {
+    .card-header {
+      padding-bottom: 0;
+    }
+    .title::before {
+      transform: rotate(90deg);
+    }
   }
 }
 </style>

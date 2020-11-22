@@ -52,9 +52,9 @@ export default {
       }
     },
     upgrades: {
-      type: Object,
+      type: Array,
       default() {
-        return {}
+        return []
       }
     }
   },
@@ -93,64 +93,13 @@ export default {
         const gear = this.gear[key]
         for (let i = 0; i < gear.effects.length; i++) {
           const effect = gear.effects[i]
-          if (effects[effect.type].type === "action") {
-            continue
-          }
-          let mod = effect.amount
-          if (effect.absolute) {
-            this.setBaseStat(stats, effect.type)
-            stats[effect.type] += mod
-            continue
-          }
-
-          if (effect.type === "TargetSpeedBoost") {
-            mod *= -1
-          }
-
-          // If type is Damage, apply to all damage subtypes
-          switch (effect.type) {
-            case "Damage":
-            case "AttackSpeed":
-              for (let keyDmg in stats) {
-                if (
-                  keyDmg.startsWith("Damage") &&
-                  !keyDmg.startsWith("DamageBonus") &&
-                  keyDmg != "DamageArea"
-                ) {
-                  this.setBaseStat(stats, keyDmg)
-                  stats[keyDmg] *= mod
-                }
-              }
-              break
-            case "MaximumRange":
-              for (let keyRange in stats) {
-                if (keyRange.startsWith("MaximumRange")) {
-                  this.setBaseStat(stats, keyRange)
-                  stats[keyRange] *= mod
-                }
-              }
-              break
-            case "CostAll":
-            case "Cost":
-              this.setBaseStat(stats, "CostFood")
-              this.setBaseStat(stats, "CostWood")
-              this.setBaseStat(stats, "CostGold")
-              this.setBaseStat(stats, "CostStone")
-              stats.CostFood *= mod
-              stats.CostWood *= mod
-              stats.CostGold *= mod
-              stats.CostStone *= mod
-              break
-            default:
-              this.setBaseStat(stats, effect.type)
-              if (effect.type.startsWith("Armor")) {
-                stats[effect.type] =
-                  1 - (1 - stats[effect.type]) / effect.amount
-              } else {
-                stats[effect.type] *= mod
-              }
-          }
+          this.applyEffect(effect, stats)
         }
+      }
+
+      for (let i = 0; i < this.upgrades.length; i++) {
+        const effect = this.upgrades[i]
+        this.applyEffect(effect, stats)
       }
       // TODO filter advisors, milestones and upgrades if not applied
       return stats
@@ -190,6 +139,64 @@ export default {
         } else {
           stats[effectName] = effects[effectName].base
         }
+      }
+    },
+    applyEffect(effect, stats) {
+      if (effects[effect.type].type === "action") {
+        return
+      }
+      let mod = effect.amount
+      if (effect.absolute) {
+        this.setBaseStat(stats, effect.type)
+        stats[effect.type] += mod
+        return
+      }
+
+      if (effect.type === "TargetSpeedBoost") {
+        mod *= -1
+      }
+
+      // If type is Damage, apply to all damage subtypes
+      switch (effect.type) {
+        case "Damage":
+        case "AttackSpeed":
+          for (let keyDmg in stats) {
+            if (
+              keyDmg.startsWith("Damage") &&
+              !keyDmg.startsWith("DamageBonus") &&
+              keyDmg != "DamageArea"
+            ) {
+              this.setBaseStat(stats, keyDmg)
+              stats[keyDmg] *= mod
+            }
+          }
+          break
+        case "MaximumRange":
+          for (let keyRange in stats) {
+            if (keyRange.startsWith("MaximumRange")) {
+              this.setBaseStat(stats, keyRange)
+              stats[keyRange] *= mod
+            }
+          }
+          break
+        case "CostAll":
+        case "Cost":
+          this.setBaseStat(stats, "CostFood")
+          this.setBaseStat(stats, "CostWood")
+          this.setBaseStat(stats, "CostGold")
+          this.setBaseStat(stats, "CostStone")
+          stats.CostFood *= mod
+          stats.CostWood *= mod
+          stats.CostGold *= mod
+          stats.CostStone *= mod
+          break
+        default:
+          this.setBaseStat(stats, effect.type)
+          if (effect.type.startsWith("Armor")) {
+            stats[effect.type] = 1 - (1 - stats[effect.type]) / effect.amount
+          } else {
+            stats[effect.type] *= mod
+          }
       }
     }
   }

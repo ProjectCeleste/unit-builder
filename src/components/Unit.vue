@@ -29,34 +29,52 @@
       </div>
     </div>
   </div>
-  <div v-if="selection.unit.name !== 'None'" class="card">
-    <div class="card-header">
-      <h4 class="title is-size-5">
-        Stats
-      </h4>
-    </div>
-    <Stats :base="selection.unit.stats" :gear="gear" class="card-content" />
-  </div>
+  <Collapse v-if="selection.unit.name !== 'None'" title="Upgrades" class="mb-2">
+    <UpgradeSelector
+      v-model="upgrades"
+      :unit="selection.unit"
+      class="card-content"
+    />
+  </Collapse>
+  <Collapse v-if="selection.unit.name !== 'None'" title="Stats">
+    <Stats
+      :base="selection.unit.stats"
+      :gear="gear"
+      :upgrades="upgrades"
+      class="card-content"
+    />
+  </Collapse>
 </template>
 
 <script>
 import UnitSelector from "./UnitSelector.vue"
 import GearSelector from "./GearSelector.vue"
+import UpgradeSelector from "./UpgradeSelector.vue"
+import Collapse from "./Collapse.vue"
 import Icon from "./Icon.vue"
 import Stats from "./Stats.vue"
 
 export default {
   name: "Unit",
-  components: { UnitSelector, GearSelector, Stats, Icon },
+  components: {
+    UnitSelector,
+    GearSelector,
+    Stats,
+    Icon,
+    Collapse,
+    UpgradeSelector
+  },
   data() {
     return {
       selection: { civ: "greek", unit: { name: "None", icon: "Generic" } },
-      gear: {}
+      gear: {},
+      upgrades: []
     }
   },
   watch: {
     selection() {
       this.gear = {}
+      this.upgrades = []
     }
   }
 }
