@@ -1,3 +1,5 @@
+import { addUnitType } from "./unit_types.js"
+
 const effects = {}
 const ignoredEffects = ["Enable", "Market", "TributePenalty", "UpdateVisual"]
 
@@ -65,6 +67,7 @@ export function convertEffects(effects) {
 
     if (e.Target && e.Target.type !== "Player") {
       effect.target = e.Target.text
+      addUnitType(e.Target.text)
     } else {
       effect.scaling = e.scaling
     }

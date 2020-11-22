@@ -1,5 +1,6 @@
 import { downloadImage, getUnits, getTechtree, getEquipments } from "../api.js"
 import { stringtablex, findLang } from "../lang.js"
+import { unitTypes } from "../unit_types.js"
 import { convertIconName, findByAttribute } from "../utils.js"
 import { convertUnitStats } from "./convert-stats.js"
 
@@ -74,7 +75,7 @@ async function convertUnit(unit) {
   const u = {
     id: unit.name,
     name: findLang(stringtablex, unit.DisplayNameID),
-    // TODO relevant unit types
+    types: unit.UnitType.filter(t => unitTypes.includes(t)),
     icon: iconDst,
     slots: convertSlots(unit),
     stats: convertUnitStats(unit)

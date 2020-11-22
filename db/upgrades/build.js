@@ -68,6 +68,7 @@ async function convertUpgrade(tech) {
     cost: convertUpgradeCost(tech),
     effects: effects
   }
+  // TODO upgrade chains
 }
 
 function includeUpgrade(u) {
