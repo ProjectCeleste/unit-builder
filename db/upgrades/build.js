@@ -3,6 +3,8 @@ import { stringtablex, findLang } from "../lang.js"
 import { convertEffects } from "../effects.js"
 import { convertIconName, findByAttribute, convertMarkup } from "../utils.js"
 
+const chains = {}
+
 export async function buildUpgrades() {
   console.log("Building upgrades...")
   const equipments = await getEquipments()
@@ -13,6 +15,11 @@ export async function buildUpgrades() {
     const upgrades = await convertEquipmentToUpgrades(e)
 
     results = results.concat(upgrades)
+  }
+
+  for (let i = 0; i < results.length; i++) {
+    const u = results[i]
+    setChain(u)
   }
 
   return results
@@ -28,7 +35,11 @@ async function convertEquipmentToUpgrades(equipment) {
       if (tech && !techIgnored(tech)) {
         const upgrade = await convertUpgrade(tech)
         if (includeUpgrade(upgrade)) {
-          results.push(upgrade)
+          if (tech.Prereqs && tech.Prereqs.TechStatus) {
+            chains[tech.Prereqs.TechStatus.text] = upgrade
+          } else {
+            results.push(upgrade)
+          }
         }
       }
     }
@@ -52,9 +63,6 @@ async function convertUpgrade(tech) {
   }
 
   const icon = tech.Icon.replace(/\\/g, "/").toLowerCase()
-  if (icon == "userinterface/icons/techs/greektrireme64_ua") {
-    console.log(tech)
-  }
   const iconDst = convertIconName(icon)
   await downloadImage(
     icon + ".png",
@@ -68,7 +76,13 @@ async function convertUpgrade(tech) {
     cost: convertUpgradeCost(tech),
     effects: effects
   }
-  // TODO upgrade chains
+}
+
+function setChain(upgrade) {
+  if (upgrade.id in chains) {
+    upgrade.chain = chains[upgrade.id]
+    setChain(upgrade.chain)
+  }
 }
 
 function includeUpgrade(u) {
@@ -99,12 +113,16 @@ function formatUpgradeDescription(textID) {
 function convertUpgradeCost(tech) {
   const res = {}
   if (tech.Cost) {
-    for (let i = 0; i < tech.Cost.length; i++) {
-      const c = tech.Cost[i]
+    let cost = tech.Cost
+    if (!Array.isArray(cost)) {
+      cost = [cost]
+    }
+    for (let i = 0; i < cost.length; i++) {
+      const c = cost[i]
       const resource =
         c.resourcetype.charAt(0).toUpperCase() + c.resourcetype.slice(1)
 
-      res["Cost" + resource] = c.quantity
+      res["Cost" + resource] = c.text
     }
   }
   return res
