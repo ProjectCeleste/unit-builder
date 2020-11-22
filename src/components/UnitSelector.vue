@@ -96,7 +96,7 @@ export default {
     line-height: 32px;
     border-radius: $border-radius-element;
     border: 1px solid $color--border;
-    background-color: $dropdown-background-color;
+    background-color: $tooltip-background-color;
 
     &:hover {
       cursor: pointer;

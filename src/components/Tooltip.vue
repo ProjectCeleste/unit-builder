@@ -1,11 +1,15 @@
 <template>
-  <div></div>
+  <div class="tooltip" :style="'top:' + y + 'px; left:' + x + 'px;'">
+    <slot />
+  </div>
 </template>
 
 <script>
 export default {
-  name: "Tooltip"
+  name: "Tooltip",
+  props: {
+    x: { type: Number, default: 0 },
+    y: { type: Number, default: 0 }
+  }
 }
 </script>
-
-<style lang="scss"></style>

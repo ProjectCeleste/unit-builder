@@ -3,10 +3,8 @@
     class="collapse is-flex is-flex-direction-column card"
     :class="{ 'is-open': open }"
   >
-    <div class="card-header">
-      <span class="title is-size-5 is-relative" @click="open = !open">{{
-        title
-      }}</span>
+    <div class="card-header" @click="open = !open">
+      <span class="title is-size-5 is-relative">{{ title }}</span>
     </div>
     <div :class="{ 'is-hidden': !open }">
       <slot />
@@ -32,6 +30,10 @@ export default {
 .collapse {
   .card-header {
     padding-bottom: 1rem;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   .title {
@@ -47,10 +49,6 @@ export default {
       line-height: 28px;
       font-weight: bold;
       font-size: 125%;
-    }
-
-    &:hover {
-      cursor: pointer;
     }
   }
 

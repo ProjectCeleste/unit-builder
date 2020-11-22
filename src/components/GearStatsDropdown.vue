@@ -112,7 +112,7 @@ export default {
 
 <style lang="scss" scoped>
 .dropdown {
-  background-color: $dropdown-background-color;
+  background-color: $tooltip-background-color;
 }
 
 .stats-range-container {

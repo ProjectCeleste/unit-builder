@@ -1,29 +1,52 @@
-$dropdown-background-color-light: #192b33b3;
-$dropdown-background-color: rgba($dropdown-background-color-light, 1.5);
-$dropdown-item-background-color-hover: #3b6578;
+$tooltip-background-color-light: #192b33b3;
+$tooltip-background-color: rgba($tooltip-background-color-light, 1.5);
+$tooltip-item-background-color-hover: #3b6578;
 
+.tooltip,
 .dropdown {
-  display: flex;
-  flex-direction: column;
   position: absolute;
-  min-width: 100%;
-  white-space: nowrap;
   z-index: 10;
-  border-radius: $border-radius;
-  border: 2px solid $color--border;
   overflow: hidden;
 
+  display: flex;
+  flex-direction: column;
+
+  min-width: 100%;
+  margin: 0;
+  border-radius: $border-radius;
+  border: 2px solid $color--border;
+  box-shadow: 0 2px 4px -1px rgba(25, 43, 51, 0.2), 0 4px 5px 0 rgba(25, 43, 51, 0.14),
+    0 1px 10px 0 rgba(25, 43, 51, 0.12);
+  color: $font-color;
+}
+
+.tooltip {
+  padding: #{map-get($spacing-values, "2")};
+  max-width: $tooltip-max-width;
+  min-width: $tooltip-min-width;
+  background: $tooltip-background-color;
+
+  ul {
+    margin: 0;
+    padding-left: 1rem;
+    list-style: disc;
+  }
+}
+
+.dropdown {
+  white-space: nowrap;
+
   .dropdown-header {
-    background-color: $dropdown-background-color-light;
+    background-color: $tooltip-background-color-light;
   }
 
   .dropdown-contents {
     overflow-y: auto;
     overflow-x: hidden;
     max-height: 160px;
-    background-color: $dropdown-background-color;
+    background-color: $tooltip-background-color;
 
-    scrollbar-color: hsla(0, 0%, 100%, 0.3) $dropdown-background-color;
+    scrollbar-color: hsla(0, 0%, 100%, 0.3) $tooltip-background-color;
     scrollbar-width: auto;
 
     .no-result {
@@ -46,7 +69,7 @@ $dropdown-item-background-color-hover: #3b6578;
 
       &:hover {
         cursor: pointer;
-        background-color: $dropdown-item-background-color-hover;
+        background-color: $tooltip-item-background-color-hover;
       }
     }
   }

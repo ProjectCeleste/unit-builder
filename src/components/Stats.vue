@@ -2,10 +2,7 @@
   <div class="stats-container">
     <div class="my-1 cost">
       <span class="is-flex-grow-1">Cost</span>
-      <template v-for="(stat, key) in computedStatsCost" :key="key">
-        <span class="ml-2">{{ stat.toFixed(0) }}</span>
-        <Icon sprite="icons" :name="key" size="xs" class="ml-1" />
-      </template>
+      <CostStats :cost="computedStatsCost" />
     </div>
     <div
       v-for="(stat, key) in computedStatsWithoutCost"
@@ -22,10 +19,11 @@
 <script>
 import effects from "../data/effects.json"
 import Icon from "./Icon.vue"
+import CostStats from "./CostStats.vue"
 
 export default {
   name: "Stats",
-  components: { Icon },
+  components: { Icon, CostStats },
   props: {
     base: {
       type: Object,

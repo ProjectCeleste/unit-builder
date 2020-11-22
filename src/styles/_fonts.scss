@@ -1,9 +1,5 @@
 $font-family: "Calibri", "Carlito", "Noto Sans", sans-serif;
 $font-color: #fff;
-$font-size: 14px;
-$font-size-sm: 90%;
-$font-size-md: 110%;
-$font-size-lg: 120%;
 $anchor-color: #fb3;
 
 * {
@@ -41,6 +37,10 @@ input {
 
 .is-size-6-5 {
   font-size: 0.9rem !important;
+}
+
+.is-size-7 {
+  font-size: 0.85rem !important;
 }
 
 @each $name, $color in $text-colors {
