@@ -69,6 +69,16 @@
           v-html="effect"
         />
       </ul>
+      <p class="is-flex is-flex-direction-row mt-2">
+        <span class="is-flex-grow-1">Research time:</span>
+        <span>{{ item.time }}s</span>
+        <Icon
+          sprite="icons"
+          name="BuildPoints"
+          class="ml-1 is-align-self-center"
+          size="xs"
+        />
+      </p>
     </div>
     <div v-else class="is-positive">
       {{ item.description }}

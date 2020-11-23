@@ -56,7 +56,7 @@ async function convertEquipmentToUpgrades(equipment) {
 }
 
 async function convertUpgrade(tech) {
-  if (!tech.Effects) {
+  if (!tech || !tech.Effects) {
     return undefined
   }
 
@@ -64,6 +64,19 @@ async function convertUpgrade(tech) {
   if (!Array.isArray(techEffects)) {
     techEffects = [techEffects]
   }
+
+  for (let i = 0; i < techEffects.length; i++) {
+    const e = techEffects[i]
+    if (e.type === "TechStatus" && e.status === "active") {
+      const techtree = await getTechtree()
+      const subTech = findByAttribute(techtree, "name", e.text)
+      techEffects = subTech.Effects.Effect
+      if (!Array.isArray(techEffects)) {
+        techEffects = [techEffects]
+      }
+    }
+  }
+
   const effects = convertEffects(techEffects)
   if (!effects.length) {
     return undefined
@@ -75,7 +88,8 @@ async function convertUpgrade(tech) {
     icon + ".png",
     "../src/assets/upgrades/" + iconDst + ".png"
   )
-  return {
+
+  const upgrade = {
     id: tech.name,
     name: findLang(stringtablex, tech.DisplayNameID),
     description: formatUpgradeDescription(tech.RolloverTextID),
@@ -83,6 +97,12 @@ async function convertUpgrade(tech) {
     cost: convertUpgradeCost(tech),
     effects: effects
   }
+
+  if (tech.ResearchPoints) {
+    upgrade.time = tech.ResearchPoints
+  }
+
+  return upgrade
 }
 
 function setChain(upgrade) {

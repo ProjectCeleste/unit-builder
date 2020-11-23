@@ -169,6 +169,22 @@ export default {
             }
           }
           break
+        case "DamageMeleeAttack":
+          for (let keyDmg in stats) {
+            if (keyDmg === "DamageHand" || keyDmg === "DamageCavalry") {
+              this.setBaseStat(stats, keyDmg)
+              stats[keyDmg] *= mod
+            }
+          }
+          break
+        case "DamageRangedAttack":
+          for (let keyDmg in stats) {
+            if (keyDmg === "DamageRanged") {
+              this.setBaseStat(stats, keyDmg)
+              stats[keyDmg] *= mod
+            }
+          }
+          break
         case "MaximumRange":
           for (let keyRange in stats) {
             if (keyRange.startsWith("MaximumRange")) {

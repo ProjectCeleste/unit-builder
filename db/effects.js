@@ -41,6 +41,17 @@ export function convertEffects(effects) {
             e.unittype === "UnitTypeBldgWatchPost" ? "BuildWatchPost" : e.action
           break
       }
+    } else if (type === "Damage") {
+      switch (e.action) {
+        case "MeleeAttack":
+        case "RangedAttack":
+          type += e.action
+          break
+        case undefined:
+          break
+        default:
+          throw `Damage ${e.action} not handled`
+      }
     } else if (type === "CarryCapacity") {
       type += e.resource.charAt(0).toUpperCase() + e.resource.slice(1)
     } else if (type === "Cost") {
@@ -209,6 +220,8 @@ const displayNames = {
   PopulationCount: "Population",
   BuildLimit: "Build Limit",
   Damage: "Damage",
+  DamageMeleeAttack: "Melee Damage",
+  DamageRangedAttack: "Pierce Damage",
   DamageBonusReduction: "Bonus Damage Protection",
   HitPercent: "Critical Hit Chance",
   Hitpoints: "Health",

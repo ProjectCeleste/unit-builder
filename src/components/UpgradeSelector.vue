@@ -22,8 +22,6 @@ import Upgrade from "./Upgrade.vue"
 import Tooltip from "./Tooltip.vue"
 import Preview from "./Preview.vue"
 
-// TODO v-model
-
 export default {
   name: "UpgradeSelector",
   components: { Upgrade, Tooltip, Preview },
