@@ -24,7 +24,7 @@ export async function buildUnits() {
   }
 
   for (let civ in results) {
-    results[civ].sort(compareUnits)
+    results[civ].sort(compareUnits).sort(compareUnitTypes)
   }
 
   // WARNING: tactics files not served by API, techtreex neither
@@ -96,6 +96,20 @@ function convertSlots(unit) {
 
 function compareUnits(a, b) {
   return a.name.localeCompare(b.name)
+}
+
+function compareUnitTypes(a, b) {
+  // Buildings shown after units
+  const aIsBuilding = a.types.includes("Building")
+  const bIsBuilding = b.types.includes("Building")
+  if (aIsBuilding && !bIsBuilding) {
+    return 1
+  }
+
+  if (!aIsBuilding && bIsBuilding) {
+    return -1
+  }
+  return 0
 }
 
 function includeUnit(tech, unit) {
