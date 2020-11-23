@@ -34,6 +34,7 @@ export default {
         return []
       }
     },
+    civ: { type: String, required: true },
     unit: { type: Object, required: true }
   },
   emits: ["update:modelValue"],
@@ -47,7 +48,7 @@ export default {
   },
   computed: {
     upgrades() {
-      return upgrades.filter(this.upgradeAppliesToUnit)
+      return upgrades[this.civ].filter(this.upgradeAppliesToUnit)
     }
   },
   watch: {

@@ -9,13 +9,18 @@ export async function buildUpgrades() {
   console.log("Building upgrades...")
   const equipments = await getEquipments()
 
-  let results = []
+  const results = {}
   for (let i = 0; i < equipments.length; i++) {
     const e = equipments[i]
+    const civ = e.civ.toLowerCase()
     const upgrades = await convertEquipmentToUpgrades(e)
 
-    results = results.concat(
-      upgrades.filter(u => !results.some(up => up.id === u.id))
+    if (!results[civ]) {
+      results[civ] = []
+    }
+
+    results[civ] = results[civ].concat(
+      upgrades.filter(u => !results[civ].some(up => up.id === u.id))
     )
   }
 

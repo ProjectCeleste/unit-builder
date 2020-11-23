@@ -12,7 +12,6 @@
 <script>
 import Icon from "./Icon.vue"
 
-// TODO hover tooltip
 // TODO chained upgrades
 
 export default {
@@ -49,7 +48,7 @@ export default {
 <style lang="scss" scoped>
 .upgrade {
   opacity: 0.5;
-  transition: opacity 0.1s ease-out;
+  transition: opacity 0.1s linear;
 
   &.selected {
     opacity: 1;

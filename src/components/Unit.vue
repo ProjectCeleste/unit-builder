@@ -33,6 +33,7 @@
     <UpgradeSelector
       v-model="upgrades"
       :unit="selection.unit"
+      :civ="selection.civ"
       class="card-content"
     />
   </Collapse>
