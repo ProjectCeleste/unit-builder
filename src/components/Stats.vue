@@ -185,6 +185,14 @@ export default {
             }
           }
           break
+        case "DamageSiege":
+          for (let keyDmg in stats) {
+            if (keyDmg.startsWith("DamageSiege")) {
+              this.setBaseStat(stats, keyDmg)
+              stats[keyDmg] *= mod
+            }
+          }
+          break
         case "MaximumRange":
           for (let keyRange in stats) {
             if (keyRange.startsWith("MaximumRange")) {

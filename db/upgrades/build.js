@@ -79,7 +79,9 @@ async function convertUpgrade(tech) {
     }
   }
 
-  const effects = convertEffects(techEffects)
+  const effects = convertEffects(techEffects).filter(e =>
+    includeEffect(tech, e)
+  )
   if (!effects.length) {
     return undefined
   }
@@ -105,6 +107,15 @@ async function convertUpgrade(tech) {
   }
 
   return upgrade
+}
+
+function includeEffect(tech, effect) {
+  if (tech.name === "TechPhilosophy") {
+    if (effect.target === "Unit") {
+      return false
+    }
+  }
+  return true
 }
 
 function setChain(upgrade) {

@@ -111,7 +111,15 @@ export function parseAction(action, stats) {
   const name = action.Name
 
   if (action.DamageType) {
-    stats["Damage" + action.DamageType] = action.Damage
+    if (action.DamageType === "Siege") {
+      let actionName = action.Name
+      if (action.Name === "ChopAttack" || action.Name === "BuildingAttack") {
+        actionName = "MeleeAttack"
+      }
+      stats["Damage" + action.DamageType + actionName] = action.Damage
+    } else {
+      stats["Damage" + action.DamageType] = action.Damage
+    }
   } else if (action.Damage) {
     const damageType = findDamageType(stats)
     if (damageType) {

@@ -266,6 +266,8 @@ const displayNames = {
   DamageRanged: "Pierce DPS",
   DamageCavalry: "Melee-Cavalry DPS",
   DamageSiege: "Crush DPS",
+  DamageSiegeMeleeAttack: "Melee Crush DPS",
+  DamageSiegeRangedAttack: "Ranged Crush DPS",
   MaximumContained: "Transport Capacity",
   AOERadius: "Charge Attack Damage Area",
   ArmorVulnerability: "Ignore Armor"
