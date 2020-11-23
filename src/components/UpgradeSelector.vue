@@ -83,8 +83,20 @@ export default {
       return false
     },
     effectAppliesToUnit(e) {
-      // FIXME Melee damage also shows for ballista
-      return this.unit.id === e.target || this.unit.types.includes(e.target)
+      const isTarget =
+        this.unit.id === e.target || this.unit.types.includes(e.target)
+      if (isTarget) {
+        if (e.type === "DamageRangedAttack") {
+          return this.unit.stats.DamageRanged !== undefined
+        } else if (e.type === "DamageMeleeAttack") {
+          return (
+            this.unit.stats.DamageHand !== undefined ||
+            this.unit.stats.DamageCavalry !== undefined
+          )
+        }
+      }
+
+      return isTarget
     },
     onMouseMove(event, upgrade) {
       this.hoveredUpgrade = upgrade
