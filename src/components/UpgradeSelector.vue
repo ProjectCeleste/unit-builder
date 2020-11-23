@@ -8,7 +8,7 @@
       v-model="effects[u.id]"
       :upgrade="u"
       @mouseleave="hoveredUpgrade = null"
-      @mousemove="onMouseMove($event, u)"
+      @mousemove="onMouseMove"
     />
     <Tooltip v-if="hoveredUpgrade" ref="tooltip" :x="x" :y="y">
       <Preview :item="hoveredUpgrade" type="upgrades" />
@@ -83,12 +83,11 @@ export default {
       return false
     },
     effectAppliesToUnit(e) {
-      // FIXME total war applies on ballista, should only apply to persian units
-      // Melee damage also shows for ballista
+      // FIXME Melee damage also shows for ballista
       return this.unit.id === e.target || this.unit.types.includes(e.target)
     },
     onMouseMove(event, upgrade) {
-      this.onHover(upgrade)
+      this.hoveredUpgrade = upgrade
       if (this.hoveredUpgrade) {
         this.$nextTick(() => {
           this.x =
@@ -147,16 +146,7 @@ export default {
           }
         })
       }
-    },
-    onHover(upgrade) {
-      this.hoveredUpgrade = upgrade
     }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.upgrade {
-  padding: #{map-get($spacing-values, "1")};
-}
-</style>

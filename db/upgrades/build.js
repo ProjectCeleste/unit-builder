@@ -24,9 +24,11 @@ export async function buildUpgrades() {
     )
   }
 
-  for (let i = 0; i < results.length; i++) {
-    const u = results[i]
-    setChain(u)
+  for (let civ in results) {
+    for (let i = 0; i < results[civ].length; i++) {
+      const u = results[civ][i]
+      setChain(u)
+    }
   }
 
   return results
