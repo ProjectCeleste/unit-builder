@@ -23,8 +23,6 @@
 <script>
 import Icon from "./Icon.vue"
 
-// TODO chained upgrades
-
 export default {
   name: "Upgrade",
   components: { Icon },
@@ -46,6 +44,10 @@ export default {
   },
   watch: {
     selected(val) {
+      // Unselect next upgrades in the chain too
+      if (!val) {
+        this.chainEffects = []
+      }
       this.$emit(
         "update:modelValue",
         val
@@ -63,6 +65,11 @@ export default {
         "update:modelValue",
         this.selected ? this.upgrade.effects.slice().concat(val) : val
       )
+
+      // Select previous upgrades in the chain too
+      if (!this.selected && val.length) {
+        this.selected = true
+      }
     }
   },
   methods: {
