@@ -43,6 +43,10 @@ input {
   font-size: 0.85rem !important;
 }
 
+.has-text-right {
+  text-align: right;
+}
+
 @each $name, $color in $text-colors {
   .is-#{$name} {
     color: $color !important;

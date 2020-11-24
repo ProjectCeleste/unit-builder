@@ -20,7 +20,7 @@
       :title="fixed ? 'This item has fixed stats' : ''"
       @input="onInput"
     />
-    <span>{{
+    <span class="has-text-right">{{
       toDisplay(effect, effect.absolute ? modelValue : modelValue - 1)
     }}</span>
     <span v-if="!effect.absolute && effect.type !== 'WorkRateSelfHeal'">

@@ -1,5 +1,5 @@
 <template>
-  <div class="preview p-2">
+  <div class="preview p-1">
     <div class="is-flex mb-2">
       <Icon :sprite="type" :name="item.icon" :title="item.name" class="mr-2" />
       <div class="is-flex is-flex-direction-column">

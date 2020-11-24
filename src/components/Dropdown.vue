@@ -29,6 +29,7 @@
       <Preview
         v-if="preview && hoveredItem && hoveredItem.name !== 'None'"
         :item="hoveredItem"
+        class="p-2"
       />
     </div>
     <!-- TODO responsiveness -->

@@ -45,8 +45,8 @@ export default {
       content: ">";
       position: absolute;
       left: 0;
-      top: 0;
-      line-height: 28px;
+      top: 50%;
+      transform: translateY(-50%);
       font-weight: bold;
       font-size: 125%;
     }
@@ -57,7 +57,7 @@ export default {
       padding-bottom: 0;
     }
     .title::before {
-      transform: rotate(90deg);
+      transform: translateY(-50%) rotate(90deg);
     }
   }
 }
