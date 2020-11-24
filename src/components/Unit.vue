@@ -69,7 +69,7 @@ export default {
     return {
       selection: { civ: "greek", unit: { name: "None", icon: "Generic" } },
       gear: {},
-      upgrades: []
+      upgrades: [] // FIXME upgrades model is one-way
     }
   },
   watch: {

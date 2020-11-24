@@ -8,6 +8,7 @@
       v-model="effects[u.id]"
       :upgrade="u"
       @mouseleave="hoveredUpgrade = null"
+      @touchend="hoveredUpgrade = null"
       @mousemove="onMouseMove"
     />
     <Tooltip v-if="hoveredUpgrade" ref="tooltip" :x="x" :y="y">
@@ -101,6 +102,9 @@ export default {
     onMouseMove(event, upgrade) {
       this.hoveredUpgrade = upgrade
       if (this.hoveredUpgrade) {
+        if (event.type === "touchmove") {
+          return
+        }
         this.$nextTick(() => {
           this.x =
             event.clientX +
