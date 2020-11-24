@@ -47,6 +47,10 @@ input {
   text-align: right;
 }
 
+.is-bold {
+  font-weight: bold;
+}
+
 @each $name, $color in $text-colors {
   .is-#{$name} {
     color: $color !important;

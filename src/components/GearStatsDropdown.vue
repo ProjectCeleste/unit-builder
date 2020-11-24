@@ -1,5 +1,8 @@
 <template>
   <div class="dropdown p-2">
+    <div class="is-bold gear-name">
+      {{ gear.name }}
+    </div>
     <div
       v-if="gear.levels && gear.levels.length"
       class="level-selector-container"
@@ -113,6 +116,11 @@ export default {
 <style lang="scss" scoped>
 .dropdown {
   background-color: $tooltip-background-color;
+}
+
+.gear-name {
+  word-break: keep-all;
+  white-space: normal;
 }
 
 .stats-range-container {

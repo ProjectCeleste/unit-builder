@@ -7,6 +7,8 @@
       'is-negative': !effect.positive,
       'stat-range-fixed': fixed
     }"
+    @touchstart="$event.stopPropagation()"
+    @touchend="$event.stopPropagation()"
   >
     <span>{{ effectName }}</span>
     <input
