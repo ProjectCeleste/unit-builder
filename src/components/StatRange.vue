@@ -95,18 +95,23 @@ export default {
     box-sizing: border-box;
     background: transparent;
 
+    appearance: none;
+    -webkit-appearance: none;
+
     &::-webkit-slider-thumb {
+      appearance: none;
       -webkit-appearance: none;
       width: 14px;
       height: 14px;
       background: #ebebeb;
       border-radius: 50%;
       cursor: pointer;
-      margin-top: -4px;
+      margin-top: (-14px / 2);
       border: none;
     }
 
     &::-webkit-slider-runnable-track {
+      appearance: none;
       width: 100%;
       height: 3px;
       cursor: pointer;
