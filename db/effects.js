@@ -68,8 +68,6 @@ export function convertEffects(effects) {
     ) {
       type += e.action
     }
-    // TODO rate of fire (techtree:20931), call it "AttackSpeed"
-    // TODO TargetSpeedBoostResist special case (100% instead of 1000%)
     const effect = {
       type: type,
       visible: e.visible,
@@ -100,10 +98,10 @@ export function addEffect(name) {
     effects[name] = {
       name: getDisplayName(name),
       base: getBase(name),
-      type: getType(name)
+      type: getType(name),
+      icon: getIcon(name)
     }
     // TODO lower is better for comparison
-    // TODO effect icon
     // TODO sort value
   }
 }
@@ -278,4 +276,112 @@ function getDisplayName(effectName) {
     return displayNames[effectName]
   }
   throw `Effect '${effectName}' is not handled`
+}
+
+const icons = {
+  ActionEnableBurningAttack: "TODO",
+  ActionEnableSelfHeal: "WorkRateSelfHeal",
+  ActionEnableCharge: "TODO",
+  ActionEnableHeal: "WorkRateSelfHeal",
+  ActionEnableMeleeAttack: "TODO",
+  ActionEnableRangedAttack: "TODO",
+  ActionEnableAreaHeal: "TODO",
+  ActionEnableMovementSpeedAuraVillager: "MaximumVelocity",
+  ActionEnableAutoGather: "Cost",
+  WorkRateSelfHeal: "WorkRateSelfHeal",
+  GatherFood: "GatherFood",
+  GatherGold: "GatherGold",
+  GatherTree: "GatherTree",
+  GatherStone: "GatherStone",
+  GatherHuntable: "GatherFood",
+  GatherHerdable: "GatherFood",
+  GatherAbstractFruit: "Berry",
+  GatherAbstractFarm: "GatherFood",
+  GatherAbstractFish: "Fish",
+  YieldTree: "TODO",
+  YieldGold: "TODO",
+  YieldStone: "TODO",
+  YieldAbstractFish: "TODO",
+  YieldHuntable: "TODO",
+  YieldAbstractFruit: "TODO",
+  AutoGatherFood: "GatherFood",
+  AutoGatherGold: "GatherGold",
+  AutoGatherTree: "GatherTree",
+  AutoGatherStone: "GatherStone",
+  CarryCapacityFood: "TODO",
+  CarryCapacityWood: "TODO",
+  CarryCapacityGold: "TODO",
+  CarryCapacityStone: "TODO",
+  DamageArea: "DamageArea",
+  AreaDamageReduction: "TODO",
+  BuildingWorkRate: "BuildPoints",
+  BuildPoints: "BuildPoints",
+  ConvertResist: "TODO",
+  CostAll: "Cost",
+  CostFood: "CostFood",
+  CostWood: "CostWood",
+  CostGold: "CostGold",
+  CostStone: "CostStone",
+  PopulationCount: "PopulationCount",
+  BuildLimit: "TODO",
+  Damage: "TODO",
+  DamageMeleeAttack: "DamageHand",
+  DamageRangedAttack: "DamageRanged",
+  DamageBonusReduction: "DamageBonusReduction",
+  HitPercent: "TODO",
+  Hitpoints: "Hitpoints",
+  LOS: "LOS",
+  MaximumRange: "MaximumRange",
+  MinimumRange: "MaximumRange",
+  MaximumRangeConvert: "MaximumRange",
+  MaximumRangeHeal: "MaximumRange",
+  MaximumVelocity: "MaximumVelocity",
+  TargetSpeedBoost: "TargetSpeedBoost",
+  TargetSpeedBoostResist: "TODO",
+  TrainPoints: "BuildPoints",
+  ArmorRanged: "ArmorRanged",
+  ArmorSiege: "ArmorSiege",
+  ArmorHand: "ArmorHand",
+  ArmorCavalry: "ArmorCavalry",
+  ConvertStandardConvertable: "ConvertStandardConvertable",
+  ConvertConvertableCavalry: "ConvertStandardConvertable",
+  ConvertConvertableSiege: "ConvertStandardConvertable",
+  ConvertConvertableInfantry: "ConvertStandardConvertable",
+  Trade: "Cost",
+  RateHeal: "RateHeal",
+  Build: "TODO",
+  BuildWatchPost: "TODO",
+  EmpowerDropsite: "TODO",
+  EmpowerActionTrain: "TODO",
+  EmpowerActionBuild: "TODO",
+  DamageBonusAbstractInfantry: "DamageBonusAbstractInfantry",
+  DamageBonusAbstractCavalry: "DamageBonusAbstractCavalry",
+  DamageBonusBuilding: "DamageBonusBuilding",
+  DamageBonusShip: "DamageBonusShip",
+  DamageBonusAbstractArcher: "DamageBonusAbstractArcher",
+  DamageBonusGr_Cav_Sarissophoroi: "DamageBonusAbstractCavalry",
+  DamageBonusUnitTypeBldgStorehouse: "DamageBonusBuilding",
+  DamageBonusAbstractArtillery: "DamageBonusAbstractArtillery",
+  DamageBonusHuntable: "DamageBonusHuntable",
+  DamageBonusUnitTypeVillager1: "DamageBonusUnitTypeVillager1",
+  DamageBonusAbstractPriest: "DamageBonusAbstractPriest",
+  DamageBonusEg_Cav_CamelRider: "DamageBonusAbstractCavalry",
+  AttackSpeed: "DamageOverTime",
+  DamageHand: "DamageHand",
+  DamageRanged: "DamageRanged",
+  DamageCavalry: "DamageCavalry",
+  DamageSiege: "DamageSiege",
+  DamageSiegeMeleeAttack: "DamageSiege",
+  DamageSiegeRangedAttack: "DamageSiege",
+  MaximumContained: "PopulationCount",
+  AOERadius: "DamageArea",
+  ArmorVulnerability: "TODO"
+  // TODO chaos
+}
+
+function getIcon(effectName) {
+  if (icons[effectName]) {
+    return icons[effectName]
+  }
+  throw `Icon for effect '${effectName}' is not handled`
 }

@@ -57,6 +57,10 @@ export function convertUnitStats(unit) {
     stats["MaximumContained"] = unit.MaxContained
   }
 
+  if (unit.BuildLimit) {
+    stats["BuildLimit"] = unit.BuildLimit
+  }
+
   if (unit.TrainPoints) {
     stats.TrainPoints = unit.TrainPoints
   } else if (unit.BuildPoints) {
@@ -217,6 +221,9 @@ export function parseAction(action, stats) {
     if (rate.type === "AbstractTownCenter" || rate.type === "AbstractDock") {
       stats[name] = rate.amount
     }
+  } else if (name === "AutoGather") {
+    const rate = action.Rate[0]
+    stats["AutoGather" + rate.type] = rate.amount
   }
 }
 

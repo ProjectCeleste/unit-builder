@@ -11,7 +11,7 @@
     >
       <span class="is-flex-grow-1">{{ effectName(key) }}</span>
       <span>{{ formatEffect(key, stat) }}</span>
-      <Icon sprite="icons" :name="key" size="xs" class="ml-1" />
+      <Icon sprite="icons" :name="effectIcon(key)" size="xs" class="ml-1" />
     </div>
   </div>
 </template>
@@ -106,6 +106,9 @@ export default {
   methods: {
     effectName(name) {
       return effects[name].name
+    },
+    effectIcon(name) {
+      return effects[name].icon
     },
     formatEffect(name, value) {
       const effect = effects[name]
