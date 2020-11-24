@@ -1,5 +1,16 @@
 import { addEffect } from "../effects.js"
 
+const gatherStats = [
+  "GatherGold",
+  "GatherTree",
+  "GatherStone",
+  "GatherHuntable",
+  "GatherHerdable",
+  "GatherAbstractFruit",
+  "GatherAbstractFarm",
+  "GatherAbstractFish"
+]
+
 export function convertUnitStats(unit) {
   const stats = {}
   if (unit.MaxHitpoints) {
@@ -99,7 +110,6 @@ export function convertUnitStats(unit) {
 
 export function parseAction(action, stats) {
   const ignoredEffects = [
-    "GatherEconomic",
     "DamageBonusUnitTypeMobileStorehouse1",
     "DamageBonusDeer",
     "DamageBonusAntelope",
@@ -186,13 +196,22 @@ export function parseAction(action, stats) {
     if (Array.isArray(action.Rate)) {
       for (let keyGather in action.Rate) {
         const gather = action.Rate[keyGather]
-        if (ignoredEffects.indexOf(name + gather.type) === -1) {
-          stats[name + gather.type] = gather.amount
+        const gatherType = name + gather.type
+        if (ignoredEffects.indexOf(gatherType) === -1) {
+          if (gatherType === "GatherEconomic") {
+            gatherStats
+              .filter(e => !Object.keys(stats).includes(e))
+              .forEach(e => {
+                stats[e] = gather.amount
+              })
+          } else {
+            stats[gatherType] = gather.amount
+          }
         }
       }
     }
   } else if (name === "FishGather") {
-    stats[name] = action.Rate[0].amount
+    stats["GatherAbstractFish"] = action.Rate[0].amount
   } else if (name === "Trade") {
     const rate = action.Rate[0]
     if (rate.type === "AbstractTownCenter" || rate.type === "AbstractDock") {

@@ -27,6 +27,8 @@ export function convertEffects(effects) {
           }
           break
         case "FishGather":
+          type = "GatherAbstractFish"
+          break
         case "Trade":
           type = e.action
           break
@@ -121,7 +123,6 @@ function getBase(effectName) {
     effectName === "HitPercent" ||
     effectName === "ConvertResist" ||
     effectName === "AttackSpeed" ||
-    effectName === "FishGather" ||
     effectName === "Trade"
     ? 1
     : 0
@@ -135,10 +136,10 @@ function getType(effectName) {
     effectName.startsWith("DamageBonus") ||
     effectName.startsWith("Empower") ||
     effectName.startsWith("Gather") ||
-    effectName === "FishGather" ||
     effectName === "BuildingWorkRate" ||
     effectName === "TargetSpeedBoost" ||
     effectName === "Build" ||
+    effectName.startsWith("Yield") ||
     effectName === "BuildWatchPost"
   ) {
     return "multiplier" // starts with "x"
@@ -154,7 +155,6 @@ function getType(effectName) {
     effectName === "TargetSpeedBoostResist" ||
     effectName === "AreaDamageReduction" ||
     effectName === "DamageBonusReduction" ||
-    effectName.startsWith("Yield") ||
     effectName === "HitPercent" ||
     effectName === "ArmorVulnerability"
   ) {
@@ -198,7 +198,6 @@ const displayNames = {
   YieldAbstractFish: "Fish Conservation",
   YieldHuntable: "Huntable Conservation",
   YieldAbstractFruit: "Berry Bushes Conservation",
-  FishGather: "Gathering Fish",
   AutoGatherFood: "Generating Food",
   AutoGatherGold: "Generating Gold",
   AutoGatherTree: "Generating Wood",

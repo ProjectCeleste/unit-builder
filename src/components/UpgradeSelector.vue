@@ -94,6 +94,11 @@ export default {
             this.unit.stats.DamageHand !== undefined ||
             this.unit.stats.DamageCavalry !== undefined
           )
+        } else if (e.type.startsWith("Gather")) {
+          return Object.keys(this.unit.stats).includes(e.type)
+        } else if (e.type.startsWith("Yield")) {
+          const resource = e.type.substring("Yield".length)
+          return Object.keys(this.unit.stats).includes(`Gather${resource}`)
         }
       }
 

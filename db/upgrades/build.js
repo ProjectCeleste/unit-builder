@@ -27,7 +27,7 @@ export async function buildUpgrades() {
   for (let civ in results) {
     for (let i = 0; i < results[civ].length; i++) {
       const u = results[civ][i]
-      setChain(u)
+      setChain(civ, u) // TODO call to arms is applied to other civs but shouldn't
     }
   }
 
@@ -45,7 +45,11 @@ async function convertEquipmentToUpgrades(equipment) {
         const upgrade = await convertUpgrade(tech)
         if (includeUpgrade(upgrade)) {
           if (tech.Prereqs && tech.Prereqs.TechStatus) {
-            chains[tech.Prereqs.TechStatus.text] = upgrade
+            const civ = equipment.civ.toLowerCase()
+            if (!chains[civ]) {
+              chains[civ] = {}
+            }
+            chains[civ][tech.Prereqs.TechStatus.text] = upgrade
           } else {
             results.push(upgrade)
           }
@@ -118,10 +122,10 @@ function includeEffect(tech, effect) {
   return true
 }
 
-function setChain(upgrade) {
-  if (upgrade.id in chains) {
-    upgrade.chain = chains[upgrade.id]
-    setChain(upgrade.chain)
+function setChain(civ, upgrade) {
+  if (upgrade.id in chains[civ]) {
+    upgrade.chain = chains[civ][upgrade.id]
+    setChain(civ, upgrade.chain)
   }
 }
 
