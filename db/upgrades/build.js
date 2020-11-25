@@ -4,6 +4,13 @@ import { convertEffects } from "../effects.js"
 import { convertIconName, findByAttribute, convertMarkup } from "../utils.js"
 
 const chains = {}
+const ignoredRequirements = [
+  "EgyptCapStartCiv",
+  "GreekCivOld",
+  "Advisor_Aapep_R",
+  "Age1",
+  "PVP_NorseCapAge2"
+]
 
 export async function buildUpgrades() {
   console.log("Building upgrades...")
@@ -27,7 +34,7 @@ export async function buildUpgrades() {
   for (let civ in results) {
     for (let i = 0; i < results[civ].length; i++) {
       const u = results[civ][i]
-      setChain(civ, u) // TODO call to arms is applied to other civs but shouldn't
+      setChain(civ, u)
     }
   }
 
@@ -44,7 +51,11 @@ async function convertEquipmentToUpgrades(equipment) {
       if (tech && !techIgnored(tech)) {
         const upgrade = await convertUpgrade(tech)
         if (includeUpgrade(upgrade)) {
-          if (tech.Prereqs && tech.Prereqs.TechStatus) {
+          if (
+            tech.Prereqs &&
+            tech.Prereqs.TechStatus &&
+            !ignoredRequirements.includes(tech.Prereqs.TechStatus.text)
+          ) {
             const civ = equipment.civ.toLowerCase()
             if (!chains[civ]) {
               chains[civ] = {}

@@ -8,7 +8,6 @@
       v-model="effects[u.id]"
       :upgrade="u"
       @mouseleave="hoveredUpgrade = null"
-      @touchend="hoveredUpgrade = null"
       @mousemove="onMouseMove"
     />
     <Tooltip v-if="hoveredUpgrade" ref="tooltip" :x="x" :y="y">
@@ -87,7 +86,9 @@ export default {
       const isTarget =
         this.unit.id === e.target || this.unit.types.includes(e.target)
       if (isTarget) {
-        if (e.type === "DamageRangedAttack") {
+        if (e.type === "MaximumRangeConvert") {
+          return this.unit.stats.ConvertStandardConvertable !== undefined
+        } else if (e.type === "DamageRangedAttack") {
           return this.unit.stats.DamageRanged !== undefined
         } else if (e.type === "DamageMeleeAttack") {
           return (

@@ -8,7 +8,7 @@
       @mousemove="onMouseMove($event, upgrade)"
       @touchmove="onMouseMove($event, upgrade)"
       @mouseleave="$emit('mouseleave', $event)"
-      @touchend="$emit('touchend', $event)"
+      @touchend="$emit('mouseleave', $event)"
       @touchcancel="$emit('mouseleave', $event)"
     >
       <Icon size="md" sprite="upgrades" :name="upgrade.icon" />
@@ -18,7 +18,6 @@
       v-model="chainEffects"
       :upgrade="upgrade.chain"
       @mouseleave="$emit('mouseleave', $event)"
-      @touchend="$emit('touchend', $event)"
       @mousemove="onMouseMove"
     />
   </div>
@@ -39,7 +38,7 @@ export default {
     },
     upgrade: { type: Object, required: true }
   },
-  emits: ["update:modelValue", "mousemove", "mouseleave", "touchend"],
+  emits: ["update:modelValue", "mousemove", "mouseleave"],
   data() {
     return {
       selected: false,
@@ -82,9 +81,7 @@ export default {
     },
     onSelect() {
       this.selected = !this.selected
-      this.$nextTick(() => {
-        this.$emit("touchend")
-      })
+      this.$emit("mouseleave")
     }
   }
 }
