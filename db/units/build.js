@@ -19,7 +19,7 @@ export async function buildUnits() {
 
     // Filter out units that already exist in array
     results[civ] = results[civ].concat(
-      units.filter(unit => !results[civ].some(u => u.name === unit.name))
+      units.filter(unit => !results[civ].some(u => u.id === unit.id))
     )
   }
 
@@ -78,7 +78,7 @@ async function convertUnit(unit) {
     types: unit.UnitType.filter(t => unitTypes.includes(t)),
     icon: iconDst,
     slots: convertSlots(unit),
-    stats: convertUnitStats(unit)
+    stats: await convertUnitStats(unit)
   }
   return u
 }

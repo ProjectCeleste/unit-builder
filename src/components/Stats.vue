@@ -153,14 +153,10 @@ export default {
         return
       }
 
-      if (effect.type === "TargetSpeedBoost") {
-        mod *= -1
-      }
-
-      // If type is Damage, apply to all damage subtypes
       switch (effect.type) {
         case "Damage":
         case "AttackSpeed":
+          // If type is Damage, apply to all damage subtypes
           for (let keyDmg in stats) {
             if (
               keyDmg.startsWith("Damage") &&
@@ -214,6 +210,13 @@ export default {
           stats.CostWood *= mod
           stats.CostGold *= mod
           stats.CostStone *= mod
+          break
+        case "RateHeal":
+          if (stats.RateHealInCombat !== undefined) {
+            stats.RateHealInCombat *= mod
+          } else {
+            stats[effect.type] *= mod
+          }
           break
         default:
           this.setBaseStat(stats, effect.type)

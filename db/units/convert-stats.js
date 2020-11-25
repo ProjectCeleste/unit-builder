@@ -1,3 +1,4 @@
+import { getTactics } from "../api.js"
 import { addEffect } from "../effects.js"
 
 const gatherStats = [
@@ -11,7 +12,7 @@ const gatherStats = [
   "GatherAbstractFish"
 ]
 
-export function convertUnitStats(unit) {
+export async function convertUnitStats(unit) {
   const stats = {}
   if (unit.MaxHitpoints) {
     stats["Hitpoints"] = unit.MaxHitpoints
@@ -61,15 +62,25 @@ export function convertUnitStats(unit) {
     stats["BuildLimit"] = unit.BuildLimit
   }
 
-  if (unit.TrainPoints) {
+  if (unit.Train && stats["Build"] === undefined) {
+    if (
+      unit.Train.some(
+        t =>
+          t.name.startsWith("UnitTypeBldg") &&
+          t.name !== "UnitTypeBldgWatchPost"
+      )
+    ) {
+      stats["Build"] = 0
+    }
+  }
+
+  if (unit.TrainPoints && unit.TrainPoints !== -1) {
     stats.TrainPoints = unit.TrainPoints
-  } else if (unit.BuildPoints) {
+  } else if (unit.BuildPoints && unit.BuildPoints !== -1) {
     stats.BuildPoints = unit.BuildPoints
   }
 
   if (unit.CarryCapacity && canCarry(stats)) {
-    // TODO ignore carry capacity on certain units (not villager, caravan, transport ship)
-    // -> has action gather or trade
     for (let i = 0; i < unit.CarryCapacity.length; i++) {
       const cap = unit.CarryCapacity[i]
       const resource =
@@ -78,12 +89,10 @@ export function convertUnitStats(unit) {
     }
   }
 
-  // TODO tactics (snare, empower, build, other ?)
-  // TODO empower rates
-  // <rate type="Dropsite">1.112</rate>
-  // <rate type="UnitTypeBldgEmpowerable">1.112</rate>
-  // <rate type="ActionTrain">1.112</rate>
-  // <rate type="ActionBuild">1.112</rate>
+  if (unit.Tactics) {
+    const tactics = await getTactics(unit.Tactics)
+    tactics.forEach(t => convertTactic(t, stats))
+  }
 
   stats.PopulationCount = unit.PopulationCount
   if (unit.Cost) {
@@ -224,6 +233,13 @@ export function parseAction(action, stats) {
   } else if (name === "AutoGather") {
     const rate = action.Rate[0]
     stats["AutoGather" + rate.type] = rate.amount
+  } else if (name === "Build") {
+    const rate = action.Rate[0]
+    let type = "Build"
+    if (rate.type === "UnitTypeBldgWatchPost") {
+      type = "BuildWatchPost"
+    }
+    stats[type] = rate.amount
   }
 }
 
@@ -238,6 +254,43 @@ export function findDamageType(stats) {
     }
   }
   return undefined
+}
+
+function convertTactic(tactic, stats) {
+  switch (tactic.type) {
+    case "Empower":
+      for (let i = 0; i < tactic.rate.length; i++) {
+        const rate = tactic.rate[i]
+        if (
+          rate.type === "Dropsite" ||
+          rate.type === "ActionTrain" ||
+          rate.type === "ActionBuild"
+        ) {
+          stats[tactic.type + rate.type] = rate.text
+        }
+      }
+      break
+    case "Attack":
+      if (tactic.targetspeedboost && tactic.targetspeedboost !== 1) {
+        stats.TargetSpeedBoost = tactic.targetspeedboost
+      }
+      break
+    case "Build":
+      if (tactic.rate.type === "UnitTypeBldgWatchPost") {
+        if (stats.BuildWatchPost !== undefined) {
+          stats.BuildWatchPost = tactic.rate.text
+        }
+      } else if (stats.Build !== undefined) {
+        stats.Build = tactic.rate.text
+      }
+      break
+    case "Heal":
+      if (tactic.affectstargetsincombat === "") {
+        stats.RateHealInCombat = stats.RateHeal
+        delete stats.RateHeal
+      }
+      break
+  }
 }
 
 function canCarry(stats) {

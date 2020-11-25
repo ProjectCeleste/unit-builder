@@ -115,13 +115,13 @@ function getBase(effectName) {
     effectName.startsWith("TargetSpeedBoost") ||
     effectName.startsWith("Empower") ||
     effectName.startsWith("ActionEnable") ||
-    effectName.startsWith("Build") ||
     effectName.startsWith("Gather") ||
     effectName.startsWith("Yield") ||
     effectName === "HitPercent" ||
     effectName === "ConvertResist" ||
     effectName === "AttackSpeed" ||
-    effectName === "Trade"
+    effectName === "Trade" ||
+    effectName === "BuildingWorkRate"
     ? 1
     : 0
 }
@@ -145,7 +145,7 @@ function getType(effectName) {
   if (
     effectName.startsWith("WorkRate") ||
     effectName.startsWith("AutoGather") ||
-    effectName === "RateHeal"
+    effectName.startsWith("RateHeal")
   ) {
     return "persecond" // ends with "/s"
   }
@@ -153,8 +153,7 @@ function getType(effectName) {
     effectName === "TargetSpeedBoostResist" ||
     effectName === "AreaDamageReduction" ||
     effectName === "DamageBonusReduction" ||
-    effectName === "HitPercent" ||
-    effectName === "ArmorVulnerability"
+    effectName === "HitPercent"
   ) {
     return "percent" // ends with "%"
   }
@@ -240,7 +239,8 @@ const displayNames = {
   ConvertConvertableSiege: "Convert Siege Rate",
   ConvertConvertableInfantry: "Convert Infantry Rate",
   Trade: "Trade",
-  RateHeal: "Healing",
+  RateHeal: "Healing (Out of Combat)",
+  RateHealInCombat: "Healing",
   Build: "Buildings Construction Speed",
   BuildWatchPost: "Watch Post Construction Speed",
   EmpowerDropsite: "Empower Dropoff",
@@ -349,6 +349,7 @@ const icons = {
   ConvertConvertableInfantry: "ConvertStandardConvertable",
   Trade: "Cost",
   RateHeal: "RateHeal",
+  RateHealInCombat: "RateHeal",
   Build: "ConstructionSpeed",
   BuildWatchPost: "WatchPostConstruction",
   EmpowerDropsite: "EmpowerDropsite",

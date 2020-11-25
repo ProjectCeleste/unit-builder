@@ -80,6 +80,22 @@ export async function getGear() {
   return await get("/traits")
 }
 
+export async function getTactics(fileName) {
+  const url = "/tactics/" + fileName
+  if (!cache[url]) {
+    console.log("GET", url)
+    let actions = xmlParser.parse(
+      fs.readFileSync("./tactics/" + fileName).toString(),
+      xmlOptions
+    ).tactics.action
+    if (!Array.isArray(actions)) {
+      actions = [actions]
+    }
+    cache[url] = actions
+  }
+  return cache[url]
+}
+
 export async function downloadImage(path, dest) {
   const url = IMAGES_URL + path
   if (!fs.existsSync(dest)) {
