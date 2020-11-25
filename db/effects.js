@@ -160,7 +160,7 @@ function getType(effectName) {
   if (
     effectName === "TrainPoints" ||
     effectName === "BuildPoints" ||
-    effectName.startsWith("Convert") || // TODO conversion rate should be named conversion time (display like in-game or not?)
+    effectName.startsWith("Convert") ||
     effectName.startsWith("Chaos")
   ) {
     return "time" // ends with "s"

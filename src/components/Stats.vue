@@ -99,7 +99,6 @@ export default {
         const effect = this.upgrades[i]
         this.applyEffect(effect, stats)
       }
-      // TODO filter advisors, milestones and upgrades if not applied
       return stats
     }
   },
