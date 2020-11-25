@@ -101,7 +101,7 @@ export default {
 .upgrade-container {
   .upgrade,
   .chain-indicator {
-    opacity: 0.5;
+    opacity: 0.35;
     transition: opacity 0.1s linear;
 
     &.selected {
