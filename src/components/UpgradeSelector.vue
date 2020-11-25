@@ -1,15 +1,27 @@
 <template>
   <div
-    class="upgrade-selector is-flex is-flex-direction-row is-flex-wrap is-relative"
+    class="upgrade-selector is-flex is-flex-direction-column is-flex-wrap is-relative"
   >
-    <Upgrade
-      v-for="u in upgrades"
-      :key="u.id"
-      v-model="effects[u.id]"
-      :upgrade="u"
-      @mouseleave="hoveredUpgrade = null"
-      @mousemove="onMouseMove"
-    />
+    <div class="is-flex is-flex-direction-row">
+      <Upgrade
+        v-for="u in upgrades"
+        :key="u.id"
+        v-model="effects[u.id]"
+        :upgrade="u"
+        @mouseleave="hoveredUpgrade = null"
+        @mousemove="onMouseMove"
+      />
+    </div>
+    <div class="is-flex is-flex-direction-column">
+      <Upgrade
+        v-for="u in chainedUpgrades"
+        :key="u.id"
+        v-model="effects[u.id]"
+        :upgrade="u"
+        @mouseleave="hoveredUpgrade = null"
+        @mousemove="onMouseMove"
+      />
+    </div>
     <Tooltip v-if="hoveredUpgrade" ref="tooltip" :x="x" :y="y">
       <Preview :item="hoveredUpgrade" type="upgrades" />
     </Tooltip>
@@ -46,7 +58,14 @@ export default {
   },
   computed: {
     upgrades() {
-      return upgrades[this.civ].filter(this.upgradeAppliesToUnit)
+      return upgrades[this.civ]
+        .filter(this.upgradeAppliesToUnit)
+        .filter(u => u.chain === undefined)
+    },
+    chainedUpgrades() {
+      return upgrades[this.civ]
+        .filter(this.upgradeAppliesToUnit)
+        .filter(u => u.chain !== undefined)
     }
   },
   watch: {

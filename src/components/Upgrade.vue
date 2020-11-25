@@ -1,5 +1,13 @@
 <template>
-  <div class="upgrade-container">
+  <div class="upgrade-container is-flex is-flex-direction-row">
+    <Icon
+      v-if="isChained"
+      sprite="icons"
+      size="sm"
+      name="arrow-right"
+      class="chain-indicator is-align-self-center"
+      :class="{ selected: selected }"
+    />
     <div
       class="upgrade p-1"
       :title="upgrade.name"
@@ -17,6 +25,7 @@
       v-if="upgrade.chain"
       v-model="chainEffects"
       :upgrade="upgrade.chain"
+      :is-chained="true"
       @mouseleave="$emit('mouseleave', $event)"
       @mousemove="onMouseMove"
     />
@@ -36,7 +45,8 @@ export default {
         return []
       }
     },
-    upgrade: { type: Object, required: true }
+    upgrade: { type: Object, required: true },
+    isChained: { type: Boolean, default: false }
   },
   emits: ["update:modelValue", "mousemove", "mouseleave"],
   data() {
@@ -88,15 +98,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.upgrade {
-  opacity: 0.5;
-  transition: opacity 0.1s linear;
+.upgrade-container {
+  .upgrade,
+  .chain-indicator {
+    opacity: 0.5;
+    transition: opacity 0.1s linear;
 
-  &.selected {
-    opacity: 1;
+    &.selected {
+      opacity: 1;
+    }
   }
 
-  &:hover {
+  .chain-indicator {
+    margin-left: -5px;
+    margin-right: -5px;
+  }
+
+  .upgrade:hover {
     cursor: pointer;
   }
 }
