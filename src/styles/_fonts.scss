@@ -20,7 +20,7 @@ input {
 
 .title,
 .subtitle {
-  color: white;
+  color: $font-color;
 }
 
 .nowrap {
@@ -47,8 +47,25 @@ input {
   text-align: right;
 }
 
+.has-text-centered {
+  text-align: center;
+}
+
+.has-text-shadow {
+  text-shadow: 2px 0 2px #000;
+}
+
 .is-bold {
   font-weight: bold;
+}
+
+a {
+  color: $color--gold;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 @each $name, $color in $text-colors {

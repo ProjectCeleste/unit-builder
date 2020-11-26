@@ -52,7 +52,7 @@ export function convertMarkup(text) {
     )
     .replace(
       /<color=1\.0 1\.0 0\.0>(.*?)<\/color>/g,
-      '<span class="is-average">$1</span>'
+      '<span class="is-neutral">$1</span>'
     )
     .replace(/<\/color>/g, "") // Fix for persian spearman champion
 }

@@ -1,50 +1,56 @@
 <template>
-  <div class="card mb-2">
-    <div class="card-header">
-      <h4 class="title is-size-5">
-        Select a unit
-      </h4>
-    </div>
-    <div class="card-content">
-      <UnitSelector v-model="selection" />
-      <div
-        v-if="selection.unit.name !== 'None'"
-        class="mt-2 unit-portrait is-flex is-flex-wrap-nowrap is-justify-content-center"
-      >
-        <Icon
-          class="mr-3"
-          sprite="units"
-          :name="selection.unit.icon"
-          :title="selection.unit.name"
-        />
-        <div class="gear-selector-container is-flex is-flex-wrap-nowrap">
-          <GearSelector
-            v-for="(slot, key) in selection.unit.slots"
-            :key="key"
-            v-model="gear[slot]"
-            :type="slot"
-            class="mr-1 is-align-self-flex-end"
+  <div class="unit">
+    <div class="card mb-2">
+      <div class="card-header">
+        <h4 class="title is-size-5">
+          Select a unit
+        </h4>
+      </div>
+      <div class="card-content">
+        <UnitSelector v-model="selection" />
+        <div
+          v-if="selection.unit.name !== 'None'"
+          class="mt-2 unit-portrait is-flex is-flex-wrap-nowrap is-justify-content-center"
+        >
+          <Icon
+            class="mr-3"
+            sprite="units"
+            :name="selection.unit.icon"
+            :title="selection.unit.name"
           />
+          <div class="gear-selector-container is-flex is-flex-wrap-nowrap">
+            <GearSelector
+              v-for="(slot, key) in selection.unit.slots"
+              :key="key"
+              v-model="gear[slot]"
+              :type="slot"
+              class="mr-1 is-align-self-flex-end"
+            />
+          </div>
         </div>
       </div>
     </div>
+    <Collapse
+      v-if="selection.unit.name !== 'None'"
+      title="Upgrades"
+      class="mb-2"
+    >
+      <UpgradeSelector
+        v-model="upgrades"
+        :unit="selection.unit"
+        :civ="selection.civ"
+        class="card-content"
+      />
+    </Collapse>
+    <Collapse v-if="selection.unit.name !== 'None'" title="Stats">
+      <Stats
+        :base="selection.unit.stats"
+        :gear="gear"
+        :upgrades="upgrades"
+        class="card-content"
+      />
+    </Collapse>
   </div>
-  <Collapse v-if="selection.unit.name !== 'None'" title="Upgrades" class="mb-2">
-    <UpgradeSelector
-      v-model="upgrades"
-      :unit="selection.unit"
-      :civ="selection.civ"
-      class="card-content"
-    />
-  </Collapse>
-  <Collapse v-if="selection.unit.name !== 'None'" title="Stats">
-    <Stats
-      :base="selection.unit.stats"
-      :gear="gear"
-      :upgrades="upgrades"
-      class="card-content"
-    />
-  </Collapse>
 </template>
 
 <script>
@@ -81,4 +87,16 @@ export default {
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.unit {
+  min-width: 300px;
+
+  &:first-child {
+    margin-left: auto;
+  }
+
+  &:last-child {
+    margin-right: auto;
+  }
+}
+</style>

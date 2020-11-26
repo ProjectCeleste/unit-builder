@@ -1,13 +1,19 @@
 <template>
-  <Unit />
+  <Header class="mb-2" />
+  <div class="my-1 is-flex is-flex-direction-row is-flex-grow-1">
+    <Unit />
+  </div>
+  <LegalNotice class="mt-3" />
 </template>
 
 <script>
 import Unit from "./components/Unit.vue"
+import LegalNotice from "./components/LegalNotice.vue"
+import Header from "./components/Header.vue"
 
 export default {
   name: "App",
-  components: { Unit }
+  components: { Unit, LegalNotice, Header }
 }
 </script>
 
@@ -24,6 +30,8 @@ html {
 }
 
 #app {
-  margin-top: 60px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 </style>
