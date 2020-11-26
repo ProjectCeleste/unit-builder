@@ -96,6 +96,8 @@ export default {
     outline: none;
     box-sizing: border-box;
     background: transparent;
+    width: 100%;
+    min-width: 150px;
 
     appearance: none;
     -webkit-appearance: none;

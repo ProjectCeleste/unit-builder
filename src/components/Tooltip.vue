@@ -1,5 +1,5 @@
 <template>
-  <div class="tooltip" :style="'top:' + y + 'px; left:' + x + 'px;'">
+  <div class="tooltip" :style="{ top: y + 'px', left: x + 'px' }">
     <slot />
   </div>
 </template>

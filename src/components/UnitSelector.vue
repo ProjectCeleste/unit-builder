@@ -107,4 +107,12 @@ export default {
     }
   }
 }
+
+.dropdown {
+  transform: none;
+  max-width: 100%;
+  width: 100%;
+  left: auto;
+  right: auto;
+}
 </style>

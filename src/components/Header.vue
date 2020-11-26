@@ -30,15 +30,23 @@ export default {
 <style lang="scss" scoped>
 .header {
   justify-content: space-between;
+  white-space: nowrap;
+  flex-wrap: wrap;
 
   .title-container {
     background: $color--card-background;
     border-bottom-right-radius: 2rem;
 
     padding-right: 1.5rem !important;
+
+    img {
+      min-width: 64px;
+      min-height: 64px;
+    }
   }
 
   .wip {
+    margin-left: auto;
     background: $color--card-background;
     border-bottom-left-radius: 2rem;
     padding-left: 1.5rem !important;

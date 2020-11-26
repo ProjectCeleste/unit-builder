@@ -32,7 +32,6 @@
         class="p-2"
       />
     </div>
-    <!-- TODO responsiveness -->
   </div>
 </template>
 

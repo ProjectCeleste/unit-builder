@@ -125,6 +125,7 @@ export default {
 
 .stats-range-container {
   display: table;
+  width: 100%;
 }
 
 .level-selector-container {

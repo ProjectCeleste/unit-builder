@@ -1,15 +1,17 @@
 <template>
-  <div class="gear-selector is-relative">
-    <div class="selected-gear" @click="open = !open">
-      <Icon
-        sprite="gear"
-        :name="selected.icon.replace(/\s/g, '-')"
-        :title="selected.name"
-        size="md"
-      />
-    </div>
-    <div class="adjust-stat-btn" @click="effectsOpen = !effectsOpen">
-      <Icon sprite="icons" name="cog" title="Adjust effects" size="xs" />
+  <div class="gear-selector">
+    <div class="is-relative">
+      <div class="selected-gear" @click="open = !open">
+        <Icon
+          sprite="gear"
+          :name="selected.icon.replace(/\s/g, '-')"
+          :title="selected.name"
+          size="md"
+        />
+      </div>
+      <div class="adjust-stat-btn" @click="effectsOpen = !effectsOpen">
+        <Icon sprite="icons" name="cog" title="Adjust effects" size="xs" />
+      </div>
     </div>
     <keep-alive>
       <Dropdown
@@ -141,9 +143,5 @@ export default {
   &:hover {
     cursor: pointer;
   }
-}
-
-.dropdown {
-  transform: translateX(calc(-50% + 20px));
 }
 </style>
