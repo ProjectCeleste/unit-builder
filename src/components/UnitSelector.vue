@@ -78,6 +78,14 @@ export default {
       }
     }
   },
+  mounted() {
+    if (this.modelValue.unit.id === undefined) {
+      this.$emit("update:modelValue", {
+        civ: this.civ,
+        unit: civs["greek"].find(u => u.id === "Gr_Inf_Spearman")
+      })
+    }
+  },
   methods: {
     selectedUnitChanged(s) {
       this.open = false
