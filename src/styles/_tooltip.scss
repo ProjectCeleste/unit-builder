@@ -34,9 +34,9 @@ $tooltip-item-background-color-hover: #3b6578;
 
 .dropdown {
   white-space: nowrap;
-  max-width: calc(100vw - 2rem - 4px);
-  left: 1rem;
-  right: 1rem;
+  max-width: calc(100vw - 1rem - 4px);
+  left: 0.5rem;
+  right: 0.5rem;
 
   .dropdown-header {
     background-color: $tooltip-background-color-light;

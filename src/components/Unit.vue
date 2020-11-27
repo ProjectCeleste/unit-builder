@@ -1,5 +1,5 @@
 <template>
-  <div class="unit">
+  <div class="unit is-relative">
     <div class="card mb-2">
       <div class="card-header">
         <h4 class="title is-size-5">
