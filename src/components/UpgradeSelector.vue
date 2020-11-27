@@ -22,7 +22,6 @@
         @mousemove="onMouseMove"
       />
     </div>
-    {{ upgradeValues }}
     <Tooltip v-if="hoveredUpgrade" ref="tooltip" :x="x" :y="y">
       <Preview :item="hoveredUpgrade" type="upgrades" />
     </Tooltip>
@@ -34,16 +33,16 @@ import upgrades from "../data/upgrades.json"
 import Upgrade from "./Upgrade.vue"
 import Tooltip from "./Tooltip.vue"
 import Preview from "./Preview.vue"
-import { upgradeAppliesToUnit, effectAppliesToUnit } from "../stats.js"
+import { upgradeAppliesToUnit } from "../stats.js"
 
 export default {
   name: "UpgradeSelector",
   components: { Upgrade, Tooltip, Preview },
   props: {
     modelValue: {
-      type: Array,
+      type: Object,
       default() {
-        return []
+        return {}
       }
     },
     civ: { type: String, required: true },
@@ -71,39 +70,20 @@ export default {
     }
   },
   watch: {
+    modelValue: {
+      deep: true,
+      handler(val) {
+        this.upgradeValues = val
+      }
+    },
     upgradeValues: {
       deep: true,
       handler(val) {
-        const effects = []
-        for (let upgradeID in val) {
-          const u = val[upgradeID]
-          this.applyEffects(u, effects)
-        }
-        this.$emit("update:modelValue", effects)
+        this.$emit("update:modelValue", val)
       }
-    },
-    unit() {
-      this.upgradeValues = {}
     }
   },
   methods: {
-    applyEffects(upgrade, res) {
-      if (upgrade === undefined) {
-        return
-      }
-      const effects = upgrade.effects.filter(e =>
-        effectAppliesToUnit(e, this.unit)
-      )
-      for (let i = 0; i < effects.length; i++) {
-        const e = effects[i]
-        res.push({
-          type: e.type,
-          absolute: e.absolute,
-          amount: e.amount
-        })
-      }
-      this.applyEffects(upgrade.chain, res)
-    },
     onMouseMove(event, upgrade) {
       this.hoveredUpgrade = upgrade
       if (this.hoveredUpgrade) {

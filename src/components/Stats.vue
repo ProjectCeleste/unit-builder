@@ -20,17 +20,15 @@
 import effects from "../data/effects.json"
 import Icon from "./Icon.vue"
 import CostStats from "./CostStats.vue"
-// import { effectAppliesToUnit } from "../stats.js"
+import { effectAppliesToUnit } from "../stats.js"
 
 export default {
   name: "Stats",
   components: { Icon, CostStats },
   props: {
-    base: {
+    unit: {
       type: Object,
-      default() {
-        return {}
-      }
+      required: true
     },
     gear: {
       type: Object,
@@ -51,9 +49,9 @@ export default {
       }
     },
     upgrades: {
-      type: Array,
+      type: Object,
       default() {
-        return []
+        return {}
       }
     }
   },
@@ -84,8 +82,9 @@ export default {
     },
     computedStats() {
       const stats = {}
-      for (let key in this.base) {
-        stats[key] = this.base[key]
+      // Base stats
+      for (let key in this.unit.stats) {
+        stats[key] = this.unit.stats[key]
       }
 
       for (let key in this.gear) {
@@ -96,9 +95,12 @@ export default {
         }
       }
 
-      for (let i = 0; i < this.upgrades.length; i++) {
-        const effect = this.upgrades[i]
-        this.applyEffect(effect, stats)
+      const upgradeEffects = []
+      for (let upgradeID in this.upgrades) {
+        this.filterUpgradeEffects(this.upgrades[upgradeID], upgradeEffects)
+      }
+      for (let i = 0; i < upgradeEffects.length; i++) {
+        this.applyEffect(upgradeEffects[i], stats)
       }
       return stats
     }
@@ -141,6 +143,23 @@ export default {
           stats[effectName] = effects[effectName].base
         }
       }
+    },
+    filterUpgradeEffects(upgrade, res) {
+      if (upgrade === undefined) {
+        return
+      }
+      const effects = upgrade.effects.filter(e =>
+        effectAppliesToUnit(e, this.unit)
+      )
+      for (let i = 0; i < effects.length; i++) {
+        const e = effects[i]
+        res.push({
+          type: e.type,
+          absolute: e.absolute,
+          amount: e.amount
+        })
+      }
+      this.filterUpgradeEffects(upgrade.chain, res)
     },
     applyEffect(effect, stats) {
       if (effects[effect.type].type === "action") {

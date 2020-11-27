@@ -71,7 +71,7 @@ export function convertEffects(effects) {
     const effect = {
       type: type,
       visible: e.visible,
-      absolute: e.relativity === "Absolute", // TODO relativity == "Assign" is always when subtype is ActionEnable
+      absolute: e.relativity === "Absolute",
       positive: e.bonus,
       amount: e.amount
     }

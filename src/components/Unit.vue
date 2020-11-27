@@ -44,7 +44,7 @@
     </Collapse>
     <Collapse v-if="selection.unit.name !== 'None'" title="Stats">
       <Stats
-        :base="selection.unit.stats"
+        :unit="selection.unit"
         :gear="gear"
         :upgrades="upgrades"
         class="card-content"
@@ -75,13 +75,13 @@ export default {
     return {
       selection: { civ: "greek", unit: { name: "None", icon: "Generic" } },
       gear: {},
-      upgrades: [] // FIXME upgrades model is one-way
+      upgrades: {}
     }
   },
   watch: {
     selection() {
       this.gear = {}
-      this.upgrades = []
+      this.upgrades = {}
     }
   }
 }
