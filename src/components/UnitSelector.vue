@@ -1,5 +1,5 @@
 <template>
-  <div class="unit-selector is-relative">
+  <div v-click-outside="onClickOutside" class="unit-selector is-relative">
     <div class="selected-unit is-flex" @click="open = !open">
       <Icon
         class="mr-2"
@@ -25,7 +25,6 @@
       <Dropdown
         v-if="open"
         ref="dropdown"
-        v-click-outside="onClickOutside"
         :preview="false"
         sprite="units"
         :contents="units"
@@ -92,7 +91,9 @@ export default {
       this.$emit("update:modelValue", { civ: this.civ, unit: s })
     },
     onClickOutside() {
-      this.open = false
+      if (this.open) {
+        this.open = false
+      }
     }
   }
 }

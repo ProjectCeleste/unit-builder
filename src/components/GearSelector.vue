@@ -1,5 +1,5 @@
 <template>
-  <div class="gear-selector">
+  <div v-click-outside="onClickOutside" class="gear-selector">
     <div class="is-relative">
       <div class="selected-gear" @click="open = !open">
         <Icon
@@ -73,6 +73,16 @@ export default {
     },
     stats(val) {
       this.$emit("update:modelValue", val)
+    },
+    open(val) {
+      if (val) {
+        this.effectsOpen = false
+      }
+    },
+    effectsOpen(val) {
+      if (val) {
+        this.open = false
+      }
     }
   },
   activated() {
@@ -114,6 +124,14 @@ export default {
           effects: [],
           level: this.selected.levels[this.selected.levels.length - 1]
         }
+      }
+    },
+    onClickOutside() {
+      if (this.open) {
+        this.open = false
+      }
+      if (this.effectsOpen) {
+        this.effectsOpen = false
       }
     }
   }
