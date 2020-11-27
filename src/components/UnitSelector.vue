@@ -39,8 +39,6 @@
 </template>
 
 <script>
-// FIXME click outside doesn't work
-
 import Dropdown from "./Dropdown.vue"
 import CivSelector from "./CivSelector.vue"
 import Icon from "./Icon.vue"

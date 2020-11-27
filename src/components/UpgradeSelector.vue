@@ -6,7 +6,7 @@
       <Upgrade
         v-for="u in upgrades"
         :key="u.id"
-        v-model="effects[u.id]"
+        v-model="upgradeValues[u.id]"
         :upgrade="u"
         @mouseleave="hoveredUpgrade = null"
         @mousemove="onMouseMove"
@@ -16,12 +16,13 @@
       <Upgrade
         v-for="u in chainedUpgrades"
         :key="u.id"
-        v-model="effects[u.id]"
+        v-model="upgradeValues[u.id]"
         :upgrade="u"
         @mouseleave="hoveredUpgrade = null"
         @mousemove="onMouseMove"
       />
     </div>
+    {{ upgradeValues }}
     <Tooltip v-if="hoveredUpgrade" ref="tooltip" :x="x" :y="y">
       <Preview :item="hoveredUpgrade" type="upgrades" />
     </Tooltip>
@@ -33,6 +34,7 @@ import upgrades from "../data/upgrades.json"
 import Upgrade from "./Upgrade.vue"
 import Tooltip from "./Tooltip.vue"
 import Preview from "./Preview.vue"
+import { upgradeAppliesToUnit, effectAppliesToUnit } from "../stats.js"
 
 export default {
   name: "UpgradeSelector",
@@ -50,7 +52,7 @@ export default {
   emits: ["update:modelValue"],
   data() {
     return {
-      effects: {},
+      upgradeValues: {},
       x: 0,
       y: 0,
       hoveredUpgrade: null
@@ -59,70 +61,48 @@ export default {
   computed: {
     upgrades() {
       return upgrades[this.civ]
-        .filter(this.upgradeAppliesToUnit)
+        .filter(u => upgradeAppliesToUnit(u, this.unit))
         .filter(u => u.chain === undefined)
     },
     chainedUpgrades() {
       return upgrades[this.civ]
-        .filter(this.upgradeAppliesToUnit)
+        .filter(u => upgradeAppliesToUnit(u, this.unit))
         .filter(u => u.chain !== undefined)
     }
   },
   watch: {
-    effects: {
+    upgradeValues: {
       deep: true,
       handler(val) {
         const effects = []
         for (let upgradeID in val) {
-          const u = val[upgradeID].filter(this.effectAppliesToUnit)
-          for (let i = 0; i < u.length; i++) {
-            const e = u[i]
-            effects.push({
-              type: e.type,
-              absolute: e.absolute,
-              amount: e.amount
-            })
-          }
+          const u = val[upgradeID]
+          this.applyEffects(u, effects)
         }
         this.$emit("update:modelValue", effects)
       }
     },
     unit() {
-      this.effects = {}
+      this.upgradeValues = {}
     }
   },
   methods: {
-    upgradeAppliesToUnit(u) {
-      for (let i = 0; i < u.effects.length; i++) {
-        const e = u.effects[i]
-        if (this.effectAppliesToUnit(e)) {
-          return true
-        }
+    applyEffects(upgrade, res) {
+      if (upgrade === undefined) {
+        return
       }
-      return false
-    },
-    effectAppliesToUnit(e) {
-      const isTarget =
-        this.unit.id === e.target || this.unit.types.includes(e.target)
-      if (isTarget) {
-        if (e.type === "MaximumRangeConvert") {
-          return this.unit.stats.ConvertStandardConvertable !== undefined
-        } else if (e.type === "DamageRangedAttack") {
-          return this.unit.stats.DamageRanged !== undefined
-        } else if (e.type === "DamageMeleeAttack") {
-          return (
-            this.unit.stats.DamageHand !== undefined ||
-            this.unit.stats.DamageCavalry !== undefined
-          )
-        } else if (e.type.startsWith("Gather")) {
-          return Object.keys(this.unit.stats).includes(e.type)
-        } else if (e.type.startsWith("Yield")) {
-          const resource = e.type.substring("Yield".length)
-          return Object.keys(this.unit.stats).includes(`Gather${resource}`)
-        }
+      const effects = upgrade.effects.filter(e =>
+        effectAppliesToUnit(e, this.unit)
+      )
+      for (let i = 0; i < effects.length; i++) {
+        const e = effects[i]
+        res.push({
+          type: e.type,
+          absolute: e.absolute,
+          amount: e.amount
+        })
       }
-
-      return isTarget
+      this.applyEffects(upgrade.chain, res)
     },
     onMouseMove(event, upgrade) {
       this.hoveredUpgrade = upgrade

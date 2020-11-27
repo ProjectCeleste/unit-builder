@@ -20,6 +20,7 @@
 import effects from "../data/effects.json"
 import Icon from "./Icon.vue"
 import CostStats from "./CostStats.vue"
+// import { effectAppliesToUnit } from "../stats.js"
 
 export default {
   name: "Stats",

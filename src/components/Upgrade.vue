@@ -6,12 +6,12 @@
       size="sm"
       name="arrow-right"
       class="chain-indicator is-align-self-center"
-      :class="{ selected: selected }"
+      :class="{ selected: modelValue.selected }"
     />
     <div
       class="upgrade p-1"
       :title="upgrade.name"
-      :class="{ selected: selected }"
+      :class="{ selected: modelValue.selected }"
       @click="onSelect"
       @mousemove="onMouseMove($event, upgrade)"
       @touchmove="onMouseMove($event, upgrade)"
@@ -23,7 +23,7 @@
     </div>
     <Upgrade
       v-if="upgrade.chain"
-      v-model="chainEffects"
+      v-model="chain"
       :upgrade="upgrade.chain"
       :is-chained="true"
       @mouseleave="$emit('mouseleave', $event)"
@@ -40,9 +40,9 @@ export default {
   components: { Icon },
   props: {
     modelValue: {
-      type: Array,
+      type: Object,
       default() {
-        return []
+        return { selected: false, effects: [], chain: undefined }
       }
     },
     upgrade: { type: Object, required: true },
@@ -51,46 +51,49 @@ export default {
   emits: ["update:modelValue", "mousemove", "mouseleave"],
   data() {
     return {
-      selected: false,
-      chainEffects: []
+      chain: undefined
     }
   },
   watch: {
-    selected(val) {
-      // Unselect next upgrades in the chain too
-      if (!val) {
-        this.chainEffects = []
-      }
-      this.$emit(
-        "update:modelValue",
-        val
-          ? this.upgrade.effects.slice().concat(this.chainEffects)
-          : this.chainEffects
-      )
-    },
-    modelValue(val) {
-      if (!val.length) {
-        this.selected = false
+    modelValue: {
+      deep: true,
+      handler(val) {
+        this.chain = val.chain
       }
     },
-    chainEffects(val) {
-      this.$emit(
-        "update:modelValue",
-        this.selected ? this.upgrade.effects.slice().concat(val) : val
-      )
-
-      // Select previous upgrades in the chain too
-      if (!this.selected && val.length) {
-        this.selected = true
+    chain: {
+      deep: true,
+      handler(val) {
+        const newSelected = this.modelValue.selected || (val && val.selected)
+        this.$emit("update:modelValue", {
+          selected: newSelected,
+          effects: newSelected ? this.upgrade.effects : [],
+          chain: val
+        })
       }
     }
+  },
+  mounted() {
+    this.chain = this.modelValue.chain
   },
   methods: {
     onMouseMove($event, upgrade) {
       this.$emit("mousemove", $event, upgrade)
     },
     onSelect() {
-      this.selected = !this.selected
+      const newSelected = !this.modelValue.selected
+      let effects = []
+      if (newSelected) {
+        effects = effects.concat(this.upgrade.effects)
+        if (this.modelValue.chainSelected) {
+          effects = effects.concat(this.chain.effects)
+        }
+      }
+      this.$emit("update:modelValue", {
+        selected: newSelected,
+        effects: effects,
+        chainSelected: newSelected ? this.modelValue.chainSelected : false
+      })
       this.$emit("mouseleave")
     }
   }
