@@ -51,7 +51,21 @@ const generateAppIcons = () => {
     .pipe(dest(paths.out))
 }
 
+const generateMaskableIcons = () => {
+  const sizes = [192, 512]
+  const images = sizes.map(size => ({
+    rename: `maskable-icon-${size}.png`,
+    width: size,
+    height: size,
+    quality: 100
+  }))
+
+  return src("src/assets/favicon/maskable-icon.png")
+    .pipe(responsive({ "*": images }, { silent: true }))
+    .pipe(dest(paths.out))
+}
+
 /**
  * `gulp meta`
  */
-module.exports = series(deleteAppIcons, generateAppIcons)
+module.exports = series(deleteAppIcons, generateAppIcons, generateMaskableIcons)
