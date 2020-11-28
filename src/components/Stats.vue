@@ -139,6 +139,11 @@ export default {
           effectName !== "ConvertStandardConvertable"
         ) {
           stats[effectName] = stats.ConvertStandardConvertable
+        } else if (
+          effectName.startsWith("Chaos") &&
+          effectName !== "ChaosStandardConvertable"
+        ) {
+          stats[effectName] = stats.ChaosStandardConvertable
         } else {
           stats[effectName] = effects[effectName].base
         }
@@ -238,12 +243,26 @@ export default {
           }
           break
         default:
-          this.setBaseStat(stats, effect.type)
           if (effect.type.startsWith("Armor")) {
+            this.setBaseStat(stats, effect.type)
             stats[effect.type] = 1 - (1 - stats[effect.type]) / effect.amount
-          } else {
-            stats[effect.type] *= mod
+            return
           }
+          if (
+            (effect.type.startsWith("Convert") &&
+              effect.type !== "ConvertResist") ||
+            effect.type === "MaximumRangeConvert"
+          ) {
+            const chaosKey = effect.type.replace("Convert", "Chaos")
+            if (stats["ChaosStandardConvertable"]) {
+              this.setBaseStat(stats, chaosKey)
+              stats[chaosKey] *= mod
+              return
+            }
+          }
+
+          this.setBaseStat(stats, effect.type)
+          stats[effect.type] *= mod
       }
     }
   }

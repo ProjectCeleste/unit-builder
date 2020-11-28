@@ -30,7 +30,10 @@ export function effectAppliesToUnit(e, unit) {
   const isTarget = unit.id === e.target || unit.types.includes(e.target)
   if (isTarget) {
     if (e.type === "MaximumRangeConvert") {
-      return unit.stats.ConvertStandardConvertable !== undefined
+      return (
+        unit.stats.ConvertStandardConvertable !== undefined ||
+        unit.stats.ChaosStandardConvertable !== undefined
+      )
     } else if (e.type === "DamageRangedAttack") {
       return unit.stats.DamageRanged !== undefined
     } else if (e.type === "DamageMeleeAttack") {

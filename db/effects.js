@@ -94,6 +94,9 @@ export function convertEffects(effects) {
 }
 
 export function addEffect(name) {
+  if (name.startsWith("Convert") && name !== "ConvertResist") {
+    addEffect(name.replace("Convert", "Chaos"))
+  }
   if (!effects[name]) {
     effects[name] = {
       name: getDisplayName(name),
@@ -160,7 +163,7 @@ function getType(effectName) {
   if (
     effectName === "TrainPoints" ||
     effectName === "BuildPoints" ||
-    effectName.startsWith("Convert") ||
+    (effectName.startsWith("Convert") && effectName !== "ConvertResist") ||
     effectName.startsWith("Chaos")
   ) {
     return "time" // ends with "s"
@@ -225,6 +228,7 @@ const displayNames = {
   MaximumRange: "Maximum Range",
   MinimumRange: "Minimum Range",
   MaximumRangeConvert: "Maximum Conversion Range",
+  MaximumRangeChaos: "Maximum Chaos Range",
   MaximumRangeHeal: "Maximum Healing Range",
   MaximumVelocity: "Movement Speed",
   TargetSpeedBoost: "Snare",
@@ -238,6 +242,10 @@ const displayNames = {
   ConvertConvertableCavalry: "Convert Cavalry Rate",
   ConvertConvertableSiege: "Convert Siege Rate",
   ConvertConvertableInfantry: "Convert Infantry Rate",
+  ChaosStandardConvertable: "Chaos Rate",
+  ChaosConvertableCavalry: "Cavalry Chaos Rate",
+  ChaosConvertableSiege: "Siege Chaos Rate",
+  ChaosConvertableInfantry: "Infantry Chaos Rate",
   Trade: "Trade",
   RateHeal: "Healing (Out of Combat)",
   RateHealInCombat: "Healing",
@@ -268,7 +276,6 @@ const displayNames = {
   MaximumContained: "Transport Capacity",
   AOERadius: "Charge Attack Damage Area",
   ArmorVulnerability: "Ignore Armor"
-  // TODO chaos
 }
 
 function getDisplayName(effectName) {
@@ -334,6 +341,7 @@ const icons = {
   MaximumRange: "MaximumRange",
   MinimumRange: "MaximumRange",
   MaximumRangeConvert: "MaximumRange",
+  MaximumRangeChaos: "MaximumRange",
   MaximumRangeHeal: "MaximumRange",
   MaximumVelocity: "MaximumVelocity",
   TargetSpeedBoost: "TargetSpeedBoost",
@@ -347,6 +355,10 @@ const icons = {
   ConvertConvertableCavalry: "ConvertStandardConvertable",
   ConvertConvertableSiege: "ConvertStandardConvertable",
   ConvertConvertableInfantry: "ConvertStandardConvertable",
+  ChaosStandardConvertable: "Chaos",
+  ChaosConvertableCavalry: "Chaos",
+  ChaosConvertableSiege: "Chaos",
+  ChaosConvertableInfantry: "Chaos",
   Trade: "Cost",
   RateHeal: "RateHeal",
   RateHealInCombat: "RateHeal",
@@ -377,7 +389,7 @@ const icons = {
   MaximumContained: "PopulationCount",
   AOERadius: "DamageArea",
   ArmorVulnerability: "ArmorVulnerability"
-  // TODO chaos
+  // TODO chaos range
 }
 
 function getIcon(effectName) {

@@ -259,6 +259,7 @@ export function findDamageType(stats) {
 function convertTactic(tactic, stats) {
   switch (tactic.type) {
     case "Empower":
+      // FIXME only apply this if unit has protoaction empower
       for (let i = 0; i < tactic.rate.length; i++) {
         const rate = tactic.rate[i]
         if (
@@ -290,6 +291,27 @@ function convertTactic(tactic, stats) {
         delete stats.RateHeal
       }
       break
+    case "Convert":
+      if (tactic.anim === "Chaos") {
+        stats.ChaosStandardConvertable = stats.ConvertStandardConvertable
+        delete stats.ConvertStandardConvertable
+        if (stats.ConvertConvertableCavalry !== undefined) {
+          stats.ChaosConvertableCavalry = stats.ConvertConvertableCavalry
+          delete stats.ConvertConvertableCavalry
+        }
+        if (stats.ConvertConvertableSiege !== undefined) {
+          stats.ChaosConvertableSiege = stats.ConvertConvertableSiege
+          delete stats.ConvertConvertableSiege
+        }
+        if (stats.ConvertConvertableInfantry !== undefined) {
+          stats.ChaosConvertableInfantry = stats.ConvertConvertableInfantry
+          delete stats.ConvertConvertableInfantry
+        }
+        if (stats.MaximumRangeConvert !== undefined) {
+          stats.MaximumRangeChaos = stats.MaximumRangeConvert
+          delete stats.MaximumRangeConvert
+        }
+      }
   }
 }
 
