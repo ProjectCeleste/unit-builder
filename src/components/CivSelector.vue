@@ -7,12 +7,18 @@
       :class="{ selected: modelValue === civ }"
       @click="$emit('update:modelValue', civ)"
     >
-      <Icon sprite="icons" :name="civ" :title="civ" size="sm" />
+      <Icon
+        sprite="icons"
+        :name="civ"
+        :title="civ.charAt(0).toUpperCase() + civ.slice(1)"
+        size="sm"
+      />
     </div>
   </div>
 </template>
 
 <script>
+// TODO capitalize civ first letter
 import Icon from "./Icon.vue"
 
 export default {

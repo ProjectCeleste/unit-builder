@@ -16,7 +16,9 @@
         class="ml-2"
         sprite="icons"
         :name="modelValue.civ"
-        :title="modelValue.civ"
+        :title="
+          modelValue.civ.charAt(0).toUpperCase() + modelValue.civ.slice(1)
+        "
         size="sm"
       />
       <span class="select-arrow px-2">▼</span>
