@@ -84,14 +84,33 @@ export async function getTactics(fileName) {
   const url = "/tactics/" + fileName
   if (!cache[url]) {
     console.log("GET", url)
-    let actions = xmlParser.parse(
+    let tactics = xmlParser.parse(
       fs.readFileSync("./tactics/" + fileName).toString(),
       xmlOptions
-    ).tactics.action
-    if (!Array.isArray(actions)) {
-      actions = [actions]
+    ).tactics
+    if (tactics.action && !Array.isArray(tactics.action)) {
+      tactics.action = [tactics.action]
     }
-    cache[url] = actions
+    if (tactics.tactic && !Array.isArray(tactics.tactic)) {
+      tactics.tactic = [tactics.tactic]
+    }
+    tactics.action.forEach(a => {
+      if (a.name.text === undefined) {
+        a.name = { text: a.name }
+      }
+    })
+    tactics.tactic.forEach(t => {
+      if (t.action && !Array.isArray(t.action)) {
+        t.action = [t.action]
+      }
+      t.action = t.action.map(a => {
+        if (a.text === undefined) {
+          return { text: a }
+        }
+        return a
+      })
+    })
+    cache[url] = tactics
   }
   return cache[url]
 }

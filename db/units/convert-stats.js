@@ -91,7 +91,21 @@ export async function convertUnitStats(unit) {
 
   if (unit.Tactics) {
     const tactics = await getTactics(unit.Tactics)
-    tactics.forEach(t => convertTactic(t, stats))
+    if (tactics.action && tactics.tactic) {
+      tactics.action
+        .filter(a => {
+          for (let i = 0; i < tactics.tactic.length; i++) {
+            if (unit.Tactics === "spearman.tactics") {
+              console.log(a, tactics.tactic[i])
+            }
+            if (tactics.tactic[i].action.some(ta => ta.text === a.name.text)) {
+              return true
+            }
+          }
+          return false
+        })
+        .forEach(t => convertTactic(t, stats))
+    }
   }
 
   stats.PopulationCount = unit.PopulationCount
@@ -259,7 +273,6 @@ export function findDamageType(stats) {
 function convertTactic(tactic, stats) {
   switch (tactic.type) {
     case "Empower":
-      // FIXME only apply this if unit has protoaction empower
       for (let i = 0; i < tactic.rate.length; i++) {
         const rate = tactic.rate[i]
         if (

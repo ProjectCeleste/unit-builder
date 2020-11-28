@@ -141,7 +141,8 @@ function getType(effectName) {
     effectName === "TargetSpeedBoost" ||
     effectName === "Build" ||
     effectName.startsWith("Yield") ||
-    effectName === "BuildWatchPost"
+    effectName === "BuildWatchPost" ||
+    effectName === "Trade"
   ) {
     return "multiplier" // starts with "x"
   }
@@ -389,7 +390,6 @@ const icons = {
   MaximumContained: "PopulationCount",
   AOERadius: "DamageArea",
   ArmorVulnerability: "ArmorVulnerability"
-  // TODO chaos range
 }
 
 function getIcon(effectName) {

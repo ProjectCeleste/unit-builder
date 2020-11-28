@@ -9,7 +9,7 @@
       :key="key"
       class="my-1"
     >
-      <span class="is-flex-grow-1">{{ effectName(key) }}</span>
+      <span class="is-flex-grow-1 mr-1">{{ effectName(key) }}</span>
       <span>{{ formatEffect(key, stat) }}</span>
       <Icon sprite="icons" :name="effectIcon(key)" size="xs" class="ml-1" />
     </div>

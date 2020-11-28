@@ -82,8 +82,6 @@ async function convertUpgrade(tech) {
     techEffects = [techEffects]
   }
 
-  // TODO babylon garden upgrades BabylonTechGarden_Upgrade1
-
   for (let i = 0; i < techEffects.length; i++) {
     const e = techEffects[i]
     if (e.type === "TechStatus" && e.status === "active") {
