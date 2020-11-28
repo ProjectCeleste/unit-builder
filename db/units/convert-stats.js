@@ -240,8 +240,10 @@ export function parseAction(action, stats) {
   } else if (name === "FishGather") {
     stats["GatherAbstractFish"] = action.Rate[0].amount
   } else if (name === "Trade") {
-    const rate = action.Rate[0]
-    if (rate.type === "AbstractTownCenter" || rate.type === "AbstractDock") {
+    const rate = action.Rate.find(
+      r => r.type === "AbstractTownCenter" || r.type === "AbstractDock"
+    )
+    if (rate) {
       stats[name] = rate.amount
     }
   } else if (name === "AutoGather") {
