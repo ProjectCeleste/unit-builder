@@ -107,7 +107,11 @@ export default {
   },
   methods: {
     effectName(name) {
-      return effects[name].name
+      let e = effects[name].name
+      if (name === "RateHeal") {
+        e += " (Out of Combat)"
+      }
+      return e
     },
     effectIcon(name) {
       return effects[name].icon

@@ -247,7 +247,7 @@ const displayNames = {
   ChaosConvertableSiege: "Siege Chaos Rate",
   ChaosConvertableInfantry: "Infantry Chaos Rate",
   Trade: "Trade",
-  RateHeal: "Healing (Out of Combat)",
+  RateHeal: "Healing",
   RateHealInCombat: "Healing",
   Build: "Buildings Construction Speed",
   BuildWatchPost: "Watch Post Construction Speed",
