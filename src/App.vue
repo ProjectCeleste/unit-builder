@@ -27,7 +27,7 @@ export default {
   components: { Unit, LegalNotice, Header, Button },
   data() {
     return {
-      updateVisible: true,
+      updateVisible: false,
       refreshing: false,
       registration: undefined
     }
