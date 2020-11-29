@@ -1,6 +1,6 @@
 <template>
   <div class="dropdown p-2">
-    <div class="is-bold gear-name">
+    <div class="is-bold gear-name" :class="rarityClass">
       {{ gear.name }}
     </div>
     <div
@@ -35,6 +35,7 @@
 <script>
 import StatRange from "./StatRange.vue"
 import effects from "../data/effects.json"
+import { rarityClass } from "../rarity.js"
 
 export default {
   name: "GearStatsDropdown",
@@ -58,6 +59,9 @@ export default {
   computed: {
     filteredGearEffects() {
       return this.gear.effects.filter(e => effects[e.type].type !== "action")
+    },
+    rarityClass() {
+      return rarityClass(this.gear)
     }
   },
   watch: {

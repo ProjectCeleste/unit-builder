@@ -93,6 +93,7 @@ import Icon from "./Icon.vue"
 import CostStats from "./CostStats.vue"
 import effects from "../data/effects.json"
 import { med, min, max, toDisplay } from "../stats.js"
+import { rarityClass } from "../rarity.js"
 
 export default {
   name: "Preview",
@@ -103,11 +104,7 @@ export default {
   },
   computed: {
     rarityClass() {
-      const classObj = {}
-      if (this.item.rarity !== undefined) {
-        classObj["rarity-" + this.rarityName(this.item.rarity)] = true
-      }
-      return classObj
+      return rarityClass(this.item)
     }
   },
   methods: {
@@ -120,20 +117,6 @@ export default {
     },
     effectType(effect) {
       return effects[effect.type].type
-    },
-    rarityName(rarity) {
-      switch (rarity) {
-        case 1:
-          return "uncommon"
-        case 2:
-          return "rare"
-        case 3:
-          return "epic"
-        case 4:
-          return "legendary"
-        default:
-          return "common"
-      }
     }
   }
 }
