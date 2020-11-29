@@ -98,11 +98,12 @@ export function addEffect(name) {
     addEffect(name.replace("Convert", "Chaos"))
   }
   if (!effects[name]) {
+    const template = getTemplate(name)
     effects[name] = {
-      name: getDisplayName(name),
+      name: template.name,
       base: getBase(name),
       type: getType(name),
-      icon: getIcon(name)
+      icon: template.icon
     }
     // TODO lower is better for comparison
     // TODO sort value
@@ -173,228 +174,303 @@ function getType(effectName) {
   return "normal" // value displayed with prefix nor suffix
 }
 
-const displayNames = {
-  ActionEnableBurningAttack: "Burning Damage over 8s",
-  ActionEnableSelfHeal: "Enables Self-Heal Action",
-  ActionEnableCharge: "Grants Charge Attack",
-  ActionEnableHeal: "Grants Healing Action",
-  ActionEnableMeleeAttack: "Grants Ability to Attack Mobile Units",
-  ActionEnableRangedAttack: "Grants Ranged Attack",
-  ActionEnableAreaHeal: "Grants Area Healing",
-  ActionEnableMovementSpeedAuraVillager: "Grants Movement Speed Aura",
-  ActionEnableAutoGather: "Generate 1 gold per second",
-  WorkRateSelfHeal: "Regen. Rate",
-  GatherFood: "Gathering Food",
-  GatherGold: "Gathering Gold",
-  GatherTree: "Gathering Wood",
-  GatherStone: "Gathering Stone",
-  GatherHuntable: "Gathering Huntable",
-  GatherHerdable: "Gathering Herdable",
-  GatherAbstractFruit: "Gathering Berries",
-  GatherAbstractFarm: "Gathering Farms",
-  GatherAbstractFish: "Gathering Fish",
-  YieldTree: "Wood Conservation",
-  YieldGold: "Gold Conservation",
-  YieldStone: "Stone Conservation",
-  YieldAbstractFish: "Fish Conservation",
-  YieldHuntable: "Huntable Conservation",
-  YieldAbstractFruit: "Berry Bushes Conservation",
-  AutoGatherFood: "Generating Food",
-  AutoGatherGold: "Generating Gold",
-  AutoGatherTree: "Generating Wood",
-  AutoGatherStone: "Generating Stone",
-  CarryCapacityFood: "Food Carrying Capacity",
-  CarryCapacityWood: "Wood Carrying Capacity",
-  CarryCapacityGold: "Gold Carrying Capacity",
-  CarryCapacityStone: "Stone Carrying Capacity",
-  DamageArea: "Splash Area",
-  AreaDamageReduction: "Splash Damage Reduction",
-  BuildingWorkRate: "Train/Research Rate",
-  BuildPoints: "Build Time",
-  ConvertResist: "Conversion Resistance",
-  CostAll: "Cost",
-  CostFood: "Food Cost",
-  CostWood: "Wood Cost",
-  CostGold: "Gold Cost",
-  CostStone: "Stone Cost",
-  PopulationCount: "Population",
-  BuildLimit: "Build Limit",
-  Damage: "Damage",
-  DamageMeleeAttack: "Melee Damage",
-  DamageRangedAttack: "Pierce Damage",
-  DamageBonusReduction: "Bonus Damage Protection",
-  HitPercent: "Critical Hit Chance",
-  Hitpoints: "Health",
-  LOS: "Line-of-sight",
-  MaximumRange: "Maximum Range",
-  MinimumRange: "Minimum Range",
-  MaximumRangeConvert: "Maximum Conversion Range",
-  MaximumRangeChaos: "Maximum Chaos Range",
-  MaximumRangeHeal: "Maximum Healing Range",
-  MaximumVelocity: "Movement Speed",
-  TargetSpeedBoost: "Snare",
-  TargetSpeedBoostResist: "Snare Resist",
-  TrainPoints: "Train Time",
-  ArmorRanged: "Pierce Armor",
-  ArmorSiege: "Crush Armor",
-  ArmorHand: "Melee-Infantry Armor",
-  ArmorCavalry: "Melee-Cavalry Armor",
-  ConvertStandardConvertable: "Conversion Rate",
-  ConvertConvertableCavalry: "Convert Cavalry Rate",
-  ConvertConvertableSiege: "Convert Siege Rate",
-  ConvertConvertableInfantry: "Convert Infantry Rate",
-  ChaosStandardConvertable: "Chaos Rate",
-  ChaosConvertableCavalry: "Cavalry Chaos Rate",
-  ChaosConvertableSiege: "Siege Chaos Rate",
-  ChaosConvertableInfantry: "Infantry Chaos Rate",
-  Trade: "Trade",
-  RateHeal: "Healing",
-  RateHealInCombat: "Healing",
-  Build: "Buildings Construction Speed",
-  BuildWatchPost: "Watch Post Construction Speed",
-  EmpowerDropsite: "Empower Dropoff",
-  EmpowerActionTrain: "Empower Train Rate",
-  EmpowerActionBuild: "Empower Build Rate",
-  DamageBonusAbstractInfantry: "Bonus vs. Infantry",
-  DamageBonusAbstractCavalry: "Bonus vs. Cavalry",
-  DamageBonusBuilding: "Bonus vs. Building",
-  DamageBonusShip: "Bonus vs. Ship",
-  DamageBonusAbstractArcher: "Bonus vs. Ranged",
-  DamageBonusGr_Cav_Sarissophoroi: "Bonus vs. Sarissophoroi",
-  DamageBonusUnitTypeBldgStorehouse: "Bonus vs. Storehouse",
-  DamageBonusAbstractArtillery: "Bonus vs. Siege",
-  DamageBonusHuntable: "Bonus vs. Huntable",
-  DamageBonusUnitTypeVillager1: "Bonus vs. Villager",
-  DamageBonusAbstractPriest: "Bonus vs. Priests",
-  DamageBonusEg_Cav_CamelRider: "Bonus vs. Camel Rider",
-  AttackSpeed: "Rate-of-fire",
-  DamageHand: "Melee-Infantry DPS",
-  DamageRanged: "Pierce DPS",
-  DamageCavalry: "Melee-Cavalry DPS",
-  DamageSiege: "Crush DPS",
-  DamageSiegeMeleeAttack: "Melee Crush DPS",
-  DamageSiegeRangedAttack: "Ranged Crush DPS",
-  MaximumContained: "Transport Capacity",
-  AOERadius: "Charge Attack Damage Area",
-  ArmorVulnerability: "Ignore Armor"
+const templates = {
+  ActionEnableBurningAttack: {
+    name: "Burning Damage over 8s",
+    icon: "NONE",
+    sort: 0
+  },
+  ActionEnableSelfHeal: {
+    name: "Enables Self-Heal Action",
+    icon: "WorkRateSelfHeal",
+    sort: 0
+  },
+  ActionEnableCharge: { name: "Grants Charge Attack", icon: "NONE", sort: 0 },
+  ActionEnableHeal: {
+    name: "Grants Healing Action",
+    icon: "WorkRateSelfHeal",
+    sort: 0
+  },
+  ActionEnableMeleeAttack: {
+    name: "Grants Ability to Attack Mobile Units",
+    icon: "NONE",
+    sort: 0
+  },
+  ActionEnableRangedAttack: {
+    name: "Grants Ranged Attack",
+    icon: "NONE",
+    sort: 0
+  },
+  ActionEnableAreaHeal: { name: "Grants Area Healing", icon: "NONE", sort: 0 },
+  ActionEnableMovementSpeedAuraVillager: {
+    name: "Grants Movement Speed Aura",
+    icon: "NONMaximumVelocityE",
+    sort: 0
+  },
+  ActionEnableAutoGather: {
+    name: "Generate 1 gold per second",
+    icon: "Cost",
+    sort: 0
+  },
+  WorkRateSelfHeal: { name: "Regen. Rate", icon: "WorkRateSelfHeal", sort: 0 },
+  GatherFood: { name: "Gathering Food", icon: "GatherFood", sort: 0 },
+  GatherGold: { name: "Gathering Gold", icon: "GatherGold", sort: 0 },
+  GatherTree: { name: "Gathering Wood", icon: "GatherTree", sort: 0 },
+  GatherStone: { name: "Gathering Stone", icon: "GatherStone", sort: 0 },
+  GatherHuntable: { name: "Gathering Huntable", icon: "GatherFood", sort: 0 },
+  GatherHerdable: { name: "Gathering Herdable", icon: "GatherFood", sort: 0 },
+  GatherAbstractFruit: { name: "Gathering Berries", icon: "Berry", sort: 0 },
+  GatherAbstractFarm: { name: "Gathering Farms", icon: "GatherFood", sort: 0 },
+  GatherAbstractFish: { name: "Gathering Fish", icon: "Fish", sort: 0 },
+  YieldTree: { name: "Wood Conservation", icon: "YieldTree", sort: 0 },
+  YieldGold: { name: "Gold Conservation", icon: "YieldGold", sort: 0 },
+  YieldStone: { name: "Stone Conservation", icon: "YieldStone", sort: 0 },
+  YieldAbstractFish: {
+    name: "Fish Conservation",
+    icon: "YieldAbstractFish",
+    sort: 0
+  },
+  YieldHuntable: { name: "Huntable Conservation", icon: "TODO", sort: 0 },
+  YieldAbstractFruit: {
+    name: "Berry Bushes Conservation",
+    icon: "YieldAbstractFruit",
+    sort: 0
+  },
+  AutoGatherFood: { name: "Generating Food", icon: "GatherFood", sort: 0 },
+  AutoGatherGold: { name: "Generating Gold", icon: "GatherGold", sort: 0 },
+  AutoGatherTree: { name: "Generating Wood", icon: "GatherTree", sort: 0 },
+  AutoGatherStone: { name: "Generating Stone", icon: "GatherStone", sort: 0 },
+  CarryCapacityFood: {
+    name: "Food Carrying Capacity",
+    icon: "CarryCapacityFood",
+    sort: 0
+  },
+  CarryCapacityWood: {
+    name: "Wood Carrying Capacity",
+    icon: "CarryCapacityWood",
+    sort: 0
+  },
+  CarryCapacityGold: {
+    name: "Gold Carrying Capacity",
+    icon: "CarryCapacityGold",
+    sort: 0
+  },
+  CarryCapacityStone: {
+    name: "Stone Carrying Capacity",
+    icon: "CarryCapacityStone",
+    sort: 0
+  },
+  DamageArea: { name: "Splash Area", icon: "DamageArea", sort: 0 },
+  AreaDamageReduction: {
+    name: "Splash Damage Reduction",
+    icon: "AreaDamageReduction",
+    sort: 0
+  },
+  BuildingWorkRate: {
+    name: "Train/Research Rate",
+    icon: "BuildPoints",
+    sort: 0
+  },
+  BuildPoints: { name: "Build Time", icon: "BuildPoints", sort: 0 },
+  ConvertResist: {
+    name: "Conversion Resistance",
+    icon: "ConvertResist",
+    sort: 0
+  },
+  CostAll: { name: "Cost", icon: "Cost", sort: 0 },
+  CostFood: { name: "Food Cost", icon: "CostFood", sort: 0 },
+  CostWood: { name: "Wood Cost", icon: "CostWood", sort: 0 },
+  CostGold: { name: "Gold Cost", icon: "CostGold", sort: 0 },
+  CostStone: { name: "Stone Cost", icon: "CostStone", sort: 0 },
+  PopulationCount: { name: "Population", icon: "PopulationCount", sort: 0 },
+  BuildLimit: { name: "Build Limit", icon: "BuildLimit", sort: 0 },
+  Damage: { name: "Damage", icon: "DamageHand", sort: 0 },
+  DamageMeleeAttack: { name: "Melee Damage", icon: "DamageHand", sort: 0 },
+  DamageRangedAttack: { name: "Pierce Damage", icon: "DamageRanged", sort: 0 },
+  DamageBonusReduction: {
+    name: "Bonus Damage Protection",
+    icon: "DamageBonusReduction",
+    sort: 0
+  },
+  HitPercent: { name: "Critical Hit Chance", icon: "CriticalHit", sort: 0 },
+  Hitpoints: { name: "Health", icon: "Hitpoints", sort: 0 },
+  LOS: { name: "Line-of-sight", icon: "LOS", sort: 0 },
+  MaximumRange: { name: "Maximum Range", icon: "MaximumRange", sort: 0 },
+  MinimumRange: { name: "Minimum Range", icon: "MaximumRange", sort: 0 },
+  MaximumRangeConvert: {
+    name: "Maximum Conversion Range",
+    icon: "MaximumRange",
+    sort: 0
+  },
+  MaximumRangeChaos: {
+    name: "Maximum Chaos Range",
+    icon: "MaximumRange",
+    sort: 0
+  },
+  MaximumRangeHeal: {
+    name: "Maximum Healing Range",
+    icon: "MaximumRange",
+    sort: 0
+  },
+  MaximumVelocity: { name: "Movement Speed", icon: "MaximumVelocity", sort: 0 },
+  TargetSpeedBoost: { name: "Snare", icon: "TargetSpeedBoost", sort: 0 },
+  TargetSpeedBoostResist: {
+    name: "Snare Resist",
+    icon: "SnareResist",
+    sort: 0
+  },
+  TrainPoints: { name: "Train Time", icon: "BuildPoints", sort: 0 },
+  ArmorRanged: { name: "Pierce Armor", icon: "ArmorRanged", sort: 0 },
+  ArmorSiege: { name: "Crush Armor", icon: "ArmorSiege", sort: 0 },
+  ArmorHand: { name: "Melee-Infantry Armor", icon: "ArmorHand", sort: 0 },
+  ArmorCavalry: { name: "Melee-Cavalry Armor", icon: "ArmorCavalry", sort: 0 },
+  ConvertStandardConvertable: {
+    name: "Conversion Rate",
+    icon: "ConvertStandardConvertable",
+    sort: 0
+  },
+  ConvertConvertableCavalry: {
+    name: "Convert Cavalry Rate",
+    icon: "ConvertStandardConvertable",
+    sort: 0
+  },
+  ConvertConvertableSiege: {
+    name: "Convert Siege Rate",
+    icon: "ConvertStandardConvertable",
+    sort: 0
+  },
+  ConvertConvertableInfantry: {
+    name: "Convert Infantry Rate",
+    icon: "ConvertStandardConvertable",
+    sort: 0
+  },
+  ChaosStandardConvertable: { name: "Chaos Rate", icon: "Chaos", sort: 0 },
+  ChaosConvertableCavalry: {
+    name: "Cavalry Chaos Rate",
+    icon: "Chaos",
+    sort: 0
+  },
+  ChaosConvertableSiege: { name: "Siege Chaos Rate", icon: "Chaos", sort: 0 },
+  ChaosConvertableInfantry: {
+    name: "Infantry Chaos Rate",
+    icon: "Chaos",
+    sort: 0
+  },
+  Trade: { name: "Trade", icon: "Cost", sort: 0 },
+  RateHeal: { name: "Healing", icon: "RateHeal", sort: 0 },
+  RateHealInCombat: { name: "Healing", icon: "RateHeal", sort: 0 },
+  Build: {
+    name: "Buildings Construction Speed",
+    icon: "ConstructionSpeed",
+    sort: 0
+  },
+  BuildWatchPost: {
+    name: "Watch Post Construction Speed",
+    icon: "WatchPostConstruction",
+    sort: 0
+  },
+  EmpowerDropsite: {
+    name: "Empower Dropoff",
+    icon: "EmpowerDropsite",
+    sort: 0
+  },
+  EmpowerActionTrain: {
+    name: "Empower Train Rate",
+    icon: "EmpowerActionTrain",
+    sort: 0
+  },
+  EmpowerActionBuild: {
+    name: "Empower Build Rate",
+    icon: "EmpowerActionBuild",
+    sort: 0
+  },
+  DamageBonusAbstractInfantry: {
+    name: "Bonus vs. Infantry",
+    icon: "DamageBonusAbstractInfantry",
+    sort: 0
+  },
+  DamageBonusAbstractCavalry: {
+    name: "Bonus vs. Cavalry",
+    icon: "DamageBonusAbstractCavalry",
+    sort: 0
+  },
+  DamageBonusBuilding: {
+    name: "Bonus vs. Building",
+    icon: "DamageBonusBuilding",
+    sort: 0
+  },
+  DamageBonusShip: { name: "Bonus vs. Ship", icon: "DamageBonusShip", sort: 0 },
+  DamageBonusAbstractArcher: {
+    name: "Bonus vs. Ranged",
+    icon: "DamageBonusAbstractArcher",
+    sort: 0
+  },
+  DamageBonusGr_Cav_Sarissophoroi: {
+    name: "Bonus vs. Sarissophoroi",
+    icon: "DamageBonusAbstractCavalry",
+    sort: 0
+  },
+  DamageBonusUnitTypeBldgStorehouse: {
+    name: "Bonus vs. Storehouse",
+    icon: "DamageBonusBuilding",
+    sort: 0
+  },
+  DamageBonusAbstractArtillery: {
+    name: "Bonus vs. Siege",
+    icon: "DamageBonusAbstractArtillery",
+    sort: 0
+  },
+  DamageBonusHuntable: {
+    name: "Bonus vs. Huntable",
+    icon: "DamageBonusHuntable",
+    sort: 0
+  },
+  DamageBonusUnitTypeVillager1: {
+    name: "Bonus vs. Villager",
+    icon: "DamageBonusUnitTypeVillager1",
+    sort: 0
+  },
+  DamageBonusAbstractPriest: {
+    name: "Bonus vs. Priests",
+    icon: "DamageBonusAbstractPriest",
+    sort: 0
+  },
+  DamageBonusEg_Cav_CamelRider: {
+    name: "Bonus vs. Camel Rider",
+    icon: "DamageBonusAbstractCavalry",
+    sort: 0
+  },
+  AttackSpeed: { name: "Rate-of-fire", icon: "DamageOverTime", sort: 0 },
+  DamageHand: { name: "Melee-Infantry DPS", icon: "DamageHand", sort: 0 },
+  DamageRanged: { name: "Pierce DPS", icon: "DamageRanged", sort: 0 },
+  DamageCavalry: { name: "Melee-Cavalry DPS", icon: "DamageCavalry", sort: 0 },
+  DamageSiege: { name: "Crush DPS", icon: "DamageSiege", sort: 0 },
+  DamageSiegeMeleeAttack: {
+    name: "Melee Crush DPS",
+    icon: "DamageSiege",
+    sort: 0
+  },
+  DamageSiegeRangedAttack: {
+    name: "Ranged Crush DPS",
+    icon: "DamageSiege",
+    sort: 0
+  },
+  MaximumContained: {
+    name: "Transport Capacity",
+    icon: "PopulationCount",
+    sort: 0
+  },
+  AOERadius: { name: "Charge Attack Damage Area", icon: "DamageArea", sort: 0 },
+  ArmorVulnerability: {
+    name: "Ignore Armor",
+    icon: "ArmorVulnerability",
+    sort: 0
+  }
 }
 
-function getDisplayName(effectName) {
-  if (displayNames[effectName]) {
-    return displayNames[effectName]
+function getTemplate(effectName) {
+  if (templates[effectName]) {
+    return templates[effectName]
   }
   throw `Effect '${effectName}' is not handled`
-}
-
-const icons = {
-  ActionEnableBurningAttack: "NONE",
-  ActionEnableSelfHeal: "WorkRateSelfHeal",
-  ActionEnableCharge: "NONE",
-  ActionEnableHeal: "WorkRateSelfHeal",
-  ActionEnableMeleeAttack: "NONE",
-  ActionEnableRangedAttack: "NONE",
-  ActionEnableAreaHeal: "NONE",
-  ActionEnableMovementSpeedAuraVillager: "MaximumVelocity",
-  ActionEnableAutoGather: "Cost",
-  WorkRateSelfHeal: "WorkRateSelfHeal",
-  GatherFood: "GatherFood",
-  GatherGold: "GatherGold",
-  GatherTree: "GatherTree",
-  GatherStone: "GatherStone",
-  GatherHuntable: "GatherFood",
-  GatherHerdable: "GatherFood",
-  GatherAbstractFruit: "Berry",
-  GatherAbstractFarm: "GatherFood",
-  GatherAbstractFish: "Fish",
-  YieldTree: "YieldTree",
-  YieldGold: "YieldGold",
-  YieldStone: "YieldStone",
-  YieldAbstractFish: "YieldAbstractFish",
-  YieldHuntable: "TODO",
-  YieldAbstractFruit: "YieldAbstractFruit",
-  AutoGatherFood: "GatherFood",
-  AutoGatherGold: "GatherGold",
-  AutoGatherTree: "GatherTree",
-  AutoGatherStone: "GatherStone",
-  CarryCapacityFood: "CarryCapacityFood",
-  CarryCapacityWood: "CarryCapacityWood",
-  CarryCapacityGold: "CarryCapacityGold",
-  CarryCapacityStone: "CarryCapacityStone",
-  DamageArea: "DamageArea",
-  AreaDamageReduction: "AreaDamageReduction",
-  BuildingWorkRate: "BuildPoints",
-  BuildPoints: "BuildPoints",
-  ConvertResist: "ConvertResist",
-  CostAll: "Cost",
-  CostFood: "CostFood",
-  CostWood: "CostWood",
-  CostGold: "CostGold",
-  CostStone: "CostStone",
-  PopulationCount: "PopulationCount",
-  BuildLimit: "BuildLimit",
-  Damage: "DamageHand",
-  DamageMeleeAttack: "DamageHand",
-  DamageRangedAttack: "DamageRanged",
-  DamageBonusReduction: "DamageBonusReduction",
-  HitPercent: "CriticalHit",
-  Hitpoints: "Hitpoints",
-  LOS: "LOS",
-  MaximumRange: "MaximumRange",
-  MinimumRange: "MaximumRange",
-  MaximumRangeConvert: "MaximumRange",
-  MaximumRangeChaos: "MaximumRange",
-  MaximumRangeHeal: "MaximumRange",
-  MaximumVelocity: "MaximumVelocity",
-  TargetSpeedBoost: "TargetSpeedBoost",
-  TargetSpeedBoostResist: "SnareResist",
-  TrainPoints: "BuildPoints",
-  ArmorRanged: "ArmorRanged",
-  ArmorSiege: "ArmorSiege",
-  ArmorHand: "ArmorHand",
-  ArmorCavalry: "ArmorCavalry",
-  ConvertStandardConvertable: "ConvertStandardConvertable",
-  ConvertConvertableCavalry: "ConvertStandardConvertable",
-  ConvertConvertableSiege: "ConvertStandardConvertable",
-  ConvertConvertableInfantry: "ConvertStandardConvertable",
-  ChaosStandardConvertable: "Chaos",
-  ChaosConvertableCavalry: "Chaos",
-  ChaosConvertableSiege: "Chaos",
-  ChaosConvertableInfantry: "Chaos",
-  Trade: "Cost",
-  RateHeal: "RateHeal",
-  RateHealInCombat: "RateHeal",
-  Build: "ConstructionSpeed",
-  BuildWatchPost: "WatchPostConstruction",
-  EmpowerDropsite: "EmpowerDropsite",
-  EmpowerActionTrain: "EmpowerActionTrain",
-  EmpowerActionBuild: "EmpowerActionBuild",
-  DamageBonusAbstractInfantry: "DamageBonusAbstractInfantry",
-  DamageBonusAbstractCavalry: "DamageBonusAbstractCavalry",
-  DamageBonusBuilding: "DamageBonusBuilding",
-  DamageBonusShip: "DamageBonusShip",
-  DamageBonusAbstractArcher: "DamageBonusAbstractArcher",
-  DamageBonusGr_Cav_Sarissophoroi: "DamageBonusAbstractCavalry",
-  DamageBonusUnitTypeBldgStorehouse: "DamageBonusBuilding",
-  DamageBonusAbstractArtillery: "DamageBonusAbstractArtillery",
-  DamageBonusHuntable: "DamageBonusHuntable",
-  DamageBonusUnitTypeVillager1: "DamageBonusUnitTypeVillager1",
-  DamageBonusAbstractPriest: "DamageBonusAbstractPriest",
-  DamageBonusEg_Cav_CamelRider: "DamageBonusAbstractCavalry",
-  AttackSpeed: "DamageOverTime",
-  DamageHand: "DamageHand",
-  DamageRanged: "DamageRanged",
-  DamageCavalry: "DamageCavalry",
-  DamageSiege: "DamageSiege",
-  DamageSiegeMeleeAttack: "DamageSiege",
-  DamageSiegeRangedAttack: "DamageSiege",
-  MaximumContained: "PopulationCount",
-  AOERadius: "DamageArea",
-  ArmorVulnerability: "ArmorVulnerability"
-}
-
-function getIcon(effectName) {
-  if (icons[effectName]) {
-    return icons[effectName]
-  }
-  throw `Icon for effect '${effectName}' is not handled`
 }

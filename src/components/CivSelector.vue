@@ -18,7 +18,6 @@
 </template>
 
 <script>
-// TODO capitalize civ first letter
 import Icon from "./Icon.vue"
 
 export default {

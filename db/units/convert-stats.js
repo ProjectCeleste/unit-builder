@@ -95,9 +95,6 @@ export async function convertUnitStats(unit) {
       tactics.action
         .filter(a => {
           for (let i = 0; i < tactics.tactic.length; i++) {
-            if (unit.Tactics === "spearman.tactics") {
-              console.log(a, tactics.tactic[i])
-            }
             if (tactics.tactic[i].action.some(ta => ta.text === a.name.text)) {
               return true
             }
