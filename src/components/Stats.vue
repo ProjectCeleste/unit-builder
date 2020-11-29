@@ -4,13 +4,9 @@
       <span class="is-flex-grow-1">Cost</span>
       <CostStats :cost="computedStatsCost" />
     </div>
-    <div
-      v-for="(stat, key) in computedStatsWithoutCost"
-      :key="key"
-      class="my-1"
-    >
+    <div v-for="key in orderedStatsKeys" :key="key" class="my-1">
       <span class="is-flex-grow-1 mr-1">{{ effectName(key) }}</span>
-      <span>{{ formatEffect(key, stat) }}</span>
+      <span>{{ formatEffect(key, computedStatsWithoutCost[key]) }}</span>
       <Icon sprite="icons" :name="effectIcon(key)" size="xs" class="ml-1" />
     </div>
   </div>
@@ -79,6 +75,11 @@ export default {
       }
 
       return stats
+    },
+    orderedStatsKeys() {
+      return Object.keys(this.computedStatsWithoutCost).sort((a, b) => {
+        return effects[a].sort - effects[b].sort
+      })
     },
     computedStats() {
       const stats = {}
