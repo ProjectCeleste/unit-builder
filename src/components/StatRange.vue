@@ -11,17 +11,19 @@
     @touchend="$event.stopPropagation()"
   >
     <span>{{ effectName }}</span>
-    <input
-      ref="input"
-      class="stat-range-input"
-      type="range"
-      :min="min"
-      :max="max"
-      :value="modelValue"
-      step="0.0001"
-      :title="fixed ? 'This item has fixed stats' : ''"
-      @input="onInput"
-    />
+    <div>
+      <input
+        ref="input"
+        class="stat-range-input"
+        type="range"
+        :min="min"
+        :max="max"
+        :value="modelValue"
+        step="0.0001"
+        :title="fixed ? 'This item has fixed stats' : ''"
+        @input="onInput"
+      />
+    </div>
     <span class="has-text-right">{{
       toDisplay(effect, effect.absolute ? modelValue : modelValue - 1)
     }}</span>
@@ -84,6 +86,8 @@ export default {
   & > * {
     display: table-cell;
     vertical-align: middle;
+    white-space: normal;
+    word-break: keep-all;
   }
 
   .stat-range-input {
@@ -97,7 +101,7 @@ export default {
     box-sizing: border-box;
     background: transparent;
     width: 100%;
-    min-width: 150px;
+    vertical-align: middle;
 
     appearance: none;
     -webkit-appearance: none;
@@ -164,6 +168,12 @@ export default {
     &::-moz-range-track {
       cursor: auto;
     }
+  }
+}
+
+@media screen and (min-width: 550px) {
+  .stat-range-input {
+    min-width: 150px;
   }
 }
 

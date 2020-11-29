@@ -116,6 +116,7 @@ export default {
 <style lang="scss" scoped>
 .dropdown {
   background-color: $tooltip-background-color;
+  width: auto !important;
 }
 
 .gear-name {

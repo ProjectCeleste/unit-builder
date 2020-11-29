@@ -1,6 +1,5 @@
 $color-positive: #1ae61a;
 $color-negative: #e83030;
-$color-average: #ffe100;
 $color-neutral: #ffff00;
 $color-muted: #a6a6a6;
 $color-category: #0a7396;
@@ -9,7 +8,6 @@ $color-highlight: #51a4fc;
 $text-colors: (
   "positive": $color-positive,
   "negative": $color-negative,
-  "average": $color-average,
   "neutral": $color-neutral,
   "muted": $color-muted,
   "category": $color-category,
@@ -17,10 +15,10 @@ $text-colors: (
 );
 
 $color-rarity-common: #b7b8b7;
-$color-rarity-uncommon: #00aa00;
-$color-rarity-rare: #0000a8;
-$color-rarity-epic: #8400ad;
-$color-rarity-legendary: #ad5000;
+$color-rarity-uncommon: #45ff5e;
+$color-rarity-rare: #3b8fff;
+$color-rarity-epic: #b04bdf;
+$color-rarity-legendary: orange;
 
 $rarity-colors: (
   "common": $color-rarity-common,

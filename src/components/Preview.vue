@@ -3,7 +3,9 @@
     <div class="is-flex mb-2">
       <Icon :sprite="type" :name="item.icon" :title="item.name" class="mr-2" />
       <div class="is-flex is-flex-direction-column">
-        <span class="title is-size-6 mb-2">{{ item.name }}</span>
+        <span class="title is-size-6 mb-2" :class="rarityClass">{{
+          item.name
+        }}</span>
         <div v-if="item.cost" class="is-flex is-flex-direction-row is-size-7">
           <CostStats :cost="item.cost" />
         </div>
@@ -99,6 +101,15 @@ export default {
     item: { type: Object, required: true },
     type: { type: String, default: "gear" }
   },
+  computed: {
+    rarityClass() {
+      const classObj = {}
+      if (this.item.rarity !== undefined) {
+        classObj["rarity-" + this.rarityName(this.item.rarity)] = true
+      }
+      return classObj
+    }
+  },
   methods: {
     med,
     min,
@@ -109,6 +120,20 @@ export default {
     },
     effectType(effect) {
       return effects[effect.type].type
+    },
+    rarityName(rarity) {
+      switch (rarity) {
+        case 1:
+          return "uncommon"
+        case 2:
+          return "rare"
+        case 3:
+          return "epic"
+        case 4:
+          return "legendary"
+        default:
+          return "common"
+      }
     }
   }
 }
