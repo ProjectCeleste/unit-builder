@@ -171,7 +171,7 @@ export default {
   }
 }
 
-@media screen and (min-width: 550px) {
+@media screen and (min-width: $small-mobile) {
   .stat-range-input {
     min-width: 150px;
   }

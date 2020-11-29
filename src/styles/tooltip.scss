@@ -77,7 +77,7 @@ $tooltip-item-background-color-hover: #3b6578;
   }
 }
 
-@media screen and (min-width: 550px) {
+@media screen and (min-width: $small-mobile) {
   .dropdown {
     left: auto;
     right: auto;
