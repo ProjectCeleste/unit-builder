@@ -57,10 +57,10 @@ export default {
       return this.effect.amount + this.effect.scaling * this.level
     },
     min() {
-      return this.fixed ? this.med : this.med * 0.95
+      return this.fixed ? this.med : (this.med - 1) * 0.95 + 1
     },
     max() {
-      return this.fixed ? this.med : this.med * 1.05
+      return this.fixed ? this.med : (this.med - 1) * 1.05 + 1
     },
     effectName() {
       return effects[this.effect.type].name
