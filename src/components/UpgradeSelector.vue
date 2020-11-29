@@ -58,15 +58,18 @@ export default {
     }
   },
   computed: {
+    // TODO handle UnlockUpgrade effects
     upgrades() {
       return upgrades[this.civ]
         .filter(u => upgradeAppliesToUnit(u, this.unit))
         .filter(u => u.chain === undefined)
+        .filter(u => !u.unlocked)
     },
     chainedUpgrades() {
       return upgrades[this.civ]
         .filter(u => upgradeAppliesToUnit(u, this.unit))
         .filter(u => u.chain !== undefined)
+        .filter(u => !u.unlocked) // TODO show unlocked upgrades if they're available
     }
   },
   watch: {

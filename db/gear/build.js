@@ -1,7 +1,7 @@
 import { getGear, getReforgeBlacklist, downloadImage } from "../api.js"
 import { stringtablex, findLang } from "../lang.js"
 import { convertEffects } from "../effects.js"
-import { convertIconName, findByAttribute } from "../utils.js"
+import { convertIconName, findByAttribute, convertRarity } from "../utils.js"
 
 export async function buildGear() {
   console.log("Building gear...")
@@ -23,7 +23,7 @@ export async function buildGear() {
   for (let type in results) {
     results[type] = results[type].reverse()
     results[type].sort((a, b) =>
-      a.rarity > b.rarity ? -1 : a.rarity == b.rarity ? 0 : 1
+      a.rarity > b.rarity ? -1 : a.rarity === b.rarity ? 0 : 1
     )
 
     results[type].unshift({
@@ -50,28 +50,11 @@ async function convertGear(gear) {
     name: findLang(stringtablex, gear.displaynameid),
     icon: iconDst,
     levels: gear.itemlevels,
-    rarity: convertRarity(gear),
+    rarity: convertRarity(gear.rarity),
     effects: convertEffects(gear.effects.effect),
     fixed:
       gear.event !== undefined ||
       findByAttribute(reforgeBlacklist, "name", gear.name) !== undefined
-  }
-}
-
-function convertRarity(gear) {
-  switch (gear.rarity) {
-    case "common":
-      return 0
-    case "uncommon":
-      return 1
-    case "rare":
-      return 2
-    case "epic":
-      return 3
-    case "legendary":
-      return 4
-    default:
-      return 0
   }
 }
 

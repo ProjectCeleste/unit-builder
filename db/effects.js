@@ -1,14 +1,33 @@
 import { addUnitType } from "./unit_types.js"
+import { addExtraUpgrade } from "./upgrades/build.js"
 
 const effects = {}
-const ignoredEffects = ["Enable", "Market", "TributePenalty", "UpdateVisual"]
+const ignoredEffects = [
+  "Enable",
+  "Market",
+  "TributePenalty",
+  "UpdateVisual",
+  "CostBuildingTechs",
+  "ResourceTrickleRate"
+]
 
-export function convertEffects(effects) {
+const ignoredTargets = ["TechAll"]
+
+export function convertEffects(effects, civ) {
   const res = []
   for (let i = 0; i < effects.length; i++) {
     const e = effects[i]
     let type = e.subtype
     if (!type || ignoredEffects.includes(type)) {
+      if (civ && e.type === "TechStatus" && e.status === "obtainable") {
+        // Tech is not available through equipments.xml
+        // so add it as extra upgrade for upgrades generation
+        addExtraUpgrade(e.text, civ)
+        res.push({
+          type: "UnlockUpgrade",
+          tech: e.text
+        })
+      }
       continue
     }
 
@@ -62,6 +81,8 @@ export function convertEffects(effects) {
       type += e.unittype
     } else if (type === "Armor") {
       type += e.damagetype
+    } else if (type === "Haste") {
+      type = "AttackSpeed"
     } else if (
       (type === "MaximumRange" && e.action !== "RangedAttack") ||
       type === "ActionEnable"
@@ -77,6 +98,9 @@ export function convertEffects(effects) {
     }
 
     if (e.Target && e.Target.type !== "Player") {
+      if (ignoredTargets.includes(e.Target.type)) {
+        continue
+      }
       effect.target = e.Target.text
       addUnitType(e.Target.text)
     } else {
@@ -477,6 +501,11 @@ const templates = {
     name: "Ignore Armor",
     icon: "ArmorVulnerability",
     sort: 42
+  },
+  UnlockUpgrade: {
+    name: "Unlocks upgrade",
+    icon: "NONE",
+    sort: 0
   }
 }
 

@@ -12,6 +12,14 @@ const ignoredRequirements = [
   "PVP_NorseCapAge2"
 ]
 
+const extraUpgrades = []
+
+export function addExtraUpgrade(techName, civ) {
+  if (!extraUpgrades.some(u => u.techName === techName)) {
+    extraUpgrades.push({ techName, civ: civ.toLowerCase() })
+  }
+}
+
 export async function buildUpgrades() {
   console.log("Building upgrades...")
   const equipments = await getEquipments()
@@ -28,6 +36,20 @@ export async function buildUpgrades() {
 
     results[civ] = results[civ].concat(
       upgrades.filter(u => !results[civ].some(up => up.id === u.id))
+    )
+  }
+
+  for (let i = 0; i < extraUpgrades.length; i++) {
+    const extra = extraUpgrades[i]
+    const upgrades = await convertEquipmentToUpgrades({
+      civ: extra.civ,
+      reward: { rank: [{ tech: extra.techName }] }
+    })
+    upgrades.forEach(u => {
+      u.unlocked = true
+    })
+    results[extra.civ] = results[extra.civ].concat(
+      upgrades.filter(u => !results[extra.civ].some(up => up.id === u.id))
     )
   }
 

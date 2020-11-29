@@ -56,3 +56,27 @@ export function convertMarkup(text) {
     )
     .replace(/<\/color>/g, "") // Fix for persian spearman champion
 }
+
+export function convertRarity(rarity) {
+  switch (rarity) {
+    case "common":
+      return 0
+    case "uncommon":
+      return 1
+    case "rare":
+      return 2
+    case "epic":
+      return 3
+    case "legendary":
+      return 4
+    default:
+      return 0
+  }
+}
+
+export function max(arr, attributeName) {
+  return Math.max.apply(
+    Math,
+    arr.map(v => v[attributeName])
+  )
+}

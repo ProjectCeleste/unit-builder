@@ -50,6 +50,10 @@ export async function getUnits() {
   return await get("/units")
 }
 
+export async function getAdvisors() {
+  return await get("/advisors")
+}
+
 export async function getTechtree() {
   if (!cache["/techtree"]) {
     console.log("GET techtree")

@@ -119,6 +119,9 @@ export default {
     },
     formatEffect(name, value) {
       const effect = effects[name]
+      if (name === "HitPercent") {
+        value = (value - 1) * 100
+      }
       let formattedValue = value.toFixed(2)
 
       switch (effect.type) {
@@ -172,7 +175,10 @@ export default {
       this.filterUpgradeEffects(upgrade.chain, res)
     },
     applyEffect(effect, stats) {
-      if (effects[effect.type].type === "action") {
+      if (
+        effects[effect.type].type === "action" ||
+        effect.type === "UnlockUpgrade"
+      ) {
         return
       }
       let mod = effect.amount
