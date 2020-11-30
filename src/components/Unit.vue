@@ -32,6 +32,25 @@
     </div>
     <Collapse
       v-if="selection.unit.name !== 'None'"
+      title="Advisors"
+      class="mb-2"
+    >
+      <div
+        class="advisor-selector-container is-flex is-flex-wrap-nowrap is-justify-content-center card-content"
+      >
+        <AdvisorSelector
+          v-for="i in [0, 1, 2, 3]"
+          :key="i"
+          v-model="advisors[i]"
+          :unit="selection.unit"
+          :civ="selection.civ"
+          :age="i"
+          class="mx-1 is-align-self-flex-end"
+        />
+      </div>
+    </Collapse>
+    <Collapse
+      v-if="selection.unit.name !== 'None'"
       title="Upgrades"
       class="mb-2"
     >
@@ -47,6 +66,7 @@
         :unit="selection.unit"
         :gear="gear"
         :upgrades="upgrades"
+        :advisors="advisors"
         class="card-content"
       />
     </Collapse>
@@ -57,6 +77,7 @@
 import UnitSelector from "./UnitSelector.vue"
 import GearSelector from "./GearSelector.vue"
 import UpgradeSelector from "./UpgradeSelector.vue"
+import AdvisorSelector from "./AdvisorSelector.vue"
 import Collapse from "./Collapse.vue"
 import Icon from "./Icon.vue"
 import Stats from "./Stats.vue"
@@ -69,19 +90,22 @@ export default {
     Stats,
     Icon,
     Collapse,
-    UpgradeSelector
+    UpgradeSelector,
+    AdvisorSelector
   },
   data() {
     return {
       selection: { civ: "greek", unit: { name: "None", icon: "Generic" } },
       gear: {},
-      upgrades: {}
+      upgrades: {},
+      advisors: []
     }
   },
   watch: {
     selection() {
       this.gear = {}
       this.upgrades = {}
+      this.advisors = []
     }
   }
 }

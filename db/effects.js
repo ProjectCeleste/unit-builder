@@ -14,6 +14,9 @@ const ignoredEffects = [
 const ignoredTargets = ["TechAll"]
 
 export function convertEffects(effects, civ) {
+  if (!Array.isArray(effects)) {
+    effects = [effects]
+  }
   const res = []
   for (let i = 0; i < effects.length; i++) {
     const e = effects[i]

@@ -33,9 +33,9 @@ export default {
       }
     },
     advisors: {
-      type: Object,
+      type: Array,
       default() {
-        return {}
+        return []
       }
     },
     milestones: {
@@ -96,6 +96,15 @@ export default {
         }
       }
 
+      for (let i = 0; i < this.advisors.length; i++) {
+        const advisorEffects = this.advisors[i].effects.filter(e =>
+          effectAppliesToUnit(e, this.unit)
+        )
+        for (let j = 0; j < advisorEffects.length; j++) {
+          this.applyEffect(advisorEffects[j], stats)
+        }
+      }
+
       const upgradeEffects = []
       for (let upgradeID in this.upgrades) {
         this.filterUpgradeEffects(this.upgrades[upgradeID], upgradeEffects)
@@ -103,6 +112,7 @@ export default {
       for (let i = 0; i < upgradeEffects.length; i++) {
         this.applyEffect(upgradeEffects[i], stats)
       }
+
       return stats
     }
   },

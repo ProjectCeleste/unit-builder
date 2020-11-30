@@ -24,7 +24,7 @@ export async function buildAdvisors() {
         const iconDst = convertIconName(converted.icon)
         await downloadImage(
           converted.icon + ".png",
-          "../src/assets/gear/" + iconDst + ".png"
+          "../src/assets/advisors/" + iconDst + ".png"
         )
         converted.icon = iconDst
         results[a.age].push(converted)
@@ -43,8 +43,8 @@ export async function buildAdvisors() {
     results[age].unshift({
       id: age + "_none",
       name: "None",
-      icon: "none", // TODO none icon
-      effects: []
+      icon: "none",
+      rarities: [{ rarity: 0, effects: [] }]
     })
   }
 
@@ -71,10 +71,6 @@ async function convertAdvisor(a) {
     rarity: convertRarity(a.rarity),
     effects: convertEffects(tech.Effects.Effect, advisor.civ)
   })
-  // TODO special cases (enable upgrade, such as Esfandiyar)
-  // <Effect type="TechStatus" status="obtainable">PersiaTechAdvisorEsfandiyar_Upgrade1</Effect>
-  // <Effect type="TechStatus" status="obtainable">PersiaTechAdvisorEsfandiyar_Upgrade2</Effect>
-  // <Effect type="TechStatus" status="obtainable">PersiaTechAdvisorEsfandiyar_Upgrade3</Effect>
 
   return advisor
 }

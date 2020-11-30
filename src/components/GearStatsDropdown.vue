@@ -1,6 +1,6 @@
 <template>
   <div class="dropdown p-2">
-    <div class="is-bold gear-name" :class="rarityClass">
+    <div class="is-bold wrap-word" :class="rarityClass">
       {{ gear.name }}
     </div>
     <div
@@ -61,7 +61,7 @@ export default {
       return this.gear.effects.filter(e => effects[e.type].type !== "action")
     },
     rarityClass() {
-      return rarityClass(this.gear)
+      return rarityClass(this.gear.rarity)
     }
   },
   watch: {
@@ -121,11 +121,6 @@ export default {
 .dropdown {
   background-color: $tooltip-background-color;
   width: auto !important;
-}
-
-.gear-name {
-  word-break: keep-all;
-  white-space: normal;
 }
 
 .stats-range-container {

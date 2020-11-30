@@ -20,12 +20,33 @@ $color-rarity-rare: #3b8fff;
 $color-rarity-epic: #b04bdf;
 $color-rarity-legendary: orange;
 
+$color-border-rarity-common: #b7b8b7;
+$color-border-rarity-uncommon: #00aa00;
+$color-border-rarity-rare: #0000a8;
+$color-border-rarity-epic: #8400ad;
+$color-border-rarity-legendary: #ad5000;
+
 $rarity-colors: (
-  "common": $color-rarity-common,
-  "uncommon": $color-rarity-uncommon,
-  "rare": $color-rarity-rare,
-  "epic": $color-rarity-epic,
-  "legendary": $color-rarity-legendary,
+  "common": (
+    $color-rarity-common,
+    $color-border-rarity-common,
+  ),
+  "uncommon": (
+    $color-rarity-uncommon,
+    $color-border-rarity-uncommon,
+  ),
+  "rare": (
+    $color-rarity-rare,
+    $color-border-rarity-rare,
+  ),
+  "epic": (
+    $color-rarity-epic,
+    $color-border-rarity-epic,
+  ),
+  "legendary": (
+    $color-rarity-legendary,
+    $color-border-rarity-legendary,
+  ),
 );
 
 $color--gold: #fb3;

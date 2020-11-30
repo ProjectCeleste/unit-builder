@@ -1,7 +1,7 @@
 <template>
   <div v-click-outside="onClickOutside" class="gear-selector">
     <div class="is-relative">
-      <div class="selected-gear" @click="open = !open">
+      <div class="selected-option" @click="open = !open">
         <Icon
           sprite="gear"
           :name="selected.icon.replace(/\s/g, '-')"
@@ -55,7 +55,7 @@ export default {
     return {
       open: false,
       effectsOpen: false,
-      selected: { name: "None", icon: "Generic", effects: [] },
+      selected: { name: "None", icon: "Generic", effects: [] }, // TODO check selection is two-way bound
       stats: { effects: [], level: 43 }
     }
   },
@@ -137,29 +137,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.selected-gear {
-  position: relative;
-  display: flex;
-  border-radius: $border-radius-element;
-  overflow: hidden;
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.adjust-stat-btn {
-  display: inline-flex;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  padding-bottom: 2.5px;
-  padding-right: 2.5px;
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-</style>

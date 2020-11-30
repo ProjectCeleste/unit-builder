@@ -10,3 +10,28 @@
 @import "tooltip";
 @import "card";
 @import "transitions";
+
+.adjust-stat-btn {
+  z-index: 3;
+  display: inline-flex;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding-bottom: 2.5px;
+  padding-right: 2.5px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.selected-option {
+  position: relative;
+  display: flex;
+  border-radius: $border-radius-element;
+  overflow: hidden;
+
+  &:hover {
+    cursor: pointer;
+  }
+}

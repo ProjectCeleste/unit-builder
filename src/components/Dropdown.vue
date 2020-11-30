@@ -19,7 +19,13 @@
           @click="onSelect(elem)"
           @mouseover="hoveredItem = elem"
         >
-          <Icon class="mr-2" :sprite="sprite" :name="elem.icon" size="sm" />
+          <Icon
+            class="mr-2"
+            :sprite="sprite"
+            :name="elem.icon"
+            size="sm"
+            :class="advisorRarityClass(elem)"
+          />
           <span>{{ elem.name }}</span>
         </div>
         <div v-if="!actualContents.length" class="pl-1 no-result">
@@ -29,6 +35,7 @@
       <Preview
         v-if="preview && hoveredItem && hoveredItem.name !== 'None'"
         :item="hoveredItem"
+        :type="sprite"
         class="p-2"
       />
     </div>
@@ -39,6 +46,7 @@
 import Searchbar from "./Searchbar.vue"
 import Preview from "./Preview.vue"
 import Icon from "./Icon.vue"
+import { rarityClass } from "../rarity.js"
 
 export default {
   name: "Dropdown",
@@ -92,6 +100,16 @@ export default {
       if (this.$refs.contents) {
         this.$refs.contents.scrollTo(0, 0)
       }
+    },
+    advisorRarityClass(elem) {
+      if (
+        this.sprite !== "advisors" ||
+        elem.rarities === undefined ||
+        elem.name === "None"
+      ) {
+        return {}
+      }
+      return rarityClass(elem.rarities[elem.rarities.length - 1].rarity)
     }
   }
 }

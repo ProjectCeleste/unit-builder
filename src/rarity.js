@@ -1,7 +1,7 @@
-export function rarityClass(gear) {
+export function rarityClass(rarity) {
   const classObj = {}
-  if (gear.rarity !== undefined) {
-    classObj["rarity-" + rarityName(gear.rarity)] = true
+  if (rarity !== undefined) {
+    classObj["rarity-" + rarityName(rarity)] = true
   }
   return classObj
 }

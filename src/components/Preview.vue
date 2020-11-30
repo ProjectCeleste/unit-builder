@@ -1,11 +1,17 @@
 <template>
   <div class="preview p-1">
     <div class="is-flex mb-2">
-      <Icon :sprite="type" :name="item.icon" :title="item.name" class="mr-2" />
+      <Icon
+        :sprite="type"
+        :name="item.icon"
+        :title="item.name"
+        class="mr-2"
+        :class="advisorRarityClass"
+      />
       <div class="is-flex is-flex-direction-column">
-        <span class="title is-size-6 mb-2" :class="rarityClass">{{
-          item.name
-        }}</span>
+        <span class="title is-size-6 mb-2" :class="rarityClass">
+          {{ item.name }}
+        </span>
         <div v-if="item.cost" class="is-flex is-flex-direction-row is-size-7">
           <CostStats :cost="item.cost" />
         </div>
@@ -82,6 +88,12 @@
         />
       </p>
     </div>
+    <div v-else-if="type === 'advisors'" class="is-size-6-5">
+      <p
+        class="mt-1 mb-2"
+        v-html="item.rarities[item.rarities.length - 1].description"
+      />
+    </div>
     <div v-else class="is-positive">
       {{ item.description }}
     </div>
@@ -104,7 +116,15 @@ export default {
   },
   computed: {
     rarityClass() {
-      return rarityClass(this.item)
+      return rarityClass(this.item.rarity)
+    },
+    advisorRarityClass() {
+      if (this.type !== "advisors") {
+        return {}
+      }
+      return rarityClass(
+        this.item.rarities[this.item.rarities.length - 1].rarity
+      )
     }
   },
   methods: {
