@@ -67,18 +67,18 @@ async function convertEquipmentToUpgrades(equipment) {
   const techtree = await getTechtree()
   const results = []
   if (equipment.reward) {
+    const civ = equipment.civ.toLowerCase()
     for (let i = 0; i < equipment.reward.rank.length; i++) {
       const reward = equipment.reward.rank[i]
       const tech = findByAttribute(techtree, "name", reward.tech)
       if (tech && !techIgnored(tech)) {
-        const upgrade = await convertUpgrade(tech)
+        const upgrade = await convertUpgrade(tech, civ)
         if (includeUpgrade(upgrade)) {
           if (
             tech.Prereqs &&
             tech.Prereqs.TechStatus &&
             !ignoredRequirements.includes(tech.Prereqs.TechStatus.text)
           ) {
-            const civ = equipment.civ.toLowerCase()
             if (!chains[civ]) {
               chains[civ] = {}
             }
@@ -94,7 +94,7 @@ async function convertEquipmentToUpgrades(equipment) {
   return results
 }
 
-async function convertUpgrade(tech) {
+async function convertUpgrade(tech, civ) {
   if (!tech || !tech.Effects) {
     return undefined
   }
@@ -116,7 +116,7 @@ async function convertUpgrade(tech) {
     }
   }
 
-  const effects = convertEffects(techEffects).filter(e =>
+  const effects = convertEffects(techEffects, civ).filter(e =>
     includeEffect(tech, e)
   )
   if (!effects.length) {
@@ -163,7 +163,11 @@ function setChain(civ, upgrade) {
 }
 
 function includeUpgrade(u) {
-  return u !== undefined
+  return (
+    u !== undefined &&
+    u.id !== "BabylonTechGarden_Upgrade1" &&
+    u.id !== "BabylonTechGarden_Upgrade2"
+  )
 }
 
 function techIgnored(tech) {

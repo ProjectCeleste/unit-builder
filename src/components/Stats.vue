@@ -187,7 +187,8 @@ export default {
     applyEffect(effect, stats) {
       if (
         effects[effect.type].type === "action" ||
-        effect.type === "UnlockUpgrade"
+        effect.type === "UnlockUpgrade" ||
+        effect.type === "DisableUpgrade"
       ) {
         return
       }

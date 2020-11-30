@@ -8,6 +8,7 @@
         :key="u.id"
         v-model="upgradeValues[u.id]"
         :upgrade="u"
+        :disabled="isDisabled(u.id)"
         @mouseleave="hoveredUpgrade = null"
         @mousemove="onMouseMove"
       />
@@ -18,6 +19,7 @@
         :key="u.id"
         v-model="upgradeValues[u.id]"
         :upgrade="u"
+        :disabled="isDisabled(u.id)"
         @mouseleave="hoveredUpgrade = null"
         @mousemove="onMouseMove"
       />
@@ -46,30 +48,31 @@ export default {
       }
     },
     civ: { type: String, required: true },
-    unit: { type: Object, required: true }
+    unit: { type: Object, required: true },
+    unlockedTech: { type: Array, default: () => [] }
   },
   emits: ["update:modelValue"],
   data() {
     return {
       upgradeValues: {},
+      disabledTech: [],
       x: 0,
       y: 0,
       hoveredUpgrade: null
     }
   },
   computed: {
-    // TODO handle UnlockUpgrade effects
     upgrades() {
       return upgrades[this.civ]
         .filter(u => upgradeAppliesToUnit(u, this.unit))
         .filter(u => u.chain === undefined)
-        .filter(u => !u.unlocked)
+        .filter(u => !u.unlocked || this.unlockedTech.includes(u.id))
     },
     chainedUpgrades() {
       return upgrades[this.civ]
         .filter(u => upgradeAppliesToUnit(u, this.unit))
         .filter(u => u.chain !== undefined)
-        .filter(u => !u.unlocked) // TODO show unlocked upgrades if they're available
+        .filter(u => !u.unlocked || this.unlockedTech.includes(u.id))
     }
   },
   watch: {
@@ -77,11 +80,13 @@ export default {
       deep: true,
       handler(val) {
         this.upgradeValues = val
+        this.updateDisabledTech()
       }
     },
     upgradeValues: {
       deep: true,
       handler(val) {
+        this.updateDisabledTech()
         this.$emit("update:modelValue", val)
       }
     }
@@ -150,6 +155,26 @@ export default {
           }
         })
       }
+    },
+    updateDisabledTech() {
+      this.disabledTech = []
+      for (let key in this.upgradeValues) {
+        this.checkContainsDisableTech(this.upgradeValues[key])
+      }
+    },
+    checkContainsDisableTech(u) {
+      if (u.selected) {
+        this.disabledTech = this.disabledTech.concat(
+          u.effects.filter(e => e.type === "DisableUpgrade").map(e => e.tech)
+        )
+
+        if (u.chain) {
+          this.checkContainsDisableTech(u.chain)
+        }
+      }
+    },
+    isDisabled(id) {
+      return this.disabledTech.includes(id)
     }
   }
 }

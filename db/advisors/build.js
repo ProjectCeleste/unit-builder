@@ -69,7 +69,7 @@ async function convertAdvisor(a) {
   advisor.rarities.push({
     description: findLang(stringtablex, a.displaydescriptionid),
     rarity: convertRarity(a.rarity),
-    effects: convertEffects(tech.Effects.Effect, advisor.civ)
+    effects: convertEffects(tech.Effects.Effect, advisor.civ, true)
   })
 
   return advisor

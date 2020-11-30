@@ -138,7 +138,9 @@ export default {
     onRaritySelected(r) {
       this.selectedRarity = r
       this.effectsOpen = false
-      const rarity = this.selected.rarities[this.selectedRarity]
+      const rarity = this.selected.rarities.find(
+        r => r.rarity === this.selectedRarity
+      )
       const a = {
         id: this.selected.id,
         rarity: this.selectedRarity,

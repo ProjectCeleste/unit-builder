@@ -58,6 +58,7 @@
         v-model="upgrades"
         :unit="selection.unit"
         :civ="selection.civ"
+        :unlocked-tech="unlockedTech"
         class="card-content"
       />
     </Collapse>
@@ -99,6 +100,17 @@ export default {
       gear: {},
       upgrades: {},
       advisors: []
+    }
+  },
+  computed: {
+    unlockedTech() {
+      let tech = []
+      this.advisors.forEach(a => {
+        tech = tech.concat(
+          a.effects.filter(e => e.type === "UnlockUpgrade").map(e => e.tech)
+        )
+      })
+      return tech
     }
   },
   watch: {

@@ -13,7 +13,7 @@ const ignoredEffects = [
 
 const ignoredTargets = ["TechAll"]
 
-export function convertEffects(effects, civ) {
+export function convertEffects(effects, civ, isAdvisor) {
   if (!Array.isArray(effects)) {
     effects = [effects]
   }
@@ -22,14 +22,21 @@ export function convertEffects(effects, civ) {
     const e = effects[i]
     let type = e.subtype
     if (!type || ignoredEffects.includes(type)) {
-      if (civ && e.type === "TechStatus" && e.status === "obtainable") {
-        // Tech is not available through equipments.xml
-        // so add it as extra upgrade for upgrades generation
-        addExtraUpgrade(e.text, civ)
-        res.push({
-          type: "UnlockUpgrade",
-          tech: e.text
-        })
+      if (civ && e.type === "TechStatus") {
+        if (e.status === "obtainable" && isAdvisor) {
+          // Tech is not available through equipments.xml
+          // so add it as extra upgrade for upgrades generation
+          addExtraUpgrade(e.text, civ)
+          res.push({
+            type: "UnlockUpgrade",
+            tech: e.text
+          })
+        } else if (e.status === "unobtainable") {
+          res.push({
+            type: "DisableUpgrade",
+            tech: e.text
+          })
+        }
       }
       continue
     }
@@ -507,6 +514,11 @@ const templates = {
   },
   UnlockUpgrade: {
     name: "Unlocks upgrade",
+    icon: "NONE",
+    sort: 0
+  },
+  DisableUpgrade: {
+    name: "Disables upgrade",
     icon: "NONE",
     sort: 0
   }

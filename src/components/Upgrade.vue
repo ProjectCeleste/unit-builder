@@ -1,5 +1,8 @@
 <template>
-  <div class="upgrade-container is-flex is-flex-direction-row">
+  <div
+    class="upgrade-container is-flex is-flex-direction-row"
+    :class="{ disabled: disabled }"
+  >
     <Icon
       v-if="isChained"
       sprite="icons"
@@ -46,7 +49,8 @@ export default {
       }
     },
     upgrade: { type: Object, required: true },
-    isChained: { type: Boolean, default: false }
+    isChained: { type: Boolean, default: false },
+    disabled: { type: Boolean, default: false }
   },
   emits: ["update:modelValue", "mousemove", "mouseleave"],
   data() {
@@ -81,6 +85,9 @@ export default {
       this.$emit("mousemove", $event, upgrade)
     },
     onSelect() {
+      if (this.disabled) {
+        return
+      }
       const newSelected = !this.modelValue.selected
       let effects = []
       if (newSelected) {
@@ -119,6 +126,12 @@ export default {
 
   .upgrade:hover {
     cursor: pointer;
+  }
+
+  &.disabled {
+    .upgrade:hover {
+      cursor: not-allowed;
+    }
   }
 }
 </style>
