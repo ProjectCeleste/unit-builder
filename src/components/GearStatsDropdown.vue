@@ -13,7 +13,7 @@
         :key="l"
         class="level px-1"
         :class="{ selected: level === l }"
-        @click="level = l"
+        @click="onLevelSelect(l)"
       >
         {{ l - 3 }}
       </span>
@@ -26,6 +26,7 @@
         :effect="effect"
         :level="level"
         :fixed="gear.fixed"
+        @input="onInput"
       />
     </div>
     <span v-if="!gear.effects.length">No effects.</span>
@@ -65,32 +66,12 @@ export default {
     }
   },
   watch: {
-    gear() {
-      this.reset()
-    },
-    level(val) {
-      this.resetEffects()
-      this.$emit("update:modelValue", {
-        effects: this.effects,
-        level: val
+    modelValue(val) {
+      this.level = val.level
+      this.effects = {}
+      val.effects.forEach(e => {
+        this.effects[e.type] = e.amount
       })
-    },
-    effects: {
-      deep: true,
-      handler() {
-        const g = {
-          effects: [],
-          level: this.level
-        }
-        for (let type in this.effects) {
-          g.effects.push({
-            type: type,
-            absolute: this.findEffect(type).absolute,
-            amount: this.effects[type]
-          })
-        }
-        this.$emit("update:modelValue", g)
-      }
     }
   },
   methods: {
@@ -112,6 +93,25 @@ export default {
       this.gear.effects.forEach(e => {
         this.effects[e.type] = e.amount + e.scaling * this.level
       })
+    },
+    onLevelSelect(l) {
+      this.level = l
+      this.resetEffects()
+      this.onInput()
+    },
+    onInput() {
+      const g = {
+        effects: [],
+        level: this.level
+      }
+      for (let type in this.effects) {
+        g.effects.push({
+          type: type,
+          absolute: this.findEffect(type).absolute,
+          amount: this.effects[type]
+        })
+      }
+      this.$emit("update:modelValue", g)
     }
   }
 }

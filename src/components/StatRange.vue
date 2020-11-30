@@ -51,7 +51,7 @@ export default {
     level: { type: Number, required: true },
     fixed: { type: Boolean, default: false }
   },
-  emits: ["update:modelValue"],
+  emits: ["update:modelValue", "input"],
   computed: {
     med() {
       return this.effect.amount + this.effect.scaling * this.level
@@ -73,7 +73,9 @@ export default {
   methods: {
     toDisplay,
     onInput($event) {
-      this.$emit("update:modelValue", parseFloat($event.target.value))
+      const newVal = parseFloat($event.target.value)
+      this.$emit("update:modelValue", newVal)
+      this.$emit("input", newVal)
     }
   }
 }

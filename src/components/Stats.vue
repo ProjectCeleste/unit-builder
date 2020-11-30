@@ -90,8 +90,8 @@ export default {
 
       for (let key in this.gear) {
         const gear = this.gear[key]
-        for (let i = 0; i < gear.effects.length; i++) {
-          const effect = gear.effects[i]
+        for (let i = 0; i < gear.stats.effects.length; i++) {
+          const effect = gear.stats.effects[i]
           this.applyEffect(effect, stats)
         }
       }

@@ -55,7 +55,7 @@ export default {
     return {
       open: false,
       effectsOpen: false,
-      selected: { name: "None", icon: "Generic", effects: [] }, // TODO check selection is two-way bound
+      selected: { name: "None", icon: "Generic", effects: [] },
       stats: { effects: [], level: 43 }
     }
   },
@@ -68,11 +68,15 @@ export default {
     modelValue(val) {
       this.onActivate()
       if (Object.keys(val).length) {
-        this.stats = val
+        this.stats = val.stats
+        this.selected = this.contents.find(g => g.id === val.selected)
       }
     },
     stats(val) {
-      this.$emit("update:modelValue", val)
+      this.$emit("update:modelValue", {
+        selected: this.selected.id,
+        stats: val
+      })
     },
     open(val) {
       if (val) {
@@ -97,13 +101,16 @@ export default {
       this.effectsOpen = false
       this.selected = gear
       const g = {
-        effects: [],
-        level: gear.levels[gear.levels.length - 1]
+        selected: gear.id,
+        stats: {
+          effects: [],
+          level: gear.levels[gear.levels.length - 1]
+        }
       }
       for (let i = 0; i < gear.effects.length; i++) {
         const effect = gear.effects[i]
-        const amount = effect.amount + effect.scaling * g.level
-        g.effects.push({
+        const amount = effect.amount + effect.scaling * g.stats.level
+        g.stats.effects.push({
           type: effect.type,
           absolute: effect.absolute,
           amount: amount
