@@ -99,9 +99,12 @@ html {
 
 #app {
   position: relative;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+  width: min-content;
+  min-width: 100%;
+  margin: auto;
 
   .update-button {
     position: fixed;

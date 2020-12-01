@@ -24,7 +24,10 @@ export default {
 
 <style lang="scss" scoped>
 .legal-notice {
+  position: sticky;
   color: $font-color;
   max-width: 400px;
+  left: 50%;
+  transform: translate(-50%);
 }
 </style>
