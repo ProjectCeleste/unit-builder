@@ -5,6 +5,7 @@ import { saveFile } from "./utils.js"
 import { getEffects } from "./effects.js"
 import { buildUpgrades } from "./upgrades/build.js"
 import { buildAdvisors } from "./advisors/build.js"
+import { buildMilestones } from "./milestones/build.js"
 
 const DB_PATH = "../src/data/"
 
@@ -12,6 +13,9 @@ async function generate() {
   await fetchLang()
   const advisors = await buildAdvisors()
   saveFile(DB_PATH + "advisors.json", advisors)
+
+  const milestones = await buildMilestones()
+  saveFile(DB_PATH + "milestones.json", milestones)
 
   const upgrades = await buildUpgrades()
   saveFile(DB_PATH + "upgrades.json", upgrades)

@@ -84,6 +84,14 @@ export async function getGear() {
   return await get("/traits")
 }
 
+export async function getMilestonesTiers() {
+  return await get("/milestones/tiers")
+}
+
+export async function getMilestones() {
+  return await get("/milestones/rewards")
+}
+
 export async function getTactics(fileName) {
   const url = "/tactics/" + fileName
   if (!cache[url]) {

@@ -110,5 +110,6 @@ module.exports = parallel(
   sprite("units", 64),
   sprite("upgrades", 64),
   sprite("advisors", 64),
+  sprite("milestones", 64),
   sprite("gear", 64, "src/assets/slot/*.png")
 )

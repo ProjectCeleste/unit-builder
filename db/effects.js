@@ -8,7 +8,9 @@ const ignoredEffects = [
   "TributePenalty",
   "UpdateVisual",
   "CostBuildingTechs",
-  "ResourceTrickleRate"
+  "CostBuildingAll",
+  "ResourceTrickleRate",
+  "Resource"
 ]
 
 const ignoredTargets = ["TechAll"]
@@ -65,6 +67,7 @@ export function convertEffects(effects, civ, isAdvisor) {
           type = "RateHeal"
           break
         case "SelfHeal":
+        case "Repair":
           type += e.action
           break
         case "Build":
@@ -159,7 +162,8 @@ function getBase(effectName) {
     effectName === "ConvertResist" ||
     effectName === "AttackSpeed" ||
     effectName === "Trade" ||
-    effectName === "BuildingWorkRate"
+    effectName === "BuildingWorkRate" ||
+    effectName === "WorkRateRepair"
     ? 1
     : 0
 }
@@ -177,7 +181,8 @@ function getType(effectName) {
     effectName === "Build" ||
     effectName.startsWith("Yield") ||
     effectName === "BuildWatchPost" ||
-    effectName === "Trade"
+    effectName === "Trade" ||
+    effectName === "WorkRateRepair"
   ) {
     return "multiplier" // starts with "x"
   }
@@ -401,6 +406,11 @@ const templates = {
     name: "Buildings Construction Speed",
     icon: "ConstructionSpeed",
     sort: 62
+  },
+  WorkRateRepair: {
+    name: "Repair Speed",
+    icon: "ConstructionSpeed",
+    sort: 64
   },
   BuildWatchPost: {
     name: "Watch Post Construction Speed",
