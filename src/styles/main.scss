@@ -11,6 +11,27 @@
 @import "card";
 @import "transitions";
 
+html,
+body {
+  scrollbar-color: darken($body-background-color, 20%) $body-background-color;
+  scrollbar-width: auto;
+
+  ::-webkit-scrollbar {
+    width: 11px;
+    height: 11px;
+  }
+  ::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: darken($body-background-color, 20%);
+  }
+  ::-webkit-scrollbar-track {
+    background: $body-background-color;
+  }
+}
+
 .adjust-stat-btn {
   z-index: 3;
   display: inline-flex;

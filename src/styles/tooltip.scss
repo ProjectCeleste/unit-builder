@@ -51,6 +51,21 @@ $tooltip-item-background-color-hover: #3b6578;
     scrollbar-color: hsla(0, 0%, 100%, 0.3) $tooltip-background-color;
     scrollbar-width: auto;
 
+    &::-webkit-scrollbar {
+      width: 11px;
+      height: 11px;
+    }
+    &::-webkit-scrollbar-button {
+      width: 0px;
+      height: 0px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: hsla(0, 0%, 100%, 0.3);
+    }
+    &::-webkit-scrollbar-track {
+      background: $tooltip-background-color;
+    }
+
     .no-result {
       line-height: 32px;
     }

@@ -73,7 +73,7 @@ html {
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-color: #488489;
+  background-color: $body-background-color;
   background-image: url("~@/assets/background.webp");
 
   min-height: 100vh;
