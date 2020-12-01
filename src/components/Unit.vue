@@ -51,6 +51,17 @@
     </Collapse>
     <Collapse
       v-if="selection.unit.name !== 'None'"
+      title="Milestones"
+      class="mb-2"
+    >
+      <MilestoneSelector
+        v-model="milestones"
+        :civ="selection.civ"
+        class="card-content"
+      />
+    </Collapse>
+    <Collapse
+      v-if="selection.unit.name !== 'None'"
       title="Upgrades"
       class="mb-2"
     >
@@ -68,6 +79,7 @@
         :gear="gear"
         :upgrades="upgrades"
         :advisors="advisors"
+        :milestones="milestones"
         class="card-content"
       />
     </Collapse>
@@ -79,6 +91,7 @@ import UnitSelector from "./UnitSelector.vue"
 import GearSelector from "./GearSelector.vue"
 import UpgradeSelector from "./UpgradeSelector.vue"
 import AdvisorSelector from "./AdvisorSelector.vue"
+import MilestoneSelector from "./MilestoneSelector.vue"
 import Collapse from "./Collapse.vue"
 import Icon from "./Icon.vue"
 import Stats from "./Stats.vue"
@@ -92,14 +105,16 @@ export default {
     Icon,
     Collapse,
     UpgradeSelector,
-    AdvisorSelector
+    AdvisorSelector,
+    MilestoneSelector
   },
   data() {
     return {
       selection: { civ: "greek", unit: { name: "None", icon: "Generic" } },
       gear: {},
       upgrades: {},
-      advisors: []
+      advisors: [],
+      milestones: {}
     }
   },
   computed: {
@@ -118,6 +133,7 @@ export default {
       this.gear = {}
       this.upgrades = {}
       this.advisors = []
+      this.milestones = {}
     }
   }
 }

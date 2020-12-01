@@ -43,7 +43,7 @@ export async function buildAdvisors() {
     results[age].unshift({
       id: age + "_none",
       name: "None",
-      icon: "none",
+      icon: "none_" + age,
       rarities: [{ rarity: 0, effects: [] }]
     })
   }

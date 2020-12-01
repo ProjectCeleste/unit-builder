@@ -41,8 +41,8 @@
             <Icon
               sprite="advisors"
               :name="selected.icon"
-              size="md mr-2"
-              class="is-align-self-center"
+              size="md"
+              class="mr-2 is-align-self-center"
               :class="rarityClass(rarity, rarity.rarity)"
             />
             <span class="is-align-self-center">{{ rarity.description }}</span>

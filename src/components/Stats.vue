@@ -96,6 +96,19 @@ export default {
         }
       }
 
+      for (let civ in this.milestones) {
+        const civMilestones = this.milestones[civ]
+        for (let i = 0; i < civMilestones.length; i++) {
+          const milestone = civMilestones[i]
+          const milestoneEffects = milestone.effects.filter(e =>
+            effectAppliesToUnit(e, this.unit)
+          )
+          for (let j = 0; j < milestoneEffects.length; j++) {
+            this.applyEffect(milestoneEffects[j], stats)
+          }
+        }
+      }
+
       for (let i = 0; i < this.advisors.length; i++) {
         const advisorEffects = this.advisors[i].effects.filter(e =>
           effectAppliesToUnit(e, this.unit)

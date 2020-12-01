@@ -35,7 +35,7 @@ export default {
 .button {
   color: white;
   border-radius: 2rem;
-  background-color: $color--card-background;
+  background-color: $color--card-background-opaque;
   padding: #{map-get($spacing-values, "3")};
 
   &:hover {

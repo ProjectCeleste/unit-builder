@@ -89,7 +89,6 @@ html {
     position: fixed;
     left: 20px;
     bottom: 20px;
-    background-color: $color--card-background-opaque;
     box-shadow: 0 2px 4px -1px rgba(25, 43, 51, 0.2),
       0 4px 5px 0 rgba(25, 43, 51, 0.14), 0 1px 10px 0 rgba(25, 43, 51, 0.12);
   }
@@ -99,7 +98,6 @@ html {
   #app .update-button {
     top: 100px;
     bottom: auto;
-    background-color: $color--card-background;
   }
 }
 </style>

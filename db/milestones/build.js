@@ -27,6 +27,12 @@ export async function buildMilestones() {
     }
 
     const resTier = []
+    resTier.push({
+      id: res[civ].length + "_none",
+      name: "None",
+      icon: "none",
+      effects: []
+    })
     for (let j = 0; j < tier.rewardids.id.length; j++) {
       const milestone = findByAttribute(milestones, "id", tier.rewardids.id[j])
       resTier.push(await convertMilestone(milestone))

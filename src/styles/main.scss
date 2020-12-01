@@ -20,6 +20,11 @@
   padding-bottom: 2.5px;
   padding-right: 2.5px;
 
+  & .icon {
+    background: $color--card-background;
+    border-radius: 50%;
+  }
+
   &:hover {
     cursor: pointer;
   }
