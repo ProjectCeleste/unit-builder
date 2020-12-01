@@ -1,7 +1,13 @@
 <template>
-  <Header class="mb-2" />
+  <Header class="mb-2" @unitAdded="onUnitAdded" />
   <div class="my-1 is-flex is-flex-direction-row is-flex-grow-1">
-    <Unit />
+    <Unit
+      v-for="(unit, i) in units"
+      :key="unit.id"
+      v-model="units[i]"
+      :show-delete="units.length > 1"
+      @unitDeleted="onUnitDeleted(i)"
+    />
   </div>
   <LegalNotice class="mt-3" />
   <transition name="slide-in-left">
@@ -29,7 +35,9 @@ export default {
     return {
       updateVisible: false,
       refreshing: false,
-      registration: undefined
+      registration: undefined,
+      units: [],
+      uid: 0
     }
   },
   mounted() {
@@ -42,6 +50,10 @@ export default {
         this.refreshing = true
         window.location.reload()
       })
+    }
+
+    if (!this.units.length) {
+      this.units.push({ id: this.uid++ })
     }
   },
   unmounted() {
@@ -62,6 +74,12 @@ export default {
         return
       }
       this.registration.waiting.postMessage("skipWaiting")
+    },
+    onUnitAdded() {
+      this.units.push({ id: this.uid++ })
+    },
+    onUnitDeleted(index) {
+      this.units.splice(index, 1)
     }
   }
 }

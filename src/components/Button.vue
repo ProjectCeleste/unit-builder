@@ -2,10 +2,11 @@
   <div
     class="button is-flex is-flex-direction-row"
     :title="tooltip"
+    :class="classObj"
     @mouseover="visible = true"
     @mouseleave="visible = false"
   >
-    <Icon sprite="icons" :name="icon" size="sm" />
+    <Icon sprite="icons" :name="icon" :size="size" />
     <span v-if="text" :class="{ visible: visible }" class="button-text">
       {{ text }}
     </span>
@@ -21,11 +22,19 @@ export default {
   props: {
     icon: { type: String, required: true },
     tooltip: { type: String, default: undefined },
-    text: { type: String, required: true }
+    text: { type: String, default: undefined },
+    size: { type: String, default: "sm" }
   },
   data() {
     return {
       visible: false
+    }
+  },
+  computed: {
+    classObj() {
+      const obj = {}
+      obj["button-" + this.size] = true
+      return obj
     }
   }
 }
@@ -37,6 +46,14 @@ export default {
   border-radius: 2rem;
   background-color: $color--card-background-opaque;
   padding: #{map-get($spacing-values, "3")};
+
+  &.button-xs {
+    padding: #{map-get($spacing-values, "1")};
+  }
+
+  &.button-vsm {
+    padding: #{map-get($spacing-values, "2")};
+  }
 
   &:hover {
     cursor: pointer;

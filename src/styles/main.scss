@@ -65,5 +65,5 @@ body {
 hr {
   border-radius: $border-radius-element;
   box-shadow: none;
-  border: 1px solid rgba(#808080, 0.75);
+  border: 1px solid rgba($color--border, 0.75);
 }

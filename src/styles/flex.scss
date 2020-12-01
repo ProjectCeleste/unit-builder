@@ -10,6 +10,10 @@
   flex-direction: row;
 }
 
+.is-flex-direction-row-reverse {
+  flex-direction: row-reverse;
+}
+
 .is-flex-grow-1 {
   flex-grow: 1;
 }
@@ -26,8 +30,16 @@
   justify-content: center;
 }
 
+.is-justify-content-space-between {
+  justify-content: space-between;
+}
+
 .is-align-self-flex-end {
   align-self: flex-end;
+}
+
+.is-align-self-flex-start {
+  align-self: flex-start;
 }
 
 .is-align-self-center {

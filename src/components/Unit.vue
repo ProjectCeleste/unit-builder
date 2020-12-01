@@ -1,10 +1,20 @@
 <template>
   <div class="unit is-relative">
     <div class="card mb-2">
-      <div class="card-header">
+      <div
+        class="card-header is-flex is-flex-direction-row is-justify-content-space-between"
+      >
         <h4 class="title is-size-5">
           Select a unit
         </h4>
+        <Button
+          v-if="showDelete"
+          icon="close"
+          tooltip="Delete unit"
+          size="xs"
+          class="is-align-self-flex-start"
+          @click="$emit('unit-deleted')"
+        />
       </div>
       <div class="card-content">
         <UnitSelector v-model="selection" />
@@ -95,6 +105,7 @@ import MilestoneSelector from "./MilestoneSelector.vue"
 import Collapse from "./Collapse.vue"
 import Icon from "./Icon.vue"
 import Stats from "./Stats.vue"
+import Button from "./Button.vue"
 
 export default {
   name: "Unit",
@@ -106,8 +117,13 @@ export default {
     Collapse,
     UpgradeSelector,
     AdvisorSelector,
-    MilestoneSelector
+    MilestoneSelector,
+    Button
   },
+  props: {
+    showDelete: { type: Boolean, default: true }
+  },
+  emits: ["unit-deleted"],
   data() {
     return {
       selection: { civ: "greek", unit: { name: "None", icon: "Generic" } },
@@ -144,6 +160,8 @@ export default {
 <style lang="scss">
 .unit {
   min-width: 300px;
+  margin-left: #{map-get($spacing-values, "2")};
+  margin-right: #{map-get($spacing-values, "2")};
 
   &:first-child {
     margin-left: auto;
