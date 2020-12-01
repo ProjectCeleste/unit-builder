@@ -130,10 +130,12 @@ export default {
   },
   watch: {
     selection() {
-      this.gear = {}
-      this.upgrades = {}
-      this.advisors = []
-      this.milestones = {}
+      this.$nextTick(() => {
+        this.gear = {}
+        this.upgrades = {}
+        this.advisors = []
+        this.milestones = {}
+      })
     }
   }
 }

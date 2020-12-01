@@ -71,6 +71,21 @@ export default {
     }
   }
 
+  &.icon-vsm {
+    width: 24px;
+    min-width: 24px;
+    height: 24px;
+    min-height: 24px;
+
+    & > div:not(.sprite--icons) {
+      transform: scale(0.375);
+    }
+
+    & > .sprite--icons {
+      transform: scale(0.75);
+    }
+  }
+
   &.icon-sm {
     width: 32px;
     min-width: 32px;

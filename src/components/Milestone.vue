@@ -1,49 +1,44 @@
 <template>
   <div
     v-click-outside="onClickOutside"
-    class="milestone mx-1"
+    class="milestone mx-1 is-relative"
     @click="pickerOpen = !pickerOpen"
   >
     <Icon
+      v-if="modelValue.id !== undefined"
       sprite="milestones"
       :name="modelValue.icon"
       :title="modelValue.name"
       size="md"
       class="is-align-self-center"
     />
+    <Icon
+      v-if="civ"
+      sprite="icons"
+      :name="civ"
+      :title="civ.charAt(0).toUpperCase() + civ.slice(1)"
+      size="vsm"
+      class="milestone-civ-icon"
+    />
 
     <keep-alive>
-      <div v-if="pickerOpen" class="milestone-picker dropdown">
-        <div class="py-2">
-          <div
-            v-for="option in options"
-            :key="option.id"
-            class="is-flex is-flex-direction-row wrap-word milestone-option p-2"
-            @click="onPick(option)"
-          >
-            <Icon
-              sprite="milestones"
-              :name="option.icon"
-              size="md"
-              class="mr-2 is-align-self-center"
-            />
-            <div class="is-flex is-flex-direction-column is-align-self-center ">
-              <span class="is-bold">{{ option.name }}</span>
-              <span>{{ option.description }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Dropdown
+        v-if="pickerOpen"
+        :contents="options"
+        sprite="milestones"
+        @selected="onPick"
+      />
     </keep-alive>
   </div>
 </template>
 
 <script>
 import Icon from "./Icon.vue"
+import Dropdown from "./Dropdown.vue"
 
 export default {
   name: "Milestone",
-  components: { Icon },
+  components: { Icon, Dropdown },
   props: {
     modelValue: {
       type: Object,
@@ -51,7 +46,8 @@ export default {
         return { icon: "none", name: "None" }
       }
     },
-    options: { type: Array, required: true }
+    options: { type: Array, required: true },
+    civ: { type: String, default: undefined }
   },
   emits: ["update:modelValue"],
   data() {
@@ -93,6 +89,12 @@ export default {
   &:hover {
     cursor: pointer;
   }
+}
+
+.milestone-civ-icon {
+  position: absolute !important;
+  bottom: 0;
+  right: 0;
 }
 
 .milestone-picker {

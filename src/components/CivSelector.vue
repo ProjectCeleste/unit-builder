@@ -19,6 +19,7 @@
 
 <script>
 import Icon from "./Icon.vue"
+import Civs from "../data/civs.json"
 
 export default {
   name: "CivSelector",
@@ -27,12 +28,13 @@ export default {
     modelValue: {
       type: String,
       required: true
-    }
+    },
+    except: { type: String, default: undefined }
   },
   emits: ["update:modelValue"],
-  data() {
-    return {
-      civs: require("../data/civs.json")
+  computed: {
+    civs() {
+      return this.except ? Civs.filter(c => c !== this.except) : Civs
     }
   }
 }
