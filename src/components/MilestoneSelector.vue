@@ -11,7 +11,8 @@
         :options="tier"
       />
     </div>
-    <div class="mt-2 is-flex is-flex-direction-row is-justify-content-center">
+    <hr class="my-2" />
+    <div class="is-flex is-flex-direction-row is-justify-content-center">
       <Milestone
         v-for="(options, altCiv) in altMilestones"
         :key="altCiv"

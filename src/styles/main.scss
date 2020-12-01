@@ -61,3 +61,9 @@ body {
     cursor: pointer;
   }
 }
+
+hr {
+  border-radius: $border-radius-element;
+  box-shadow: none;
+  border: 1px solid rgba(#808080, 0.75);
+}
