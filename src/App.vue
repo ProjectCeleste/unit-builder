@@ -5,6 +5,7 @@
       v-for="(unit, i) in units"
       :key="i"
       v-model="units[i]"
+      :unit-id="i"
       :show-delete="Object.keys(units).length > 1"
       @unitDeleted="onUnitDeleted(i)"
     />
@@ -37,7 +38,7 @@ export default {
       updateVisible: false,
       refreshing: false,
       registration: undefined,
-      units: {},
+      units: {}, // TODO save for sharing
       uid: 0
     }
   },
@@ -78,11 +79,12 @@ export default {
     },
     onUnitAdded() {
       this.units[this.uid++] = clonedeep(
-        this.units[Math.max(Object.keys(this.units))]
+        this.units[Math.max(...Object.keys(this.units))]
       )
     },
     onUnitDeleted(index) {
       delete this.units[index]
+      this.$store.commit("deleteUnit", index)
     }
   }
 }

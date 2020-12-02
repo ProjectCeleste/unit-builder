@@ -6,7 +6,9 @@
     </div>
     <div v-for="key in orderedStatsKeys" :key="key" class="my-1">
       <span class="is-flex-grow-1 mr-1">{{ effectName(key) }}</span>
-      <span>{{ formatEffect(key, computedStatsWithoutCost[key]) }}</span>
+      <span :class="comparisonClass(key, computedStatsWithoutCost[key])">
+        {{ formatEffect(key, computedStatsWithoutCost[key]) }}
+      </span>
       <Icon sprite="icons" :name="effectIcon(key)" size="xs" class="ml-1" />
     </div>
   </div>
@@ -22,6 +24,7 @@ export default {
   name: "Stats",
   components: { Icon, CostStats },
   props: {
+    unitId: { type: String, required: true },
     unit: {
       type: Object,
       required: true
@@ -126,6 +129,7 @@ export default {
         this.applyEffect(upgradeEffects[i], stats)
       }
 
+      this.$store.commit("setUnitStats", { id: this.unitId, stats })
       return stats
     }
   },
@@ -162,6 +166,34 @@ export default {
           break
       }
       return formattedValue
+    },
+    comparisonClass(name, value) {
+      const classObj = {}
+      const units = this.$store.state.units
+      const unitCount = Object.keys(units).length
+      if (unitCount <= 1) {
+        return classObj
+      }
+      const values = Object.values(units).reduce((acc, unit) => {
+        if (name in unit) {
+          acc.push(unit[name])
+        }
+        return acc
+      }, [])
+      const max = Math.max(...values)
+      const min = Math.min(...values)
+      if (max === min) {
+        return classObj
+      }
+
+      if (max === value) {
+        classObj["is-positive"] = true
+      } else if (min === value) {
+        classObj["is-negative"] = true
+      } else if (unitCount > 2) {
+        classObj["is-neutral"] = true
+      }
+      return classObj
     },
     setBaseStat(stats, effectName) {
       if (!(effectName in stats)) {

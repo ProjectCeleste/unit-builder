@@ -85,6 +85,7 @@
     </Collapse>
     <Collapse v-if="selection.unit.name !== 'None'" title="Stats">
       <Stats
+        :unit-id="unitId"
         :unit="selection.unit"
         :gear="gear"
         :upgrades="upgrades"
@@ -121,6 +122,7 @@ export default {
     Button
   },
   props: {
+    unitId: { type: String, required: true },
     showDelete: { type: Boolean, default: true },
     modelValue: { type: Object, required: true }
   },
@@ -149,10 +151,13 @@ export default {
     selection: {
       deep: true,
       handler() {
-        this.gear = {}
-        this.upgrades = {}
-        this.advisors = []
-        this.milestones = {}
+        // FIXME gear not reset when switching unit for the first time
+        this.$nextTick(() => {
+          this.gear = {}
+          this.upgrades = {}
+          this.advisors = []
+          this.milestones = {}
+        })
       }
     },
     gear: {
