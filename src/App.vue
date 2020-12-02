@@ -92,8 +92,7 @@ export default {
 
 <style lang="scss">
 html {
-  background-position: center;
-  background-size: cover;
+  background-position: top, center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-color: $body-background-color;
@@ -121,6 +120,10 @@ html {
 }
 
 @media screen and (min-width: $tablet) {
+  html {
+    background-size: cover;
+  }
+
   #app .update-button {
     top: 0.75rem;
     bottom: auto;

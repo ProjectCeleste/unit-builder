@@ -2,7 +2,7 @@
   <header
     class="header is-flex is-flex-direction-row-reverse has-text-shadow mb-3"
   >
-    <div class="p-3 is-flex controls">
+    <div class="pt-3 px-2 is-flex controls">
       <div class="px-1">
         <Button
           icon="share"
