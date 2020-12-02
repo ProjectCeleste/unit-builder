@@ -18,11 +18,13 @@
 import effects from "../data/effects.json"
 import Icon from "./Icon.vue"
 import CostStats from "./CostStats.vue"
+import Comparable from "../mixins/Comparable.js"
 import { effectAppliesToUnit } from "../stats.js"
 
 export default {
   name: "Stats",
   components: { Icon, CostStats },
+  mixins: [Comparable],
   props: {
     unitId: { type: String, required: true },
     unit: {
@@ -166,39 +168,6 @@ export default {
           break
       }
       return formattedValue
-    },
-    comparisonClass(name, value) {
-      const classObj = {}
-      const units = this.$store.state.units
-      const unitCount = Object.keys(units).length
-      if (unitCount <= 1) {
-        return classObj
-      }
-      const values = Object.values(units).reduce((acc, unit) => {
-        if (name in unit) {
-          acc.push(unit[name])
-        }
-        return acc
-      }, [])
-      const max = Math.max(...values)
-      const min = Math.min(...values)
-      if (min === max) {
-        if (values.length === 1) {
-          classObj["is-positive"] = true
-        }
-        return classObj
-      }
-
-      const lowerIsBetter = effects[name].lowerIsBetter !== undefined
-
-      if (max === value) {
-        classObj[lowerIsBetter ? "is-negative" : "is-positive"] = true
-      } else if (min === value) {
-        classObj[lowerIsBetter ? "is-positive" : "is-negative"] = true
-      } else if (unitCount > 2) {
-        classObj["is-neutral"] = true
-      }
-      return classObj
     },
     setBaseStat(stats, effectName) {
       if (!(effectName in stats)) {

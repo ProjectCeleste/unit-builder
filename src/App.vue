@@ -130,7 +130,6 @@ export default {
           this.$refs.header.showClipboardNotification()
         })
         .catch(console.err)
-      // TODO add clipboard notification
     },
     fetchBuild(id) {
       const http = new XMLHttpRequest()

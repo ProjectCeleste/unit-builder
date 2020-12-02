@@ -1,6 +1,5 @@
 import express from "express"
 import bodyParser from "body-parser"
-import cors from "cors"
 import Keyv from "keyv"
 import { v4 as uuid } from "uuid"
 const app = express()
@@ -9,9 +8,6 @@ const keyv = new Keyv()
 
 app.use(bodyParser.json())
 app.use(express.static("./front"))
-
-// TODO remove CORS
-app.use(cors())
 
 app.post("/builds", async (req, res) => {
   if (req.body && Object.keys(req.body).length) {
