@@ -146,14 +146,14 @@ export default {
     }
   },
   watch: {
-    selection() {
-      this.$nextTick(() => {
+    selection: {
+      deep: true,
+      handler() {
         this.gear = {}
         this.upgrades = {}
         this.advisors = []
         this.milestones = {}
-        this.updateModelValue()
-      })
+      }
     },
     gear: {
       deep: true,
