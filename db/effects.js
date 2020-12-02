@@ -143,7 +143,10 @@ export function addEffect(name) {
       icon: template.icon,
       sort: template.sort
     }
-    // TODO lower is better for comparison
+
+    if (template.lowerIsBetter) {
+      effects[name].lowerIsBetter = true
+    }
   }
 }
 
@@ -317,18 +320,48 @@ const templates = {
     icon: "BuildPoints",
     sort: 67
   },
-  BuildPoints: { name: "Build Time", icon: "BuildPoints", sort: 81 },
+  BuildPoints: {
+    name: "Build Time",
+    icon: "BuildPoints",
+    sort: 81,
+    lowerIsBetter: true
+  },
   ConvertResist: {
     name: "Conversion Resistance",
     icon: "ConvertResist",
     sort: 74
   },
-  CostAll: { name: "Cost", icon: "Cost", sort: 0 },
-  CostFood: { name: "Food Cost", icon: "CostFood", sort: 0 },
-  CostWood: { name: "Wood Cost", icon: "CostWood", sort: 0 },
-  CostGold: { name: "Gold Cost", icon: "CostGold", sort: 0 },
-  CostStone: { name: "Stone Cost", icon: "CostStone", sort: 0 },
-  PopulationCount: { name: "Population", icon: "PopulationCount", sort: 0 },
+  CostAll: { name: "Cost", icon: "Cost", sort: 0, lowerIsBetter: true },
+  CostFood: {
+    name: "Food Cost",
+    icon: "CostFood",
+    sort: 0,
+    lowerIsBetter: true
+  },
+  CostWood: {
+    name: "Wood Cost",
+    icon: "CostWood",
+    sort: 0,
+    lowerIsBetter: true
+  },
+  CostGold: {
+    name: "Gold Cost",
+    icon: "CostGold",
+    sort: 0,
+    lowerIsBetter: true
+  },
+  CostStone: {
+    name: "Stone Cost",
+    icon: "CostStone",
+    sort: 0,
+    lowerIsBetter: true
+  },
+  PopulationCount: {
+    name: "Population",
+    icon: "PopulationCount",
+    sort: 0,
+    lowerIsBetter: true
+  },
   BuildLimit: { name: "Build Limit", icon: "BuildLimit", sort: 79 },
   Damage: { name: "Damage", icon: "DamageHand", sort: 0 },
   DamageMeleeAttack: { name: "Melee Damage", icon: "DamageHand", sort: 0 },
@@ -363,13 +396,23 @@ const templates = {
     icon: "MaximumVelocity",
     sort: 77
   },
-  TargetSpeedBoost: { name: "Snare", icon: "TargetSpeedBoost", sort: 43 },
+  TargetSpeedBoost: {
+    name: "Snare",
+    icon: "TargetSpeedBoost",
+    sort: 43,
+    lowerIsBetter: true
+  },
   TargetSpeedBoostResist: {
     name: "Snare Resist",
     icon: "SnareResist",
     sort: 75
   },
-  TrainPoints: { name: "Train Time", icon: "BuildPoints", sort: 80 },
+  TrainPoints: {
+    name: "Train Time",
+    icon: "BuildPoints",
+    sort: 80,
+    lowerIsBetter: true
+  },
   ArmorRanged: { name: "Pierce Armor", icon: "ArmorRanged", sort: 69 },
   ArmorSiege: { name: "Crush Armor", icon: "ArmorSiege", sort: 71 },
   ArmorHand: { name: "Melee-Infantry Armor", icon: "ArmorHand", sort: 68 },
@@ -377,34 +420,40 @@ const templates = {
   ConvertStandardConvertable: {
     name: "Conversion Rate",
     icon: "ConvertStandardConvertable",
-    sort: 48
+    sort: 48,
+    lowerIsBetter: true
   },
   ConvertConvertableCavalry: {
     name: "Convert Cavalry Rate",
     icon: "ConvertStandardConvertable",
-    sort: 49
+    sort: 49,
+    lowerIsBetter: true
   },
   ConvertConvertableSiege: {
     name: "Convert Siege Rate",
     icon: "ConvertStandardConvertable",
-    sort: 50
+    sort: 50,
+    lowerIsBetter: true
   },
   ConvertConvertableInfantry: {
     name: "Convert Infantry Rate",
     icon: "ConvertStandardConvertable",
-    sort: 51
+    sort: 51,
+    lowerIsBetter: true
   },
   ChaosStandardConvertable: { name: "Chaos Rate", icon: "Chaos", sort: 52 },
   ChaosConvertableCavalry: {
     name: "Cavalry Chaos Rate",
     icon: "Chaos",
-    sort: 53
+    sort: 53,
+    lowerIsBetter: true
   },
   ChaosConvertableSiege: { name: "Siege Chaos Rate", icon: "Chaos", sort: 54 },
   ChaosConvertableInfantry: {
     name: "Infantry Chaos Rate",
     icon: "Chaos",
-    sort: 55
+    sort: 55,
+    lowerIsBetter: true
   },
   Trade: { name: "Trade", icon: "Cost", sort: 61 },
   RateHeal: { name: "Healing", icon: "RateHeal", sort: 58 },

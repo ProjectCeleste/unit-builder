@@ -182,14 +182,19 @@ export default {
       }, [])
       const max = Math.max(...values)
       const min = Math.min(...values)
-      if (max === min) {
+      if (min === max) {
+        if (values.length === 1) {
+          classObj["is-positive"] = true
+        }
         return classObj
       }
 
+      const lowerIsBetter = effects[name].lowerIsBetter !== undefined
+
       if (max === value) {
-        classObj["is-positive"] = true
+        classObj[lowerIsBetter ? "is-negative" : "is-positive"] = true
       } else if (min === value) {
-        classObj["is-negative"] = true
+        classObj[lowerIsBetter ? "is-positive" : "is-negative"] = true
       } else if (unitCount > 2) {
         classObj["is-neutral"] = true
       }
