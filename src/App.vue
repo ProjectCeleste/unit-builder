@@ -11,7 +11,6 @@
   </div>
   <LegalNotice class="mt-3" />
   <transition name="slide-in-left">
-    <!-- TODO move update button to the header ? -->
     <Button
       v-if="updateVisible"
       icon="update"

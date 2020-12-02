@@ -21,7 +21,9 @@
         "
         size="sm"
       />
-      <span class="select-arrow px-2">▼</span>
+      <span class="select-arrow">
+        <Icon sprite="icons" name="arrow-right" size="sm" />
+      </span>
     </div>
     <keep-alive>
       <Dropdown
@@ -113,6 +115,10 @@ export default {
 
     .select-arrow {
       border-left: 1px solid $color--border;
+
+      .icon {
+        transform: rotate(90deg);
+      }
     }
   }
 }
