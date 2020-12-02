@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="upgrade-selector is-flex is-flex-direction-column is-flex-wrap is-relative"
-  >
+  <div class="upgrade-selector is-flex is-flex-direction-column is-flex-wrap">
     <div class="is-flex is-flex-direction-row">
       <Upgrade
         v-for="u in upgrades"
@@ -99,59 +97,47 @@ export default {
           return
         }
         this.$nextTick(() => {
-          this.x =
-            event.clientX +
-            15 -
-            this.$el.parentElement.getBoundingClientRect().left
+          const borderWidth = 4
+          const scrollbarWidth = 11
+          const parentBounds = this.$el.parentElement.parentElement.parentElement.getBoundingClientRect()
+          this.x = event.clientX - parentBounds.left + 15 + borderWidth / 2
 
-          if (
+          const boundRight =
             this.x +
-              this.$el.parentElement.getBoundingClientRect().left +
-              this.$refs.tooltip.$el.clientWidth +
-              4 >
-            document.body.clientWidth
-          ) {
-            this.x =
-              event.clientX -
-              this.$refs.tooltip.$el.clientWidth -
-              15 -
-              this.$el.parentElement.getBoundingClientRect().left -
-              4
+            parentBounds.left +
+            this.$refs.tooltip.$el.clientWidth +
+            borderWidth
+
+          if (boundRight >= window.innerWidth - scrollbarWidth) {
+            this.x -= boundRight - window.innerWidth + scrollbarWidth
           }
 
           if (this.x < 0) {
             this.x =
               window.innerWidth -
               this.$refs.tooltip.$el.clientWidth -
-              this.$el.parentElement.getBoundingClientRect().left -
-              4
+              borderWidth
           }
 
-          this.y =
-            event.clientY +
-            15 -
-            this.$el.parentElement.getBoundingClientRect().top
+          this.y = event.clientY - parentBounds.top + 15 + borderWidth / 2
 
-          if (
+          const boundBottom =
             this.y +
-              this.$el.parentElement.getBoundingClientRect().top +
-              this.$refs.tooltip.$el.clientHeight +
-              4 >
-            window.innerHeight
-          ) {
+            parentBounds.top +
+            this.$refs.tooltip.$el.clientHeight +
+            borderWidth
+
+          if (boundBottom >= window.innerHeight) {
+            this.y -= boundBottom - window.innerHeight
+          }
+
+          if (this.y < event.clientY - parentBounds.top + 15 - borderWidth) {
             this.y =
               event.clientY -
               this.$refs.tooltip.$el.clientHeight -
+              parentBounds.top -
               15 -
-              this.$el.parentElement.getBoundingClientRect().top
-          }
-
-          if (this.y < 0) {
-            this.y =
-              window.innerHeight -
-              this.$refs.tooltip.$el.clientHeight -
-              this.$el.parentElement.getBoundingClientRect().top -
-              4
+              borderWidth / 2
           }
         })
       }
