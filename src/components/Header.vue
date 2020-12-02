@@ -3,12 +3,22 @@
     class="header is-flex is-flex-direction-row-reverse has-text-shadow mb-3"
   >
     <div class="p-3 is-flex controls">
-      <Button
-        icon="plus"
-        text="Add unit"
-        tooltip="Add unit"
-        @click="$emit('unit-added')"
-      />
+      <div class="px-1">
+        <Button
+          icon="share"
+          text="Share"
+          tooltip="Share"
+          @click="$emit('share-clicked')"
+        />
+      </div>
+      <div class="px-1">
+        <Button
+          icon="plus"
+          text="Add unit"
+          tooltip="Add unit"
+          @click="$emit('unit-added')"
+        />
+      </div>
     </div>
   </header>
 </template>
@@ -19,7 +29,7 @@ import Button from "./Button.vue"
 export default {
   name: "Header",
   components: { Button },
-  emits: ["unit-added"]
+  emits: ["unit-added", "share-clicked"]
 }
 </script>
 

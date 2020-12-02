@@ -11,7 +11,7 @@
     @touchend="$event.stopPropagation()"
   >
     <span>{{ effectName }}</span>
-    <div>
+    <div class="input-container">
       <input
         ref="input"
         class="stat-range-input"
@@ -92,6 +92,10 @@ export default {
     word-break: keep-all;
   }
 
+  .input-container {
+    width: 100%;
+  }
+
   .stat-range-input {
     cursor: pointer;
     height: 25px;
@@ -170,12 +174,6 @@ export default {
     &::-moz-range-track {
       cursor: auto;
     }
-  }
-}
-
-@media screen and (min-width: $small-mobile) {
-  .stat-range-input {
-    min-width: 150px;
   }
 }
 

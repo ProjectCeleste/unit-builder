@@ -123,7 +123,7 @@ export default {
   props: {
     showDelete: { type: Boolean, default: true }
   },
-  emits: ["unit-deleted"],
+  emits: ["unit-deleted"], // TODO bind state with higher level (v-model ?)
   data() {
     return {
       selection: { civ: "greek", unit: { name: "None", icon: "Generic" } },

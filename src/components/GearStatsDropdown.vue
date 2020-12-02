@@ -139,10 +139,4 @@ export default {
     }
   }
 }
-
-@media screen and (min-width: $small-mobile) {
-  .dropdown {
-    width: max-content !important;
-  }
-}
 </style>

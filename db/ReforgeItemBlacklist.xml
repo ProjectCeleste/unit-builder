@@ -40,6 +40,7 @@
 	<ReforgeBlacklistTrait name="SE2019_ArmorMed"/>
 	<ReforgeBlacklistTrait name="SE2019_Gear_Bldg"/>
 	<ReforgeBlacklistTrait name="Spear1H_Halloween2019"/>
+	<ReforgeBlacklistTrait name="Spear2H_Halloween2019"/>
 	<ReforgeBlacklistTrait name="Gear_Vill_Halloween2019"/>
 	<ReforgeBlacklistTrait name="Gear_IceKing_LEG"/>
 	<ReforgeBlacklistTrait name="ArmorLgt_IceKing_LEG"/>

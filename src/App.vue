@@ -3,14 +3,15 @@
   <div class="my-1 is-flex is-flex-direction-row is-flex-grow-1">
     <Unit
       v-for="(unit, i) in units"
-      :key="unit.id"
+      :key="i"
       v-model="units[i]"
-      :show-delete="units.length > 1"
+      :show-delete="Object.keys(units).length > 1"
       @unitDeleted="onUnitDeleted(i)"
     />
   </div>
   <LegalNotice class="mt-3" />
   <transition name="slide-in-left">
+    <!-- TODO move update button to the header ? -->
     <Button
       v-if="updateVisible"
       icon="update"
@@ -36,7 +37,7 @@ export default {
       updateVisible: false,
       refreshing: false,
       registration: undefined,
-      units: [],
+      units: {},
       uid: 0
     }
   },
@@ -52,8 +53,8 @@ export default {
       })
     }
 
-    if (!this.units.length) {
-      this.units.push({ id: this.uid++ })
+    if (!Object.keys(this.units).length) {
+      this.units[this.uid++] = {}
     }
   },
   unmounted() {
@@ -76,10 +77,11 @@ export default {
       this.registration.waiting.postMessage("skipWaiting")
     },
     onUnitAdded() {
-      this.units.push({ id: this.uid++ })
+      // TODO copy state of last unit
+      this.units[this.uid++] = {}
     },
     onUnitDeleted(index) {
-      this.units.splice(index, 1)
+      delete this.units[index]
     }
   }
 }
@@ -108,8 +110,8 @@ html {
 
   .update-button {
     position: fixed;
-    left: 20px;
-    bottom: 20px;
+    left: 0.75rem;
+    bottom: 0.75rem;
     box-shadow: 0 2px 4px -1px rgba(25, 43, 51, 0.2),
       0 4px 5px 0 rgba(25, 43, 51, 0.14), 0 1px 10px 0 rgba(25, 43, 51, 0.12);
   }
@@ -117,7 +119,7 @@ html {
 
 @media screen and (min-width: $tablet) {
   #app .update-button {
-    top: 100px;
+    top: 0.75rem;
     bottom: auto;
   }
 }

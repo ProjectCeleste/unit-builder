@@ -1,25 +1,27 @@
 <template>
   <div
     v-click-outside="onClickOutside"
-    class="milestone mx-1 is-relative"
+    class="milestone mx-1"
     @click="pickerOpen = !pickerOpen"
   >
-    <Icon
-      v-if="modelValue.id !== undefined"
-      sprite="milestones"
-      :name="modelValue.icon"
-      :title="modelValue.name"
-      size="md"
-      class="is-align-self-center"
-    />
-    <Icon
-      v-if="civ"
-      sprite="icons"
-      :name="civ"
-      :title="civ.charAt(0).toUpperCase() + civ.slice(1)"
-      size="vsm"
-      class="milestone-civ-icon"
-    />
+    <div class="is-relative">
+      <Icon
+        v-if="modelValue.id !== undefined"
+        sprite="milestones"
+        :name="modelValue.icon"
+        :title="modelValue.name"
+        size="md"
+        class="is-align-self-center"
+      />
+      <Icon
+        v-if="civ"
+        sprite="icons"
+        :name="civ"
+        :title="civ.charAt(0).toUpperCase() + civ.slice(1)"
+        size="vsm"
+        class="milestone-civ-icon"
+      />
+    </div>
 
     <keep-alive>
       <Dropdown

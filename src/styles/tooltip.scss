@@ -91,12 +91,3 @@ $tooltip-item-background-color-hover: #3b6578;
     }
   }
 }
-
-@media screen and (min-width: $small-mobile) {
-  .dropdown {
-    left: auto;
-    right: auto;
-    transform: translateX(calc(-50% + 20px));
-    width: 300px;
-  }
-}

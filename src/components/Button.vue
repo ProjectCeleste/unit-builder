@@ -3,11 +3,9 @@
     class="button is-flex is-flex-direction-row"
     :title="tooltip"
     :class="classObj"
-    @mouseover="visible = true"
-    @mouseleave="visible = false"
   >
     <Icon sprite="icons" :name="icon" :size="size" />
-    <span v-if="text" :class="{ visible: visible }" class="button-text">
+    <span v-if="text" class="button-text">
       {{ text }}
     </span>
   </div>
@@ -24,11 +22,6 @@ export default {
     tooltip: { type: String, default: undefined },
     text: { type: String, default: undefined },
     size: { type: String, default: "sm" }
-  },
-  data() {
-    return {
-      visible: false
-    }
   },
   computed: {
     classObj() {
@@ -66,17 +59,6 @@ export default {
   .button-text {
     white-space: nowrap;
     overflow: hidden;
-  }
-}
-
-@media screen and (min-width: $tablet) {
-  .button .button-text {
-    max-width: 0;
-    transition: max-width 0.25s ease-in-out;
-
-    &.visible {
-      max-width: 150px;
-    }
   }
 }
 </style>
