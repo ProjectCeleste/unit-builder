@@ -3,13 +3,21 @@
     class="header is-flex is-flex-direction-row-reverse has-text-shadow mb-3"
   >
     <div class="pt-3 px-2 is-flex controls">
-      <div class="px-1">
+      <div class="px-1 is-relative">
         <Button
           icon="share"
           text="Share"
           tooltip="Share"
           @click="$emit('share-clicked')"
         />
+        <transition name="fade">
+          <span
+            v-if="clipboardNotificationVisible"
+            class="has-text-shadow is-bold clipboard-notification"
+          >
+            Copied to clipboard!
+          </span>
+        </transition>
       </div>
       <div class="px-1">
         <Button
@@ -29,7 +37,20 @@ import Button from "./Button.vue"
 export default {
   name: "Header",
   components: { Button },
-  emits: ["unit-added", "share-clicked"]
+  emits: ["unit-added", "share-clicked"],
+  data() {
+    return {
+      clipboardNotificationVisible: false
+    }
+  },
+  methods: {
+    showClipboardNotification() {
+      this.clipboardNotificationVisible = true
+      setTimeout(() => {
+        this.clipboardNotificationVisible = false
+      }, 1000)
+    }
+  }
 }
 </script>
 
@@ -41,5 +62,14 @@ export default {
   white-space: nowrap;
   flex-wrap: wrap;
   align-self: flex-end;
+
+  .clipboard-notification {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, -50%);
+    -webkit-text-stroke: 1px darken($color-positive, 15%);
+    -webkit-text-fill-color: $color-positive;
+  }
 }
 </style>

@@ -1,5 +1,10 @@
 <template>
-  <Header class="mb-2" @unitAdded="onUnitAdded" />
+  <Header
+    ref="header"
+    class="mb-2"
+    @unitAdded="onUnitAdded"
+    @shareClicked="postBuild()"
+  />
   <div class="my-1 is-flex is-flex-direction-row is-flex-grow-1">
     <Unit
       v-for="(unit, i) in units"
@@ -38,7 +43,7 @@ export default {
       updateVisible: false,
       refreshing: false,
       registration: undefined,
-      units: {}, // TODO save for sharing
+      units: {},
       uid: 0
     }
   },
@@ -54,7 +59,10 @@ export default {
       })
     }
 
-    if (!Object.keys(this.units).length) {
+    const build = this.getUrlParameter("build")
+    if (build) {
+      this.fetchBuild(build)
+    } else if (!Object.keys(this.units).length) {
       this.units[this.uid++] = {}
     }
   },
@@ -85,6 +93,71 @@ export default {
     onUnitDeleted(index) {
       delete this.units[index]
       this.$store.commit("deleteUnit", index)
+    },
+    getUrlParameter(param) {
+      const url = new URL(window.location)
+      const raw = url.searchParams.get(param)
+      return raw
+    },
+    buildURL(buildID) {
+      const url = window.location.href
+      const baseURL = url.substring(0, url.indexOf("?"))
+      return buildID ? baseURL + "?build=" + buildID : baseURL
+    },
+    setURL(buildID) {
+      const url = this.buildURL(buildID)
+      window.history.pushState({}, "Unit Builder - Age of Empires Online", url)
+      return url
+    },
+    postBuild() {
+      const http = new XMLHttpRequest()
+      // http.open("POST", "builds", true)
+      http.open("POST", "http://localhost:8081/builds", true)
+      http.setRequestHeader("Content-type", "application/json")
+
+      http.onreadystatechange = () => {
+        if (http.readyState == 4 && http.status == 200) {
+          const url = this.setURL(http.responseText)
+          this.setClipboard(url)
+        }
+      }
+      http.send(JSON.stringify(this.units))
+    },
+    setClipboard(url) {
+      navigator.clipboard
+        .writeText(url)
+        .then(() => {
+          this.$refs.header.showClipboardNotification()
+        })
+        .catch(console.err)
+      // TODO add clipboard notification
+    },
+    fetchBuild(id) {
+      const http = new XMLHttpRequest()
+      // http.open("GET", "builds/" + id, true)
+      http.open("GET", "http://localhost:8081/builds/" + id, true)
+
+      http.onreadystatechange = () => {
+        if (http.readyState == 4) {
+          if (http.status == 200) {
+            try {
+              this.units = JSON.parse(http.responseText)
+              this.uid = Math.max(...Object.keys(this.units)) + 1
+            } catch (e) {
+              console.error(e)
+              this.onFetchBuildError()
+            }
+          } else {
+            this.onFetchBuildError()
+          }
+        }
+      }
+      http.send()
+    },
+    onFetchBuildError() {
+      this.units = {}
+      this.units[this.uid++] = {}
+      this.setURL(undefined)
     }
   }
 }

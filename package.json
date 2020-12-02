@@ -2,6 +2,16 @@
   "name": "unit-builder",
   "version": "0.1.0",
   "private": true,
+  "author": "Jérémy LAMBERT (System-Glitch)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ProjectCeleste/unit-builder/issues"
+  },
+  "homepage": "https://github.com/ProjectCeleste/unit-builder/#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ProjectCeleste/unit-builder.git"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
