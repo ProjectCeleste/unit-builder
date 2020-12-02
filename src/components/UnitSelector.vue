@@ -60,7 +60,7 @@ export default {
       }
     }
   },
-  emits: ["update:modelValue"],
+  emits: ["update:modelValue", "selected"],
   data() {
     return {
       open: false,
@@ -91,6 +91,7 @@ export default {
     selectedUnitChanged(s) {
       this.open = false
       this.$emit("update:modelValue", { civ: this.civ, unit: s })
+      this.$emit("selected")
     },
     onClickOutside() {
       if (this.open) {

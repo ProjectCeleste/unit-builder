@@ -17,7 +17,7 @@
         />
       </div>
       <div class="card-content">
-        <UnitSelector v-model="selection" />
+        <UnitSelector v-model="selection" @selected="onUnitSelected" />
         <div
           v-if="selection.unit.name !== 'None'"
           class="mt-2 unit-portrait is-flex is-flex-wrap-nowrap is-justify-content-center"
@@ -151,12 +151,8 @@ export default {
     selection: {
       deep: true,
       handler() {
-        // FIXME gear not reset when switching unit for the first time
         this.$nextTick(() => {
-          this.gear = {}
-          this.upgrades = {}
-          this.advisors = []
-          this.milestones = {}
+          this.reset()
         })
       }
     },
@@ -218,6 +214,15 @@ export default {
         advisors: this.advisors,
         milestones: this.milestones
       })
+    },
+    reset() {
+      this.gear = {}
+      this.upgrades = {}
+      this.advisors = []
+      this.milestones = {}
+    },
+    onUnitSelected() {
+      this.reset()
     }
   }
 }

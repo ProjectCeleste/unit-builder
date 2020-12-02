@@ -74,10 +74,18 @@ export default {
     }
   },
   watch: {
-    modelValue(val) {
-      this.onActivate()
-      if (Object.keys(val).length) {
-        this.milestoneValues = val
+    modelValue: {
+      deep: true,
+      handler(val) {
+        this.onActivate()
+        if (Object.keys(val).length) {
+          this.milestoneValues = val
+        }
+      }
+    },
+    civ() {
+      for (let key in this.milestoneValues) {
+        this.milestoneValues[key] = []
       }
     },
     milestoneValues: {
