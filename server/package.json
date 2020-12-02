@@ -2,7 +2,8 @@
     "type": "module",
     "main": "index.js",
     "scripts": {
-        "start": "node index.js"
+        "start": "node index.js",
+        "ngrok": "ngrok http --region=eu 8080 & node index.js"
     },
     "dependencies": {
         "@keyv/sqlite": "^2.0.2",
@@ -11,5 +12,8 @@
         "express": "^4.17.1",
         "keyv": "^4.0.3",
         "uuid": "^8.3.1"
+    },
+    "devDependencies": {
+        "ngrok": "^3.3.0"
     }
 }

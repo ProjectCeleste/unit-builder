@@ -37,6 +37,16 @@ export async function buildGear() {
     })
   }
 
+  return { front: results, server: buildGearForServer(results) }
+}
+
+function buildGearForServer(gear) {
+  const results = {}
+  for (let type in gear) {
+    for (let g of gear[type]) {
+      results[g.id] = g.name
+    }
+  }
   return results
 }
 

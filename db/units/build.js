@@ -30,7 +30,23 @@ export async function buildUnits() {
   // WARNING: tactics files not served by API, techtreex neither
   // equipment -> techtreex -> units
 
-  return results
+  return { front: results, server: await buildUnitsForServer(results) }
+}
+
+async function buildUnitsForServer(units) {
+  console.log("Building units for server...")
+  const apiUnits = await getUnits()
+  const result = {}
+  for (let civ in units) {
+    for (let unit of units[civ]) {
+      result[unit.id] = findByAttribute(apiUnits, "name", unit.id).Icon.replace(
+        /\\/g,
+        "/"
+      )
+    }
+  }
+
+  return result
 }
 
 async function convertEquipmentToUnits(equipment) {
