@@ -71,6 +71,9 @@ module.exports = {
       short_name: "Unit Builder"
     },
     themeColor: "#488489",
-    msTileColor: "#488489"
+    msTileColor: "#488489",
+    workboxOptions: {
+      clientsClaim: true
+    }
   }
 }

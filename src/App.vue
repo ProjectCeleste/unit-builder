@@ -47,7 +47,7 @@ export default {
       uid: 0
     }
   },
-  mounted() {
+  created() {
     document.addEventListener("swUpdated", this.showUpdateButton, {
       once: true
     })
@@ -58,7 +58,8 @@ export default {
         window.location.reload()
       })
     }
-
+  },
+  mounted() {
     const build = this.getUrlParameter("build")
     if (build) {
       this.fetchBuild(build)
@@ -72,7 +73,7 @@ export default {
   methods: {
     showUpdateButton(registration) {
       this.updateVisible = true
-      this.registration = registration
+      this.registration = registration.detail
     },
     onUpdateClicked() {
       if (this.refreshing) {
@@ -83,7 +84,7 @@ export default {
       if (!this.registration || !this.registration.waiting) {
         return
       }
-      this.registration.waiting.postMessage("skipWaiting")
+      this.registration.waiting.postMessage({ type: "SKIP_WAITING" })
     },
     onUnitAdded() {
       this.units[this.uid++] = clonedeep(
@@ -111,8 +112,7 @@ export default {
     },
     postBuild() {
       const http = new XMLHttpRequest()
-      // http.open("POST", "builds", true)
-      http.open("POST", "http://localhost:8081/builds", true)
+      http.open("POST", "builds", true)
       http.setRequestHeader("Content-type", "application/json")
 
       http.onreadystatechange = () => {
@@ -134,8 +134,7 @@ export default {
     },
     fetchBuild(id) {
       const http = new XMLHttpRequest()
-      // http.open("GET", "builds/" + id, true)
-      http.open("GET", "http://localhost:8081/builds/" + id, true)
+      http.open("GET", "builds/" + id, true)
 
       http.onreadystatechange = () => {
         if (http.readyState == 4) {
