@@ -121,9 +121,10 @@ export default {
     Button
   },
   props: {
-    showDelete: { type: Boolean, default: true }
+    showDelete: { type: Boolean, default: true },
+    modelValue: { type: Object, required: true }
   },
-  emits: ["unit-deleted"], // TODO bind state with higher level (v-model ?)
+  emits: ["unit-deleted", "update:modelValue"],
   data() {
     return {
       selection: { civ: "greek", unit: { name: "None", icon: "Generic" } },
@@ -151,6 +152,66 @@ export default {
         this.upgrades = {}
         this.advisors = []
         this.milestones = {}
+        this.updateModelValue()
+      })
+    },
+    gear: {
+      deep: true,
+      handler() {
+        this.updateModelValue()
+      }
+    },
+    upgrades: {
+      deep: true,
+      handler() {
+        this.updateModelValue()
+      }
+    },
+    advisors: {
+      deep: true,
+      handler() {
+        this.updateModelValue()
+      }
+    },
+    milestones: {
+      deep: true,
+      handler() {
+        this.updateModelValue()
+      }
+    },
+    modelValue: {
+      deep: true,
+      handler(val) {
+        this.$nextTick(() => {
+          this.selection = val.selection
+          this.gear = val.gear
+          this.advisors = val.advisors
+          this.upgrades = val.upgrades
+          this.milestones = val.milestones
+        })
+      }
+    }
+  },
+  mounted() {
+    const modelValue = this.modelValue
+    if (Object.keys(modelValue).length) {
+      this.$nextTick(() => {
+        this.selection = modelValue.selection
+        this.gear = modelValue.gear
+        this.advisors = modelValue.advisors
+        this.upgrades = modelValue.upgrades
+        this.milestones = modelValue.milestones
+      })
+    }
+  },
+  methods: {
+    updateModelValue() {
+      this.$emit("update:modelValue", {
+        selection: this.selection,
+        gear: this.gear,
+        upgrades: this.upgrades,
+        advisors: this.advisors,
+        milestones: this.milestones
       })
     }
   }

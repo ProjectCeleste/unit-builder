@@ -27,6 +27,7 @@ import Unit from "./components/Unit.vue"
 import LegalNotice from "./components/LegalNotice.vue"
 import Header from "./components/Header.vue"
 import Button from "./components/Button.vue"
+import clonedeep from "lodash.clonedeep"
 
 export default {
   name: "App",
@@ -76,8 +77,9 @@ export default {
       this.registration.waiting.postMessage("skipWaiting")
     },
     onUnitAdded() {
-      // TODO copy state of last unit
-      this.units[this.uid++] = {}
+      this.units[this.uid++] = clonedeep(
+        this.units[Math.max(Object.keys(this.units))]
+      )
     },
     onUnitDeleted(index) {
       delete this.units[index]
