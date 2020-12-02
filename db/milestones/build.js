@@ -4,7 +4,7 @@ import {
   getMilestonesTiers,
   getTechtree
 } from "../api.js"
-import { convertEffects } from "../effects.js"
+import { convertEffects, duplicateEffects } from "../effects.js"
 import { findLang, stringtablex } from "../lang.js"
 import { convertIconName, findByAttribute } from "../utils.js"
 
@@ -55,11 +55,7 @@ async function convertMilestone(milestone) {
     "../src/assets/milestones/" + iconDst + ".png"
   )
 
-  const effects = convertEffects(tech.Effects.Effect).filter(
-    (effect, index, self) =>
-      index ===
-      self.findIndex(e => e.type === effect.type && e.target === effect.target)
-  )
+  const effects = convertEffects(tech.Effects.Effect).filter(duplicateEffects)
 
   return {
     id: milestone.id,

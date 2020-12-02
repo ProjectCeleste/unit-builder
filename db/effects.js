@@ -151,6 +151,13 @@ export function getEffects() {
   return effects
 }
 
+export function duplicateEffects(effect, index, self) {
+  return (
+    index ===
+    self.findIndex(e => e.type === effect.type && e.target === effect.target)
+  )
+}
+
 function getBase(effectName) {
   return effectName.startsWith("DamageBonus") ||
     effectName.startsWith("TargetSpeedBoost") ||

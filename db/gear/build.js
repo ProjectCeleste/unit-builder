@@ -1,6 +1,6 @@
 import { getGear, getReforgeBlacklist, downloadImage } from "../api.js"
 import { stringtablex, findLang } from "../lang.js"
-import { convertEffects } from "../effects.js"
+import { convertEffects, duplicateEffects } from "../effects.js"
 import { convertIconName, findByAttribute, convertRarity } from "../utils.js"
 
 export async function buildGear() {
@@ -51,7 +51,7 @@ async function convertGear(gear) {
     icon: iconDst,
     levels: gear.itemlevels,
     rarity: convertRarity(gear.rarity),
-    effects: convertEffects(gear.effects.effect),
+    effects: convertEffects(gear.effects.effect).filter(duplicateEffects),
     fixed:
       gear.event !== undefined ||
       findByAttribute(reforgeBlacklist, "name", gear.name) !== undefined
