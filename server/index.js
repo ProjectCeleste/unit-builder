@@ -4,7 +4,14 @@ import Keyv from "keyv"
 import { v4 as uuid } from "uuid"
 const app = express()
 const port = process.argv[2] ? parseInt(process.argv[2]) : 8080
-const keyv = new Keyv()
+const keyv = new Keyv("sqlite://build-db.sqlite")
+// const sixMonths = 15552000000
+const sixMonths = 5000
+
+keyv.on("error", err => {
+  console.log("DB Connection Error", err)
+  process.exit(1)
+})
 
 app.use(bodyParser.json())
 app.use(express.static("./front"))
@@ -12,8 +19,7 @@ app.use(express.static("./front"))
 app.post("/builds", async (req, res) => {
   if (req.body && Object.keys(req.body).length) {
     const id = uuid()
-    keyv.set(id, req.body, 604800000)
-    // TODO maybe use sqlite?
+    keyv.set(id, req.body, sixMonths)
     res.setHeader("Content-Type", "text/plain")
     res.status(200).end(id)
   } else {

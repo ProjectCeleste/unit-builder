@@ -2,6 +2,7 @@
 node_modules
 /dist
 /server/front
+/server/build-db.sqlite
 
 
 # local env files
