@@ -6,7 +6,7 @@ import {
   convertIconName,
   max
 } from "../utils.js"
-import { convertEffects } from "../effects.js"
+import { convertEffects, duplicateEffects } from "../effects.js"
 
 export async function buildAdvisors() {
   console.log("Building advisors...")
@@ -69,7 +69,9 @@ async function convertAdvisor(a) {
   advisor.rarities.push({
     description: findLang(stringtablex, a.displaydescriptionid),
     rarity: convertRarity(a.rarity),
-    effects: convertEffects(tech.Effects.Effect, advisor.civ, true)
+    effects: convertEffects(tech.Effects.Effect, advisor.civ, true).filter(
+      duplicateEffects
+    )
   })
 
   return advisor
