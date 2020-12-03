@@ -2,7 +2,7 @@ import express from "express"
 import bodyParser from "body-parser"
 import Keyv from "keyv"
 import fs from "fs"
-import { v4 as uuid } from "uuid"
+import crypto from "crypto"
 const app = express()
 const port = process.argv[2] ? parseInt(process.argv[2]) : 8080
 const keyv = new Keyv("sqlite://build-db.sqlite")
@@ -70,7 +70,10 @@ app.use(express.static("./front"))
 
 app.post("/builds", async (req, res) => {
   if (req.body && Object.keys(req.body).length) {
-    const id = uuid()
+    const id = crypto
+      .createHash("sha224")
+      .update(JSON.stringify(req.body))
+      .digest("hex")
     keyv.set(id, req.body, sixMonths)
     res.setHeader("Content-Type", "text/plain")
     res.status(200).end(id)

@@ -72,7 +72,7 @@ export default {
         this.$emit("update:modelValue", {
           selected: newSelected,
           effects: newSelected ? this.upgrade.effects : [],
-          chain: val
+          chain: val // FIXME doesn't have chainSelected?
         })
       }
     }

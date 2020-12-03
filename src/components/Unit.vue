@@ -57,6 +57,7 @@
           :age="i"
           class="mx-1 is-align-self-flex-end"
         />
+        <!-- TODO don't return the entire advisor, description and all are not needed -->
       </div>
     </Collapse>
     <Collapse
@@ -69,6 +70,7 @@
         :civ="selection.civ"
         class="card-content"
       />
+      <!-- TODO don't return the entire milestone, description and all are not needed -->
     </Collapse>
     <Collapse
       v-if="selection.unit.name !== 'None'"
