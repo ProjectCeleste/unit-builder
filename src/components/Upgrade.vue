@@ -72,7 +72,7 @@ export default {
         this.$emit("update:modelValue", {
           selected: newSelected,
           effects: newSelected ? this.upgrade.effects : [],
-          chain: val // FIXME doesn't have chainSelected?
+          chain: val
         })
       }
     }
@@ -92,14 +92,14 @@ export default {
       let effects = []
       if (newSelected) {
         effects = effects.concat(this.upgrade.effects)
-        if (this.modelValue.chainSelected) {
+        if (this.modelValue.chain) {
           effects = effects.concat(this.chain.effects)
         }
       }
       this.$emit("update:modelValue", {
         selected: newSelected,
         effects: effects,
-        chainSelected: newSelected ? this.modelValue.chainSelected : false
+        chain: newSelected ? this.modelValue.chain : undefined
       })
       this.$emit("mouseleave")
     }
