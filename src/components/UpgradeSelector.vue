@@ -87,6 +87,13 @@ export default {
         this.updateDisabledTech()
         this.$emit("update:modelValue", val)
       }
+    },
+    unlockedTech(val, prevVal) {
+      for (let upgrade of prevVal) {
+        if (!val.includes(upgrade)) {
+          delete this.upgradeValues[upgrade]
+        }
+      }
     }
   },
   methods: {
