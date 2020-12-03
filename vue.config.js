@@ -68,13 +68,15 @@ module.exports = {
       description: "Simulate stats and compare any AoEO unit.",
       lang: "en-US",
       orientation: "portrait",
-      short_name: "Unit Builder"
+      short_name: "Unit Builder",
+      start_url: "/",
+      scope: "/"
     },
     themeColor: "#488489",
     msTileColor: "#488489",
     workboxOptions: {
       clientsClaim: true,
-      exclude: [/robots.txt$/, /robots.prod.txt$/, /sitemap.xml$/]
+      exclude: [/robots.txt$/, /robots.prod.txt$/, /sitemap.xml$/, /.css.map$/]
     }
   }
 }
