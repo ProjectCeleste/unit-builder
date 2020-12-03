@@ -122,7 +122,6 @@ export function convertEffects(effects, civ, isAdvisor) {
     }
 
     // The egyptian empower effects scale differently
-    // FIXME stat display for empower is probably wrong
     if (e.action === "Empower") {
       effect.amount = (effect.amount - 1) * 11 + 1
       if (effect.scaling !== undefined) {

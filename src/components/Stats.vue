@@ -302,6 +302,10 @@ export default {
             }
           }
 
+          if (effect.type.startsWith("Empower")) {
+            mod = (mod - 1) / 11 + 1
+          }
+
           this.setBaseStat(stats, effect.type)
           stats[effect.type] *= mod
       }
