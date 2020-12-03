@@ -2,6 +2,7 @@
   <Header
     ref="header"
     class="mb-2"
+    :can-add-unit="canAddUnit"
     @unitAdded="onUnitAdded"
     @shareClicked="postBuild()"
   />
@@ -35,6 +36,8 @@ import Header from "./components/Header.vue"
 import Button from "./components/Button.vue"
 import clonedeep from "lodash.clonedeep"
 
+const MAX_UNITS = 10
+
 export default {
   name: "App",
   components: { Unit, LegalNotice, Header, Button },
@@ -45,6 +48,14 @@ export default {
       registration: undefined,
       units: {},
       uid: 0
+    }
+  },
+  computed: {
+    unitCount() {
+      return Object.keys(this.units).length
+    },
+    canAddUnit() {
+      return this.unitCount < MAX_UNITS
     }
   },
   created() {
@@ -87,9 +98,11 @@ export default {
       this.registration.waiting.postMessage({ type: "SKIP_WAITING" })
     },
     onUnitAdded() {
-      this.units[this.uid++] = clonedeep(
-        this.units[Math.max(...Object.keys(this.units))]
-      )
+      if (this.unitCount < MAX_UNITS) {
+        this.units[this.uid++] = clonedeep(
+          this.units[Math.max(...Object.keys(this.units))]
+        )
+      }
     },
     onUnitDeleted(index) {
       delete this.units[index]

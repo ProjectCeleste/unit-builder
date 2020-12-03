@@ -19,7 +19,7 @@
           </span>
         </transition>
       </div>
-      <div class="px-1">
+      <div v-if="canAddUnit" class="px-1">
         <Button
           icon="plus"
           text="Add unit"
@@ -37,6 +37,9 @@ import Button from "./Button.vue"
 export default {
   name: "Header",
   components: { Button },
+  props: {
+    canAddUnit: { type: Boolean, default: true }
+  },
   emits: ["unit-added", "share-clicked"],
   data() {
     return {
