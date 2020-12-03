@@ -73,7 +73,8 @@ module.exports = {
     themeColor: "#488489",
     msTileColor: "#488489",
     workboxOptions: {
-      clientsClaim: true
+      clientsClaim: true,
+      exclude: [/robots.txt$/, /robots.prod.txt$/, /sitemap.xml$/]
     }
   }
 }
