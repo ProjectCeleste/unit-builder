@@ -11,6 +11,7 @@ jobs:
       - run: npm install --production
       - run: npm run build-prod
       - run: mv dist server/front
+      - run: cd server && npm install --production && cd ..
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
@@ -58,6 +59,4 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            cd ${{ secrets.DEPLOY_TARGET }}
-            npm install --production
             sudo systemctl start ${{ secrets.SERVICE_NAME_PROD }}
