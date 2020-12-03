@@ -6,10 +6,10 @@
   >
     <div class="is-relative">
       <Icon
-        v-if="modelValue.id !== undefined"
+        v-if="selectedOption.id !== undefined"
         sprite="milestones"
-        :name="modelValue.icon"
-        :title="modelValue.name"
+        :name="selectedOption.icon"
+        :title="selectedOption.name"
         size="md"
         class="is-align-self-center"
       />
@@ -45,7 +45,7 @@ export default {
     modelValue: {
       type: Object,
       default() {
-        return { icon: "none", name: "None" }
+        return {}
       }
     },
     options: { type: Array, required: true },
@@ -54,12 +54,18 @@ export default {
   emits: ["update:modelValue"],
   data() {
     return {
-      pickerOpen: false
+      pickerOpen: false,
+      selectedOption: { icon: "none", name: "None" }
     }
   },
   watch: {
     modelValue() {
       this.onActivate()
+      if (this.modelValue.id !== undefined) {
+        this.selectedOption = this.options.find(
+          o => o.id === this.modelValue.id
+        )
+      }
     }
   },
   activated() {
@@ -71,7 +77,7 @@ export default {
   methods: {
     onActivate() {
       if (this.modelValue.id === undefined) {
-        this.$emit("update:modelValue", this.options[0])
+        this.onPick(this.options[0])
       }
     },
     onClickOutside() {
@@ -80,7 +86,10 @@ export default {
       }
     },
     onPick(option) {
-      this.$emit("update:modelValue", option)
+      this.$emit("update:modelValue", {
+        id: option.id,
+        effects: option.effects
+      })
     }
   }
 }

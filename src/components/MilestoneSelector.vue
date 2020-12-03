@@ -75,7 +75,6 @@ export default {
   },
   watch: {
     modelValue: {
-      deep: true,
       handler(val) {
         this.onActivate()
         if (Object.keys(val).length) {

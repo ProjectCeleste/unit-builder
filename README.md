@@ -57,6 +57,11 @@ The server for build sharing is located in the `server` directory. For deploymen
 
 Builds are stored using sqlite, in a file named "build-db.sqlite" located in the server's working directory, and expire after 6 months. It is recommended to clear this file with each new deployment to avoid old builds causing errors in case something has changed in the game files.
 
+The server should be running behind an apache or nginx proxy configured with gzip and caching.
+
+**Caching exceptions:**
+- `front/service-worker.js` and `front/sitemap.xml` should NOT be cached
+
 ## License
 
 Age of Empires Online © Microsoft Corporation. This unit builder application was created under Microsoft's [Game Content Usage Rules](https://www.xbox.com/en-us/developers/rules) using assets from Age of Empires Online, and it is not endorsed by or affiliated with Microsoft.
