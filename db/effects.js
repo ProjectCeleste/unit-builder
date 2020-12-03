@@ -102,6 +102,7 @@ export function convertEffects(effects, civ, isAdvisor) {
     ) {
       type += e.action
     }
+
     const effect = {
       type: type,
       visible: e.visible,
@@ -118,6 +119,15 @@ export function convertEffects(effects, civ, isAdvisor) {
       addUnitType(e.Target.text)
     } else {
       effect.scaling = e.scaling
+    }
+
+    // The egyptian empower effects scale differently
+    // FIXME stat display for empower is probably wrong
+    if (e.action === "Empower") {
+      effect.amount = (effect.amount - 1) * 11 + 1
+      if (effect.scaling !== undefined) {
+        effect.scaling *= 11
+      }
     }
 
     res.push(effect)
