@@ -65,12 +65,8 @@ export default {
     }
   },
   watch: {
-    modelValue(val) {
+    modelValue() {
       this.onActivate()
-      if (Object.keys(val).length) {
-        this.stats = val.stats
-        this.selected = this.contents.find(g => g.id === val.selected)
-      }
     },
     stats(val) {
       this.$emit("update:modelValue", {
@@ -131,6 +127,11 @@ export default {
           effects: [],
           level: this.selected.levels[this.selected.levels.length - 1]
         }
+      } else {
+        this.stats = this.modelValue.stats
+        this.selected = this.contents.find(
+          g => g.id === this.modelValue.selected
+        )
       }
     },
     onClickOutside() {

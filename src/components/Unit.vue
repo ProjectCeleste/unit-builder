@@ -30,8 +30,8 @@
           />
           <div class="gear-selector-container is-flex is-flex-wrap-nowrap">
             <GearSelector
-              v-for="(slot, key) in selection.unit.slots"
-              :key="key"
+              v-for="slot in selection.unit.slots"
+              :key="slot"
               v-model="gear[slot]"
               :type="slot"
               class="mr-1 is-align-self-flex-end"
