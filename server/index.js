@@ -28,10 +28,12 @@ app.use(async (req, res, next) => {
           selection.civ.charAt(0).toUpperCase() + selection.civ.slice(1)
         const title = civ + " " + firstUnit.name + " - Unit Builder"
         let description = "Gear:"
+        let gearCount = 0
         for (let key in unit.gear) {
           const gearID = unit.gear[key].selected
           if (!gearID.endsWith("_none")) {
             description += "\n- " + gear[gearID]
+            gearCount++
           }
         }
 
@@ -43,13 +45,15 @@ app.use(async (req, res, next) => {
             `<meta property="og:title" content="${title}">`
           )
           .replace(
-            /<meta property="og:description" content="Build, compare and share your Age of Empires Online units.">/g,
-            `<meta property="og:description" content="${description}">`
-          )
-          .replace(
             /https:\/\/unitstats.projectceleste.com\/assets\/meta\/favicon-512.png/g,
             `https://images.projectceleste.com/Art/${units[firstUnit.id]}.png`
           )
+        if (gearCount) {
+          html = html.replace(
+            /<meta property="og:description" content="Build, compare and share your Age of Empires Online units.">/g,
+            `<meta property="og:description" content="${description}">`
+          )
+        }
         res.status(200).end(html)
         return
       }
