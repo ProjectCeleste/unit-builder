@@ -1,13 +1,16 @@
-export function med(amount, scaling, level) {
-  return amount - 1 + scaling * level
+export function med(effect, level) {
+  if (effect.absolute) {
+    return effect.amount + effect.scaling * level
+  }
+  return effect.amount - 1 + effect.scaling * level
 }
 
-export function max(amount, scaling, level) {
-  return med(amount, scaling, level) * 1.05
+export function max(effect, level) {
+  return med(effect, level) * 1.05
 }
 
-export function min(amount, scaling, level) {
-  return med(amount, scaling, level) * 0.95
+export function min(effect, level) {
+  return med(effect, level) * 0.95
 }
 
 export function toDisplay(effect, value) {

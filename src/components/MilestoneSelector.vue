@@ -76,7 +76,6 @@ export default {
   watch: {
     modelValue: {
       handler(val) {
-        console.log("update milestones", val)
         this.onActivate()
         if (Object.keys(val).length) {
           this.milestoneValues = val
@@ -84,7 +83,6 @@ export default {
       }
     },
     civ() {
-      console.log("update milestones civ", this.civ)
       for (let key in this.milestoneValues) {
         this.milestoneValues[key] = []
       }

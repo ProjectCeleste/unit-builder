@@ -29,35 +29,20 @@
         <span class="is-fullwidth pr-2">{{ effectName(effect) }}</span>
         <template v-if="effectType(effect) !== 'action'">
           <span v-if="item.fixed" class="has-text-right">{{
-            toDisplay(
-              effect,
-              med(
-                effect.amount,
-                effect.scaling,
-                item.levels[item.levels.length - 1]
-              )
-            )
+            toDisplay(effect, med(effect, item.levels[item.levels.length - 1]))
           }}</span>
           <span v-else class="nowrap has-text-right">
             {{
               toDisplay(
                 effect,
-                min(
-                  effect.amount,
-                  effect.scaling,
-                  item.levels[item.levels.length - 1]
-                )
+                min(effect, item.levels[item.levels.length - 1])
               )
             }}
             &nbsp;-&nbsp;
             {{
               toDisplay(
                 effect,
-                max(
-                  effect.amount,
-                  effect.scaling,
-                  item.levels[item.levels.length - 1]
-                )
+                max(effect, item.levels[item.levels.length - 1])
               )
             }}
           </span>
