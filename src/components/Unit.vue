@@ -196,8 +196,8 @@ export default {
   mounted() {
     const modelValue = this.modelValue
     if (Object.keys(modelValue).length) {
+      this.selection = modelValue.selection
       this.$nextTick(() => {
-        this.selection = modelValue.selection
         this.gear = modelValue.gear
         this.advisors = modelValue.advisors
         this.upgrades = modelValue.upgrades
