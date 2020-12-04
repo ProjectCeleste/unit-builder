@@ -105,7 +105,7 @@ export default {
         }
         this.$nextTick(() => {
           const borderWidth = 4
-          const scrollbarWidth = 15
+          const scrollbarWidth = 17
           const parentBounds = this.$el.parentElement.parentElement.parentElement.getBoundingClientRect()
           this.x = event.clientX - parentBounds.left + 15 + borderWidth / 2
 
@@ -119,13 +119,6 @@ export default {
             this.x -= boundRight - window.innerWidth + scrollbarWidth
           }
 
-          if (this.x < 0) {
-            this.x =
-              window.innerWidth -
-              this.$refs.tooltip.$el.clientWidth -
-              borderWidth
-          }
-
           this.y = event.clientY - parentBounds.top + 15 + borderWidth / 2
 
           const boundBottom =
@@ -134,8 +127,8 @@ export default {
             this.$refs.tooltip.$el.clientHeight +
             borderWidth
 
-          if (boundBottom >= window.innerHeight) {
-            this.y -= boundBottom - window.innerHeight
+          if (boundBottom >= window.innerHeight - scrollbarWidth) {
+            this.y -= boundBottom - window.innerHeight + scrollbarWidth
           }
 
           if (this.y < event.clientY - parentBounds.top + 15 - borderWidth) {
