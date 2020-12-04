@@ -166,7 +166,12 @@ export function getEffects() {
 export function duplicateEffects(effect, index, self) {
   return (
     index ===
-    self.findIndex(e => e.type === effect.type && e.target === effect.target)
+    self.findIndex(
+      e =>
+        e.type === effect.type &&
+        e.target === effect.target &&
+        e.tech === effect.tech
+    )
   )
 }
 
