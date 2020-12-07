@@ -235,7 +235,11 @@ export default {
           break
         case "DamageMeleeAttack":
           for (let keyDmg in stats) {
-            if (keyDmg === "DamageHand" || keyDmg === "DamageCavalry") {
+            if (
+              keyDmg === "DamageHand" ||
+              keyDmg === "DamageCavalry" ||
+              keyDmg === "DamageSiegeMeleeAttack"
+            ) {
               this.setBaseStat(stats, keyDmg)
               stats[keyDmg] *= mod
             }
@@ -243,7 +247,10 @@ export default {
           break
         case "DamageRangedAttack":
           for (let keyDmg in stats) {
-            if (keyDmg === "DamageRanged") {
+            if (
+              keyDmg === "DamageRanged" ||
+              keyDmg === "DamageSiegeRangedAttack"
+            ) {
               this.setBaseStat(stats, keyDmg)
               stats[keyDmg] *= mod
             }
