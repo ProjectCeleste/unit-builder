@@ -173,6 +173,7 @@ export default {
       if (!(effectName in stats)) {
         if (
           effectName.startsWith("Convert") &&
+          effectName !== "ConvertResist" &&
           effectName !== "ConvertStandardConvertable"
         ) {
           stats[effectName] = stats.ConvertStandardConvertable
