@@ -292,7 +292,10 @@ export default {
           }
           break
         default:
-          if (effect.type.startsWith("Armor")) {
+          if (
+            effect.type.startsWith("Armor") &&
+            effect.type !== "ArmorVulnerability"
+          ) {
             this.setBaseStat(stats, effect.type)
             stats[effect.type] = 1 - (1 - stats[effect.type]) / effect.amount
             return
