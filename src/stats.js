@@ -38,11 +38,15 @@ export function effectAppliesToUnit(e, unit) {
         unit.stats.ChaosStandardConvertable !== undefined
       )
     } else if (e.type === "DamageRangedAttack") {
-      return unit.stats.DamageRanged !== undefined
+      return (
+        unit.stats.DamageRanged !== undefined ||
+        unit.stats.DamageSiegeRangedAttack !== undefined
+      )
     } else if (e.type === "DamageMeleeAttack") {
       return (
         unit.stats.DamageHand !== undefined ||
-        unit.stats.DamageCavalry !== undefined
+        unit.stats.DamageCavalry !== undefined ||
+        unit.stats.DamageSiegeMeleeAttack !== undefined
       )
     } else if (e.type.startsWith("Gather")) {
       return Object.keys(unit.stats).includes(e.type)
