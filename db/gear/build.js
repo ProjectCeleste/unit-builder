@@ -53,7 +53,7 @@ function buildGearForServer(gear) {
 async function convertGear(gear) {
   const reforgeBlacklist = await getReforgeBlacklist()
   const icon = gear.icon.replace(/\\/g, "/").toLowerCase()
-  const iconDst = convertIconName(icon)
+  const iconDst = convertIconName(icon + "_" + gear.traittype.toLowerCase())
   await downloadImage(icon + ".png", "../src/assets/gear/" + iconDst + ".png")
   return {
     id: gear.name,
