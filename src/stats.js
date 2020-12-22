@@ -23,15 +23,15 @@ export function upgradeAppliesToUnit(u, unit) {
   for (let i = 0; i < u.effects.length; i++) {
     const e = u.effects[i]
     if (effectAppliesToUnit(e, unit)) {
-      return true
+      return !checkCompensation(u.effects, e.type, unit)
     }
   }
   return false
 }
 
 export function effectAppliesToUnit(e, unit) {
-  const isTarget = unit.id === e.target || unit.types.includes(e.target)
-  if (isTarget) {
+  const target = isTarget(unit, e)
+  if (target) {
     if (e.type === "MaximumRangeConvert") {
       return (
         unit.stats.ConvertStandardConvertable !== undefined ||
@@ -56,5 +56,36 @@ export function effectAppliesToUnit(e, unit) {
     }
   }
 
-  return isTarget
+  return target
+}
+
+export function isTarget(unit, e) {
+  return unit.id === e.target || unit.types.includes(e.target)
+}
+
+// checkCompensation checks if effects are compensated.
+// It's not uncommon to have upgrades apply to all units and then
+// apply another countering effect to compensate the upgrade and keep the stat
+// neutral. (Pierce upgrade so they don't apply to siege weapons for example)
+export function checkCompensation(effects, type, unit) {
+  if (effects.length === 1 || type.startsWith("ActionEnable")) {
+    return false
+  }
+  let val = 1
+  for (let i = 0; i < effects.length; i++) {
+    const e = effects[i]
+    if (e.type !== type || !isTarget(unit, e)) {
+      continue
+    }
+    if (e.absolute) {
+      val += e.amount
+    } else {
+      val *= e.amount
+    }
+  }
+  if (parseFloat(val.toFixed(2)) === 1) {
+    console.log(type, val)
+  }
+
+  return parseFloat(val.toFixed(2)) === 1
 }
