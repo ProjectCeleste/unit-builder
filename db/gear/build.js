@@ -69,5 +69,9 @@ async function convertGear(gear) {
 }
 
 function includeGear(gear) {
-  return !gear.traittype.includes("Vanity") && gear.itemlevels.length
+  return (
+    !gear.traittype.includes("Vanity") &&
+    gear.itemlevels.length &&
+    gear.itemlevels[0] != 0
+  )
 }
