@@ -44,7 +44,12 @@ module.exports = {
   pluginOptions: {
     sitemap: {
       outputDir: "public",
-      urls: ["https://unitstats.projectceleste.com"],
+      urls: [
+        {
+          loc: "https://unitstats.projectceleste.com",
+          lastmod: new Date().toISOString()
+        }
+      ],
       defaults: {
         lastmod: new Date().toISOString(),
         changefreq: "weekly",

@@ -20,7 +20,7 @@
     "db": "cd db && node main.js",
     "generate": "npm run db && npm run sitemap && npm run gulp",
     "gulp": "gulp",
-    "sitemap": "vue-cli-service sitemap"
+    "sitemap": "rm public/sitemap.xml && vue-cli-service sitemap"
   },
   "dependencies": {
     "@vue/cli-plugin-babel": "^4.5.9",
