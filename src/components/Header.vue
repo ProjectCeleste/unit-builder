@@ -3,7 +3,7 @@
     class="header is-flex is-flex-direction-row-reverse has-text-shadow mb-3"
   >
     <div class="pt-3 px-2 is-flex controls">
-      <div v-if="shareVisible" class="px-1">
+      <div v-if="shareVisible" class="px-1 is-relative">
         <Button
           icon="share"
           text="Share"
