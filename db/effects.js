@@ -96,6 +96,8 @@ export function convertEffects(effects, civ, isAdvisor) {
       type += e.damagetype
     } else if (type === "Haste") {
       type = "AttackSpeed"
+    } else if (type === "DamageBonusReduction") {
+      type = "ArmorDamageBonus"
     } else if (
       (type === "MaximumRange" && e.action !== "RangedAttack") ||
       type === "ActionEnable"
@@ -221,7 +223,6 @@ function getType(effectName) {
   if (
     effectName === "TargetSpeedBoostResist" ||
     effectName === "AreaDamageReduction" ||
-    effectName === "DamageBonusReduction" ||
     effectName === "HitPercent"
   ) {
     return "percent" // ends with "%"
@@ -381,7 +382,7 @@ const templates = {
   Damage: { name: "Damage", icon: "DamageHand", sort: 0 },
   DamageMeleeAttack: { name: "Melee Damage", icon: "DamageHand", sort: 0 },
   DamageRangedAttack: { name: "Pierce Damage", icon: "DamageRanged", sort: 0 },
-  DamageBonusReduction: {
+  ArmorDamageBonus: {
     name: "Bonus Damage Protection",
     icon: "DamageBonusReduction",
     sort: 72
