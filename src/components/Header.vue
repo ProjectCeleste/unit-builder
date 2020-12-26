@@ -3,7 +3,7 @@
     class="header is-flex is-flex-direction-row-reverse has-text-shadow mb-3"
   >
     <div class="pt-3 px-2 is-flex controls">
-      <div class="px-1 is-relative">
+      <div v-if="shareVisible" class="px-1">
         <Button
           icon="share"
           text="Share"
@@ -38,7 +38,8 @@ export default {
   name: "Header",
   components: { Button },
   props: {
-    canAddUnit: { type: Boolean, default: true }
+    canAddUnit: { type: Boolean, default: true },
+    shareVisible: { type: Boolean, default: true }
   },
   emits: ["unit-added", "share-clicked"],
   data() {

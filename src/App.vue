@@ -3,6 +3,7 @@
     ref="header"
     class="mb-2"
     :can-add-unit="canAddUnit"
+    :share-visible="shareVisible"
     @unitAdded="onUnitAdded"
     @shareClicked="postBuild()"
   />
@@ -44,6 +45,7 @@ export default {
   data() {
     return {
       updateVisible: false,
+      shareVisible: true,
       refreshing: false,
       registration: undefined,
       units: {},
@@ -60,6 +62,9 @@ export default {
   },
   created() {
     document.addEventListener("swUpdated", this.showUpdateButton, {
+      once: true
+    })
+    document.addEventListener("swOffline", this.hideShareButton, {
       once: true
     })
     if (navigator.serviceWorker) {
@@ -80,11 +85,15 @@ export default {
   },
   unmounted() {
     document.removeEventListener("swUpdated", this.showUpdateButton)
+    document.removeEventListener("swOffline", this.hideShareButton)
   },
   methods: {
     showUpdateButton(registration) {
       this.updateVisible = true
       this.registration = registration.detail
+    },
+    hideShareButton() {
+      this.shareVisible = false
     },
     onUpdateClicked() {
       if (this.refreshing) {

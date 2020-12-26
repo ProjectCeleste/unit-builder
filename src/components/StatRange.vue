@@ -38,7 +38,7 @@
 import effects from "../data/effects.json"
 import { toDisplay } from "../stats.js"
 
-// TODO invert negative stats range? (so highest value is at the right of the slider instead of left)
+// TODO input instead of text so stat can be typed
 
 export default {
   name: "StatRange",
