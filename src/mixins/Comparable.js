@@ -1,8 +1,14 @@
 import effects from "../data/effects.json"
 
 export default {
+  props: {
+    disableComparison: { type: Boolean, default: false }
+  },
   methods: {
     comparisonClass(name, value) {
+      if (this.disableComparison) {
+        return {}
+      }
       const classObj = {}
       const units = this.$store.state.units
       const unitCount = Object.keys(units).length

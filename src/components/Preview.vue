@@ -13,7 +13,7 @@
           {{ item.name }}
         </span>
         <div v-if="item.cost" class="is-flex is-flex-direction-row is-size-7">
-          <CostStats :cost="item.cost" />
+          <CostStats :cost="item.cost" :disable-comparison="true" />
         </div>
       </div>
     </div>
