@@ -19,6 +19,17 @@ export function toDisplay(effect, value) {
     : (value * 100).toFixed(2)
 }
 
+export function fromDisplay(effect, value) {
+  let res =
+    effect.type === "WorkRateSelfHeal"
+      ? parseFloat(value)
+      : parseFloat(value) / 100
+  if (!effect.absolute) {
+    res++
+  }
+  return res
+}
+
 export function upgradeAppliesToUnit(u, unit) {
   for (let i = 0; i < u.effects.length; i++) {
     const e = u.effects[i]

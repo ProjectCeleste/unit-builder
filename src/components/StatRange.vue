@@ -9,6 +9,7 @@
     }"
     @touchstart="$event.stopPropagation()"
     @touchend="$event.stopPropagation()"
+    @submit="$event.preventDefault()"
   >
     <span>{{ effectName }}</span>
     <div class="input-container">
@@ -24,9 +25,16 @@
         @input="onInput"
       />
     </div>
-    <span class="has-text-right">{{
-      toDisplay(effect, effect.absolute ? modelValue : modelValue - 1)
-    }}</span>
+    <div>
+      <input
+        v-model.number.lazy="displayInputValue"
+        type="number"
+        step="0.1"
+        :min="min"
+        :max="max"
+        class="display-input has-text-right"
+      />
+    </div>
     <span v-if="!effect.absolute && effect.type !== 'WorkRateSelfHeal'">
       %
     </span>
@@ -36,7 +44,7 @@
 
 <script>
 import effects from "../data/effects.json"
-import { toDisplay } from "../stats.js"
+import { fromDisplay, toDisplay } from "../stats.js"
 
 // TODO input instead of text so stat can be typed
 
@@ -52,6 +60,11 @@ export default {
     fixed: { type: Boolean, default: false }
   },
   emits: ["update:modelValue", "input"],
+  data() {
+    return {
+      displayInputValue: 0
+    }
+  },
   computed: {
     med() {
       return this.effect.amount + this.effect.scaling * this.level
@@ -66,9 +79,37 @@ export default {
       return effects[this.effect.type].name
     }
   },
+  watch: {
+    modelValue(val) {
+      this.displayInputValue = toDisplay(
+        this.effect,
+        this.effect.absolute ? val : val - 1
+      )
+    },
+    displayInputValue(val) {
+      if (isNaN(val) || val === "") {
+        val = parseFloat(
+          toDisplay(this.effect, this.effect.absolute ? this.med : this.med - 1)
+        )
+      }
+      val = fromDisplay(this.effect, val)
+      if (val < this.min) {
+        val = this.min
+      } else if (val > this.max) {
+        val = this.max
+      }
+
+      this.$emit("update:modelValue", val)
+      this.$emit("input", val)
+    }
+  },
   mounted() {
     // Patch for slider not updating when mounted on firefox
     this.$refs.input.value = this.modelValue
+    this.displayInputValue = toDisplay(
+      this.effect,
+      this.effect.absolute ? this.modelValue : this.modelValue - 1
+    )
   },
   methods: {
     toDisplay,
@@ -94,6 +135,26 @@ export default {
 
   .input-container {
     width: 100%;
+  }
+
+  .display-input {
+    appearance: none;
+    border: none;
+    background: none;
+    outline: none;
+    color: inherit;
+    font-style: inherit;
+    font-size: inherit;
+    padding: 0;
+    width: 45px;
+  }
+  .display-input[type="number"] {
+    -moz-appearance: textfield;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+    }
   }
 
   .stat-range-input {
