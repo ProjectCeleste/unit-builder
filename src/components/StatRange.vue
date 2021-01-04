@@ -17,15 +17,15 @@
         ref="input"
         class="stat-range-input"
         type="range"
-        :min="min > max ? max : min"
-        :max="min > max ? min : max"
+        :min="actualMin"
+        :max="actualMax"
         :value="modelValue"
         step="0.0001"
         :title="fixed ? 'This item has fixed stats' : ''"
         @input="onInput"
       />
     </div>
-    <div>
+    <div v-if="!fixed">
       <input
         v-model.number.lazy="displayInputValue"
         type="number"
@@ -35,6 +35,9 @@
         class="display-input has-text-right"
       />
     </div>
+    <span v-else class="has-text-right">{{
+      toDisplay(effect, effect.absolute ? modelValue : modelValue - 1)
+    }}</span>
     <span v-if="!effect.absolute && effect.type !== 'WorkRateSelfHeal'">
       %
     </span>
@@ -45,8 +48,6 @@
 <script>
 import effects from "../data/effects.json"
 import { fromDisplay, toDisplay } from "../stats.js"
-
-// TODO input instead of text so stat can be typed
 
 export default {
   name: "StatRange",
@@ -77,6 +78,12 @@ export default {
     },
     effectName() {
       return effects[this.effect.type].name
+    },
+    actualMin() {
+      return this.min > this.max ? this.max : this.min
+    },
+    actualMax() {
+      return this.min > this.max ? this.min : this.max
     }
   },
   watch: {
@@ -93,10 +100,10 @@ export default {
         )
       }
       val = fromDisplay(this.effect, val)
-      if (val < this.min) {
-        val = this.min
-      } else if (val > this.max) {
-        val = this.max
+      if (val < this.actualMin) {
+        val = this.actualMin
+      } else if (val > this.actualMax) {
+        val = this.actualMax
       }
 
       this.$emit("update:modelValue", val)
