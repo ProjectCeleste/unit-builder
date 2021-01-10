@@ -94,9 +94,6 @@ export function checkCompensation(effects, type, unit) {
       val *= e.amount
     }
   }
-  if (parseFloat(val.toFixed(2)) === 1) {
-    console.log(type, val)
-  }
 
   return parseFloat(val.toFixed(2)) === 1
 }

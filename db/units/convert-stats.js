@@ -154,6 +154,12 @@ export function parseAction(action, stats) {
     } else {
       stats["Damage" + action.DamageType] = action.Damage
     }
+
+    if (action.DamageArea === 0) {
+      delete stats["DamageArea"]
+    } else if (action.DamageArea) {
+      stats["DamageArea"] = action.DamageArea
+    }
   } else if (action.Damage) {
     const damageType = findDamageType(stats)
     if (damageType) {
@@ -167,12 +173,6 @@ export function parseAction(action, stats) {
         // Other?
       }
     }
-  }
-
-  if (action.DamageArea === 0) {
-    delete stats["DamageArea"]
-  } else if (action.DamageArea) {
-    stats["DamageArea"] = action.DamageArea
   }
 
   if (action.DamageBonus) {
