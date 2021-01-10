@@ -66,14 +66,7 @@ export async function getTechtree() {
 }
 
 export async function getReforgeBlacklist() {
-  if (!cache["/reforgeblacklist"]) {
-    console.log("GET reforgeblacklist")
-    cache["/reforgeblacklist"] = xmlParser.parse(
-      fs.readFileSync("./ReforgeItemBlacklist.xml").toString(),
-      xmlOptions
-    ).ReforgeItemBlacklist.ReforgeBlacklistTrait
-  }
-  return cache["/reforgeblacklist"]
+  return await get("/reforgeitemblacklist")
 }
 
 export async function getEquipments() {
