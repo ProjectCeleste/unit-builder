@@ -18,10 +18,6 @@ npm install
 npm run generate
 ```
 
-WARNING: some game files are not served by the celeste API. For legal reasons, they cannot be included in the repository. You will have to find these files in your game directory and put them in the `db` folder:
-- `techtreex.xml`
-- the whole `tactics` folder, containing `.tactics` files
-
 ### Compiles and hot-reloads for development
 ```
 npm run serve

@@ -4,26 +4,10 @@ const IMAGES_URL = "https://images.projectceleste.com/Art/"
 import axios from "axios"
 import fs from "fs"
 import https from "https"
-import xmlParser from "fast-xml-parser"
 
 axios.defaults.baseURL = API_URL
 
 const cache = {}
-const xmlOptions = {
-  attributeNamePrefix: "",
-  attrNodeName: false,
-  textNodeName: "text",
-  ignoreAttributes: false,
-  ignoreNameSpace: false,
-  allowBooleanAttributes: true,
-  parseNodeValue: true,
-  parseAttributeValue: true,
-  trimValues: true,
-  cdataTagName: "__cdata", //default is 'false'
-  cdataPositionChar: "\\c",
-  localeRange: "", //To support non english character in tag/attribute values.
-  parseTrueNumberOnly: false
-}
 
 async function get(url) {
   if (!cache[url]) {
@@ -80,38 +64,14 @@ export async function getMilestones() {
 }
 
 export async function getTactics(fileName) {
-  const url = "/tactics/" + fileName
-  if (!cache[url]) {
-    console.log("GET", url)
-    let tactics = xmlParser.parse(
-      fs.readFileSync("./tactics/" + fileName).toString(),
-      xmlOptions
-    ).tactics
-    if (tactics.action && !Array.isArray(tactics.action)) {
-      tactics.action = [tactics.action]
-    }
-    if (tactics.tactic && !Array.isArray(tactics.tactic)) {
-      tactics.tactic = [tactics.tactic]
-    }
-    tactics.action.forEach(a => {
-      if (a.name.text === undefined) {
-        a.name = { text: a.name }
-      }
-    })
-    tactics.tactic.forEach(t => {
-      if (t.action && !Array.isArray(t.action)) {
-        t.action = [t.action]
-      }
-      t.action = t.action.map(a => {
-        if (a.text === undefined) {
-          return { text: a }
-        }
-        return a
-      })
-    })
-    cache[url] = tactics
+  const caseExceptions = {
+    "catapultShip.tactics": "CatapultShip.tactics"
   }
-  return cache[url]
+  const tactics = await get("/tactics")
+  if (caseExceptions[fileName]) {
+    fileName = caseExceptions[fileName]
+  }
+  return tactics[fileName]
 }
 
 export async function downloadImage(path, dest) {

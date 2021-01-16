@@ -94,10 +94,8 @@ export async function convertUnitStats(unit) {
     if (tactics.action && tactics.tactic) {
       tactics.action
         .filter(a => {
-          for (let i = 0; i < tactics.tactic.length; i++) {
-            if (tactics.tactic[i].action.some(ta => ta.text === a.name.text)) {
-              return true
-            }
+          if (tactics.tactic.action.some(ta => ta.text === a.name.text)) {
+            return true
           }
           return false
         })
@@ -279,26 +277,31 @@ function convertTactic(tactic, stats) {
           rate.type === "ActionTrain" ||
           rate.type === "ActionBuild"
         ) {
-          stats[tactic.type + rate.type] = rate.text
+          stats[tactic.type + rate.type] = parseFloat(rate.text)
         }
       }
       break
     case "Attack":
-      if (tactic.targetspeedboost && tactic.targetspeedboost !== 1) {
-        stats.TargetSpeedBoost = tactic.targetspeedboost
+      if (tactic.targetSpeedBoost) {
+        const snare = parseFloat(tactic.targetSpeedBoost)
+        if (snare !== 1) {
+          stats.TargetSpeedBoost = snare
+        }
       }
       break
-    case "Build":
-      if (tactic.rate.type === "UnitTypeBldgWatchPost") {
+    case "Build": {
+      const rate = tactic.rate.find(r => r.type === "UnitTypeBldgWatchPost")
+      if (rate) {
         if (stats.BuildWatchPost !== undefined) {
-          stats.BuildWatchPost = tactic.rate.text
+          stats.BuildWatchPost = parseFloat(rate.text)
         }
       } else if (stats.Build !== undefined) {
-        stats.Build = tactic.rate.text
+        stats.Build = parseFloat(tactic.rate[0].text)
       }
       break
+    }
     case "Heal":
-      if (tactic.affectstargetsincombat === "") {
+      if (tactic.affectsTargetsInCombat === "") {
         stats.RateHealInCombat = stats.RateHeal
         delete stats.RateHeal
       }
