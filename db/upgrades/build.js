@@ -76,13 +76,14 @@ async function convertEquipmentToUpgrades(equipment) {
         if (includeUpgrade(upgrade)) {
           if (
             tech.Prereqs &&
-            tech.Prereqs.TechStatus &&
-            !ignoredRequirements.includes(tech.Prereqs.TechStatus.text)
+            tech.Prereqs.techStatus &&
+            tech.Prereqs.techStatus.length &&
+            !ignoredRequirements.includes(tech.Prereqs.techStatus[0].text)
           ) {
             if (!chains[civ]) {
               chains[civ] = {}
             }
-            chains[civ][tech.Prereqs.TechStatus.text] = upgrade
+            chains[civ][tech.Prereqs.techStatus[0].text] = upgrade
           } else {
             results.push(upgrade)
           }
@@ -99,7 +100,7 @@ async function convertUpgrade(tech, civ) {
     return undefined
   }
 
-  let techEffects = tech.Effects.Effect
+  let techEffects = tech.Effects.effect
   if (!Array.isArray(techEffects)) {
     techEffects = [techEffects]
   }
@@ -109,7 +110,7 @@ async function convertUpgrade(tech, civ) {
     if (e.type === "TechStatus" && e.status === "active") {
       const techtree = await getTechtree()
       const subTech = findByAttribute(techtree, "name", e.text)
-      techEffects = subTech.Effects.Effect
+      techEffects = subTech.Effects.effect
       if (!Array.isArray(techEffects)) {
         techEffects = [techEffects]
       }
@@ -203,7 +204,7 @@ function convertUpgradeCost(tech) {
       const resource =
         c.resourcetype.charAt(0).toUpperCase() + c.resourcetype.slice(1)
 
-      res["Cost" + resource] = c.text
+      res["Cost" + resource] = c.value
     }
   }
   return res

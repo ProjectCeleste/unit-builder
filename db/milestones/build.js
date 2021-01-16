@@ -55,7 +55,7 @@ async function convertMilestone(milestone) {
     "../src/assets/milestones/" + iconDst + ".png"
   )
 
-  const effects = convertEffects(tech.Effects.Effect).filter(duplicateEffects)
+  const effects = convertEffects(tech.Effects.effect).filter(duplicateEffects)
 
   return {
     id: milestone.id,

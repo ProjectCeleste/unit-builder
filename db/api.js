@@ -55,14 +55,8 @@ export async function getAdvisors() {
 }
 
 export async function getTechtree() {
-  if (!cache["/techtree"]) {
-    console.log("GET techtree")
-    cache["/techtree"] = xmlParser.parse(
-      fs.readFileSync("./techtreex.xml").toString(),
-      xmlOptions
-    ).TechTree.Tech
-  }
-  return cache["/techtree"]
+  const techtree = await get("/techtree")
+  return techtree.Tech
 }
 
 export async function getReforgeBlacklist() {

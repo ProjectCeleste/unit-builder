@@ -59,15 +59,15 @@ async function convertEquipmentToUnits(equipment) {
       const reward = equipment.reward.rank[i]
       const tech = findByAttribute(techtree, "name", reward.tech)
       if (tech) {
-        let effect = tech.Effects ? tech.Effects.Effect : undefined
+        let effect = tech.Effects ? tech.Effects.effect : undefined
         if (effect) {
           if (!Array.isArray(effect)) {
             effect = [effect]
           }
           for (let j = 0; j < effect.length; j++) {
             const ef = effect[j]
-            if (ef.subtype === "Enable" && ef.Target.type === "ProtoUnit") {
-              const unit = findByAttribute(units, "name", ef.Target.text)
+            if (ef.subtype === "Enable" && ef.target.type === "ProtoUnit") {
+              const unit = findByAttribute(units, "name", ef.target.text)
               if (unit) {
                 const u = await convertUnit(unit)
                 if (includeUnit(tech, u)) {

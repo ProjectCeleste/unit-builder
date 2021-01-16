@@ -82,6 +82,7 @@ export function convertEffects(effects, civ, isAdvisor) {
           type += e.action
           break
         case undefined:
+        case null:
           break
         default:
           throw `Damage ${e.action} not handled`
@@ -110,17 +111,17 @@ export function convertEffects(effects, civ, isAdvisor) {
       visible: e.visible,
       absolute: e.relativity === "Absolute",
       positive: e.bonus,
-      amount: e.amount
+      amount: parseFloat(e.amount)
     }
 
-    if (e.Target && e.Target.type !== "Player") {
-      if (ignoredTargets.includes(e.Target.type)) {
+    if (e.target && e.target.type !== "Player") {
+      if (ignoredTargets.includes(e.target.type)) {
         continue
       }
-      effect.target = e.Target.text
-      addUnitType(e.Target.text)
+      effect.target = e.target.text
+      addUnitType(e.target.text)
     } else {
-      effect.scaling = e.scaling
+      effect.scaling = parseFloat(e.scaling)
     }
 
     // The egyptian empower effects scale differently
@@ -295,7 +296,7 @@ const templates = {
     icon: "YieldAbstractFish",
     sort: 16
   },
-  YieldHuntable: { name: "Huntable Conservation", icon: "TODO", sort: 15 },
+  YieldHuntable: { name: "Huntable Conservation", icon: "Fish", sort: 15 },
   YieldAbstractFruit: {
     name: "Berry Bushes Conservation",
     icon: "YieldAbstractFruit",

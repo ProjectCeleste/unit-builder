@@ -13,6 +13,9 @@ export async function fetchLang() {
 export { stringtablex, equipmentstrings, econstrings }
 
 export function findLang(table, locid) {
+  if (typeof locid === "string") {
+    locid = parseInt(locid)
+  }
   const strings = table.string
   for (let i = 0; i < strings.length; i++) {
     const entry = strings[i]
