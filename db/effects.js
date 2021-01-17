@@ -406,7 +406,7 @@ const templates = {
   MaximumRangeHeal: {
     name: "Maximum Healing Range",
     icon: "MaximumRange",
-    sort: 60
+    sort: 61
   },
   MaximumVelocity: {
     name: "Movement Speed",
@@ -475,6 +475,7 @@ const templates = {
   Trade: { name: "Trade", icon: "Cost", sort: 61 },
   RateHeal: { name: "Healing", icon: "RateHeal", sort: 58 },
   RateHealInCombat: { name: "Healing", icon: "RateHeal", sort: 59 },
+  HealArea: { name: "Healing Area", icon: "HealArea", sort: 60 },
   Build: {
     name: "Buildings Construction Speed",
     icon: "ConstructionSpeed",

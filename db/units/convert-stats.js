@@ -305,6 +305,9 @@ function convertTactic(tactic, stats) {
         stats.RateHealInCombat = stats.RateHeal
         delete stats.RateHeal
       }
+      if (tactic.aoeHealRadius) {
+        stats.HealArea = parseFloat(tactic.aoeHealRadius)
+      }
       break
     case "Convert":
       if (tactic.anim === "Chaos") {
