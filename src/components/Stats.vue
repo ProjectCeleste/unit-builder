@@ -176,12 +176,12 @@ export default {
           effectName !== "ConvertResist" &&
           effectName !== "ConvertStandardConvertable"
         ) {
-          stats[effectName] = stats.ConvertStandardConvertable
+          stats[effectName] = this.unit.stats.ConvertStandardConvertable
         } else if (
           effectName.startsWith("Chaos") &&
           effectName !== "ChaosStandardConvertable"
         ) {
-          stats[effectName] = stats.ChaosStandardConvertable
+          stats[effectName] = this.unit.stats.ChaosStandardConvertable
         } else {
           stats[effectName] = effects[effectName].base
         }
