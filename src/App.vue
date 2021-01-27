@@ -123,8 +123,9 @@ export default {
       return raw
     },
     buildURL(buildID) {
-      const url = window.location.href
-      const baseURL = url.substring(0, url.indexOf("?"))
+      const url = document.documentURI
+      const i = url.indexOf("?")
+      const baseURL = i !== -1 ? url.substring(0, i) : url
       return buildID ? baseURL + "?build=" + buildID : baseURL
     },
     setURL(buildID) {
