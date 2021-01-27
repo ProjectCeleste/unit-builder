@@ -190,7 +190,6 @@ function getBase(effectName) {
     effectName === "AttackSpeed" ||
     effectName === "Trade" ||
     effectName === "BuildingWorkRate" ||
-    effectName === "ArmorVulnerability" ||
     effectName === "WorkRateRepair"
     ? 1
     : 0
