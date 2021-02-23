@@ -293,8 +293,9 @@ export default {
           break
         default:
           if (
-            effect.type.startsWith("Armor") &&
-            effect.type !== "ArmorVulnerability"
+            (effect.type.startsWith("Armor") &&
+              effect.type !== "ArmorVulnerability") ||
+            effect.type === "TargetSpeedBoostResist"
           ) {
             this.setBaseStat(stats, effect.type)
             stats[effect.type] = 1 - (1 - stats[effect.type]) / effect.amount

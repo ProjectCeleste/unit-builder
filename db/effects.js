@@ -180,12 +180,12 @@ export function duplicateEffects(effect, index, self) {
 
 function getBase(effectName) {
   return effectName.startsWith("DamageBonus") ||
-    effectName.startsWith("TargetSpeedBoost") ||
     effectName.startsWith("Empower") ||
     effectName.startsWith("ActionEnable") ||
     effectName.startsWith("Gather") ||
     effectName.startsWith("Yield") ||
     effectName === "HitPercent" ||
+    effectName === "TargetSpeedBoost" ||
     effectName === "ConvertResist" ||
     effectName === "AttackSpeed" ||
     effectName === "Trade" ||
@@ -220,11 +220,7 @@ function getType(effectName) {
   ) {
     return "persecond" // ends with "/s"
   }
-  if (
-    effectName === "TargetSpeedBoostResist" ||
-    effectName === "AreaDamageReduction" ||
-    effectName === "HitPercent"
-  ) {
+  if (effectName === "AreaDamageReduction" || effectName === "HitPercent") {
     return "percent" // ends with "%"
   }
   if (
