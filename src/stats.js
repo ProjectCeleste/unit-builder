@@ -31,13 +31,18 @@ export function fromDisplay(effect, value) {
 }
 
 export function upgradeAppliesToUnit(u, unit) {
+  let appliedCount = 0
+  let compensatedCount = 0
   for (let i = 0; i < u.effects.length; i++) {
     const e = u.effects[i]
     if (effectAppliesToUnit(e, unit)) {
-      return !checkCompensation(u.effects, e.type, unit)
+      appliedCount++
+      if (checkCompensation(u.effects, e.type, unit)) {
+        compensatedCount++
+      }
     }
   }
-  return false
+  return appliedCount > compensatedCount
 }
 
 export function effectAppliesToUnit(e, unit) {
