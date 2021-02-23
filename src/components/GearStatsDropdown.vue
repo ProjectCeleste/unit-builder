@@ -5,13 +5,13 @@
     </div>
     <div
       v-if="gear.levels && gear.levels.length"
-      class="level-selector-container"
+      class="level-selector-container is-size-7"
     >
-      <span class="mr-1">Level:</span>
+      <span>Level:</span>
       <span
         v-for="l in gear.levels"
         :key="l"
-        class="level px-1"
+        class="level px-0-5"
         :class="{ selected: level === l }"
         @click="onLevelSelect(l)"
       >
@@ -136,6 +136,9 @@ export default {
 
     &:not(.selected) {
       color: $color-muted;
+      &:hover {
+        color: darken($color: $font-color, $amount: 20%) !important;
+      }
     }
   }
 }
