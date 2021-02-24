@@ -129,6 +129,9 @@ export default {
 }
 
 .level-selector-container {
+  display: flex;
+  flex-wrap: wrap;
+
   .level {
     &:hover {
       cursor: pointer;
