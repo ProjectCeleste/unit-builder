@@ -131,6 +131,9 @@ export async function convertUnitStats(unit) {
 }
 
 export function parseAction(action, stats) {
+  if (action.Active === 0) {
+    return
+  }
   const ignoredEffects = [
     "DamageBonusUnitTypeMobileStorehouse1",
     "DamageBonusDeer",
@@ -243,7 +246,11 @@ export function parseAction(action, stats) {
     }
   } else if (name === "AutoGather") {
     const rate = action.Rate[0]
-    stats["AutoGather" + rate.type] = rate.amount
+    if (rate.type === "Wood") {
+      stats["AutoGatherTree"] = rate.amount
+    } else {
+      stats["AutoGather" + rate.type] = rate.amount
+    }
   } else if (name === "Build") {
     const rate = action.Rate[0]
     let type = "Build"

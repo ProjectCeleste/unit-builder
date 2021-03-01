@@ -117,9 +117,8 @@ async function convertUpgrade(tech, civ) {
     }
   }
 
-  const effects = convertEffects(techEffects, civ).filter(e =>
-    includeEffect(tech, e)
-  )
+  let effects = await convertEffects(techEffects, civ)
+  effects = effects.filter(e => includeEffect(tech, e))
   if (!effects.length) {
     return undefined
   }
@@ -172,7 +171,13 @@ function includeUpgrade(u) {
 }
 
 function techIgnored(tech) {
-  const ignored = ["Ce_Ct_BldgGoldMine1"]
+  const ignored = [
+    "Ce_Ct_BldgGoldMine1",
+    "PersiaTechAdvisorBahram_C",
+    "PersiaTechAdvisorBahram_U",
+    "PersiaTechAdvisorBahram_R",
+    "PersiaTechAdvisorBahram_E"
+  ]
   return ignored.includes(tech.name)
 }
 

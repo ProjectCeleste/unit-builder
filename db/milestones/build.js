@@ -55,13 +55,13 @@ async function convertMilestone(milestone) {
     "../src/assets/milestones/" + iconDst + ".png"
   )
 
-  const effects = convertEffects(tech.Effects.effect).filter(duplicateEffects)
+  const effects = await convertEffects(tech.Effects.effect)
 
   return {
     id: milestone.id,
     icon: iconDst,
     name: findLang(stringtablex, tech.DisplayNameID),
     description: findLang(stringtablex, tech.RolloverTextID),
-    effects: effects
+    effects: effects.filter(duplicateEffects)
   }
 }

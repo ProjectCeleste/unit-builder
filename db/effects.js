@@ -1,5 +1,7 @@
 import { addUnitType } from "./unit_types.js"
 import { addExtraUpgrade } from "./upgrades/build.js"
+import { findByAttribute } from "./utils.js"
+import { getTechtree } from "./api.js"
 
 const effects = {}
 const ignoredEffects = [
@@ -15,7 +17,7 @@ const ignoredEffects = [
 
 const ignoredTargets = ["TechAll"]
 
-export function convertEffects(effects, civ, isAdvisor) {
+export async function convertEffects(effects, civ, isAdvisor) {
   if (!Array.isArray(effects)) {
     effects = [effects]
   }
@@ -26,13 +28,26 @@ export function convertEffects(effects, civ, isAdvisor) {
     if (!type || ignoredEffects.includes(type)) {
       if (civ && e.type === "TechStatus") {
         if (e.status === "obtainable" && isAdvisor) {
-          // Tech is not available through equipments.xml
-          // so add it as extra upgrade for upgrades generation
-          addExtraUpgrade(e.text, civ)
-          res.push({
-            type: "UnlockUpgrade",
-            tech: e.text
-          })
+          if (e.text.startsWith("PersiaTechAdvisorBahram")) {
+            const techtree = await getTechtree()
+            const tech = findByAttribute(techtree, "name", e.text)
+            if (tech) {
+              const subeffects = await convertEffects(
+                tech.Effects.effect,
+                civ,
+                isAdvisor
+              )
+              subeffects.forEach(e => res.push(e))
+            }
+          } else {
+            // Tech is not available through equipments.xml
+            // so add it as extra upgrade for upgrades generation
+            addExtraUpgrade(e.text, civ)
+            res.push({
+              type: "UnlockUpgrade",
+              tech: e.text
+            })
+          }
         } else if (e.status === "unobtainable") {
           res.push({
             type: "DisableUpgrade",
@@ -53,6 +68,8 @@ export function convertEffects(effects, civ, isAdvisor) {
             type = e.action + "AbstractFruit"
           } else if (e.unittype === "Fish") {
             type = e.action + "AbstractFish"
+          } else if (e.unittype === "Wood") {
+            type = e.action + "Tree"
           } else {
             type = e.action + e.unittype
           }
@@ -190,7 +207,8 @@ function getBase(effectName) {
     effectName === "AttackSpeed" ||
     effectName === "Trade" ||
     effectName === "BuildingWorkRate" ||
-    effectName === "WorkRateRepair"
+    effectName === "WorkRateRepair" ||
+    effectName === "HitPercentDamageMultiplier"
     ? 1
     : 0
 }
@@ -209,7 +227,8 @@ function getType(effectName) {
     effectName.startsWith("Yield") ||
     effectName === "BuildWatchPost" ||
     effectName === "Trade" ||
-    effectName === "WorkRateRepair"
+    effectName === "WorkRateRepair" ||
+    effectName === "HitPercentDamageMultiplier"
   ) {
     return "multiplier" // starts with "x"
   }
@@ -236,6 +255,51 @@ function getType(effectName) {
 }
 
 const templates = {
+  ActionEnablePoisonAttack: {
+    name: "Poison Attack",
+    icon: "NONE",
+    sort: 0
+  },
+  ActionEnableSpawnDeer_C: {
+    name: "Spawn Sacred Deer every 30s",
+    icon: "NONE",
+    sort: 0
+  },
+  ActionEnableSpawnDeer_U: {
+    name: "Spawn Sacred Deer every 25s",
+    icon: "NONE",
+    sort: 0
+  },
+  ActionEnableSpawnDeer_R: {
+    name: "Spawn Sacred Deer every 20s",
+    icon: "NONE",
+    sort: 0
+  },
+  ActionEnableSpawnDeer_E: {
+    name: "Spawn Sacred Deer every 15s",
+    icon: "NONE",
+    sort: 0
+  },
+  ActionEnableServilia_C: {
+    name: "Increase Villagers and Caravan Speed by 4%",
+    icon: "NONE",
+    sort: 0
+  },
+  ActionEnableServilia_U: {
+    name: "Increase Villagers and Caravan Speed by 6%",
+    icon: "NONE",
+    sort: 0
+  },
+  ActionEnableServilia_R: {
+    name: "Increase Villagers and Caravan Speed by 8%",
+    icon: "NONE",
+    sort: 0
+  },
+  ActionEnableServilia_E: {
+    name: "Increase Villagers and Caravan Speed by 10%",
+    icon: "NONE",
+    sort: 0
+  },
   ActionEnableBurningAttack: {
     name: "Burning Damage over 8s",
     icon: "NONE",
@@ -291,7 +355,17 @@ const templates = {
     icon: "YieldAbstractFish",
     sort: 16
   },
-  YieldHuntable: { name: "Huntable Conservation", icon: "Fish", sort: 15 },
+  YieldHuntable: {
+    // TODO shift sort
+    name: "Huntable Conservation",
+    icon: "YieldHuntable",
+    sort: 15
+  },
+  YieldHerdable: {
+    name: "Herdable Conservation",
+    icon: "YieldHerdable",
+    sort: 15
+  },
   YieldAbstractFruit: {
     name: "Berry Bushes Conservation",
     icon: "YieldAbstractFruit",
@@ -378,12 +452,18 @@ const templates = {
   Damage: { name: "Damage", icon: "DamageHand", sort: 0 },
   DamageMeleeAttack: { name: "Melee Damage", icon: "DamageHand", sort: 0 },
   DamageRangedAttack: { name: "Pierce Damage", icon: "DamageRanged", sort: 0 },
+  Poison: { name: "Damage Over Time", icon: "DamageOverTime", sort: 42 },
   ArmorDamageBonus: {
     name: "Bonus Damage Protection",
     icon: "DamageBonusReduction",
     sort: 72
   },
   HitPercent: { name: "Critical Hit Chance", icon: "CriticalHit", sort: 30 },
+  HitPercentDamageMultiplier: {
+    name: "Critical Hit Damage",
+    icon: "CriticalHit",
+    sort: 30
+  },
   Hitpoints: { name: "Health", icon: "Hitpoints", sort: 0 },
   LOS: { name: "Line-of-sight", icon: "LOS", sort: 76 },
   MaximumRange: { name: "Maximum Range", icon: "MaximumRange", sort: 45 },

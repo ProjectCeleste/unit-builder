@@ -55,13 +55,14 @@ async function convertGear(gear) {
   const icon = gear.icon.replace(/\\/g, "/").toLowerCase()
   const iconDst = convertIconName(icon + "_" + gear.traittype.toLowerCase())
   await downloadImage(icon + ".png", "../src/assets/gear/" + iconDst + ".png")
+  const effects = await convertEffects(gear.effects.effect)
   return {
     id: gear.name,
     name: findLang(stringtablex, gear.displaynameid),
     icon: iconDst,
     levels: gear.itemlevels,
     rarity: convertRarity(gear.rarity),
-    effects: convertEffects(gear.effects.effect).filter(duplicateEffects),
+    effects: effects.filter(duplicateEffects),
     fixed:
       gear.event !== undefined || reforgeBlacklist.some(g => g === gear.name)
   }

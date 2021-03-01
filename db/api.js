@@ -65,7 +65,8 @@ export async function getMilestones() {
 
 export async function getTactics(fileName) {
   const caseExceptions = {
-    "catapultShip.tactics": "CatapultShip.tactics"
+    "catapultShip.tactics": "CatapultShip.tactics",
+    "norseLongHouse.tactics": "norseLonghouse.tactics"
   }
   const tactics = await get("/tactics")
   if (caseExceptions[fileName]) {
