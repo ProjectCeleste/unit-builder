@@ -6,7 +6,7 @@ import {
   convertIconName,
   max
 } from "../utils.js"
-import { addEffect, convertEffects, duplicateEffects } from "../effects.js"
+import { convertEffects, duplicateEffects } from "../effects.js"
 
 export async function buildAdvisors() {
   console.log("Building advisors...")
@@ -67,34 +67,12 @@ async function convertAdvisor(a) {
   }
 
   let effects = await convertEffects(tech.Effects.effect, advisor.civ, true)
-  if (advisor.id === "Beorix_L_IV") {
-    effects = [
-      {
-        type: "Poison",
-        absolute: true,
-        positive: true,
-        amount: 50,
-        target: "No_Inf_Axeman"
-      }
-    ]
-    addEffect("Poison")
-  }
+
   advisor.rarities.push({
     description: findLang(stringtablex, a.displaydescriptionid),
     rarity: convertRarity(a.rarity),
     effects: effects.filter(duplicateEffects)
   })
-
-  // TODO handle ActionEnable properly
-  if (advisor.id.startsWith("Audun")) {
-    advisor.rarities.forEach(r => {
-      r.effects.forEach(e => {
-        if (e.type === "AutoGatherTree") {
-          e.absolute = true
-        }
-      })
-    })
-  }
 
   return advisor
 }

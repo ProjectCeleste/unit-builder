@@ -329,7 +329,7 @@ const templates = {
   ActionEnableAreaHeal: { name: "Grants Area Healing", icon: "NONE", sort: 0 },
   ActionEnableMovementSpeedAuraVillager: {
     name: "Grants Movement Speed Aura",
-    icon: "NONMaximumVelocityE",
+    icon: "MaximumVelocity",
     sort: 0
   },
   ActionEnableAutoGather: {
@@ -452,7 +452,8 @@ const templates = {
   Damage: { name: "Damage", icon: "DamageHand", sort: 0 },
   DamageMeleeAttack: { name: "Melee Damage", icon: "DamageHand", sort: 0 },
   DamageRangedAttack: { name: "Pierce Damage", icon: "DamageRanged", sort: 0 },
-  Poison: { name: "Damage Over Time", icon: "DamageOverTime", sort: 42 },
+  PoisonAttack: { name: "Damage Over Time", icon: "DamageOverTime", sort: 42 },
+  BurningAttack: { name: "Damage Over Time", icon: "DamageOverTime", sort: 42 },
   ArmorDamageBonus: {
     name: "Bonus Damage Protection",
     icon: "DamageBonusReduction",

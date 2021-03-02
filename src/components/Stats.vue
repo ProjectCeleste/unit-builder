@@ -93,11 +93,20 @@ export default {
         stats[key] = this.unit.stats[key]
       }
 
+      // Remove stats from inactive actions
+      this.unit.inactiveActions.forEach(a => {
+        for (let key in stats) {
+          if (key.startsWith(a)) {
+            delete stats[key]
+          }
+        }
+      })
+
       for (let key in this.gear) {
         const gear = this.gear[key]
         for (let i = 0; i < gear.stats.effects.length; i++) {
           const effect = gear.stats.effects[i]
-          this.applyEffect(effect, stats)
+          this.applyEffect(effect, stats, this.unit)
         }
       }
 
@@ -109,7 +118,7 @@ export default {
             effectAppliesToUnit(e, this.unit)
           )
           for (let j = 0; j < milestoneEffects.length; j++) {
-            this.applyEffect(milestoneEffects[j], stats)
+            this.applyEffect(milestoneEffects[j], stats, this.unit)
           }
         }
       }
@@ -119,7 +128,7 @@ export default {
           effectAppliesToUnit(e, this.unit)
         )
         for (let j = 0; j < advisorEffects.length; j++) {
-          this.applyEffect(advisorEffects[j], stats)
+          this.applyEffect(advisorEffects[j], stats, this.unit)
         }
       }
 
@@ -128,7 +137,7 @@ export default {
         this.filterUpgradeEffects(this.upgrades[upgradeID], upgradeEffects)
       }
       for (let i = 0; i < upgradeEffects.length; i++) {
-        this.applyEffect(upgradeEffects[i], stats)
+        this.applyEffect(upgradeEffects[i], stats, this.unit)
       }
 
       this.$store.commit("setUnitStats", { id: this.unitId, stats })
@@ -204,12 +213,22 @@ export default {
       }
       this.filterUpgradeEffects(upgrade.chain, res)
     },
-    applyEffect(effect, stats) {
-      if (
-        effects[effect.type].type === "action" ||
-        effect.type === "UnlockUpgrade" ||
-        effect.type === "DisableUpgrade"
-      ) {
+    applyEffect(effect, stats, unit) {
+      if (effect.type === "UnlockUpgrade" || effect.type === "DisableUpgrade") {
+        return
+      }
+      if (effects[effect.type].type === "action") {
+        const actionName = effect.type.replace("ActionEnable", "")
+        console.log("ActionEnable", actionName)
+        console.log("Inactive actions", unit.inactiveActions)
+        if (unit.inactiveActions.some(a => a === actionName)) {
+          for (let key in unit.stats) {
+            if (key.startsWith(actionName)) {
+              console.log(key, "was inactive")
+              stats[key] = unit.stats[key]
+            }
+          }
+        }
         return
       }
       let mod = effect.amount

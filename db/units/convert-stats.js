@@ -14,6 +14,7 @@ const gatherStats = [
 
 export async function convertUnitStats(unit) {
   const stats = {}
+  const inactiveActions = []
   if (unit.MaxHitpoints) {
     stats["Hitpoints"] = unit.MaxHitpoints
   }
@@ -22,10 +23,10 @@ export async function convertUnitStats(unit) {
   if (Array.isArray(unit.ProtoAction)) {
     for (let keyAction in unit.ProtoAction) {
       const action = unit.ProtoAction[keyAction]
-      parseAction(action, stats)
+      parseAction(action, stats, inactiveActions)
     }
   } else if (unit.ProtoAction) {
-    parseAction(unit.ProtoAction, stats)
+    parseAction(unit.ProtoAction, stats, inactiveActions)
   }
 
   //Armor
@@ -127,13 +128,10 @@ export async function convertUnitStats(unit) {
   addEffect("CostWood")
   addEffect("CostGold")
   addEffect("CostStone")
-  return stats
+  return [stats, inactiveActions]
 }
 
-export function parseAction(action, stats) {
-  if (action.Active === 0) {
-    return
-  }
+export function parseAction(action, stats, inactiveActions) {
   const ignoredEffects = [
     "DamageBonusUnitTypeMobileStorehouse1",
     "DamageBonusDeer",
@@ -147,13 +145,23 @@ export function parseAction(action, stats) {
 
   if (action.DamageType) {
     if (action.DamageType === "Siege") {
-      let actionName = action.Name
-      if (action.Name === "ChopAttack" || action.Name === "BuildingAttack") {
+      let actionName = name
+      if (actionName === "ChopAttack" || actionName === "BuildingAttack") {
         actionName = "MeleeAttack"
       }
       stats["Damage" + action.DamageType + actionName] = action.Damage
+      if (action.Active === 0) {
+        inactiveActions.push(actionName)
+      }
     } else {
-      stats["Damage" + action.DamageType] = action.Damage
+      let type = "Damage" + action.DamageType
+      if (action.Name === "BurningAttack" || action.Name === "PoisonAttack") {
+        type = name
+      }
+      stats[type] = action.Damage
+      if (action.Active === 0) {
+        inactiveActions.push(type)
+      }
     }
 
     if (action.DamageArea === 0) {
@@ -172,6 +180,9 @@ export function parseAction(action, stats) {
           stats[damageType] = action.Damage
           break
         // Other?
+      }
+      if (action.Active === 0) {
+        inactiveActions.push(damageType.replace("Damage", ""))
       }
     }
   }
@@ -208,6 +219,9 @@ export function parseAction(action, stats) {
     if (name === "Heal") {
       stats["Rate" + name] = action.Rate[0].amount
       stats["MaximumRange" + name] = action.MaxRange[0]
+      if (action.Active === 0) {
+        inactiveActions.push(name)
+      }
     } else if (name !== "MeleeAttack") {
       stats.MaximumRange = action.MaxRange[0]
     }
@@ -250,6 +264,9 @@ export function parseAction(action, stats) {
       stats["AutoGatherTree"] = rate.amount
     } else {
       stats["AutoGather" + rate.type] = rate.amount
+    }
+    if (action.Active === 0) {
+      inactiveActions.push(name)
     }
   } else if (name === "Build") {
     const rate = action.Rate[0]
@@ -294,6 +311,14 @@ function convertTactic(tactic, stats) {
         if (snare !== 1) {
           stats.TargetSpeedBoost = snare
         }
+      }
+      if (
+        tactic.name.text === "BurningAttack" ||
+        tactic.name.text === "PoisonAttack"
+      ) {
+        stats[tactic.name.text] =
+          parseFloat(tactic.damageOverTimeDuration) *
+          parseFloat(tactic.damageOverTimeRate)
       }
       break
     case "Build": {

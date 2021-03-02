@@ -88,13 +88,16 @@ async function convertUnit(unit) {
   const icon = unit.Icon.replace(/\\/g, "/").toLowerCase()
   const iconDst = convertIconName(icon)
   await downloadImage(icon + ".png", "../src/assets/units/" + iconDst + ".png")
+
+  const [stats, inactiveActions] = await convertUnitStats(unit)
   const u = {
     id: unit.name,
     name: findLang(stringtablex, unit.DisplayNameID),
     types: unit.UnitType.filter(t => unitTypes.includes(t)),
     icon: iconDst,
     slots: convertSlots(unit),
-    stats: await convertUnitStats(unit)
+    stats: stats,
+    inactiveActions: inactiveActions
   }
   return u
 }
