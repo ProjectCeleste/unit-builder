@@ -255,11 +255,7 @@ function getType(effectName) {
 }
 
 const templates = {
-  ActionEnablePoisonAttack: {
-    name: "Poison Attack",
-    icon: "NONE",
-    sort: 0
-  },
+  ActionEnablePoisonAttack: { name: "Poison Attack", icon: "NONE", sort: 0 },
   ActionEnableSpawnDeer_C: {
     name: "Spawn Sacred Deer every 30s",
     icon: "NONE",
@@ -347,19 +343,18 @@ const templates = {
   GatherAbstractFruit: { name: "Gathering Berries", icon: "Berry", sort: 2 },
   GatherAbstractFarm: { name: "Gathering Farms", icon: "GatherFood", sort: 5 },
   GatherAbstractFish: { name: "Gathering Fish", icon: "Fish", sort: 6 },
-  YieldTree: { name: "Wood Conservation", icon: "YieldTree", sort: 17 },
-  YieldGold: { name: "Gold Conservation", icon: "YieldGold", sort: 18 },
-  YieldStone: { name: "Stone Conservation", icon: "YieldStone", sort: 19 },
+  YieldTree: { name: "Wood Conservation", icon: "YieldTree", sort: 18 },
+  YieldGold: { name: "Gold Conservation", icon: "YieldGold", sort: 19 },
+  YieldStone: { name: "Stone Conservation", icon: "YieldStone", sort: 20 },
   YieldAbstractFish: {
     name: "Fish Conservation",
     icon: "YieldAbstractFish",
-    sort: 16
+    sort: 17
   },
   YieldHuntable: {
-    // TODO shift sort
     name: "Huntable Conservation",
     icon: "YieldHuntable",
-    sort: 15
+    sort: 16
   },
   YieldHerdable: {
     name: "Herdable Conservation",
@@ -378,44 +373,44 @@ const templates = {
   CarryCapacityFood: {
     name: "Food Carrying Capacity",
     icon: "CarryCapacityFood",
-    sort: 20
+    sort: 21
   },
   CarryCapacityWood: {
     name: "Wood Carrying Capacity",
     icon: "CarryCapacityWood",
-    sort: 21
+    sort: 22
   },
   CarryCapacityGold: {
     name: "Gold Carrying Capacity",
     icon: "CarryCapacityGold",
-    sort: 22
+    sort: 23
   },
   CarryCapacityStone: {
     name: "Stone Carrying Capacity",
     icon: "CarryCapacityStone",
-    sort: 23
+    sort: 24
   },
-  DamageArea: { name: "Splash Area", icon: "DamageArea", sort: 46 },
+  DamageArea: { name: "Splash Area", icon: "DamageArea", sort: 51 },
   AreaDamageReduction: {
     name: "Splash Damage Reduction",
     icon: "AreaDamageReduction",
-    sort: 73
+    sort: 80
   },
   BuildingWorkRate: {
     name: "Train/Research Rate",
     icon: "BuildPoints",
-    sort: 67
+    sort: 74
   },
   BuildPoints: {
     name: "Build Time",
     icon: "BuildPoints",
-    sort: 81,
+    sort: 88,
     lowerIsBetter: true
   },
   ConvertResist: {
     name: "Conversion Resistance",
     icon: "ConvertResist",
-    sort: 74
+    sort: 81
   },
   CostAll: { name: "Cost", icon: "Cost", sort: 0, lowerIsBetter: true },
   CostFood: {
@@ -448,240 +443,228 @@ const templates = {
     sort: 0,
     lowerIsBetter: true
   },
-  BuildLimit: { name: "Build Limit", icon: "BuildLimit", sort: 79 },
+  BuildLimit: { name: "Build Limit", icon: "BuildLimit", sort: 86 },
   Damage: { name: "Damage", icon: "DamageHand", sort: 0 },
   DamageMeleeAttack: { name: "Melee Damage", icon: "DamageHand", sort: 0 },
   DamageRangedAttack: { name: "Pierce Damage", icon: "DamageRanged", sort: 0 },
-  PoisonAttack: { name: "Damage Over Time", icon: "DamageOverTime", sort: 42 },
-  BurningAttack: { name: "Damage Over Time", icon: "DamageOverTime", sort: 42 },
+  PoisonAttack: { name: "Damage Over Time", icon: "DamageOverTime", sort: 45 },
+  BurningAttack: { name: "Damage Over Time", icon: "DamageOverTime", sort: 46 },
   ArmorDamageBonus: {
     name: "Bonus Damage Protection",
     icon: "DamageBonusReduction",
-    sort: 72
+    sort: 79
   },
-  HitPercent: { name: "Critical Hit Chance", icon: "CriticalHit", sort: 30 },
+  HitPercent: { name: "Critical Hit Chance", icon: "CriticalHit", sort: 31 },
   HitPercentDamageMultiplier: {
     name: "Critical Hit Damage",
     icon: "CriticalHit",
-    sort: 30
+    sort: 32
   },
   Hitpoints: { name: "Health", icon: "Hitpoints", sort: 0 },
-  LOS: { name: "Line-of-sight", icon: "LOS", sort: 76 },
-  MaximumRange: { name: "Maximum Range", icon: "MaximumRange", sort: 45 },
-  MinimumRange: { name: "Minimum Range", icon: "MaximumRange", sort: 44 },
+  LOS: { name: "Line-of-sight", icon: "LOS", sort: 83 },
+  MaximumRange: { name: "Maximum Range", icon: "MaximumRange", sort: 50 },
+  MinimumRange: { name: "Minimum Range", icon: "MaximumRange", sort: 49 },
   MaximumRangeConvert: {
     name: "Maximum Conversion Range",
     icon: "MaximumRange",
-    sort: 56
+    sort: 61
   },
   MaximumRangeChaos: {
     name: "Maximum Chaos Range",
     icon: "MaximumRange",
-    sort: 57
+    sort: 62
   },
   MaximumRangeHeal: {
     name: "Maximum Healing Range",
     icon: "MaximumRange",
-    sort: 61
+    sort: 66
   },
   MaximumVelocity: {
     name: "Movement Speed",
     icon: "MaximumVelocity",
-    sort: 77
+    sort: 84
   },
   TargetSpeedBoost: {
     name: "Snare",
     icon: "TargetSpeedBoost",
-    sort: 43,
+    sort: 48,
     lowerIsBetter: true
   },
   TargetSpeedBoostResist: {
     name: "Snare Resist",
     icon: "SnareResist",
-    sort: 75
+    sort: 82
   },
   TrainPoints: {
     name: "Train Time",
     icon: "BuildPoints",
-    sort: 80,
+    sort: 87,
     lowerIsBetter: true
   },
-  ArmorRanged: { name: "Pierce Armor", icon: "ArmorRanged", sort: 69 },
-  ArmorSiege: { name: "Crush Armor", icon: "ArmorSiege", sort: 71 },
-  ArmorHand: { name: "Melee-Infantry Armor", icon: "ArmorHand", sort: 68 },
-  ArmorCavalry: { name: "Melee-Cavalry Armor", icon: "ArmorCavalry", sort: 70 },
+  ArmorRanged: { name: "Pierce Armor", icon: "ArmorRanged", sort: 76 },
+  ArmorSiege: { name: "Crush Armor", icon: "ArmorSiege", sort: 78 },
+  ArmorHand: { name: "Melee-Infantry Armor", icon: "ArmorHand", sort: 75 },
+  ArmorCavalry: { name: "Melee-Cavalry Armor", icon: "ArmorCavalry", sort: 77 },
   ConvertStandardConvertable: {
     name: "Conversion Rate",
     icon: "ConvertStandardConvertable",
-    sort: 48,
+    sort: 53,
     lowerIsBetter: true
   },
   ConvertConvertableCavalry: {
     name: "Convert Cavalry Rate",
     icon: "ConvertStandardConvertable",
-    sort: 49,
+    sort: 54,
     lowerIsBetter: true
   },
   ConvertConvertableSiege: {
     name: "Convert Siege Rate",
     icon: "ConvertStandardConvertable",
-    sort: 50,
+    sort: 55,
     lowerIsBetter: true
   },
   ConvertConvertableInfantry: {
     name: "Convert Infantry Rate",
     icon: "ConvertStandardConvertable",
-    sort: 51,
+    sort: 56,
     lowerIsBetter: true
   },
-  ChaosStandardConvertable: { name: "Chaos Rate", icon: "Chaos", sort: 52 },
+  ChaosStandardConvertable: { name: "Chaos Rate", icon: "Chaos", sort: 57 },
   ChaosConvertableCavalry: {
     name: "Cavalry Chaos Rate",
     icon: "Chaos",
-    sort: 53,
+    sort: 58,
     lowerIsBetter: true
   },
-  ChaosConvertableSiege: { name: "Siege Chaos Rate", icon: "Chaos", sort: 54 },
+  ChaosConvertableSiege: { name: "Siege Chaos Rate", icon: "Chaos", sort: 59 },
   ChaosConvertableInfantry: {
     name: "Infantry Chaos Rate",
     icon: "Chaos",
-    sort: 55,
+    sort: 60,
     lowerIsBetter: true
   },
-  Trade: { name: "Trade", icon: "Cost", sort: 61 },
-  RateHeal: { name: "Healing", icon: "RateHeal", sort: 58 },
-  RateHealInCombat: { name: "Healing", icon: "RateHeal", sort: 59 },
-  HealArea: { name: "Healing Area", icon: "HealArea", sort: 60 },
+  Trade: { name: "Trade", icon: "Cost", sort: 67 },
+  RateHeal: { name: "Healing", icon: "RateHeal", sort: 63 },
+  RateHealInCombat: { name: "Healing", icon: "RateHeal", sort: 64 },
+  HealArea: { name: "Healing Area", icon: "HealArea", sort: 65 },
   Build: {
     name: "Buildings Construction Speed",
     icon: "ConstructionSpeed",
-    sort: 62
+    sort: 68
   },
-  WorkRateRepair: {
-    name: "Repair Speed",
-    icon: "ConstructionSpeed",
-    sort: 64
-  },
+  WorkRateRepair: { name: "Repair Speed", icon: "ConstructionSpeed", sort: 70 },
   BuildWatchPost: {
     name: "Watch Post Construction Speed",
     icon: "WatchPostConstruction",
-    sort: 63
+    sort: 69
   },
   EmpowerDropsite: {
     name: "Empower Dropoff",
     icon: "EmpowerDropsite",
-    sort: 64
+    sort: 71
   },
   EmpowerActionTrain: {
     name: "Empower Train Rate",
     icon: "EmpowerActionTrain",
-    sort: 65
+    sort: 72
   },
   EmpowerActionBuild: {
     name: "Empower Build Rate",
     icon: "EmpowerActionBuild",
-    sort: 66
+    sort: 73
   },
   DamageBonusAbstractInfantry: {
     name: "Bonus vs. Infantry",
     icon: "DamageBonusAbstractInfantry",
-    sort: 30
+    sort: 33
   },
   DamageBonusAbstractCavalry: {
     name: "Bonus vs. Cavalry",
     icon: "DamageBonusAbstractCavalry",
-    sort: 31
+    sort: 34
   },
   DamageBonusBuilding: {
     name: "Bonus vs. Building",
     icon: "DamageBonusBuilding",
-    sort: 35
+    sort: 38
   },
   DamageBonusShip: {
     name: "Bonus vs. Ship",
     icon: "DamageBonusShip",
-    sort: 38
+    sort: 41
   },
   DamageBonusAbstractArcher: {
     name: "Bonus vs. Ranged",
     icon: "DamageBonusAbstractArcher",
-    sort: 34
+    sort: 37
   },
   DamageBonusGr_Cav_Sarissophoroi: {
     name: "Bonus vs. Sarissophoroi",
     icon: "DamageBonusAbstractCavalry",
-    sort: 32
+    sort: 35
   },
   DamageBonusUnitTypeBldgStorehouse: {
     name: "Bonus vs. Storehouse",
     icon: "DamageBonusBuilding",
-    sort: 36
+    sort: 39
   },
   DamageBonusAbstractArtillery: {
     name: "Bonus vs. Siege",
     icon: "DamageBonusAbstractArtillery",
-    sort: 37
+    sort: 40
   },
   DamageBonusHuntable: {
     name: "Bonus vs. Huntable",
     icon: "DamageBonusHuntable",
-    sort: 39
+    sort: 42
   },
   DamageBonusUnitTypeVillager1: {
     name: "Bonus vs. Villager",
     icon: "DamageBonusUnitTypeVillager1",
-    sort: 40
+    sort: 43
   },
   DamageBonusAbstractPriest: {
     name: "Bonus vs. Priests",
     icon: "DamageBonusAbstractPriest",
-    sort: 41
+    sort: 44
   },
   DamageBonusEg_Cav_CamelRider: {
     name: "Bonus vs. Camel Rider",
     icon: "DamageBonusAbstractCavalry",
-    sort: 33
+    sort: 36
   },
   AttackSpeed: { name: "Rate-of-fire", icon: "DamageOverTime", sort: 0 },
-  DamageHand: { name: "Melee-Infantry DPS", icon: "DamageHand", sort: 24 },
-  DamageRanged: { name: "Pierce DPS", icon: "DamageRanged", sort: 25 },
-  DamageCavalry: { name: "Melee-Cavalry DPS", icon: "DamageCavalry", sort: 26 },
-  DamageSiege: { name: "Crush DPS", icon: "DamageSiege", sort: 27 },
+  DamageHand: { name: "Melee-Infantry DPS", icon: "DamageHand", sort: 25 },
+  DamageRanged: { name: "Pierce DPS", icon: "DamageRanged", sort: 26 },
+  DamageCavalry: { name: "Melee-Cavalry DPS", icon: "DamageCavalry", sort: 27 },
+  DamageSiege: { name: "Crush DPS", icon: "DamageSiege", sort: 28 },
   DamageSiegeMeleeAttack: {
     name: "Melee Crush DPS",
     icon: "DamageSiege",
-    sort: 28
+    sort: 29
   },
   DamageSiegeRangedAttack: {
     name: "Ranged Crush DPS",
     icon: "DamageSiege",
-    sort: 29
+    sort: 30
   },
   MaximumContained: {
     name: "Transport Capacity",
     icon: "PopulationCount",
-    sort: 78
+    sort: 85
   },
   AOERadius: {
     name: "Charge Attack Damage Area",
     icon: "DamageArea",
-    sort: 47
+    sort: 52
   },
   ArmorVulnerability: {
     name: "Ignore Armor",
     icon: "ArmorVulnerability",
-    sort: 42
+    sort: 47
   },
-  UnlockUpgrade: {
-    name: "Unlocks upgrade",
-    icon: "NONE",
-    sort: 0
-  },
-  DisableUpgrade: {
-    name: "Disables upgrade",
-    icon: "NONE",
-    sort: 0
-  }
+  UnlockUpgrade: { name: "Unlocks upgrade", icon: "NONE", sort: 0 },
+  DisableUpgrade: { name: "Disables upgrade", icon: "NONE", sort: 0 }
 }
 
 function getTemplate(effectName) {
