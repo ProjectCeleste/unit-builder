@@ -219,12 +219,9 @@ export default {
       }
       if (effects[effect.type].type === "action") {
         const actionName = effect.type.replace("ActionEnable", "")
-        console.log("ActionEnable", actionName)
-        console.log("Inactive actions", unit.inactiveActions)
         if (unit.inactiveActions.some(a => a === actionName)) {
           for (let key in unit.stats) {
             if (key.startsWith(actionName)) {
-              console.log(key, "was inactive")
               stats[key] = unit.stats[key]
             }
           }
