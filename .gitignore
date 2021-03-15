@@ -27,8 +27,10 @@ pnpm-debug.log*
 # Downloaded files for generation
 src/assets/units
 src/assets/gear
-src/assets/advisors
-src/assets/milestones
+src/assets/advisors/*
+!src/assets/advisors/none_*
+src/assets/milestones/*
+!src/assets/milestones/none.png
 src/assets/upgrades
 db/techtreex.xml
 db/tactics

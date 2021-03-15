@@ -142,7 +142,10 @@ export function parseAction(action, stats, inactiveActions) {
   ]
 
   const name = action.Name
-
+  // TODO clinicus area heal and heal rate
+  // TODO decurion health regen
+  // TODO castellum pierce damage with praesidium upgrade
+  // TODO remove build limit stat on town center
   if (action.DamageType) {
     if (action.DamageType === "Siege") {
       let actionName = name

@@ -18,10 +18,6 @@ export async function buildMilestones() {
   for (let i = 0; i < tiers.length; i++) {
     const tier = tiers[i]
     const civ = tier.civid.toLowerCase()
-    if (civ === "roman") {
-      // TODO remove this
-      continue
-    }
     if (!res[civ]) {
       res[civ] = []
     }

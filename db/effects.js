@@ -12,7 +12,8 @@ const ignoredEffects = [
   "CostBuildingTechs",
   "CostBuildingAll",
   "ResourceTrickleRate",
-  "Resource"
+  "Resource",
+  "PopulationCapExtra"
 ]
 
 const ignoredTargets = ["TechAll"]
@@ -91,12 +92,20 @@ export async function convertEffects(effects, civ, isAdvisor) {
           type =
             e.unittype === "UnitTypeBldgWatchPost" ? "BuildWatchPost" : e.action
           break
+        case "AreaHeal":
+          continue
       }
     } else if (type === "Damage") {
       switch (e.action) {
         case "MeleeAttack":
         case "RangedAttack":
           type += e.action
+          break
+        case "PoisonAttack":
+          type = e.action
+          break
+        case "BuildingAttack":
+          type += "MeleeAttack"
           break
         case undefined:
         case null:
