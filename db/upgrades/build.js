@@ -177,7 +177,7 @@ function techIgnored(tech) {
     "PersiaTechAdvisorBahram_U",
     "PersiaTechAdvisorBahram_R",
     "PersiaTechAdvisorBahram_E",
-    "Ro_Ct_UnitCenturion1", // FIXME ignoring these tech removes convert resist and snare resist
+    "Ro_Ct_UnitCenturion1",
     "Ro_Ct_UnitDecurion1",
     "Ro_Ct_UnitEngineer1"
   ]

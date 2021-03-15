@@ -1,4 +1,5 @@
 import { downloadImage, getUnits, getTechtree, getEquipments } from "../api.js"
+import { convertEffects } from "../effects.js"
 import { stringtablex, findLang } from "../lang.js"
 import { unitTypes } from "../unit_types.js"
 import { convertIconName, findByAttribute } from "../utils.js"
@@ -66,7 +67,7 @@ async function convertEquipmentToUnits(equipment) {
             if (ef.subtype === "Enable" && ef.target.type === "ProtoUnit") {
               const unit = findByAttribute(units, "name", ef.target.text)
               if (unit) {
-                const u = await convertUnit(unit)
+                const u = await convertUnit(unit, tech, equipment)
                 if (includeUnit(tech, u)) {
                   results.push(u)
                 }
@@ -81,12 +82,31 @@ async function convertEquipmentToUnits(equipment) {
   return results
 }
 
-async function convertUnit(unit) {
+async function convertUnit(unit, tech, equipment) {
   const icon = unit.Icon.replace(/\\/g, "/").toLowerCase()
   const iconDst = convertIconName(icon)
   await downloadImage(icon + ".png", "../src/assets/units/" + iconDst + ".png")
 
   const [stats, inactiveActions] = await convertUnitStats(unit)
+  const additionalStats = (
+    await convertEffects(
+      tech.Effects.effect,
+      equipment.civ.toLowerCase(),
+      false
+    )
+  ).filter(e => e.target === unit.name)
+  additionalStats.forEach(e => {
+    if (
+      (e.type.startsWith("Armor") && e.type !== "ArmorVulnerability") ||
+      e.type === "TargetSpeedBoostResist" ||
+      e.type === "ConvertResist"
+    ) {
+      stats[e.type] = 1 - 1 / e.amount
+    } else {
+      stats[e.type] = e.amount
+    }
+  })
+
   const u = {
     id: unit.name,
     name: findLang(stringtablex, unit.DisplayNameID),

@@ -349,7 +349,8 @@ export default {
           if (
             (effect.type.startsWith("Armor") &&
               effect.type !== "ArmorVulnerability") ||
-            effect.type === "TargetSpeedBoostResist"
+            effect.type === "TargetSpeedBoostResist" ||
+            effect.type === "ConvertResist"
           ) {
             this.setBaseStat(stats, effect.type)
             stats[effect.type] = 1 - (1 - stats[effect.type]) / effect.amount

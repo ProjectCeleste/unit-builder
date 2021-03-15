@@ -142,7 +142,6 @@ export function parseAction(action, stats, inactiveActions) {
   ]
 
   const name = action.Name
-  // TODO clinicus area heal and heal rate
   if (action.DamageType) {
     if (action.DamageType === "Siege") {
       let actionName = name
