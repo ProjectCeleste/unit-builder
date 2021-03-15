@@ -27,9 +27,6 @@ export async function buildUnits() {
     results[civ].sort(compareUnits).sort(compareUnitTypes)
   }
 
-  // WARNING: tactics files not served by API, techtreex neither
-  // equipment -> techtreex -> units
-
   return { front: results, server: await buildUnitsForServer(results) }
 }
 

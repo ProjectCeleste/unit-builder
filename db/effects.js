@@ -244,7 +244,8 @@ function getType(effectName) {
   if (
     effectName.startsWith("WorkRate") ||
     effectName.startsWith("AutoGather") ||
-    effectName.startsWith("RateHeal")
+    effectName.startsWith("RateHeal") ||
+    effectName.startsWith("RateAreaHeal")
   ) {
     return "persecond" // ends with "/s"
   }
@@ -488,6 +489,11 @@ const templates = {
     icon: "MaximumRange",
     sort: 66
   },
+  MaximumRangeAreaHeal: {
+    name: "Maximum Healing Range",
+    icon: "MaximumRange",
+    sort: 66
+  },
   MaximumVelocity: {
     name: "Movement Speed",
     icon: "MaximumVelocity",
@@ -554,8 +560,11 @@ const templates = {
   },
   Trade: { name: "Trade", icon: "Cost", sort: 67 },
   RateHeal: { name: "Healing", icon: "RateHeal", sort: 63 },
+  RateAreaHeal: { name: "Healing", icon: "RateHeal", sort: 63 },
   RateHealInCombat: { name: "Healing", icon: "RateHeal", sort: 64 },
+  RateAreaHealInCombat: { name: "Healing", icon: "RateHeal", sort: 64 },
   HealArea: { name: "Healing Area", icon: "HealArea", sort: 65 },
+  AreaHealArea: { name: "Healing Area", icon: "HealArea", sort: 65 },
   Build: {
     name: "Buildings Construction Speed",
     icon: "ConstructionSpeed",

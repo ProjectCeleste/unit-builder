@@ -147,7 +147,7 @@ export default {
   methods: {
     effectName(name) {
       let e = effects[name].name
-      if (name === "RateHeal") {
+      if (name === "RateHeal" || name === "RateAreaHeal") {
         e += " (Out of Combat)"
       }
       return e
@@ -219,13 +219,45 @@ export default {
       }
       if (effects[effect.type].type === "action") {
         const actionName = effect.type.replace("ActionEnable", "")
-        if (unit.inactiveActions.some(a => a === actionName)) {
-          for (let key in unit.stats) {
-            if (key.startsWith(actionName)) {
-              stats[key] = unit.stats[key]
+        let affectedStats = []
+        switch (actionName) {
+          case "MeleeAttack":
+            affectedStats.push("DamageMelee")
+            break
+          case "RangedAttack":
+            affectedStats.push("DamageRanged")
+            break
+          case "Heal":
+            affectedStats.push("RateHeal")
+            affectedStats.push("MaximumRangeHeal")
+            affectedStats.push("HealArea")
+            break
+          case "AreaHeal":
+            affectedStats.push("RateAreaHeal")
+            affectedStats.push("MaximumRangeAreaHeal")
+            affectedStats.push("AreaHealArea")
+            break
+          default:
+            affectedStats.push(actionName)
+        }
+        affectedStats.forEach(s => {
+          if (effect.amount === 0) {
+            // Disable
+            for (let key in unit.stats) {
+              if (key.startsWith(s)) {
+                delete stats[key]
+              }
+            }
+          } else {
+            if (unit.inactiveActions.find(a => a === s)) {
+              for (let key in unit.stats) {
+                if (key.startsWith(s)) {
+                  stats[key] = unit.stats[key]
+                }
+              }
             }
           }
-        }
+        })
         return
       }
       let mod = effect.amount
@@ -305,6 +337,12 @@ export default {
             stats.RateHealInCombat *= mod
           } else {
             stats[effect.type] *= mod
+          }
+          if (stats.RateAreaHeal !== undefined) {
+            stats.RateAreaHeal *= mod
+          }
+          if (stats.RateAreaHealInCombat !== undefined) {
+            stats.RateAreaHealInCombat *= mod
           }
           break
         default:

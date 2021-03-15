@@ -59,7 +59,7 @@ export async function convertUnitStats(unit) {
     stats["MaximumContained"] = unit.MaxContained
   }
 
-  if (unit.BuildLimit) {
+  if (unit.BuildLimit && !unit.name.endsWith("_Bldg_TownCenter")) {
     stats["BuildLimit"] = unit.BuildLimit
   }
 
@@ -143,9 +143,6 @@ export function parseAction(action, stats, inactiveActions) {
 
   const name = action.Name
   // TODO clinicus area heal and heal rate
-  // TODO decurion health regen
-  // TODO castellum pierce damage with praesidium upgrade
-  // TODO remove build limit stat on town center
   if (action.DamageType) {
     if (action.DamageType === "Siege") {
       let actionName = name
@@ -219,11 +216,13 @@ export function parseAction(action, stats, inactiveActions) {
       }
     }
   } else if (action.MaxRange && action.MaxRange.length) {
-    if (name === "Heal") {
+    if (name === "Heal" || name === "AreaHeal") {
       stats["Rate" + name] = action.Rate[0].amount
       stats["MaximumRange" + name] = action.MaxRange[0]
       if (action.Active === 0) {
-        inactiveActions.push(name)
+        inactiveActions.push("Rate" + name)
+        inactiveActions.push("MaximumRange" + name)
+        inactiveActions.push(name + "Area")
       }
     } else if (name !== "MeleeAttack") {
       stats.MaximumRange = action.MaxRange[0]
@@ -336,12 +335,20 @@ function convertTactic(tactic, stats) {
       break
     }
     case "Heal":
+      if (tactic.name.text === "SelfHeal") {
+        if (tactic.active !== "1") {
+          break
+        }
+        stats.WorkRateSelfHeal = parseFloat(tactic.rate[0].text)
+        break
+      }
       if (tactic.affectsTargetsInCombat === "") {
-        stats.RateHealInCombat = stats.RateHeal
-        delete stats.RateHeal
+        const healType = "Rate" + tactic.name.text
+        stats[healType + "InCombat"] = stats[healType]
+        delete stats[healType]
       }
       if (tactic.aoeHealRadius) {
-        stats.HealArea = parseFloat(tactic.aoeHealRadius)
+        stats[tactic.name.text + "Area"] = parseFloat(tactic.aoeHealRadius)
       }
       break
     case "Convert":
