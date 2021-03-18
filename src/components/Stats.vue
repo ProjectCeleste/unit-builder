@@ -102,6 +102,12 @@ export default {
         }
       })
 
+      for (let upgradeID in this.upgrades) {
+        this.filterActionEnable(this.upgrades[upgradeID]).forEach(e => {
+          this.applyEffect(e, stats, this.unit)
+        })
+      }
+
       for (let key in this.gear) {
         const gear = this.gear[key]
         for (let i = 0; i < gear.stats.effects.length; i++) {
@@ -136,9 +142,9 @@ export default {
       for (let upgradeID in this.upgrades) {
         this.filterUpgradeEffects(this.upgrades[upgradeID], upgradeEffects)
       }
-      for (let i = 0; i < upgradeEffects.length; i++) {
-        this.applyEffect(upgradeEffects[i], stats, this.unit)
-      }
+      upgradeEffects
+        .filter(e => !e.type.startsWith("ActionEnable"))
+        .forEach(e => this.applyEffect(e, stats, this.unit))
 
       this.$store.commit("setUnitStats", { id: this.unitId, stats })
       return stats
@@ -213,6 +219,11 @@ export default {
       }
       this.filterUpgradeEffects(upgrade.chain, res)
     },
+    filterActionEnable(upgrade) {
+      const actionEnable = []
+      this.filterUpgradeEffects(upgrade, actionEnable)
+      return actionEnable.filter(e => e.type.startsWith("ActionEnable"))
+    },
     applyEffect(effect, stats, unit) {
       if (effect.type === "UnlockUpgrade" || effect.type === "DisableUpgrade") {
         return
@@ -251,7 +262,7 @@ export default {
           } else {
             if (unit.inactiveActions.find(a => a === s)) {
               for (let key in unit.stats) {
-                if (key.startsWith(s)) {
+                if (key.startsWith(s) && stats[key] === undefined) {
                   stats[key] = unit.stats[key]
                 }
               }
@@ -336,13 +347,13 @@ export default {
           if (stats.RateHealInCombat !== undefined) {
             stats.RateHealInCombat *= mod
           } else {
-            stats[effect.type] *= mod
-          }
-          if (stats.RateAreaHeal !== undefined) {
-            stats.RateAreaHeal *= mod
-          }
-          if (stats.RateAreaHealInCombat !== undefined) {
-            stats.RateAreaHealInCombat *= mod
+            if (stats.RateAreaHeal !== undefined) {
+              stats.RateAreaHeal *= mod
+            } else if (stats.RateAreaHealInCombat !== undefined) {
+              stats.RateAreaHealInCombat *= mod
+            } else {
+              stats[effect.type] *= mod
+            }
           }
           break
         default:
