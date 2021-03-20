@@ -272,7 +272,10 @@ export default {
         return
       }
       let mod = effect.amount
-      if (effect.absolute) {
+      if (effect.assign) {
+        stats[effect.type] = mod
+        return
+      } else if (effect.absolute) {
         this.setBaseStat(stats, effect.type)
         stats[effect.type] += mod
         return

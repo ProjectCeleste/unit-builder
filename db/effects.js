@@ -140,6 +140,10 @@ export async function convertEffects(effects, civ, isAdvisor) {
       amount: parseFloat(e.amount)
     }
 
+    if (e.relativity === "Assign") {
+      effect.assign = true
+    }
+
     if (e.target && e.target.type !== "Player") {
       if (ignoredTargets.includes(e.target.type)) {
         continue
