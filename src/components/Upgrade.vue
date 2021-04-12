@@ -25,7 +25,10 @@
       <Icon size="md" sprite="upgrades" :name="upgrade.icon" />
     </div>
     <Upgrade
-      v-if="upgrade.chain"
+      v-if="
+        upgrade.chain &&
+          (!upgrade.chain.unlocked || unlockedTech.includes(upgrade.chain.id))
+      "
       v-model="chain"
       :upgrade="upgrade.chain"
       :is-chained="true"
@@ -49,6 +52,7 @@ export default {
       }
     },
     upgrade: { type: Object, required: true },
+    unlockedTech: { type: Array, default: () => [] },
     isChained: { type: Boolean, default: false },
     disabled: { type: Boolean, default: false }
   },
@@ -73,6 +77,16 @@ export default {
           selected: newSelected,
           effects: newSelected ? this.upgrade.effects : [],
           chain: val
+        })
+      }
+    },
+    unlockedTech(val) {
+      if (this.upgrade.chain && !val.includes(this.upgrade.chain.id)) {
+        const newSelected = this.modelValue.selected
+        this.$emit("update:modelValue", {
+          selected: newSelected,
+          effects: newSelected ? this.upgrade.effects : [],
+          chain: undefined
         })
       }
     }

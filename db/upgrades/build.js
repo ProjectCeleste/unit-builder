@@ -43,10 +43,8 @@ export async function buildUpgrades() {
     const extra = extraUpgrades[i]
     const upgrades = await convertEquipmentToUpgrades({
       civ: extra.civ,
-      reward: { rank: [{ tech: extra.techName }] }
-    })
-    upgrades.forEach(u => {
-      u.unlocked = true
+      reward: { rank: [{ tech: extra.techName }] },
+      unlocked: true
     })
     results[extra.civ] = results[extra.civ].concat(
       upgrades.filter(u => !results[extra.civ].some(up => up.id === u.id))
@@ -73,6 +71,9 @@ async function convertEquipmentToUpgrades(equipment) {
       const tech = findByAttribute(techtree, "name", reward.tech)
       if (tech && !techIgnored(tech)) {
         const upgrade = await convertUpgrade(tech, civ)
+        if (equipment.unlocked !== undefined) {
+          upgrade.unlocked = equipment.unlocked
+        }
         if (includeUpgrade(upgrade)) {
           if (
             tech.Prereqs &&

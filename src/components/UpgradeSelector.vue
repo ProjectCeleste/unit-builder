@@ -18,6 +18,7 @@
         v-model="upgradeValues[u.id]"
         :upgrade="u"
         :disabled="isDisabled(u.id)"
+        :unlocked-tech="unlockedTech"
         @mouseleave="hoveredUpgrade = null"
         @mousemove="onMouseMove"
       />
