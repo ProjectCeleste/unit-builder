@@ -291,10 +291,16 @@ export default {
               !keyDmg.startsWith("DamageBonus") &&
               keyDmg != "DamageArea"
             ) {
-              this.setBaseStat(stats, keyDmg)
               stats[keyDmg] *= mod
             }
           }
+          break
+        case "AttackSpeedDamageRanged":
+          ;["DamageRanged", "DamageSiegeRangedAttack"].forEach(e => {
+            if (stats[e]) {
+              stats[e] *= mod
+            }
+          })
           break
         case "DamageMeleeAttack":
           for (let keyDmg in stats) {

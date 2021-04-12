@@ -123,6 +123,10 @@ export async function convertEffects(effects, civ, isAdvisor) {
       type += e.damagetype
     } else if (type === "Haste") {
       type = "AttackSpeed"
+      switch (e.action) {
+        case "RangedAttack":
+          type += "DamageRanged"
+      }
     } else if (type === "DamageBonusReduction") {
       type = "ArmorDamageBonus"
     } else if (
@@ -656,6 +660,11 @@ const templates = {
     sort: 36
   },
   AttackSpeed: { name: "Rate-of-fire", icon: "DamageOverTime", sort: 0 },
+  AttackSpeedDamageRanged: {
+    name: "Ranged Rate-of-fire",
+    icon: "DamageOverTime",
+    sort: 0
+  },
   DamageHand: { name: "Melee-Infantry DPS", icon: "DamageHand", sort: 25 },
   DamageRanged: { name: "Pierce DPS", icon: "DamageRanged", sort: 26 },
   DamageCavalry: { name: "Melee-Cavalry DPS", icon: "DamageCavalry", sort: 27 },
