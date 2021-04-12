@@ -317,6 +317,9 @@ function convertTactic(tactic, stats) {
         tactic.name.text === "BurningAttack" ||
         tactic.name.text === "PoisonAttack"
       ) {
+        if (tactic.active !== "1") {
+          break
+        }
         stats[tactic.name.text] =
           parseFloat(tactic.damageOverTimeDuration) *
           parseFloat(tactic.damageOverTimeRate)
