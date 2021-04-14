@@ -257,7 +257,7 @@ function getType(effectName) {
   ) {
     return "persecond" // ends with "/s"
   }
-  if (effectName === "AreaDamageReduction" || effectName === "HitPercent") {
+  if (effectName === "HitPercent") {
     return "percent" // ends with "%"
   }
   if (

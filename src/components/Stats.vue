@@ -370,6 +370,7 @@ export default {
             (effect.type.startsWith("Armor") &&
               effect.type !== "ArmorVulnerability") ||
             effect.type === "TargetSpeedBoostResist" ||
+            effect.type === "AreaDamageReduction" ||
             effect.type === "ConvertResist"
           ) {
             this.setBaseStat(stats, effect.type)
