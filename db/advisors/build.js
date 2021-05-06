@@ -85,5 +85,5 @@ function convertCivilization(a) {
 }
 
 function includeAdvisor(advisor) {
-  return advisor !== undefined && advisor.civilization !== "roman"
+  return advisor !== undefined && !advisor.name.endsWith("_CivReward")
 }
