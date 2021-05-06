@@ -70,6 +70,12 @@ export function effectAppliesToUnit(e, unit) {
       const resource = e.type.substring("Yield".length)
       return Object.keys(unit.stats).includes(`Gather${resource}`)
     }
+    if (
+      e.type.startsWith("Convert") &&
+      unit.stats.ConvertStandardConvertable === undefined
+    ) {
+      return false
+    }
   }
 
   return target
