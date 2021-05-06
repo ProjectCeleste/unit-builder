@@ -173,6 +173,7 @@ export function parseAction(action, stats, inactiveActions) {
     if (damageType) {
       switch (name) {
         case "RangedAttack":
+        case "RangedAttack2":
           stats[damageType] = action.Damage
           break
         case "MeleeAttack":
@@ -224,7 +225,11 @@ export function parseAction(action, stats, inactiveActions) {
         inactiveActions.push(name + "Area")
       }
     } else if (name !== "MeleeAttack") {
-      stats.MaximumRange = action.MaxRange[0]
+      if (name.endsWith("2")) {
+        stats.MaximumRange2 = action.MaxRange[0]
+      } else {
+        stats.MaximumRange = action.MaxRange[0]
+      }
     }
   }
 

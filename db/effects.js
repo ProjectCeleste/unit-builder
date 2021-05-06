@@ -99,6 +99,7 @@ export async function convertEffects(effects, civ, isAdvisor) {
       switch (e.action) {
         case "MeleeAttack":
         case "RangedAttack":
+        case "RangedAttack2":
           type += e.action
           break
         case "PoisonAttack":
@@ -126,11 +127,15 @@ export async function convertEffects(effects, civ, isAdvisor) {
       switch (e.action) {
         case "RangedAttack":
           type += "DamageRanged"
+          break
+        case "RangedAttack2":
+          type += "DamageRanged2"
+          break
       }
     } else if (type === "DamageBonusReduction") {
       type = "ArmorDamageBonus"
     } else if (
-      (type === "MaximumRange" && e.action !== "RangedAttack") ||
+      (type === "MaximumRange" && !e.action.startsWith("RangedAttack")) ||
       type === "ActionEnable"
     ) {
       type += e.action
@@ -218,10 +223,10 @@ function getBase(effectName) {
     effectName.startsWith("ActionEnable") ||
     effectName.startsWith("Gather") ||
     effectName.startsWith("Yield") ||
+    effectName.startsWith("AttackSpeed") ||
     effectName === "HitPercent" ||
     effectName === "TargetSpeedBoost" ||
     effectName === "ConvertResist" ||
-    effectName === "AttackSpeed" ||
     effectName === "Trade" ||
     effectName === "BuildingWorkRate" ||
     effectName === "WorkRateRepair" ||
@@ -337,6 +342,11 @@ const templates = {
   },
   ActionEnableRangedAttack: {
     name: "Grants Ranged Attack",
+    icon: "NONE",
+    sort: 0
+  },
+  ActionEnableRangedAttack2: {
+    name: "Grants Alt. Ranged Attack",
     icon: "NONE",
     sort: 0
   },
@@ -481,6 +491,11 @@ const templates = {
   Hitpoints: { name: "Health", icon: "Hitpoints", sort: 0 },
   LOS: { name: "Line-of-sight", icon: "LOS", sort: 83 },
   MaximumRange: { name: "Maximum Range", icon: "MaximumRange", sort: 50 },
+  MaximumRange2: {
+    name: "Alt. Attack Maximum Range",
+    icon: "MaximumRange",
+    sort: 50
+  },
   MinimumRange: { name: "Minimum Range", icon: "MaximumRange", sort: 49 },
   MaximumRangeConvert: {
     name: "Maximum Conversion Range",
@@ -665,6 +680,11 @@ const templates = {
     icon: "DamageOverTime",
     sort: 0
   },
+  AttackSpeedDamageRanged2: {
+    name: "Alt. Ranged Attack Rate-of-fire",
+    icon: "DamageOverTime",
+    sort: 0
+  },
   DamageHand: { name: "Melee-Infantry DPS", icon: "DamageHand", sort: 25 },
   DamageRanged: { name: "Pierce DPS", icon: "DamageRanged", sort: 26 },
   DamageCavalry: { name: "Melee-Cavalry DPS", icon: "DamageCavalry", sort: 27 },
@@ -676,6 +696,11 @@ const templates = {
   },
   DamageSiegeRangedAttack: {
     name: "Ranged Crush DPS",
+    icon: "DamageSiege",
+    sort: 30
+  },
+  DamageSiegeRangedAttack2: {
+    name: "Alt. Ranged Crush DPS",
     icon: "DamageSiege",
     sort: 30
   },

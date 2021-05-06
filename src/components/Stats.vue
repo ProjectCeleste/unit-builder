@@ -236,6 +236,7 @@ export default {
             affectedStats.push("DamageMelee")
             break
           case "RangedAttack":
+          case "RangedAttack2":
             affectedStats.push("DamageRanged")
             break
           case "Heal":
@@ -315,10 +316,12 @@ export default {
           }
           break
         case "DamageRangedAttack":
+        case "DamageRangedAttack2":
           for (let keyDmg in stats) {
             if (
               keyDmg === "DamageRanged" ||
-              keyDmg === "DamageSiegeRangedAttack"
+              keyDmg === "DamageSiegeRangedAttack" ||
+              keyDmg === "DamageSiegeRangedAttack2"
             ) {
               this.setBaseStat(stats, keyDmg)
               stats[keyDmg] *= mod
