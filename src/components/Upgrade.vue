@@ -81,7 +81,11 @@ export default {
       }
     },
     unlockedTech(val) {
-      if (this.upgrade.chain && !val.includes(this.upgrade.chain.id)) {
+      if (
+        this.upgrade.chain &&
+        this.upgrade.chain.unlocked &&
+        !val.includes(this.upgrade.chain.id)
+      ) {
         const newSelected = this.modelValue.selected
         this.$emit("update:modelValue", {
           selected: newSelected,
