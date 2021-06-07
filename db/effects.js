@@ -491,6 +491,11 @@ const templates = {
   Hitpoints: { name: "Health", icon: "Hitpoints", sort: 0 },
   LOS: { name: "Line-of-sight", icon: "LOS", sort: 83 },
   MaximumRange: { name: "Maximum Range", icon: "MaximumRange", sort: 50 },
+  MaximumRangeBurningAttack: {
+    name: "Maximum Range",
+    icon: "MaximumRange",
+    sort: 50
+  },
   MaximumRange2: {
     name: "Alt. Attack Maximum Range",
     icon: "MaximumRange",
