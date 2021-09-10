@@ -297,7 +297,14 @@ export default {
           }
           break
         case "AttackSpeedDamageRanged":
-          ;["DamageRanged", "DamageSiegeRangedAttack"].forEach(e => {
+          ;["DamageRanged", "DamageSiegeRangedAttack", "DamageSiegeRangedAttack2"].forEach(e => {
+            if (stats[e]) {
+              stats[e] *= mod
+            }
+          })
+          break
+        case "AttackSpeedDamageRanged2":
+          ;["DamageRanged", "DamageSiegeRangedAttack", "DamageSiegeRangedAttack2"].forEach(e => {
             if (stats[e]) {
               stats[e] *= mod
             }

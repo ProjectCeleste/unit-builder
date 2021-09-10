@@ -56,7 +56,8 @@ export function effectAppliesToUnit(e, unit) {
     } else if (e.type === "DamageRangedAttack") {
       return (
         unit.stats.DamageRanged !== undefined ||
-        unit.stats.DamageSiegeRangedAttack !== undefined
+        unit.stats.DamageSiegeRangedAttack !== undefined ||
+        unit.stats.DamageSiegeRangedAttack2 !== undefined
       )
     } else if (e.type === "DamageMeleeAttack") {
       return (
