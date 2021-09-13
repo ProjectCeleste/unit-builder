@@ -63,6 +63,10 @@ export async function getMilestones() {
   return await get("/milestones/rewards")
 }
 
+export async function getVendors() {
+  return await get("/vendors")
+}
+
 export async function getTactics(fileName) {
   const caseExceptions = {
     "catapultShip.tactics": "CatapultShip.tactics",

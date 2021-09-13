@@ -1,4 +1,4 @@
-import { getGear, getReforgeBlacklist, downloadImage } from "../api.js"
+import { getGear, getReforgeBlacklist, downloadImage, getVendors} from "../api.js"
 import { stringtablex, findLang } from "../lang.js"
 import { convertEffects, duplicateEffects } from "../effects.js"
 import { convertIconName, convertRarity } from "../utils.js"
@@ -52,6 +52,34 @@ function buildGearForServer(gear) {
 
 async function convertGear(gear) {
   const reforgeBlacklist = await getReforgeBlacklist()
+  
+  const vendorsList = await getVendors()
+
+  const fixedItemsVendor = []
+
+  for (let  i= 0; i < vendorsList.length; i++) { 
+    const vendorListItems = vendorsList[i].itemsets.itemset.items.item
+
+    for (let  j= 0; j < vendorListItems.length; j++) {
+      const vendorListItem = vendorListItems[j]
+
+        const vendorListItemPurchase = vendorListItem.purchase
+
+
+        const vendorListItemPurchaseTraits = vendorListItemPurchase.trait
+        
+        for (const k in vendorListItemPurchaseTraits) {
+          switch (k){
+            case "id":
+              fixedItemsVendor.push(vendorListItemPurchaseTraits[k])
+
+          }
+
+
+        }
+    }
+  } 
+
   const icon = gear.icon.replace(/\\/g, "/").toLowerCase()
   const iconDst = convertIconName(icon + "_" + gear.traittype.toLowerCase())
   await downloadImage(icon + ".png", "../src/assets/gear/" + iconDst + ".png")
@@ -64,7 +92,7 @@ async function convertGear(gear) {
     rarity: convertRarity(gear.rarity),
     effects: effects.filter(duplicateEffects),
     fixed:
-      gear.event !== undefined || reforgeBlacklist.some(g => g === gear.name)
+      gear.event !== undefined || reforgeBlacklist.some(g => g === gear.name) || fixedItemsVendor.some(v => v === gear.name)
   }
 }
 
@@ -75,3 +103,5 @@ function includeGear(gear) {
     gear.itemlevels[0] != 0
   )
 }
+
+
