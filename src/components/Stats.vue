@@ -345,15 +345,7 @@ export default {
           break
         case "MaximumRange":
           for (let keyRange in stats) {
-            if (keyRange === "MaximumRange") {
-              this.setBaseStat(stats, keyRange)
-              stats[keyRange] *= mod
-            }
-          }
-          break
-        case "MaximumRange2":
-          for (let keyRange in stats) {
-            if (keyRange === "MaximumRange2") {
+            if (keyRange.startsWith("MaximumRange")) {
               this.setBaseStat(stats, keyRange)
               stats[keyRange] *= mod
             }
