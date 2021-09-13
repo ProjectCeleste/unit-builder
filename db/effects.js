@@ -134,8 +134,10 @@ export async function convertEffects(effects, civ, isAdvisor) {
       }
     } else if (type === "DamageBonusReduction") {
       type = "ArmorDamageBonus"
+    } else if (type === "MaximumRange" && e.action == "RangedAttack2") {
+        type = "MaximumRange2"
     } else if (
-      (type === "MaximumRange" && !e.action.startsWith("RangedAttack")) ||
+      (type === "MaximumRange" && e.action !== "RangedAttack") ||
       type === "ActionEnable"
     ) {
       type += e.action
