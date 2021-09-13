@@ -28,6 +28,11 @@ export async function buildUnits() {
     results[civ].sort(compareUnits).sort(compareUnitTypes)
   }
 
+  
+  const enneris = results['roman'].find(u => u.id === 'Ro_Shp_Enneris')
+  delete enneris.stats['DamageSiegeMeleeAttack']
+
+
   return { front: results, server: await buildUnitsForServer(results) }
 }
 
@@ -94,7 +99,8 @@ async function convertUnit(unit, tech, equipment) {
       equipment.civ.toLowerCase(),
       false
     )
-  ).filter(e => e.target === unit.name)
+  ).filter(e => e.target === unit.name )
+    
   additionalStats.forEach(e => {
     if (
       (e.type.startsWith("Armor") && e.type !== "ArmorVulnerability") ||
@@ -116,6 +122,7 @@ async function convertUnit(unit, tech, equipment) {
     stats: stats,
     inactiveActions: inactiveActions
   }
+
   return u
 }
 
