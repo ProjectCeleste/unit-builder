@@ -222,7 +222,14 @@ export default {
       this.milestones = {}
     },
     onUnitSelected() {
+      const originalUnitAdvisors = this.advisors
+      const originalUnitMilestones = this.milestones
+      const originalUnitSelection = this.modelValue.selection
       this.reset()
+      if (this.selection.civ === originalUnitSelection.civ) {
+        this.advisors = originalUnitAdvisors
+        this.milestones = originalUnitMilestones
+      }
     }
   }
 }
