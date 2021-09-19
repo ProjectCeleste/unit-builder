@@ -156,6 +156,10 @@ export function parseAction(action, stats, inactiveActions) {
       let type = "Damage" + action.DamageType
       if (action.Name === "BurningAttack" || action.Name === "PoisonAttack") {
         type = name
+        //The Tactics of All Fortresses shows the BurningAttack and this should be ignored. The Upgrade from the Norse Fortress still reactivates this.
+        if (unit.name.endsWith("_Bldg_Fortress")) {
+          inactiveActions.push(type)
+        }
       }
       stats[type] = action.Damage
       if (action.Active === 0) {
