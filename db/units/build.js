@@ -27,8 +27,8 @@ export async function buildUnits() {
   for (let civ in results) {
     results[civ].sort(compareUnits).sort(compareUnitTypes)
   }
-
   
+
   const enneris = results['roman'].find(u => u.id === 'Ro_Shp_Enneris')
   delete enneris.stats['DamageSiegeMeleeAttack']
 
@@ -56,6 +56,7 @@ export async function buildUnits() {
 
   return { front: results, server: await buildUnitsForServer(results) }
 }
+
 
 async function buildUnitsForServer(units) {
   console.log("Building units for server...")
@@ -121,18 +122,25 @@ async function convertUnit(unit, tech, equipment) {
       false
     )
   ).filter(e => e.target === unit.name )
-    
+  
   additionalStats.forEach(e => {
     if (
       (e.type.startsWith("Armor") && e.type !== "ArmorVulnerability") ||
-      e.type === "TargetSpeedBoostResist" ||
-      e.type === "ConvertResist"
+      e.type === "TargetSpeedBoostResist"
     ) {
       stats[e.type] = 1 - 1 / e.amount
     } else {
       stats[e.type] = e.amount
     }
   })
+
+  if (!stats["ConvertResist"] && (unit.UnitType.includes('AbstractPriest') || unit.UnitType.includes('AbstractArtillery'))) {
+    stats["ConvertResist"] = 2
+  }
+  if (!stats["ConvertResist"] && !unit.UnitType.includes('Building')) {
+    stats["ConvertResist"] = 1
+  }
+
 
   const u = {
     id: unit.name,
