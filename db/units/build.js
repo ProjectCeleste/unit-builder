@@ -32,28 +32,6 @@ export async function buildUnits() {
   const enneris = results['roman'].find(u => u.id === 'Ro_Shp_Enneris')
   delete enneris.stats['DamageSiegeMeleeAttack']
 
-  
-  const gr_Bldg_Fortress = results['greek'].find(u => u.id === 'Gr_Bldg_Fortress')
-  gr_Bldg_Fortress.inactiveActions[0] = 'BurningAttack'
-
-  const eg_Bldg_Fortress = results['egyptian'].find(u => u.id === 'Eg_Bldg_Fortress')
-  eg_Bldg_Fortress.inactiveActions[0] = 'BurningAttack'
-
-  const ce_Bldg_Fortress = results['celtic'].find(u => u.id === 'Ce_Bldg_Fortress')
-  ce_Bldg_Fortress.inactiveActions[0] = 'BurningAttack'
-
-  const pe_Bldg_Fortress = results['persian'].find(u => u.id === 'Pe_Bldg_Fortress')
-  pe_Bldg_Fortress.inactiveActions[0] = 'BurningAttack'
-
-  const ro_Bldg_Fortress = results['roman'].find(u => u.id === 'Ro_Bldg_Fortress')
-  ro_Bldg_Fortress.inactiveActions[0] = 'BurningAttack'
-
-  const ba_Bldg_Fortress = results['babylonian'].find(u => u.id === 'Ba_Bldg_Fortress')
-  ba_Bldg_Fortress.inactiveActions[0] = 'BurningAttack'
-  
-
-
-
   return { front: results, server: await buildUnitsForServer(results) }
 }
 
@@ -137,10 +115,18 @@ async function convertUnit(unit, tech, equipment) {
   if (!stats["ConvertResist"] && (unit.UnitType.includes('AbstractPriest') || unit.UnitType.includes('AbstractArtillery'))) {
     stats["ConvertResist"] = 2
   }
-  if (!stats["ConvertResist"] && !unit.UnitType.includes('Building')) {
+
+  if (!stats["ConvertResist"] && !(unit.UnitType.includes('Building') || unit.name === 'Ro_Inf_Aquilifer' || unit.name === 'Ro_Cav_PrimusPilus' || unit.name === 'No_Inf_Chief')) {
     stats["ConvertResist"] = 1
   }
 
+  if (unit.name === 'Ro_Inf_Aquilifer' || unit.name === 'Ro_Cav_PrimusPilus' || unit.name === 'No_Inf_Chief') {
+    stats["ConvertResist"] = 0
+  }
+
+  if (unit.name.endsWith('_Bldg_Fortress')) {
+    inactiveActions.push('BurningAttack')
+  }
 
   const u = {
     id: unit.name,

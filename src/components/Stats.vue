@@ -92,6 +92,13 @@ export default {
       for (let key in this.unit.stats) {
         stats[key] = this.unit.stats[key]
       }
+      if (
+        this.unit.id === "Ro_Inf_Aquilifer" ||
+        this.unit.id === "Ro_Cav_PrimusPilus" ||
+        this.unit.id === "No_Inf_Chief"
+      ) {
+        stats["ConvertResist"] = Infinity
+      }
 
       // Remove stats from inactive actions
       this.unit.inactiveActions.forEach(a => {
@@ -405,6 +412,13 @@ export default {
 
           this.setBaseStat(stats, effect.type)
           stats[effect.type] *= mod
+      }
+      if (
+        this.unit.id === "Ro_Inf_Aquilifer" ||
+        this.unit.id === "Ro_Cav_PrimusPilus" ||
+        this.unit.id === "No_Inf_Chief"
+      ) {
+        stats["ConvertResist"] = Infinity
       }
     }
   }
