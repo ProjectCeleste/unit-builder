@@ -116,13 +116,10 @@ async function convertUnit(unit, tech, equipment) {
     stats["ConvertResist"] = 2
   }
 
-  if (!stats["ConvertResist"] && !(unit.UnitType.includes('Building') || unit.name === 'Ro_Inf_Aquilifer' || unit.name === 'Ro_Cav_PrimusPilus' || unit.name === 'No_Inf_Chief')) {
+  if (!stats["ConvertResist"]) {
     stats["ConvertResist"] = 1
   }
 
-  if (unit.name === 'Ro_Inf_Aquilifer' || unit.name === 'Ro_Cav_PrimusPilus' || unit.name === 'No_Inf_Chief') {
-    stats["ConvertResist"] = 0
-  }
 
   if (unit.name.endsWith('_Bldg_Fortress')) {
     inactiveActions.push('BurningAttack')

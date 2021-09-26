@@ -95,9 +95,17 @@ export default {
       if (
         this.unit.id === "Ro_Inf_Aquilifer" ||
         this.unit.id === "Ro_Cav_PrimusPilus" ||
-        this.unit.id === "No_Inf_Chief"
+        this.unit.id === "No_Inf_Chief" ||
+        this.unit.types.includes("Ship")
       ) {
         stats["ConvertResist"] = Infinity
+      }
+      if (this.unit.id === "Eg_Spc_PriestPtah") {
+        effects.ConvertStandardConvertable.name =
+          "Conversion Rate incl Buildings"
+      }
+      if (this.unit.id !== "Eg_Spc_PriestPtah") {
+        effects.ConvertStandardConvertable.name = "Conversion Rate"
       }
 
       // Remove stats from inactive actions
@@ -416,7 +424,8 @@ export default {
       if (
         this.unit.id === "Ro_Inf_Aquilifer" ||
         this.unit.id === "Ro_Cav_PrimusPilus" ||
-        this.unit.id === "No_Inf_Chief"
+        this.unit.id === "No_Inf_Chief" ||
+        this.unit.types.includes("Ship")
       ) {
         stats["ConvertResist"] = Infinity
       }
