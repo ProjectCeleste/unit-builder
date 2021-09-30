@@ -96,7 +96,9 @@ export default {
         this.unit.id === "Ro_Inf_Aquilifer" ||
         this.unit.id === "Ro_Cav_PrimusPilus" ||
         this.unit.id === "No_Inf_Chief" ||
-        this.unit.types.includes("Ship")
+        this.unit.types.includes("Ship") ||
+        this.unit.id.endsWith("_Bldg_Fortress") ||
+        this.unit.id.endsWith("_Bldg_TownCenter")
       ) {
         stats["ConvertResist"] = Infinity
       }
@@ -425,7 +427,9 @@ export default {
         this.unit.id === "Ro_Inf_Aquilifer" ||
         this.unit.id === "Ro_Cav_PrimusPilus" ||
         this.unit.id === "No_Inf_Chief" ||
-        this.unit.types.includes("Ship")
+        this.unit.types.includes("Ship") ||
+        this.unit.id.endsWith("_Bldg_Fortress") ||
+        this.unit.id.endsWith("_Bldg_TownCenter")
       ) {
         stats["ConvertResist"] = Infinity
       }

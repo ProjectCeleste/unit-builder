@@ -112,7 +112,7 @@ async function convertUnit(unit, tech, equipment) {
     }
   })
 
-  if (!stats["ConvertResist"] && (unit.UnitType.includes('AbstractPriest') || unit.UnitType.includes('AbstractArtillery'))) {
+  if (!stats["ConvertResist"] && (unit.UnitType.includes('AbstractPriest') || unit.UnitType.includes('AbstractArtillery') || unit.UnitType.includes('Building'))) {
     stats["ConvertResist"] = 2
   }
 
