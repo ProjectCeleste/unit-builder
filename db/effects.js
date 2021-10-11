@@ -303,6 +303,26 @@ const templates = {
     icon: "NONE",
     sort: 0
   },
+  ActionEnableSpawnSheep_C: {
+    name: "Spawn Sheep every 30s",
+    icon: "NONE",
+    sort: 0
+  },
+  ActionEnableSpawnSheep_U: {
+    name: "Spawn Sheep every 25s",
+    icon: "NONE",
+    sort: 0
+  },
+  ActionEnableSpawnSheep_R: {
+    name: "Spawn Sheep every 20s",
+    icon: "NONE",
+    sort: 0
+  },
+  ActionEnableSpawnSheep_E: {
+    name: "Spawn Sheep every 15s",
+    icon: "NONE",
+    sort: 0
+  },
   ActionEnableServilia_C: {
     name: "Increase Villagers and Caravan Speed by 4%",
     icon: "NONE",

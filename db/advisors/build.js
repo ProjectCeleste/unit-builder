@@ -67,6 +67,23 @@ async function convertAdvisor(a) {
   }
 
   let effects = await convertEffects(tech.Effects.effect, advisor.civ, true)
+  
+  if (a.name === "Leucon_C_I") {
+    effects.push({"type":"BuildWatchPost","absolute":false,"amount":1.55,"target":"UnitTypeScout1"})
+  }
+
+  if (a.name === "Leucon_U_I") {
+    effects.push({"type":"BuildWatchPost","absolute":false,"amount":1.70,"target":"UnitTypeScout1"})
+  }
+
+  if (a.name === "Leucon_R_I") {
+    effects.push({"type":"BuildWatchPost","absolute":false,"amount":1.85,"target":"UnitTypeScout1"})
+  }
+
+  if (a.name === "Leucon_E_I") {
+    effects.push({"type":"BuildWatchPost","absolute":false,"amount":2,"target":"UnitTypeScout1"})
+  }
+
 
   advisor.rarities.push({
     description: findLang(stringtablex, a.displaydescriptionid),
