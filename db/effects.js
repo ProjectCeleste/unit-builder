@@ -128,6 +128,9 @@ export async function convertEffects(effects, civ, isAdvisor) {
         case "RangedAttack":
           type += "DamageRanged"
           break
+          case "BurningAttack":
+            type += "DamageRanged"
+            break
         case "RangedAttack2":
           type += "DamageRanged2"
           break
