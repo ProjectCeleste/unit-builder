@@ -98,16 +98,10 @@ export default {
         this.unit.id === "No_Inf_Chief" ||
         this.unit.types.includes("Ship") ||
         this.unit.id.endsWith("_Bldg_Fortress") ||
-        this.unit.id.endsWith("_Bldg_TownCenter")
+        this.unit.id.endsWith("_Bldg_TownCenter") ||
+        this.unit.types.includes("AbstractWall")
       ) {
         stats["ConvertResist"] = Infinity
-      }
-      if (this.unit.id === "Eg_Spc_PriestPtah") {
-        effects.ConvertStandardConvertable.name =
-          "Conversion Rate incl Buildings"
-      }
-      if (this.unit.id !== "Eg_Spc_PriestPtah") {
-        effects.ConvertStandardConvertable.name = "Conversion Rate"
       }
 
       // Remove stats from inactive actions
@@ -429,7 +423,8 @@ export default {
         this.unit.id === "No_Inf_Chief" ||
         this.unit.types.includes("Ship") ||
         this.unit.id.endsWith("_Bldg_Fortress") ||
-        this.unit.id.endsWith("_Bldg_TownCenter")
+        this.unit.id.endsWith("_Bldg_TownCenter") ||
+        this.unit.types.includes("AbstractWall")
       ) {
         stats["ConvertResist"] = Infinity
       }

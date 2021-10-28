@@ -1,9 +1,10 @@
 import { downloadImage, getUnits, getTechtree, getEquipments } from "../api.js"
-import { convertEffects } from "../effects.js"
+import { convertEffects, addEffect } from "../effects.js"
 import { stringtablex, findLang } from "../lang.js"
 import { unitTypes } from "../unit_types.js"
 import { convertIconName, findByAttribute } from "../utils.js"
 import { convertUnitStats } from "./convert-stats.js"
+
 
 export async function buildUnits() {
   console.log("Building units...")
@@ -112,7 +113,7 @@ async function convertUnit(unit, tech, equipment) {
     }
   })
 
-  if (!stats["ConvertResist"] && (unit.UnitType.includes('AbstractPriest') || unit.UnitType.includes('AbstractArtillery') || unit.UnitType.includes('Building'))) {
+  if (!stats["ConvertResist"] && (unit.UnitType.includes('AbstractPriest') || unit.UnitType.includes('AbstractArtillery'))) {
     stats["ConvertResist"] = 2
   }
 
@@ -120,6 +121,11 @@ async function convertUnit(unit, tech, equipment) {
     stats["ConvertResist"] = 1
   }
 
+
+  if (unit.name === 'Eg_Spc_PriestPtah') {
+    stats["ConvertConvertableBuilding"] = 30
+    addEffect("ConvertConvertableBuilding")
+  }
 
   if (unit.name.endsWith('_Bldg_Fortress')) {
     inactiveActions.push('BurningAttack')

@@ -188,8 +188,8 @@ export async function convertEffects(effects, civ, isAdvisor) {
   return res
 }
 
-export function addEffect(name) {
-  if (name.startsWith("Convert") && name !== "ConvertResist") {
+export async function addEffect(name) {
+  if (name.startsWith("Convert") && name !== "ConvertResist" && name !== "ConvertConvertableBuilding") {
     addEffect(name.replace("Convert", "Chaos"))
   }
   if (!effects[name]) {
@@ -449,23 +449,23 @@ const templates = {
   AreaDamageReduction: {
     name: "Splash Damage Reduction",
     icon: "AreaDamageReduction",
-    sort: 80
+    sort: 81
   },
   BuildingWorkRate: {
     name: "Train/Research Rate",
     icon: "BuildPoints",
-    sort: 74
+    sort: 75
   },
   BuildPoints: {
     name: "Build Time",
     icon: "BuildPoints",
-    sort: 88,
+    sort: 89,
     lowerIsBetter: true
   },
   ConvertResist: {
     name: "Conversion Resistance",
     icon: "ConvertResist",
-    sort: 81
+    sort: 82
   },
   CostAll: { name: "Cost", icon: "Cost", sort: 0, lowerIsBetter: true },
   CostFood: {
@@ -498,7 +498,7 @@ const templates = {
     sort: 0,
     lowerIsBetter: true
   },
-  BuildLimit: { name: "Build Limit", icon: "BuildLimit", sort: 86 },
+  BuildLimit: { name: "Build Limit", icon: "BuildLimit", sort: 87 },
   Damage: { name: "Damage", icon: "DamageHand", sort: 0 },
   DamageMeleeAttack: { name: "Melee Damage", icon: "DamageHand", sort: 0 },
   DamageRangedAttack: { name: "Pierce Damage", icon: "DamageRanged", sort: 0 },
@@ -507,7 +507,7 @@ const templates = {
   ArmorDamageBonus: {
     name: "Bonus Damage Protection",
     icon: "DamageBonusReduction",
-    sort: 79
+    sort: 80
   },
   HitPercent: { name: "Critical Hit Chance", icon: "CriticalHit", sort: 31 },
   HitPercentDamageMultiplier: {
@@ -516,7 +516,7 @@ const templates = {
     sort: 32
   },
   Hitpoints: { name: "Health", icon: "Hitpoints", sort: 0 },
-  LOS: { name: "Line-of-sight", icon: "LOS", sort: 83 },
+  LOS: { name: "Line-of-sight", icon: "LOS", sort: 84 },
   MaximumRange: { name: "Maximum Range", icon: "MaximumRange", sort: 50 },
   MaximumRangeBurningAttack: {
     name: "Maximum Range",
@@ -532,27 +532,27 @@ const templates = {
   MaximumRangeConvert: {
     name: "Maximum Conversion Range",
     icon: "MaximumRange",
-    sort: 61
+    sort: 62
   },
   MaximumRangeChaos: {
     name: "Maximum Chaos Range",
     icon: "MaximumRange",
-    sort: 62
+    sort: 63
   },
   MaximumRangeHeal: {
     name: "Maximum Healing Range",
     icon: "MaximumRange",
-    sort: 66
+    sort: 67
   },
   MaximumRangeAreaHeal: {
     name: "Maximum Healing Range",
     icon: "MaximumRange",
-    sort: 66
+    sort: 67
   },
   MaximumVelocity: {
     name: "Movement Speed",
     icon: "MaximumVelocity",
-    sort: 84
+    sort: 85
   },
   TargetSpeedBoost: {
     name: "Snare",
@@ -563,18 +563,18 @@ const templates = {
   TargetSpeedBoostResist: {
     name: "Snare Resist",
     icon: "SnareResist",
-    sort: 82
+    sort: 83
   },
   TrainPoints: {
     name: "Train Time",
     icon: "BuildPoints",
-    sort: 87,
+    sort: 88,
     lowerIsBetter: true
   },
-  ArmorRanged: { name: "Pierce Armor", icon: "ArmorRanged", sort: 76 },
-  ArmorSiege: { name: "Crush Armor", icon: "ArmorSiege", sort: 78 },
-  ArmorHand: { name: "Melee-Infantry Armor", icon: "ArmorHand", sort: 75 },
-  ArmorCavalry: { name: "Melee-Cavalry Armor", icon: "ArmorCavalry", sort: 77 },
+  ArmorRanged: { name: "Pierce Armor", icon: "ArmorRanged", sort: 77 },
+  ArmorSiege: { name: "Crush Armor", icon: "ArmorSiege", sort: 79 },
+  ArmorHand: { name: "Melee-Infantry Armor", icon: "ArmorHand", sort: 76 },
+  ArmorCavalry: { name: "Melee-Cavalry Armor", icon: "ArmorCavalry", sort: 78 },
   ConvertStandardConvertable: {
     name: "Conversion Rate",
     icon: "ConvertStandardConvertable",
@@ -613,38 +613,44 @@ const templates = {
     sort: 60,
     lowerIsBetter: true
   },
-  Trade: { name: "Trade", icon: "Cost", sort: 67 },
-  RateHeal: { name: "Healing", icon: "RateHeal", sort: 63 },
-  RateAreaHeal: { name: "Healing", icon: "RateHeal", sort: 63 },
-  RateHealInCombat: { name: "Healing", icon: "RateHeal", sort: 64 },
-  RateAreaHealInCombat: { name: "Healing", icon: "RateHeal", sort: 64 },
-  HealArea: { name: "Healing Area", icon: "HealArea", sort: 65 },
-  AreaHealArea: { name: "Healing Area", icon: "HealArea", sort: 65 },
+  ConvertConvertableBuilding: {
+    name: "Convert Building Rate",
+    icon: "ConvertStandardConvertable",
+    sort: 61,
+    lowerIsBetter: true
+  },
+  Trade: { name: "Trade", icon: "Cost", sort: 68 },
+  RateHeal: { name: "Healing", icon: "RateHeal", sort: 64 },
+  RateAreaHeal: { name: "Healing", icon: "RateHeal", sort: 64 },
+  RateHealInCombat: { name: "Healing", icon: "RateHeal", sort: 65 },
+  RateAreaHealInCombat: { name: "Healing", icon: "RateHeal", sort: 65 },
+  HealArea: { name: "Healing Area", icon: "HealArea", sort: 66 },
+  AreaHealArea: { name: "Healing Area", icon: "HealArea", sort: 66 },
   Build: {
     name: "Buildings Construction Speed",
     icon: "ConstructionSpeed",
-    sort: 68
+    sort: 69
   },
-  WorkRateRepair: { name: "Repair Speed", icon: "ConstructionSpeed", sort: 70 },
+  WorkRateRepair: { name: "Repair Speed", icon: "ConstructionSpeed", sort: 71 },
   BuildWatchPost: {
     name: "Watch Post Construction Speed",
     icon: "WatchPostConstruction",
-    sort: 69
+    sort: 70
   },
   EmpowerDropsite: {
     name: "Empower Dropoff",
     icon: "EmpowerDropsite",
-    sort: 71
+    sort: 72
   },
   EmpowerActionTrain: {
     name: "Empower Train Rate",
     icon: "EmpowerActionTrain",
-    sort: 72
+    sort: 73
   },
   EmpowerActionBuild: {
     name: "Empower Build Rate",
     icon: "EmpowerActionBuild",
-    sort: 73
+    sort: 74
   },
   DamageBonusAbstractInfantry: {
     name: "Bonus vs. Infantry",
@@ -739,7 +745,7 @@ const templates = {
   MaximumContained: {
     name: "Transport Capacity",
     icon: "PopulationCount",
-    sort: 85
+    sort: 86
   },
   AOERadius: {
     name: "Charge Attack Damage Area",
