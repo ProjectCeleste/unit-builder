@@ -1,5 +1,5 @@
 import { downloadImage, getUnits, getTechtree, getEquipments } from "../api.js"
-import { convertEffects, addEffect } from "../effects.js"
+import { convertEffects } from "../effects.js"
 import { stringtablex, findLang } from "../lang.js"
 import { unitTypes } from "../unit_types.js"
 import { convertIconName, findByAttribute } from "../utils.js"
@@ -124,7 +124,6 @@ async function convertUnit(unit, tech, equipment) {
 
   if (unit.name === 'Eg_Spc_PriestPtah') {
     stats["ConvertConvertableBuilding"] = 30
-    addEffect("ConvertConvertableBuilding")
   }
 
   if (unit.name.endsWith('_Bldg_Fortress')) {

@@ -188,7 +188,7 @@ export async function convertEffects(effects, civ, isAdvisor) {
   return res
 }
 
-export async function addEffect(name) {
+export function addEffect(name) {
   if (name.startsWith("Convert") && name !== "ConvertResist" && name !== "ConvertConvertableBuilding") {
     addEffect(name.replace("Convert", "Chaos"))
   }
