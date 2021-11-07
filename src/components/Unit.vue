@@ -38,6 +38,31 @@
             />
           </div>
         </div>
+        <div>
+          <span>&nbsp;</span>
+          <div v-for="type in selection.unit.types" :key="type">
+            <div v-if="type.indexOf('UnitType') > -1"></div>
+            <div v-else-if="type.indexOf('AbstractPriest') > -1">
+              <div v-if="selection.unit.stats.ConvertStandardConvertable > 0">
+                Converting Priest
+              </div>
+              <div v-else>
+                Non-Converting Priest
+              </div>
+            </div>
+            <div v-else-if="type.indexOf('Abstract') > -1">
+              {{
+                type
+                  .replace("Abstract", "")
+                  .replace("Archer", "Ranged")
+                  .replace("Artillery", "Siege")
+              }}
+            </div>
+            <div v-else>
+              {{ type }}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <Collapse
