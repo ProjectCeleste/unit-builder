@@ -99,7 +99,8 @@ export default {
         this.unit.types.includes("Ship") ||
         this.unit.id.endsWith("_Bldg_Fortress") ||
         this.unit.id.endsWith("_Bldg_TownCenter") ||
-        this.unit.types.includes("AbstractWall")
+        this.unit.types.includes("AbstractWall") ||
+        this.unit.id.includes("Wonder")
       ) {
         stats["ConvertResist"] = Infinity
       }
@@ -424,7 +425,8 @@ export default {
         this.unit.types.includes("Ship") ||
         this.unit.id.endsWith("_Bldg_Fortress") ||
         this.unit.id.endsWith("_Bldg_TownCenter") ||
-        this.unit.types.includes("AbstractWall")
+        this.unit.types.includes("AbstractWall") ||
+        this.unit.id.includes("Wonder")
       ) {
         stats["ConvertResist"] = Infinity
       }
