@@ -269,7 +269,9 @@ function getType(effectName) {
   ) {
     return "persecond" // ends with "/s"
   }
-  if (effectName === "HitPercent") {
+  if (effectName === "HitPercent" ||
+     effectName === "ArmorVulnerability"
+  ) {
     return "percent" // ends with "%"
   }
   if (

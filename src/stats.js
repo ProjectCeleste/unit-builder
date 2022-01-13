@@ -13,6 +13,21 @@ export function min(effect, level) {
   return med(effect, level) * 0.95
 }
 
+export function med_temp(effect, level) {
+  if (effect.absolute) {
+    return effect.amount + effect.scaling * level
+  }
+  return effect.amount + effect.scaling * level
+}
+
+export function min_temp(effect, level) {
+  return (med(effect, level) - 1) * 1.05 + 1
+}
+
+export function max_temp(effect, level) {
+  return (med(effect, level) - 1) * 0.95 + 1
+}
+
 export function toDisplay(effect, value) {
   return effect.type === "WorkRateSelfHeal"
     ? value.toFixed(2)

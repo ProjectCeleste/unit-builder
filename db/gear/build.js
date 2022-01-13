@@ -92,7 +92,7 @@ async function convertGear(gear) {
     rarity: convertRarity(gear.rarity),
     effects: effects.filter(duplicateEffects),
     fixed:
-      gear.event !== undefined || reforgeBlacklist.some(g => g === gear.name) || fixedItemsVendor.some(v => v === gear.name)
+      reforgeBlacklist.some(g => g === gear.name) || fixedItemsVendor.some(v => v === gear.name)
   }
 }
 

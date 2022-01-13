@@ -31,6 +31,24 @@
           <span v-if="item.fixed" class="has-text-right">{{
             toDisplay(effect, med(effect, item.levels[item.levels.length - 1]))
           }}</span>
+          <span
+            v-else-if="effect.type === 'ArmorVulnerability'"
+            class="nowrap has-text-right"
+          >
+            {{
+              toDisplay(
+                effect,
+                min_temp(effect, item.levels[item.levels.length - 1])
+              )
+            }}
+            &nbsp;-&nbsp;
+            {{
+              toDisplay(
+                effect,
+                max_temp(effect, item.levels[item.levels.length - 1])
+              )
+            }}
+          </span>
           <span v-else class="nowrap has-text-right">
             {{
               toDisplay(
@@ -47,6 +65,9 @@
             }}
           </span>
           <span v-if="!effect.absolute && effect.type !== 'WorkRateSelfHeal'">
+            %
+          </span>
+          <span v-if="effect.type === 'ArmorVulnerability'">
             %
           </span>
           <span v-if="effect.type === 'WorkRateSelfHeal'">/s</span>
@@ -89,7 +110,7 @@
 import Icon from "./Icon.vue"
 import CostStats from "./CostStats.vue"
 import effects from "../data/effects.json"
-import { med, min, max, toDisplay } from "../stats.js"
+import { med, min, max, toDisplay, min_temp, max_temp } from "../stats.js"
 import { rarityClass } from "../rarity.js"
 
 export default {
@@ -116,6 +137,8 @@ export default {
     med,
     min,
     max,
+    min_temp,
+    max_temp,
     toDisplay,
     effectName(effect) {
       return effects[effect.type].name
