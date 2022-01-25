@@ -117,6 +117,10 @@ async function convertUnit(unit, tech, equipment) {
     stats["ConvertResist"] = 2
   }
 
+  if (unit.name === 'Ro_Inf_Centurion' || unit.name === 'Ro_Cav_Decurion') {
+    stats["ConvertResist"] = 2
+  }
+
   if (!stats["ConvertResist"]) {
     stats["ConvertResist"] = 1
   }
