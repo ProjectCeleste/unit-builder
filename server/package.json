@@ -1,63 +1,14 @@
 {
-  "name": "unit-builder",
-  "version": "0.1.0",
-  "private": true,
-  "author": "Jérémy LAMBERT (System-Glitch)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ProjectCeleste/unit-builder/issues"
-  },
-  "homepage": "https://github.com/ProjectCeleste/unit-builder/#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ProjectCeleste/unit-builder.git"
-  },
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "build-prod": "vue-cli-service build && rm dist/robots.txt && mv dist/robots.prod.txt dist/robots.txt",
-    "lint": "vue-cli-service lint",
-    "db": "cd db && node main.js",
-    "generate": "npm run db && npm run sitemap && npm run gulp",
-    "gulp": "gulp",
-    "sitemap": "rm public/sitemap.xml && vue-cli-service sitemap"
-  },
-  "dependencies": {
-    "@vue/cli-plugin-babel": "^4.5.17",
-    "@vue/cli-plugin-eslint": "^4.5.17",
-    "@vue/cli-plugin-pwa": "^4.5.17",
-    "@vue/cli-plugin-vuex": "^4.5.17",
-    "@vue/cli-service": "^4.5.17",
-    "@vue/compiler-sfc": "^3.2.31",
-    "@vue/eslint-config-prettier": "^6.0.0",
-    "axios": "^0.24.0",
-    "babel-eslint": "^10.1.0",
-    "bulma": "0.9.1",
-    "core-js": "^3.21.1",
-    "eslint": "^6.7.2",
-    "eslint-config-prettier": "^6.15.0",
-    "eslint-plugin-prettier": "^3.3.1",
-    "eslint-plugin-vue": "^7.5.0",
-    "lodash.clonedeep": "^4.5.0",
-    "node-sass": "^4.12.0",
-    "postcss": "^8.4.12",
-    "prettier": "^1.19.1",
-    "register-service-worker": "^1.7.2",
-    "sass-loader": "^8.0.2",
-    "source-map-generator": "^0.8.0",
-    "terser": "^5.12.1",
-    "util-deprecate": "^1.0.2",
-    "vue": "^3.2.31",
-    "vue-cli-plugin-sitemap": "~2.3.0",
-    "vuex": "^4.0.0-rc.2"
-  },
-  "devDependencies": {
-    "del": "^6.0.0",
-    "gulp": "^4.0.2",
-    "gulp-debug": "^4.0.0",
-    "gulp-responsive": "^3.0.1",
-    "gulp-webp": "^4.0.1",
-    "gulp.spritesmith": "^6.11.0",
-    "merge-stream": "^2.0.0"
-  }
+    "type": "module",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "dependencies": {
+        "@keyv/sqlite": "^2.0.2",
+        "body-parser": "^1.19.0",
+        "cors": "^2.8.5",
+        "express": "^4.17.1",
+        "keyv": "^4.0.3"
+    }
 }
