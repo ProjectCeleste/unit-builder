@@ -269,9 +269,7 @@ function getType(effectName) {
   ) {
     return "persecond" // ends with "/s"
   }
-  if (effectName === "HitPercent" ||
-     effectName === "ArmorVulnerability"
-  ) {
+  if (effectName === "HitPercent") {
     return "percent" // ends with "%"
   }
   if (
@@ -283,7 +281,7 @@ function getType(effectName) {
     return "time" // ends with "s"
   }
 
-  return "normal" // value displayed with prefix nor suffix
+  return "normal" // value displayed with neither prefix nor suffix
 }
 
 const templates = {
