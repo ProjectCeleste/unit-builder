@@ -714,14 +714,14 @@ const templates = {
     icon: "DamageBonusAbstractCavalry",
     sort: 36
   },
-  AttackSpeed: { name: "Rate-of-fire", icon: "DamageOverTime", sort: 0 },
+  AttackSpeed: { name: "Attack Rate", icon: "DamageOverTime", sort: 0 },
   AttackSpeedDamageRanged: {
-    name: "Ranged Rate-of-fire",
+    name: "Ranged Attack Rate",
     icon: "DamageOverTime",
     sort: 0
   },
   AttackSpeedDamageRanged2: {
-    name: "Alt. Ranged Attack Rate-of-fire",
+    name: "Alt. Ranged Attack Rate",
     icon: "DamageOverTime",
     sort: 0
   },
