@@ -164,8 +164,14 @@ export async function convertEffects(effects, civ, isAdvisor) {
       if (ignoredTargets.includes(e.target.type)) {
         continue
       }
-      effect.target = e.target.text
-      addUnitType(e.target.text)
+      if (type === "ConvertConvertableBuilding") {
+        effect.target = "Eg_Spc_PriestPtah"
+        addUnitType("Eg_Spc_PriestPtah")
+      }
+      else {
+        effect.target = e.target.text
+        addUnitType(e.target.text)
+      }
     } else {
       effect.scaling = parseFloat(e.scaling)
     }
