@@ -89,7 +89,7 @@ export function effectAppliesToUnit(e, unit) {
     if (
       e.type.startsWith("Convert") &&
       e.type !== "ConvertResist" &&
-      unit.stats.ConvertStandardConvertable === undefined
+      !unit.types.indexOf("AbstractPriest") > 0
     ) {
       return false
     }
