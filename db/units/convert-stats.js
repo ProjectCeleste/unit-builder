@@ -50,6 +50,36 @@ export async function convertUnitStats(unit) {
   if (unit.LOS) {
     stats["LOS"] = unit.LOS
   }
+    
+  /*For Charge actions because they are not available on unit by default, sometimes can be upgraded*/
+
+  if (!stats["ChargeAbility"] && unit.UnitType.includes("Military")) {
+      stats["ChargeAbility"] = 0
+      inactiveActions.push("ChargeAbility")
+      inactiveActions.push("ChargeDamageMultiplier")
+      inactiveActions.push("ChargeRange")
+      inactiveActions.push("ChargeSpeedBoost")
+      inactiveActions.push("ChargeCooldown")
+  } 
+
+  if (unit.name === 'Ro_Inf_Centurion' || unit.name === 'Ro_Cav_Decurion') {
+        stats["ConvertResist"] = 2
+    }
+    else if (unit.UnitType.includes('AbstractPriest') || 
+             unit.UnitType.includes('AbstractArtillery')) {
+              stats["ConvertResist"] = 2
+      }
+    else if (unit.UnitType.includes("ConvertableInfantry") || 
+      unit.UnitType.includes("ConvertableCavalry") || 
+      unit.UnitType.includes("ConvertableSiege") || 
+      unit.UnitType.includes("ConvertableBuilding") || 
+      unit.UnitType.includes("StandardConvertable")) {
+        stats["ConvertResist"] = 1
+      }
+    else {
+        stats["ConvertResist"] = 1000
+      }
+    
 
   if (unit.MaxVelocity) {
     stats["MaximumVelocity"] = unit.MaxVelocity
@@ -150,7 +180,7 @@ export function parseAction(action, stats, inactiveActions) {
       }
       stats["Damage" + action.DamageType + actionName] = action.Damage
       if (action.Active === 0) {
-        inactiveActions.push(actionName)
+        inactiveActions.push("Damage" + action.DamageType + actionName)
       }
     } else {
       let type = "Damage" + action.DamageType
@@ -163,11 +193,14 @@ export function parseAction(action, stats, inactiveActions) {
       }
     }
 
-    if (action.DamageArea === 0) {
-      delete stats["DamageArea"]
-    } else if (action.DamageArea) {
-      stats["DamageArea"] = action.DamageArea
+    if (action.DamageArea > 0) {
+      stats[name + "DamageArea"] = action.DamageArea
+      if (action.Active === 0) {
+        inactiveActions.push(name + "DamageArea")
+      }
     }
+
+    
   } else if (action.Damage) {
     const damageType = findDamageType(stats)
     if (damageType) {
@@ -182,7 +215,7 @@ export function parseAction(action, stats, inactiveActions) {
         // Other?
       }
       if (action.Active === 0) {
-        inactiveActions.push(damageType.replace("Damage", ""))
+        inactiveActions.push(damageType)
       }
     }
   }
@@ -193,12 +226,18 @@ export function parseAction(action, stats, inactiveActions) {
         const bonus = action.DamageBonus[keyDmgBonus]
         if (ignoredEffects.indexOf("DamageBonus" + bonus.type) === -1) {
           stats["DamageBonus" + bonus.type] = bonus.amount
+          if (action.Active === 0) {
+            inactiveActions.push("DamageBonus" + bonus.type)
+          }
         }
       }
     } else if (
       ignoredEffects.indexOf("DamageBonus" + action.DamageBonus.type) === -1
     ) {
       stats["DamageBonus" + action.DamageBonus.type] = action.DamageBonus.amount
+      if (action.Active === 0) {
+        inactiveActions.push("DamageBonus" + action.DamageBonus.type)
+      }
     }
   }
 
@@ -207,12 +246,12 @@ export function parseAction(action, stats, inactiveActions) {
       for (let i = 0; i < action.Rate.length; i++) {
         const rate = action.Rate[i]
 
-        if (rate.type === "StandardConvertable") {
+        /*if (rate.type === "StandardConvertable") {*/
           const range = action.MaxRange[i]
 
           stats[name + rate.type] = rate.amount
           stats["MaximumRangeConvert"] = range
-        }
+        /*}*/
       }
     }
   } else if (action.MaxRange && action.MaxRange.length) {
@@ -227,8 +266,14 @@ export function parseAction(action, stats, inactiveActions) {
     } else if (name !== "MeleeAttack") {
       if (name.endsWith("2")) {
         stats.MaximumRange2 = action.MaxRange[0]
+        if (action.Active === 0) {
+          inactiveActions.push("MaximumRange2")
+        }
       } else {
         stats.MaximumRange = action.MaxRange[0]
+        if (action.Active === 0) {
+          inactiveActions.push("MaximumRange")
+        }
       }
     }
   }
@@ -272,16 +317,30 @@ export function parseAction(action, stats, inactiveActions) {
       stats["AutoGather" + rate.type] = rate.amount
     }
     if (action.Active === 0) {
-      inactiveActions.push(name)
+      inactiveActions.push("AutoGatherTree")
+      inactiveActions.push("AutoGather" + rate.type)
     }
   } else if (name === "Build") {
     const rate = action.Rate[0]
     let type = "Build"
     if (rate.type === "UnitTypeBldgWatchPost") {
-      type = "BuildWatchPost"
+      type = "BuildWatchPostOrBarracks"
+      stats["Build"] = 0
+      inactiveActions.push("Build")
+    }
+    else if (rate.type === "UnitTypeBldgBarracks") {
+      type = "BuildWatchPostOrBarracks"
+      stats["Build"] = 0
+      inactiveActions.push("Build")
     }
     stats[type] = rate.amount
+  } 
+  else if (name === "Charge") {
+    stats["ChargeAbility"] = action.Active
+    inactiveActions.push("ChargeAbility")
   }
+
+
 }
 
 export function findDamageType(stats) {
@@ -338,6 +397,13 @@ function convertTactic(tactic, stats) {
       }
       break
     }
+    case "Charge": {
+        stats["ChargeDamageMultiplier"] = parseFloat(tactic.damageBonus.text)
+        stats["ChargeRange"] = parseFloat(tactic.maxRange)
+        stats["ChargeSpeedBoost"] = parseFloat(tactic.targetSpeedBoost)
+        stats["ChargeCooldown"] = parseFloat(tactic.timer)
+        break
+    }
     case "Heal":
       if (tactic.name.text === "SelfHeal") {
         if (tactic.active !== "1") {
@@ -355,7 +421,7 @@ function convertTactic(tactic, stats) {
         stats[tactic.name.text + "Area"] = parseFloat(tactic.aoeHealRadius)
       }
       break
-    case "Convert":
+    case "Convert": {
       if (tactic.anim === "Chaos") {
         stats.ChaosStandardConvertable = stats.ConvertStandardConvertable
         delete stats.ConvertStandardConvertable
@@ -376,6 +442,22 @@ function convertTactic(tactic, stats) {
           delete stats.MaximumRangeConvert
         }
       }
+
+      else {
+        if (Array.isArray(tactic.rate)) {
+          for (let i = 0; i < tactic.rate.length; i++) {
+            const rate = tactic.rate[i]
+
+            if(tactic.active !== "0"){
+              if (!stats[tactic.type + rate.type]){
+                stats[tactic.type + rate.type] = parseFloat(rate.text)
+              }
+            }
+          }
+        }
+      }
+    }
+
   }
 }
 

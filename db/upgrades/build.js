@@ -75,7 +75,10 @@ async function convertEquipmentToUpgrades(equipment) {
           upgrade.unlocked = equipment.unlocked
         }
         if (includeUpgrade(upgrade)) {
-          if (
+          if (tech.name === "PersiaTechVillagerUnlock1") {
+            results.push(upgrade)
+          }
+          else if (
             tech.Prereqs &&
             tech.Prereqs.techStatus &&
             tech.Prereqs.techStatus.length &&

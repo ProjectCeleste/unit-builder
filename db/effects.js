@@ -89,8 +89,15 @@ export async function convertEffects(effects, civ, isAdvisor) {
           type += e.action
           break
         case "Build":
-          type =
-            e.unittype === "UnitTypeBldgWatchPost" ? "BuildWatchPost" : e.action
+          /*type =
+            e.unittype === "UnitTypeBldgWatchPost" ? "BuildWatchPost" : e.action*/
+            if(e.target.text === "UnitTypeScout1" || e.unittype === "UnitTypeBldgWatchPost")
+            {
+              type = "BuildWatchPostOrBarracks" 
+            }
+            else {
+              type = e.action
+            }
           break
         case "AreaHeal":
           continue
@@ -103,6 +110,9 @@ export async function convertEffects(effects, civ, isAdvisor) {
           type += e.action
           break
         case "PoisonAttack":
+          type = e.action
+          break
+        case "BurningAttack":
           type = e.action
           break
         case "BuildingAttack":
@@ -128,9 +138,9 @@ export async function convertEffects(effects, civ, isAdvisor) {
         case "RangedAttack":
           type += "DamageRanged"
           break
-          case "BurningAttack":
-            type += "DamageRanged"
-            break
+        case "BurningAttack":
+          type = "BurningAttack"
+          break
         case "RangedAttack2":
           type += "DamageRanged2"
           break
@@ -141,12 +151,16 @@ export async function convertEffects(effects, civ, isAdvisor) {
       continue
     } else if (type === "MaximumRange" && e.action == "BurningAttack") {
       type = "MaximumRange"
+    } else if (type === "DamageArea") {
+      type = e.action + "DamageArea"
     } else if (
       (type === "MaximumRange" && !e.action.startsWith("RangedAttack")) ||
       type === "ActionEnable"
     ) {
       type += e.action
     }
+
+    
 
     const effect = {
       type: type,
@@ -243,7 +257,8 @@ function getBase(effectName) {
     effectName === "Trade" ||
     effectName === "BuildingWorkRate" ||
     effectName === "WorkRateRepair" ||
-    effectName === "HitPercentDamageMultiplier"
+    effectName === "HitPercentDamageMultiplier" ||
+    effectName.startsWith("Charge")
     ? 1
     : 0
 }
@@ -263,7 +278,9 @@ function getType(effectName) {
     effectName === "BuildWatchPost" ||
     effectName === "Trade" ||
     effectName === "WorkRateRepair" ||
-    effectName === "HitPercentDamageMultiplier"
+    effectName === "HitPercentDamageMultiplier" ||
+    effectName === "ChargeDamageMultiplier" ||
+    effectName === "ChargeSpeedBoost"
   ) {
     return "multiplier" // starts with "x"
   }
@@ -277,6 +294,9 @@ function getType(effectName) {
   }
   if (effectName === "HitPercent") {
     return "percent" // ends with "%"
+  }
+  if (effectName === "ChargeRange") {
+    return "normal" // ends with "%"
   }
   if (
     effectName === "TrainPoints" ||
@@ -379,7 +399,7 @@ const templates = {
     sort: 0
   },
   ActionEnableRangedAttack2: {
-    name: "Grants Alt. Ranged Attack",
+    name: "Grants Special Building Attack",
     icon: "NONE",
     sort: 0
   },
@@ -452,6 +472,10 @@ const templates = {
     sort: 24
   },
   DamageArea: { name: "Splash Area", icon: "DamageArea", sort: 51 },
+  RangedAttackDamageArea: { name: "Ranged Splash Area", icon: "DamageArea", sort: 51 },
+  MeleeAttackDamageArea: { name: "Melee Splash Area", icon: "DamageArea", sort: 51 },
+  BurningAttackDamageArea: { name: "Burning Splash Area", icon: "DamageArea", sort: 52 },
+  RangedAttack2DamageArea: { name: "Special Building Attack Splash Area", icon: "DamageArea", sort: 52 },
   AreaDamageReduction: {
     name: "Splash Damage Reduction",
     icon: "AreaDamageReduction",
@@ -465,7 +489,7 @@ const templates = {
   BuildPoints: {
     name: "Build Time",
     icon: "BuildPoints",
-    sort: 89,
+    sort: 100,
     lowerIsBetter: true
   },
   ConvertResist: {
@@ -530,7 +554,7 @@ const templates = {
     sort: 50
   },
   MaximumRange2: {
-    name: "Alt. Attack Maximum Range",
+    name: "Special Building Attack Max Range",
     icon: "MaximumRange",
     sort: 50
   },
@@ -638,7 +662,7 @@ const templates = {
     sort: 69
   },
   WorkRateRepair: { name: "Repair Speed", icon: "ConstructionSpeed", sort: 71 },
-  BuildWatchPost: {
+  BuildWatchPostOrBarracks: {
     name: "Watch Post Construction Speed",
     icon: "WatchPostConstruction",
     sort: 70
@@ -725,7 +749,7 @@ const templates = {
     sort: 0
   },
   AttackSpeedDamageRanged2: {
-    name: "Alt. Ranged Attack Rate",
+    name: "Special Building Ranged Attack Rate",
     icon: "DamageOverTime",
     sort: 0
   },
@@ -744,7 +768,7 @@ const templates = {
     sort: 30
   },
   DamageSiegeRangedAttack2: {
-    name: "Alt. Ranged Crush DPS",
+    name: "Special Building Attack Crush DPS",
     icon: "DamageSiege",
     sort: 30
   },
@@ -756,7 +780,7 @@ const templates = {
   AOERadius: {
     name: "Charge Attack Damage Area",
     icon: "DamageArea",
-    sort: 52
+    sort: 93
   },
   ArmorVulnerability: {
     name: "Ignore Armor",
@@ -764,7 +788,32 @@ const templates = {
     sort: 47
   },
   UnlockUpgrade: { name: "Unlocks upgrade", icon: "NONE", sort: 0 },
-  DisableUpgrade: { name: "Disables upgrade", icon: "NONE", sort: 0 }
+  DisableUpgrade: { name: "Disables upgrade", icon: "NONE", sort: 0 },
+  ChargeAbility: {
+    name: "Can Charge",
+    icon: "Chaos",
+    sort: 89
+  },
+  ChargeDamageMultiplier: {
+    name: "Charge Damage Multiplier",
+    icon: "Chaos",
+    sort: 89
+  },
+  ChargeRange: {
+    name: "Charge Range",
+    icon: "LOS",
+    sort: 90
+  },
+  ChargeSpeedBoost: {
+    name: "Charge Speed Bonus",
+    icon: "MaximumVelocity",
+    sort: 91
+  },
+  ChargeCooldown: {
+    name: "Charge Cooldown",
+    icon: "BuildPoints",
+    sort: 92
+  }
 }
 
 function getTemplate(effectName) {

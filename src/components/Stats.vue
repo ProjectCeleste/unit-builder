@@ -92,23 +92,14 @@ export default {
       for (let key in this.unit.stats) {
         stats[key] = this.unit.stats[key]
       }
-      if (
-        this.unit.id === "Ro_Inf_Aquilifer" ||
-        this.unit.id === "Ro_Cav_PrimusPilus" ||
-        this.unit.id === "No_Inf_Chief" ||
-        this.unit.types.includes("Ship") ||
-        this.unit.id.endsWith("_Bldg_Fortress") ||
-        this.unit.id.endsWith("_Bldg_TownCenter") ||
-        this.unit.types.includes("AbstractWall") ||
-        this.unit.id.includes("Wonder")
-      ) {
+      //JSON does not allow me to write infinity in the data, so 1000 is assumed as infinity in the code
+      if (stats["ConvertResist"] === 1000) {
         stats["ConvertResist"] = Infinity
       }
-
       // Remove stats from inactive actions
       this.unit.inactiveActions.forEach(a => {
         for (let key in stats) {
-          if (key.startsWith(a)) {
+          if (key === a) {
             delete stats[key]
           }
         }
@@ -168,6 +159,17 @@ export default {
       if (name === "RateHeal" || name === "RateAreaHeal") {
         e += " (Out of Combat)"
       }
+      /* Norse Inf Scout1 actually builds a Barracks and not a Watchpost but same advisors affects him*/
+      if (
+        this.unit.id === "No_Inf_Scout1" &&
+        name === "BuildWatchPostOrBarracks"
+      ) {
+        e = "Barracks Construction Speed"
+      }
+      /* Enneris only has Bonus vs Buildings from the RangedAttack2*/
+      if (this.unit.id === "Ro_Shp_Enneris" && name === "DamageBonusBuilding") {
+        e = "Special Attack Bonus vs Buildings"
+      }
       return e
     },
     effectIcon(name) {
@@ -198,7 +200,7 @@ export default {
     },
     setBaseStat(stats, effectName) {
       if (!(effectName in stats)) {
-        if (
+        /*if (
           effectName.startsWith("Convert") &&
           effectName !== "ConvertResist" &&
           effectName !== "ConvertStandardConvertable"
@@ -209,9 +211,9 @@ export default {
           effectName !== "ChaosStandardConvertable"
         ) {
           stats[effectName] = this.unit.stats.ChaosStandardConvertable
-        } else {
-          stats[effectName] = effects[effectName].base
-        }
+        } else {*/
+        stats[effectName] = effects[effectName].base
+        /*}*/
       }
     },
     filterUpgradeEffects(upgrade, res) {
@@ -248,8 +250,16 @@ export default {
             affectedStats.push("DamageMelee")
             break
           case "RangedAttack":
-          case "RangedAttack2":
             affectedStats.push("DamageRanged")
+            affectedStats.push("RangedAttackDamageArea")
+            affectedStats.push("MaximumRange")
+            break
+          case "RangedAttack2":
+            affectedStats.push("DamageSiegeRangedAttack2")
+            affectedStats.push("DamagePierceRangedAttack2")
+            affectedStats.push("RangedAttack2DamageArea")
+            affectedStats.push("MaximumRange2")
+            affectedStats.push("DamageBonusBuilding")
             break
           case "Heal":
             affectedStats.push("RateHeal")
@@ -261,6 +271,12 @@ export default {
             affectedStats.push("MaximumRangeAreaHeal")
             affectedStats.push("AreaHealArea")
             break
+          case "Charge":
+            affectedStats.push("ChargeDamageMultiplier")
+            affectedStats.push("ChargeRange")
+            affectedStats.push("ChargeSpeedBoost")
+            affectedStats.push("ChargeCooldown")
+            break
           default:
             affectedStats.push(actionName)
         }
@@ -268,14 +284,14 @@ export default {
           if (effect.amount === 0) {
             // Disable
             for (let key in unit.stats) {
-              if (key.startsWith(s)) {
+              if (key === s) {
                 delete stats[key]
               }
             }
           } else {
             if (unit.inactiveActions.find(a => a === s)) {
               for (let key in unit.stats) {
-                if (key.startsWith(s) && stats[key] === undefined) {
+                if (key === s && stats[key] === undefined) {
                   stats[key] = unit.stats[key]
                 }
               }
@@ -417,18 +433,6 @@ export default {
 
           this.setBaseStat(stats, effect.type)
           stats[effect.type] *= mod
-      }
-      if (
-        this.unit.id === "Ro_Inf_Aquilifer" ||
-        this.unit.id === "Ro_Cav_PrimusPilus" ||
-        this.unit.id === "No_Inf_Chief" ||
-        this.unit.types.includes("Ship") ||
-        this.unit.id.endsWith("_Bldg_Fortress") ||
-        this.unit.id.endsWith("_Bldg_TownCenter") ||
-        this.unit.types.includes("AbstractWall") ||
-        this.unit.id.includes("Wonder")
-      ) {
-        stats["ConvertResist"] = Infinity
       }
     }
   }

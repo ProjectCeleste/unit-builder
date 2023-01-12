@@ -29,10 +29,6 @@ export async function buildUnits() {
     results[civ].sort(compareUnits).sort(compareUnitTypes)
   }
   
-
-  const enneris = results['roman'].find(u => u.id === 'Ro_Shp_Enneris')
-  delete enneris.stats['DamageSiegeMeleeAttack']
-
   return { front: results, server: await buildUnitsForServer(results) }
 }
 
@@ -112,27 +108,6 @@ async function convertUnit(unit, tech, equipment) {
       stats[e.type] = e.amount
     }
   })
-
-  if (!stats["ConvertResist"] && (unit.UnitType.includes('AbstractPriest') || unit.UnitType.includes('AbstractArtillery'))) {
-    stats["ConvertResist"] = 2
-  }
-
-  if (unit.name === 'Ro_Inf_Centurion' || unit.name === 'Ro_Cav_Decurion') {
-    stats["ConvertResist"] = 2
-  }
-
-  if (!stats["ConvertResist"]) {
-    stats["ConvertResist"] = 1
-  }
-
-
-  if (unit.name === 'Eg_Spc_PriestPtah') {
-    stats["ConvertConvertableBuilding"] = 30
-  }
-
-  if (unit.name.endsWith('_Bldg_Fortress')) {
-    inactiveActions.push('BurningAttack')
-  }
 
   const u = {
     id: unit.name,

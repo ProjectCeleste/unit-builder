@@ -46,7 +46,9 @@
               <div v-if="selection.unit.stats.ConvertStandardConvertable > 0">
                 Converting Priest
               </div>
-              <div v-if="selection.unit.stats.ChaosStandardConvertable > 0">
+              <div
+                v-else-if="selection.unit.stats.ChaosStandardConvertable > 0"
+              >
                 Chaos Priest
               </div>
               <div v-else>
