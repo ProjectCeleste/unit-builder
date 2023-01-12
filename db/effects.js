@@ -149,6 +149,8 @@ export async function convertEffects(effects, civ, isAdvisor) {
       type = "ArmorDamageBonus"
     } else if (type === "MaximumRange" && e.action == "RangedAttack2") {
       continue
+    } else if (type === "MaximumRange" && e.action == "MeleeAttack") {
+      type = "MaximumRangeMeleeAttack"
     } else if (type === "MaximumRange" && e.action == "BurningAttack") {
       type = "MaximumRange"
     } else if (type === "DamageArea") {
@@ -553,6 +555,11 @@ const templates = {
     icon: "MaximumRange",
     sort: 50
   },
+  MaximumRangeMeleeAttack: {
+    name: "Maximum Range for Melee",
+    icon: "MaximumRange",
+    sort: 50
+  },
   MaximumRange2: {
     name: "Special Building Attack Max Range",
     icon: "MaximumRange",
@@ -801,7 +808,7 @@ const templates = {
   },
   ChargeRange: {
     name: "Charge Range",
-    icon: "LOS",
+    icon: "MaximumRange",
     sort: 90
   },
   ChargeSpeedBoost: {

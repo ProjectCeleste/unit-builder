@@ -264,7 +264,7 @@ export function parseAction(action, stats, inactiveActions) {
         inactiveActions.push(name + "Area")
       }
     } else if (name !== "MeleeAttack") {
-      if (name.endsWith("2")) {
+      if (name === "RangedAttack2") {
         stats.MaximumRange2 = action.MaxRange[0]
         if (action.Active === 0) {
           inactiveActions.push("MaximumRange2")
@@ -275,6 +275,14 @@ export function parseAction(action, stats, inactiveActions) {
           inactiveActions.push("MaximumRange")
         }
       }
+    }
+    else if (name === "MeleeAttack") {
+      /*if (action.MaxRange[0] > 1) {*/
+        stats.MaximumRangeMeleeAttack = action.MaxRange[0]
+        if (action.Active === 0) {
+          inactiveActions.push("MaximumRangeMeleeAttack")
+        }
+     /* }*/
     }
   }
 
