@@ -113,7 +113,7 @@ export async function convertEffects(effects, civ, isAdvisor) {
           type = e.action
           break
         case "BurningAttack":
-          type = e.action
+          type = "RangedAttack"
           break
         case "BuildingAttack":
           type += "MeleeAttack"
@@ -139,7 +139,7 @@ export async function convertEffects(effects, civ, isAdvisor) {
           type += "DamageRanged"
           break
         case "BurningAttack":
-          type = "BurningAttack"
+          type = "AttackSpeedDamageRanged"
           break
         case "RangedAttack2":
           type += "DamageRanged2"
@@ -259,8 +259,7 @@ function getBase(effectName) {
     effectName === "Trade" ||
     effectName === "BuildingWorkRate" ||
     effectName === "WorkRateRepair" ||
-    effectName === "HitPercentDamageMultiplier" ||
-    effectName.startsWith("Charge")
+    effectName === "HitPercentDamageMultiplier"
     ? 1
     : 0
 }
@@ -290,21 +289,23 @@ function getType(effectName) {
     effectName.startsWith("WorkRate") ||
     effectName.startsWith("AutoGather") ||
     effectName.startsWith("RateHeal") ||
-    effectName.startsWith("RateAreaHeal")
+    effectName.startsWith("RateAreaHeal") ||
+    effectName.endsWith("DamageOverTimeRate")
   ) {
     return "persecond" // ends with "/s"
   }
   if (effectName === "HitPercent") {
     return "percent" // ends with "%"
-  }
+  }/*
   if (effectName === "ChargeRange") {
     return "normal" // ends with "%"
-  }
+  }*/
   if (
     effectName === "TrainPoints" ||
     effectName === "BuildPoints" ||
     (effectName.startsWith("Convert") && effectName !== "ConvertResist") ||
-    effectName.startsWith("Chaos")
+    effectName.startsWith("Chaos") ||
+    effectName.endsWith("DamageOverTimeDuration")
   ) {
     return "time" // ends with "s"
   }
@@ -534,8 +535,12 @@ const templates = {
   Damage: { name: "Damage", icon: "DamageHand", sort: 0 },
   DamageMeleeAttack: { name: "Melee Damage", icon: "DamageHand", sort: 0 },
   DamageRangedAttack: { name: "Pierce Damage", icon: "DamageRanged", sort: 0 },
-  PoisonAttack: { name: "Damage Over Time", icon: "DamageOverTime", sort: 45 },
-  BurningAttack: { name: "Damage Over Time", icon: "DamageOverTime", sort: 46 },
+  PoisonAttack: { name: "Total Poison Damage Over Time", icon: "DamageOverTime", sort: 44 },
+  BurningAttack: { name: "Total Burning Damage Over Time", icon: "DamageOverTime", sort: 44 },
+  PoisonAttackDamageOverTimeDuration: { name: "Poison Duration", icon: "BuildPoints", sort: 45 },
+  BurningAttackDamageOverTimeDuration: { name: "Burning Duration", icon: "BuildPoints", sort: 45 },
+  PoisonAttackDamageOverTimeRate: { name: "Posion Damage per sec", icon: "DamageOverTime", sort: 46 },
+  BurningAttackDamageOverTimeRate: { name: "Burning Damage per sec", icon: "DamageOverTime", sort: 46 },
   ArmorDamageBonus: {
     name: "Bonus Damage Protection",
     icon: "DamageBonusReduction",
@@ -702,17 +707,17 @@ const templates = {
   DamageBonusBuilding: {
     name: "Bonus vs. Building",
     icon: "DamageBonusBuilding",
-    sort: 38
+    sort: 37
   },
   DamageBonusShip: {
     name: "Bonus vs. Ship",
     icon: "DamageBonusShip",
-    sort: 41
+    sort: 40
   },
   DamageBonusAbstractArcher: {
     name: "Bonus vs. Ranged",
     icon: "DamageBonusAbstractArcher",
-    sort: 37
+    sort: 36
   },
   DamageBonusGr_Cav_Sarissophoroi: {
     name: "Bonus vs. Sarissophoroi",
@@ -722,32 +727,32 @@ const templates = {
   DamageBonusUnitTypeBldgStorehouse: {
     name: "Bonus vs. Storehouse",
     icon: "DamageBonusBuilding",
-    sort: 39
+    sort: 38
   },
   DamageBonusAbstractArtillery: {
     name: "Bonus vs. Siege",
     icon: "DamageBonusAbstractArtillery",
-    sort: 40
+    sort: 39
   },
   DamageBonusHuntable: {
     name: "Bonus vs. Huntable",
     icon: "DamageBonusHuntable",
-    sort: 42
+    sort: 41
   },
   DamageBonusUnitTypeVillager1: {
     name: "Bonus vs. Villager",
     icon: "DamageBonusUnitTypeVillager1",
-    sort: 43
+    sort: 42
   },
   DamageBonusAbstractPriest: {
     name: "Bonus vs. Priests",
     icon: "DamageBonusAbstractPriest",
-    sort: 44
+    sort: 43
   },
   DamageBonusEg_Cav_CamelRider: {
     name: "Bonus vs. Camel Rider",
     icon: "DamageBonusAbstractCavalry",
-    sort: 36
+    sort: 35
   },
   AttackSpeed: { name: "Attack Rate", icon: "DamageOverTime", sort: 0 },
   AttackSpeedDamageRanged: {

@@ -277,6 +277,16 @@ export default {
             affectedStats.push("ChargeSpeedBoost")
             affectedStats.push("ChargeCooldown")
             break
+          case "BurningAttack":
+            affectedStats.push("BurningAttack")
+            affectedStats.push("BurningAttackDamageOverTimeDuration")
+            affectedStats.push("BurningAttackDamageOverTimeRate")
+            break
+          case "PoisonAttack":
+            affectedStats.push("PoisonAttack")
+            affectedStats.push("PoisonAttackDamageOverTimeDuration")
+            affectedStats.push("PoisonAttackDamageOverTimeRate")
+            break
           default:
             affectedStats.push(actionName)
         }

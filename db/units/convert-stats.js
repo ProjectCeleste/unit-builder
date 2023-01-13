@@ -190,6 +190,8 @@ export function parseAction(action, stats, inactiveActions) {
       stats[type] = action.Damage
       if (action.Active === 0) {
         inactiveActions.push(type)
+        inactiveActions.push(type + "DamageOverTimeDuration")
+        inactiveActions.push(type + "DamageOverTimeRate")
       }
     }
 
@@ -392,6 +394,8 @@ function convertTactic(tactic, stats) {
         stats[tactic.name.text] =
           parseFloat(tactic.damageOverTimeDuration) *
           parseFloat(tactic.damageOverTimeRate)
+        stats[tactic.name.text + "DamageOverTimeDuration"] = parseFloat(tactic.damageOverTimeDuration)
+        stats[tactic.name.text + "DamageOverTimeRate"] = parseFloat(tactic.damageOverTimeRate)
       }
       break
     case "Build": {
