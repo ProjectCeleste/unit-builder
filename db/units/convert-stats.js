@@ -53,15 +53,6 @@ export async function convertUnitStats(unit) {
     
   /*For Charge actions because they are not available on unit by default, sometimes can be upgraded*/
 
-  if (!stats["ChargeAbility"] && unit.UnitType.includes("Military")) {
-      stats["ChargeAbility"] = 0
-      inactiveActions.push("ChargeAbility")
-      inactiveActions.push("ChargeDamageMultiplier")
-      inactiveActions.push("ChargeRange")
-      inactiveActions.push("ChargeSpeedBoost")
-      inactiveActions.push("ChargeCooldown")
-  } 
-
   if (unit.name === 'Ro_Inf_Centurion' || unit.name === 'Ro_Cav_Decurion') {
         stats["ConvertResist"] = 2
     }
@@ -130,8 +121,8 @@ export async function convertUnitStats(unit) {
           }
           return false
         })
-        .forEach(t => convertTactic(t, stats))
-    }
+        .forEach(t => convertTactic(t, stats, inactiveActions))
+   }
   }
 
   stats.PopulationCount = unit.PopulationCount
@@ -154,21 +145,38 @@ export async function convertUnitStats(unit) {
       addEffect(key)
     }
   }
+
+  //add a default effects that are needed
   addEffect("CostFood")
   addEffect("CostWood")
   addEffect("CostGold")
   addEffect("CostStone")
+  addEffect("DamageBonusAbstractArtilleryRangedAttack")
+
+
+  //Too much effort. I am going to just MeleeAttack the TA.
+  if (unit.name === "No_Inf_ThrowingAxeman") {
+    stats["DamageBonusAbstractInfantryMeleeAttack"] = stats["DamageBonusAbstractInfantryRangedAttack"]
+    stats["DamageBonusAbstractArcherMeleeAttack"] = stats["DamageBonusAbstractArcherRangedAttack"]
+    delete stats["DamageBonusAbstractInfantryRangedAttack"]
+    delete stats["DamageBonusAbstractArcherRangedAttack"]
+  }
+
   return [stats, inactiveActions]
 }
 
 export function parseAction(action, stats, inactiveActions) {
   const ignoredEffects = [
     "DamageBonusUnitTypeMobileStorehouse1",
-    "DamageBonusDeer",
-    "DamageBonusAntelope",
-    "DamageBonusDeerAlpine",
-    "DamageBonusCamel",
-    "GatherCon_Res_BerryBush_C"
+    /*"DamageBonusDeerMeleeAttack",
+    "DamageBonusAntelopeMeleeAttack",
+    "DamageBonusDeerAlpineMeleeAttack",
+    "DamageBonusCamelMeleeAttack",*/
+    "GatherCon_Res_BerryBush_C",
+    "DamageBonusAbstractInfantryPoisonAttack",
+    "DamageBonusShipBurningAttack",
+    "DamageBonusAbstractArtilleryBuildingAttack",
+    "DamageBonusBuildingBuildingAttack"
   ]
 
   const name = action.Name
@@ -186,6 +194,9 @@ export function parseAction(action, stats, inactiveActions) {
       let type = "Damage" + action.DamageType
       if (action.Name === "BurningAttack" || action.Name === "PoisonAttack") {
         type = name
+        inactiveActions.push(type)
+        inactiveActions.push(type + "DamageOverTimeDuration")
+        inactiveActions.push(type + "DamageOverTimeRate")
       }
       stats[type] = action.Damage
       if (action.Active === 0) {
@@ -226,19 +237,19 @@ export function parseAction(action, stats, inactiveActions) {
     if (Array.isArray(action.DamageBonus)) {
       for (let keyDmgBonus in action.DamageBonus) {
         const bonus = action.DamageBonus[keyDmgBonus]
-        if (ignoredEffects.indexOf("DamageBonus" + bonus.type) === -1) {
-          stats["DamageBonus" + bonus.type] = bonus.amount
+        if (ignoredEffects.indexOf("DamageBonus" + bonus.type + name) === -1) {
+          stats["DamageBonus" + bonus.type + name] = bonus.amount
           if (action.Active === 0) {
-            inactiveActions.push("DamageBonus" + bonus.type)
+            inactiveActions.push("DamageBonus" + bonus.type + name)
           }
         }
       }
     } else if (
-      ignoredEffects.indexOf("DamageBonus" + action.DamageBonus.type) === -1
+      ignoredEffects.indexOf("DamageBonus" + action.DamageBonus.type + name) === -1
     ) {
-      stats["DamageBonus" + action.DamageBonus.type] = action.DamageBonus.amount
+      stats["DamageBonus" + action.DamageBonus.type + name] = action.DamageBonus.amount
       if (action.Active === 0) {
-        inactiveActions.push("DamageBonus" + action.DamageBonus.type)
+        inactiveActions.push("DamageBonus" + action.DamageBonus.type + name)
       }
     }
   }
@@ -264,6 +275,7 @@ export function parseAction(action, stats, inactiveActions) {
         inactiveActions.push("Rate" + name)
         inactiveActions.push("MaximumRange" + name)
         inactiveActions.push(name + "Area")
+        inactiveActions.push("RateAreaHealInCombat")
       }
     } else if (name !== "MeleeAttack") {
       if (name === "RangedAttack2") {
@@ -366,7 +378,7 @@ export function findDamageType(stats) {
   return undefined
 }
 
-function convertTactic(tactic, stats) {
+function convertTactic(tactic, stats, inactiveActions) {
   switch (tactic.type) {
     case "Empower":
       for (let i = 0; i < tactic.rate.length; i++) {
@@ -384,13 +396,18 @@ function convertTactic(tactic, stats) {
       if (tactic.targetSpeedBoost) {
         const snare = parseFloat(tactic.targetSpeedBoost)
         if (snare !== 1) {
-          stats.TargetSpeedBoost = snare
+          stats["TargetSpeedBoost" + tactic.anim] = snare
         }
       }
       if (
         tactic.name.text === "BurningAttack" ||
         tactic.name.text === "PoisonAttack"
       ) {
+        if (!stats[tactic.name.text]) {
+          inactiveActions.push(tactic.name.text)
+          inactiveActions.push(tactic.name.text + "DamageOverTimeDuration")
+          inactiveActions.push(tactic.name.text + "DamageOverTimeRate")
+        }
         stats[tactic.name.text] =
           parseFloat(tactic.damageOverTimeDuration) *
           parseFloat(tactic.damageOverTimeRate)
@@ -410,6 +427,15 @@ function convertTactic(tactic, stats) {
       break
     }
     case "Charge": {
+
+      if (!stats["ChargeAbility"]) {
+        stats["ChargeAbility"] = 0
+        inactiveActions.push("ChargeAbility")
+        inactiveActions.push("ChargeDamageMultiplier")
+        inactiveActions.push("ChargeRange")
+        inactiveActions.push("ChargeSpeedBoost")
+        inactiveActions.push("ChargeCooldown")
+      } 
         stats["ChargeDamageMultiplier"] = parseFloat(tactic.damageBonus.text)
         stats["ChargeRange"] = parseFloat(tactic.maxRange)
         stats["ChargeSpeedBoost"] = parseFloat(tactic.targetSpeedBoost)

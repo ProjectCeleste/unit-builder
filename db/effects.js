@@ -142,11 +142,13 @@ export async function convertEffects(effects, civ, isAdvisor) {
           type = "AttackSpeedDamageRanged"
           break
         case "RangedAttack2":
-          type += "DamageRanged2"
+          type += "DamageRanged"
           break
       }
     } else if (type === "DamageBonusReduction") {
       type = "ArmorDamageBonus"
+    } else if (type === "TargetSpeedBoost") {
+      type += e.action
     } else if (type === "MaximumRange" && e.action == "RangedAttack2") {
       continue
     } else if (type === "MaximumRange" && e.action == "MeleeAttack") {
@@ -254,7 +256,7 @@ function getBase(effectName) {
     effectName.startsWith("Yield") ||
     effectName.startsWith("AttackSpeed") ||
     effectName === "HitPercent" ||
-    effectName === "TargetSpeedBoost" ||
+    effectName.startsWith("TargetSpeedBoost")  ||
     effectName === "ConvertResist" ||
     effectName === "Trade" ||
     effectName === "BuildingWorkRate" ||
@@ -273,7 +275,7 @@ function getType(effectName) {
     effectName.startsWith("Empower") ||
     effectName.startsWith("Gather") ||
     effectName === "BuildingWorkRate" ||
-    effectName === "TargetSpeedBoost" ||
+    effectName.startsWith("TargetSpeedBoost") ||
     effectName === "Build" ||
     effectName.startsWith("Yield") ||
     effectName === "BuildWatchPost" ||
@@ -474,31 +476,31 @@ const templates = {
     icon: "CarryCapacityStone",
     sort: 24
   },
-  DamageArea: { name: "Splash Area", icon: "DamageArea", sort: 51 },
-  RangedAttackDamageArea: { name: "Ranged Splash Area", icon: "DamageArea", sort: 51 },
-  MeleeAttackDamageArea: { name: "Melee Splash Area", icon: "DamageArea", sort: 51 },
-  BurningAttackDamageArea: { name: "Burning Splash Area", icon: "DamageArea", sort: 52 },
-  RangedAttack2DamageArea: { name: "Special Building Attack Splash Area", icon: "DamageArea", sort: 52 },
+  DamageArea: { name: "Splash Area", icon: "DamageArea", sort: 64 },
+  RangedAttackDamageArea: { name: "Ranged Splash Area", icon: "DamageArea", sort: 64 },
+  MeleeAttackDamageArea: { name: "Melee Splash Area", icon: "DamageArea", sort: 39 },
+  BurningAttackDamageArea: { name: "Burning Splash Area", icon: "DamageArea", sort: 98 },
+  RangedAttack2DamageArea: { name: "Special Building Ranged Splash Area", icon: "DamageArea", sort: 83 },
   AreaDamageReduction: {
     name: "Splash Damage Reduction",
     icon: "AreaDamageReduction",
-    sort: 81
+    sort: 171
   },
   BuildingWorkRate: {
     name: "Train/Research Rate",
     icon: "BuildPoints",
-    sort: 75
+    sort: 160
   },
   BuildPoints: {
     name: "Build Time",
     icon: "BuildPoints",
-    sort: 100,
+    sort: 200,
     lowerIsBetter: true
   },
   ConvertResist: {
     name: "Conversion Resistance",
     icon: "ConvertResist",
-    sort: 82
+    sort: 172
   },
   CostAll: { name: "Cost", icon: "Cost", sort: 0, lowerIsBetter: true },
   CostFood: {
@@ -531,300 +533,427 @@ const templates = {
     sort: 0,
     lowerIsBetter: true
   },
-  BuildLimit: { name: "Build Limit", icon: "BuildLimit", sort: 87 },
+  BuildLimit: { name: "Build Limit", icon: "BuildLimit", sort: 191 },
   Damage: { name: "Damage", icon: "DamageHand", sort: 0 },
   DamageMeleeAttack: { name: "Melee Damage", icon: "DamageHand", sort: 0 },
   DamageRangedAttack: { name: "Pierce Damage", icon: "DamageRanged", sort: 0 },
-  PoisonAttack: { name: "Total Poison Damage Over Time", icon: "DamageOverTime", sort: 44 },
-  BurningAttack: { name: "Total Burning Damage Over Time", icon: "DamageOverTime", sort: 44 },
-  PoisonAttackDamageOverTimeDuration: { name: "Poison Duration", icon: "BuildPoints", sort: 45 },
-  BurningAttackDamageOverTimeDuration: { name: "Burning Duration", icon: "BuildPoints", sort: 45 },
-  PoisonAttackDamageOverTimeRate: { name: "Posion Damage per sec", icon: "DamageOverTime", sort: 46 },
-  BurningAttackDamageOverTimeRate: { name: "Burning Damage per sec", icon: "DamageOverTime", sort: 46 },
+  PoisonAttack: { name: "Total Poison Damage Over Time", icon: "DamageOverTime", sort: 92 },
+  BurningAttack: { name: "Total Burning Damage Over Time", icon: "DamageOverTime", sort: 95 },
+  PoisonAttackDamageOverTimeDuration: { name: "Poison Duration", icon: "BuildPoints", sort: 93 },
+  BurningAttackDamageOverTimeDuration: { name: "Burning Duration", icon: "BuildPoints", sort: 96 },
+  PoisonAttackDamageOverTimeRate: { name: "Posion Damage per sec", icon: "DamageOverTime", sort: 94 },
+  BurningAttackDamageOverTimeRate: { name: "Burning Damage per sec", icon: "DamageOverTime", sort: 97 },
   ArmorDamageBonus: {
     name: "Bonus Damage Protection",
     icon: "DamageBonusReduction",
-    sort: 80
+    sort: 170
   },
-  HitPercent: { name: "Critical Hit Chance", icon: "CriticalHit", sort: 31 },
+  HitPercent: { name: "Critical Hit Chance", icon: "CriticalHit", sort: 90 },
   HitPercentDamageMultiplier: {
     name: "Critical Hit Damage",
     icon: "CriticalHit",
-    sort: 32
+    sort: 91
   },
   Hitpoints: { name: "Health", icon: "Hitpoints", sort: 0 },
-  LOS: { name: "Line-of-sight", icon: "LOS", sort: 84 },
-  MaximumRange: { name: "Maximum Range", icon: "MaximumRange", sort: 50 },
+  LOS: { name: "Line-of-sight", icon: "LOS", sort: 180 },
+  MaximumRange: { name: "Maximum Range", icon: "MaximumRange", sort: 66 },
   MaximumRangeBurningAttack: {
     name: "Maximum Range",
     icon: "MaximumRange",
-    sort: 50
+    sort: 66
   },
   MaximumRangeMeleeAttack: {
     name: "Maximum Range for Melee",
     icon: "MaximumRange",
-    sort: 50
+    sort: 40
   },
   MaximumRange2: {
-    name: "Special Building Attack Max Range",
+    name: "Special Building Max Range",
     icon: "MaximumRange",
-    sort: 50
+    sort: 84
   },
-  MinimumRange: { name: "Minimum Range", icon: "MaximumRange", sort: 49 },
+  MinimumRange: { name: "Minimum Range", icon: "MaximumRange", sort: 65 },
   MaximumRangeConvert: {
     name: "Maximum Conversion Range",
     icon: "MaximumRange",
-    sort: 62
+    sort: 140
   },
   MaximumRangeChaos: {
     name: "Maximum Chaos Range",
     icon: "MaximumRange",
-    sort: 63
+    sort: 130
   },
   MaximumRangeHeal: {
     name: "Maximum Healing Range",
     icon: "MaximumRange",
-    sort: 67
+    sort: 150
   },
   MaximumRangeAreaHeal: {
     name: "Maximum Healing Range",
     icon: "MaximumRange",
-    sort: 67
+    sort: 150
   },
   MaximumVelocity: {
     name: "Movement Speed",
     icon: "MaximumVelocity",
-    sort: 85
+    sort: 182
   },
   TargetSpeedBoost: {
     name: "Snare",
     icon: "TargetSpeedBoost",
-    sort: 48,
+    sort: 70,
+    lowerIsBetter: true
+  },
+  TargetSpeedBoostRangedAttack: {
+    name: "Snare - Ranged",
+    icon: "TargetSpeedBoost",
+    sort: 70,
+    lowerIsBetter: true
+  },
+  TargetSpeedBoostMeleeAttack: {
+    name: "Snare - Melee",
+    icon: "TargetSpeedBoost",
+    sort: 47,
     lowerIsBetter: true
   },
   TargetSpeedBoostResist: {
     name: "Snare Resist",
     icon: "SnareResist",
-    sort: 83
+    sort: 173
   },
   TrainPoints: {
     name: "Train Time",
     icon: "BuildPoints",
-    sort: 88,
+    sort: 195,
     lowerIsBetter: true
   },
-  ArmorRanged: { name: "Pierce Armor", icon: "ArmorRanged", sort: 77 },
-  ArmorSiege: { name: "Crush Armor", icon: "ArmorSiege", sort: 79 },
-  ArmorHand: { name: "Melee-Infantry Armor", icon: "ArmorHand", sort: 76 },
-  ArmorCavalry: { name: "Melee-Cavalry Armor", icon: "ArmorCavalry", sort: 78 },
+  ArmorRanged: { name: "Pierce Armor", icon: "ArmorRanged", sort: 167 },
+  ArmorSiege: { name: "Crush Armor", icon: "ArmorSiege", sort: 169 },
+  ArmorHand: { name: "Melee-Infantry Armor", icon: "ArmorHand", sort: 166 },
+  ArmorCavalry: { name: "Melee-Cavalry Armor", icon: "ArmorCavalry", sort: 168 },
   ConvertStandardConvertable: {
     name: "Conversion Rate",
     icon: "ConvertStandardConvertable",
-    sort: 53,
+    sort: 134,
     lowerIsBetter: true
   },
   ConvertConvertableCavalry: {
     name: "Convert Cavalry Rate",
     icon: "ConvertStandardConvertable",
-    sort: 54,
+    sort: 136,
     lowerIsBetter: true
   },
   ConvertConvertableSiege: {
     name: "Convert Siege Rate",
     icon: "ConvertStandardConvertable",
-    sort: 55,
+    sort: 137,
     lowerIsBetter: true
   },
   ConvertConvertableInfantry: {
     name: "Convert Infantry Rate",
     icon: "ConvertStandardConvertable",
-    sort: 56,
+    sort: 135,
     lowerIsBetter: true
   },
-  ChaosStandardConvertable: { name: "Chaos Rate", icon: "Chaos", sort: 57 },
+  ChaosStandardConvertable: { name: "Chaos Rate", icon: "Chaos", sort: 124 , lowerIsBetter: true},
   ChaosConvertableCavalry: {
     name: "Cavalry Chaos Rate",
     icon: "Chaos",
-    sort: 58,
+    sort: 126,
     lowerIsBetter: true
   },
-  ChaosConvertableSiege: { name: "Siege Chaos Rate", icon: "Chaos", sort: 59 },
+  ChaosConvertableSiege: { name: "Siege Chaos Rate", icon: "Chaos", sort: 127 , lowerIsBetter: true},
   ChaosConvertableInfantry: {
     name: "Infantry Chaos Rate",
     icon: "Chaos",
-    sort: 60,
+    sort: 125,
     lowerIsBetter: true
   },
   ConvertConvertableBuilding: {
     name: "Convert Building Rate",
     icon: "ConvertStandardConvertable",
-    sort: 61,
+    sort: 138,
     lowerIsBetter: true
   },
-  Trade: { name: "Trade", icon: "Cost", sort: 68 },
-  RateHeal: { name: "Healing", icon: "RateHeal", sort: 64 },
-  RateAreaHeal: { name: "Healing", icon: "RateHeal", sort: 64 },
-  RateHealInCombat: { name: "Healing", icon: "RateHeal", sort: 65 },
-  RateAreaHealInCombat: { name: "Healing", icon: "RateHeal", sort: 65 },
-  HealArea: { name: "Healing Area", icon: "HealArea", sort: 66 },
-  AreaHealArea: { name: "Healing Area", icon: "HealArea", sort: 66 },
+  Trade: { name: "Trade", icon: "Cost", sort: 155 },
+  RateHeal: { name: "Healing", icon: "RateHeal", sort: 144 },
+  RateAreaHeal: { name: "Healing", icon: "RateHeal", sort: 144 },
+  RateHealInCombat: { name: "Healing", icon: "RateHeal", sort: 145 },
+  RateAreaHealInCombat: { name: "Healing", icon: "RateHeal", sort: 145 },
+  HealArea: { name: "Healing Area", icon: "HealArea", sort: 146 },
+  AreaHealArea: { name: "Healing Area", icon: "HealArea", sort: 146 },
   Build: {
     name: "Buildings Construction Speed",
     icon: "ConstructionSpeed",
-    sort: 69
+    sort: 145
   },
-  WorkRateRepair: { name: "Repair Speed", icon: "ConstructionSpeed", sort: 71 },
+  WorkRateRepair: { name: "Repair Speed", icon: "ConstructionSpeed", sort: 148 },
   BuildWatchPostOrBarracks: {
     name: "Watch Post Construction Speed",
     icon: "WatchPostConstruction",
-    sort: 70
+    sort: 147
   },
   EmpowerDropsite: {
     name: "Empower Dropoff",
     icon: "EmpowerDropsite",
-    sort: 72
+    sort: 152
   },
   EmpowerActionTrain: {
     name: "Empower Train Rate",
     icon: "EmpowerActionTrain",
-    sort: 73
+    sort: 153
   },
   EmpowerActionBuild: {
     name: "Empower Build Rate",
     icon: "EmpowerActionBuild",
-    sort: 74
+    sort: 154
   },
   DamageBonusAbstractInfantry: {
     name: "Bonus vs. Infantry",
     icon: "DamageBonusAbstractInfantry",
-    sort: 33
+    sort: 0
+  },
+  DamageBonusAbstractInfantryRangedAttack: {
+    name: "Bonus vs. Infantry - Ranged",
+    icon: "DamageBonusAbstractInfantry",
+    sort: 51
+  },
+  DamageBonusAbstractInfantryMeleeAttack: {
+    name: "Bonus vs. Infantry - Melee",
+    icon: "DamageBonusAbstractInfantry",
+    sort: 26
   },
   DamageBonusAbstractCavalry: {
     name: "Bonus vs. Cavalry",
     icon: "DamageBonusAbstractCavalry",
-    sort: 34
+    sort: 0
+  },
+  DamageBonusAbstractCavalryRangedAttack: {
+    name: "Bonus vs. Cavalry - Ranged",
+    icon: "DamageBonusAbstractCavalry",
+    sort: 52
+  },
+  DamageBonusAbstractCavalryMeleeAttack: {
+    name: "Bonus vs. Cavalry - Melee",
+    icon: "DamageBonusAbstractCavalry",
+    sort: 27
   },
   DamageBonusBuilding: {
     name: "Bonus vs. Building",
     icon: "DamageBonusBuilding",
-    sort: 37
+    sort: 0
+  },
+  DamageBonusBuildingRangedAttack: {
+    name: "Bonus vs. Building - Ranged",
+    icon: "DamageBonusBuilding",
+    sort: 53
+  },
+  DamageBonusBuildingMeleeAttack: {
+    name: "Bonus vs. Building - Melee",
+    icon: "DamageBonusBuilding",
+    sort: 28
+  },
+  DamageBonusBuildingRangedAttack2: {
+    name: "Bonus vs. Building - Special Ranged",
+    icon: "DamageBonusBuilding",
+    sort: 81
   },
   DamageBonusShip: {
     name: "Bonus vs. Ship",
     icon: "DamageBonusShip",
-    sort: 40
+    sort: 0
+  },
+  DamageBonusShipRangedAttack: {
+    name: "Bonus vs. Ship - Ranged",
+    icon: "DamageBonusShip",
+    sort: 54
+  },
+  DamageBonusShipMeleeAttack: {
+    name: "Bonus vs. Ship - Melee",
+    icon: "DamageBonusShip",
+    sort: 29
   },
   DamageBonusAbstractArcher: {
     name: "Bonus vs. Ranged",
     icon: "DamageBonusAbstractArcher",
-    sort: 36
+    sort: 0
   },
-  DamageBonusGr_Cav_Sarissophoroi: {
+  DamageBonusAbstractArcherRangedAttack: {
+    name: "Bonus vs. Ranged - Ranged",
+    icon: "DamageBonusAbstractArcher",
+    sort: 55
+  },
+  DamageBonusAbstractArcherMeleeAttack: {
+    name: "Bonus vs. Ranged - Melee",
+    icon: "DamageBonusAbstractArcher",
+    sort: 30
+  },
+  DamageBonusGr_Cav_SarissophoroiRangedAttack: {
     name: "Bonus vs. Sarissophoroi",
     icon: "DamageBonusAbstractCavalry",
-    sort: 35
+    sort: 56
   },
-  DamageBonusUnitTypeBldgStorehouse: {
+  DamageBonusUnitTypeMobileStorehouse1MeleeAttack: {
     name: "Bonus vs. Storehouse",
     icon: "DamageBonusBuilding",
-    sort: 38
+    sort: 31
+  },
+  DamageBonusUnitTypeMobileStorehouse1RangedAttack: {
+    name: "Bonus vs. Storehouse",
+    icon: "DamageBonusBuilding",
+    sort: 57
   },
   DamageBonusAbstractArtillery: {
     name: "Bonus vs. Siege",
     icon: "DamageBonusAbstractArtillery",
-    sort: 39
+    sort: 0
+  },
+  DamageBonusAbstractArtilleryRangedAttack: {
+    name: "Bonus vs. Siege - Ranged",
+    icon: "DamageBonusAbstractArtillery",
+    sort: 58
+  },
+  DamageBonusAbstractArtilleryMeleeAttack: {
+    name: "Bonus vs. Siege - Melee",
+    icon: "DamageBonusAbstractArtillery",
+    sort: 32
   },
   DamageBonusHuntable: {
     name: "Bonus vs. Huntable",
     icon: "DamageBonusHuntable",
-    sort: 41
+    sort: 0
+  },
+  DamageBonusHuntableRangedAttack: {
+    name: "Bonus vs. Huntable - Ranged",
+    icon: "DamageBonusHuntable",
+    sort: 59
+  },
+  DamageBonusHuntableMeleeAttack: {
+    name: "Bonus vs. Huntable - Melee",
+    icon: "DamageBonusHuntable",
+    sort: 33
   },
   DamageBonusUnitTypeVillager1: {
     name: "Bonus vs. Villager",
     icon: "DamageBonusUnitTypeVillager1",
-    sort: 42
+    sort: 0
+  },
+  DamageBonusUnitTypeVillager1RangedAttack: {
+    name: "Bonus vs. Villager - Ranged",
+    icon: "DamageBonusUnitTypeVillager1",
+    sort: 60
+  },
+  DamageBonusUnitTypeVillager1MeleeAttack: {
+    name: "Bonus vs. Villager - Melee",
+    icon: "DamageBonusUnitTypeVillager1",
+    sort: 34
   },
   DamageBonusAbstractPriest: {
     name: "Bonus vs. Priests",
     icon: "DamageBonusAbstractPriest",
-    sort: 43
+    sort: 0
   },
-  DamageBonusEg_Cav_CamelRider: {
-    name: "Bonus vs. Camel Rider",
-    icon: "DamageBonusAbstractCavalry",
+  DamageBonusAbstractPriestRangedAttack: {
+    name: "Bonus vs. Priests - Ranged",
+    icon: "DamageBonusAbstractPriest",
+    sort: 61
+  },
+  DamageBonusAbstractPriestMeleeAttack: {
+    name: "Bonus vs. Priests - Melee",
+    icon: "DamageBonusAbstractPriest",
     sort: 35
+  },
+  DamageBonusCamelMeleeAttack: {
+    name: "Bonus vs. Camel",
+    icon: "DamageBonusHuntable",
+    sort: 36
+  },
+  DamageBonusDeerAlpineMeleeAttack: {
+    name: "Bonus vs. Deer Alpine",
+    icon: "DamageBonusHuntable",
+    sort: 36
+  },
+  DamageBonusAntelopeMeleeAttack: {
+    name: "Bonus vs. Antelope",
+    icon: "DamageBonusHuntable",
+    sort: 36
+  },
+  DamageBonusDeerMeleeAttack: {
+    name: "Bonus vs. Deer",
+    icon: "DamageBonusHuntable",
+    sort: 36
   },
   AttackSpeed: { name: "Attack Rate", icon: "DamageOverTime", sort: 0 },
   AttackSpeedDamageRanged: {
-    name: "Ranged Attack Rate",
+    name: "Attack Rate",
     icon: "DamageOverTime",
     sort: 0
   },
   AttackSpeedDamageRanged2: {
-    name: "Special Building Ranged Attack Rate",
+    name: "Special Ranged Attack Rate",
     icon: "DamageOverTime",
     sort: 0
   },
   DamageHand: { name: "Melee-Infantry DPS", icon: "DamageHand", sort: 25 },
-  DamageRanged: { name: "Pierce DPS", icon: "DamageRanged", sort: 26 },
-  DamageCavalry: { name: "Melee-Cavalry DPS", icon: "DamageCavalry", sort: 27 },
-  DamageSiege: { name: "Crush DPS", icon: "DamageSiege", sort: 28 },
+  DamageRanged: { name: "Pierce DPS", icon: "DamageRanged", sort: 50 },
+  DamageCavalry: { name: "Melee-Cavalry DPS", icon: "DamageCavalry", sort: 25 },
+  DamageSiege: { name: "Crush DPS", icon: "DamageSiege", sort: 25 },
   DamageSiegeMeleeAttack: {
     name: "Melee Crush DPS",
     icon: "DamageSiege",
-    sort: 29
+    sort: 25
   },
   DamageSiegeRangedAttack: {
     name: "Ranged Crush DPS",
     icon: "DamageSiege",
-    sort: 30
+    sort: 50
   },
   DamageSiegeRangedAttack2: {
-    name: "Special Building Attack Crush DPS",
+    name: "Special Building Ranged Crush DPS",
     icon: "DamageSiege",
-    sort: 30
+    sort: 80
   },
   MaximumContained: {
     name: "Transport Capacity",
     icon: "PopulationCount",
-    sort: 86
+    sort: 186
   },
   AOERadius: {
     name: "Charge Attack Damage Area",
     icon: "DamageArea",
-    sort: 93
+    sort: 179
   },
   ArmorVulnerability: {
     name: "Ignore Armor",
     icon: "ArmorVulnerability",
-    sort: 47
+    sort: 100
   },
   UnlockUpgrade: { name: "Unlocks upgrade", icon: "NONE", sort: 0 },
   DisableUpgrade: { name: "Disables upgrade", icon: "NONE", sort: 0 },
   ChargeAbility: {
     name: "Can Charge",
     icon: "Chaos",
-    sort: 89
+    sort: 175
   },
   ChargeDamageMultiplier: {
     name: "Charge Damage Multiplier",
     icon: "Chaos",
-    sort: 89
+    sort: 175
   },
   ChargeRange: {
     name: "Charge Range",
     icon: "MaximumRange",
-    sort: 90
+    sort: 176
   },
   ChargeSpeedBoost: {
     name: "Charge Speed Bonus",
     icon: "MaximumVelocity",
-    sort: 91
+    sort: 177
   },
   ChargeCooldown: {
     name: "Charge Cooldown",
     icon: "BuildPoints",
-    sort: 92
+    sort: 178
   }
 }
 
@@ -834,3 +963,4 @@ function getTemplate(effectName) {
   }
   throw `Effect '${effectName}' is not handled`
 }
+

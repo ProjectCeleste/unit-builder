@@ -167,9 +167,9 @@ export default {
         e = "Barracks Construction Speed"
       }
       /* Enneris only has Bonus vs Buildings from the RangedAttack2*/
-      if (this.unit.id === "Ro_Shp_Enneris" && name === "DamageBonusBuilding") {
+      /*if (this.unit.id === "Ro_Shp_Enneris" && name === "DamageBonusBuilding") {
         e = "Special Attack Bonus vs Buildings"
-      }
+      }*/
       return e
     },
     effectIcon(name) {
@@ -259,7 +259,7 @@ export default {
             affectedStats.push("DamagePierceRangedAttack2")
             affectedStats.push("RangedAttack2DamageArea")
             affectedStats.push("MaximumRange2")
-            affectedStats.push("DamageBonusBuilding")
+            affectedStats.push("DamageBonusBuildingRangedAttack2")
             break
           case "Heal":
             affectedStats.push("RateHeal")
@@ -267,9 +267,12 @@ export default {
             affectedStats.push("HealArea")
             break
           case "AreaHeal":
-            affectedStats.push("RateAreaHeal")
+            affectedStats.push("RateAreaHealInCombat")
             affectedStats.push("MaximumRangeAreaHeal")
             affectedStats.push("AreaHealArea")
+            delete stats["RateHealInCombat"]
+            delete stats["MaximumRangeHeal"]
+            delete stats["HealArea"]
             break
           case "Charge":
             affectedStats.push("ChargeDamageMultiplier")
@@ -335,14 +338,11 @@ export default {
           }
           break
         case "AttackSpeedDamageRanged":
-          ;["DamageRanged", "DamageSiegeRangedAttack"].forEach(e => {
-            if (stats[e]) {
-              stats[e] *= mod
-            }
-          })
-          break
-        case "AttackSpeedDamageRanged2":
-          ;["DamageSiegeRangedAttack2"].forEach(e => {
+          ;[
+            "DamageRanged",
+            "DamageSiegeRangedAttack",
+            "DamageSiegeRangedAttack2"
+          ].forEach(e => {
             if (stats[e]) {
               stats[e] *= mod
             }
@@ -388,6 +388,425 @@ export default {
               stats[keyRange] *= mod
             }
           }
+          break
+        case "DamageBonusAbstractInfantry":
+          ;[
+            "DamageBonusAbstractInfantryRangedAttack",
+            "DamageBonusAbstractInfantryMeleeAttack"
+          ].forEach(e => {
+            if (stats[e]) {
+              stats[e] *= mod
+            } else {
+              stats[e] = 1 * mod
+              let melee_stuff = 0
+              let ranged_stuff = 0
+              if (
+                stats["DamageCavalry"] ||
+                stats["DamageHand"] ||
+                (stats["DamageSiegeMeleeAttack"] && unit.id === "No_Sie_Ram")
+              ) {
+                melee_stuff = 1
+              }
+              if (
+                stats["DamageRanged"] ||
+                stats["DamageSiegeRangedAttack"] ||
+                stats["DamageSiegeRangedAttack2"]
+              ) {
+                ranged_stuff = 1
+              }
+              if (melee_stuff === 1 && ranged_stuff === 0) {
+                delete stats["DamageBonusAbstractInfantryRangedAttack"]
+              }
+              if (melee_stuff === 0 && ranged_stuff === 1) {
+                delete stats["DamageBonusAbstractInfantryMeleeAttack"]
+              }
+              if (melee_stuff === 0 && ranged_stuff === 0) {
+                delete stats["DamageBonusAbstractInfantryRangedAttack"]
+                delete stats["DamageBonusAbstractInfantryMeleeAttack"]
+              }
+            }
+          })
+          break
+        case "DamageBonusAbstractCavalry":
+          ;[
+            "DamageBonusAbstractCavalryRangedAttack",
+            "DamageBonusAbstractCavalryMeleeAttack"
+          ].forEach(e => {
+            if (stats[e]) {
+              stats[e] *= mod
+            } else {
+              stats[e] = 1 * mod
+              let melee_stuff = 0
+              let ranged_stuff = 0
+              if (
+                stats["DamageCavalry"] ||
+                stats["DamageHand"] ||
+                (stats["DamageSiegeMeleeAttack"] && unit.id === "No_Sie_Ram")
+              ) {
+                melee_stuff = 1
+              }
+              if (
+                stats["DamageRanged"] ||
+                stats["DamageSiegeRangedAttack"] ||
+                stats["DamageSiegeRangedAttack2"]
+              ) {
+                ranged_stuff = 1
+              }
+              if (melee_stuff === 1 && ranged_stuff === 0) {
+                delete stats["DamageBonusAbstractCavalryRangedAttack"]
+              }
+              if (melee_stuff === 0 && ranged_stuff === 1) {
+                delete stats["DamageBonusAbstractCavalryMeleeAttack"]
+              }
+              if (melee_stuff === 0 && ranged_stuff === 0) {
+                delete stats["DamageBonusAbstractCavalryRangedAttack"]
+                delete stats["DamageBonusAbstractCavalryMeleeAttack"]
+              }
+            }
+          })
+          break
+        case "DamageBonusBuilding":
+          ;[
+            "DamageBonusBuildingRangedAttack",
+            "DamageBonusBuildingMeleeAttack",
+            "DamageBonusBuildingRangedAttack2"
+          ].forEach(e => {
+            if (stats[e]) {
+              stats[e] *= mod
+            } else {
+              stats[e] = 1 * mod
+              let melee_stuff = 0
+              let ranged_stuff = 0
+              if (
+                stats["DamageCavalry"] ||
+                stats["DamageHand"] ||
+                stats["DamageSiegeMeleeAttack"]
+              ) {
+                melee_stuff = 1
+              }
+              if (
+                stats["DamageRanged"] ||
+                stats["DamageSiegeRangedAttack"] ||
+                stats["DamageSiegeRangedAttack2"]
+              ) {
+                ranged_stuff = 1
+              }
+              if (melee_stuff === 1 && ranged_stuff === 0) {
+                delete stats["DamageBonusBuildingRangedAttack"]
+              }
+              if (melee_stuff === 0 && ranged_stuff === 1) {
+                delete stats["DamageBonusBuildingMeleeAttack"]
+              }
+              if (melee_stuff === 0 && ranged_stuff === 0) {
+                delete stats["DamageBonusBuildingRangedAttack"]
+                delete stats["DamageBonusBuildingMeleeAttack"]
+              }
+              if (!stats["DamageSiegeRangedAttack2"]) {
+                delete stats["DamageBonusBuildingRangedAttack2"]
+              }
+            }
+          })
+          break
+        case "DamageBonusShip":
+          ;[
+            "DamageBonusShipRangedAttack",
+            "DamageBonusShipMeleeAttack"
+          ].forEach(e => {
+            if (stats[e]) {
+              stats[e] *= mod
+            } else {
+              stats[e] = 1 * mod
+              let melee_stuff = 0
+              let ranged_stuff = 0
+              if (
+                stats["DamageCavalry"] ||
+                stats["DamageHand"] ||
+                (stats["DamageSiegeMeleeAttack"] && unit.id === "No_Sie_Ram")
+              ) {
+                melee_stuff = 1
+              }
+              if (
+                stats["DamageRanged"] ||
+                stats["DamageSiegeRangedAttack"] ||
+                stats["DamageSiegeRangedAttack2"]
+              ) {
+                ranged_stuff = 1
+              }
+              if (melee_stuff === 1 && ranged_stuff === 0) {
+                delete stats["DamageBonusShipRangedAttack"]
+              }
+              if (melee_stuff === 0 && ranged_stuff === 1) {
+                delete stats["DamageBonusShipMeleeAttack"]
+              }
+              if (melee_stuff === 0 && ranged_stuff === 0) {
+                delete stats["DamageBonusShipRangedAttack"]
+                delete stats["DamageBonusShipMeleeAttack"]
+              }
+            }
+          })
+          break
+        case "DamageBonusAbstractArcher":
+          ;[
+            "DamageBonusAbstractArcherRangedAttack",
+            "DamageBonusAbstractArcherMeleeAttack"
+          ].forEach(e => {
+            if (stats[e]) {
+              stats[e] *= mod
+            } else {
+              stats[e] = 1 * mod
+              let melee_stuff = 0
+              let ranged_stuff = 0
+              if (
+                stats["DamageCavalry"] ||
+                stats["DamageHand"] ||
+                (stats["DamageSiegeMeleeAttack"] && unit.id === "No_Sie_Ram")
+              ) {
+                melee_stuff = 1
+              }
+              if (
+                stats["DamageRanged"] ||
+                stats["DamageSiegeRangedAttack"] ||
+                stats["DamageSiegeRangedAttack2"]
+              ) {
+                ranged_stuff = 1
+              }
+              if (melee_stuff === 1 && ranged_stuff === 0) {
+                delete stats["DamageBonusAbstractArcherRangedAttack"]
+              }
+              if (melee_stuff === 0 && ranged_stuff === 1) {
+                delete stats["DamageBonusAbstractArcherMeleeAttack"]
+              }
+              if (melee_stuff === 0 && ranged_stuff === 0) {
+                delete stats["DamageBonusAbstractArcherRangedAttack"]
+                delete stats["DamageBonusAbstractArcherMeleeAttack"]
+              }
+            }
+          })
+          break
+        case "DamageBonusAbstractArtillery":
+          ;[
+            "DamageBonusAbstractArtilleryRangedAttack",
+            "DamageBonusAbstractArtilleryMeleeAttack"
+          ].forEach(e => {
+            if (stats[e]) {
+              stats[e] *= mod
+            } else {
+              stats[e] = 1 * mod
+              let melee_stuff = 0
+              let ranged_stuff = 0
+              if (
+                stats["DamageCavalry"] ||
+                stats["DamageHand"] ||
+                (stats["DamageSiegeMeleeAttack"] && unit.id === "No_Sie_Ram")
+              ) {
+                melee_stuff = 1
+              }
+              if (
+                stats["DamageRanged"] ||
+                stats["DamageSiegeRangedAttack"] ||
+                stats["DamageSiegeRangedAttack2"]
+              ) {
+                ranged_stuff = 1
+              }
+              if (melee_stuff === 1 && ranged_stuff === 0) {
+                delete stats["DamageBonusAbstractArtilleryRangedAttack"]
+              }
+              if (melee_stuff === 0 && ranged_stuff === 1) {
+                delete stats["DamageBonusAbstractArtilleryMeleeAttack"]
+              }
+              if (melee_stuff === 0 && ranged_stuff === 0) {
+                delete stats["DamageBonusAbstractArtilleryRangedAttack"]
+                delete stats["DamageBonusAbstractArtilleryMeleeAttack"]
+              }
+            }
+          })
+          break
+        case "DamageBonusHuntable":
+          ;[
+            "DamageBonusHuntableRangedAttack",
+            "DamageBonusHuntableMeleeAttack"
+          ].forEach(e => {
+            if (stats[e]) {
+              stats[e] *= mod
+            } else {
+              stats[e] = 1 * mod
+              let melee_stuff = 0
+              let ranged_stuff = 0
+              if (
+                stats["DamageCavalry"] ||
+                stats["DamageHand"] ||
+                (stats["DamageSiegeMeleeAttack"] && unit.id === "No_Sie_Ram")
+              ) {
+                melee_stuff = 1
+              }
+              if (
+                stats["DamageRanged"] ||
+                stats["DamageSiegeRangedAttack"] ||
+                stats["DamageSiegeRangedAttack2"]
+              ) {
+                ranged_stuff = 1
+              }
+              if (melee_stuff === 1 && ranged_stuff === 0) {
+                delete stats["DamageBonusHuntableRangedAttack"]
+              }
+              if (melee_stuff === 0 && ranged_stuff === 1) {
+                delete stats["DamageBonusHuntableMeleeAttack"]
+              }
+              if (melee_stuff === 0 && ranged_stuff === 0) {
+                delete stats["DamageBonusHuntableRangedAttack"]
+                delete stats["DamageBonusHuntableMeleeAttack"]
+              }
+            }
+          })
+          break
+        case "DamageBonusUnitTypeVillager1":
+          ;[
+            "DamageBonusUnitTypeVillager1RangedAttack",
+            "DamageBonusUnitTypeVillager1MeleeAttack"
+          ].forEach(e => {
+            if (stats[e]) {
+              stats[e] *= mod
+            } else {
+              stats[e] = 1 * mod
+              let melee_stuff = 0
+              let ranged_stuff = 0
+              if (
+                stats["DamageCavalry"] ||
+                stats["DamageHand"] ||
+                (stats["DamageSiegeMeleeAttack"] && unit.id === "No_Sie_Ram")
+              ) {
+                melee_stuff = 1
+              }
+              if (
+                stats["DamageRanged"] ||
+                stats["DamageSiegeRangedAttack"] ||
+                stats["DamageSiegeRangedAttack2"]
+              ) {
+                ranged_stuff = 1
+              }
+              if (melee_stuff === 1 && ranged_stuff === 0) {
+                delete stats["DamageBonusUnitTypeVillager1RangedAttack"]
+              }
+              if (melee_stuff === 0 && ranged_stuff === 1) {
+                delete stats["DamageBonusUnitTypeVillager1MeleeAttack"]
+              }
+              if (melee_stuff === 0 && ranged_stuff === 0) {
+                delete stats["DamageBonusUnitTypeVillager1RangedAttack"]
+                delete stats["DamageBonusUnitTypeVillager1MeleeAttack"]
+              }
+            }
+          })
+          break
+        case "DamageBonusAbstractPriest":
+          ;[
+            "DamageBonusAbstractPriestRangedAttack",
+            "DamageBonusAbstractPriestMeleeAttack"
+          ].forEach(e => {
+            if (stats[e]) {
+              stats[e] *= mod
+            } else {
+              stats[e] = 1 * mod
+              let melee_stuff = 0
+              let ranged_stuff = 0
+              if (
+                stats["DamageCavalry"] ||
+                stats["DamageHand"] ||
+                (stats["DamageSiegeMeleeAttack"] && unit.id === "No_Sie_Ram")
+              ) {
+                melee_stuff = 1
+              }
+              if (
+                stats["DamageRanged"] ||
+                stats["DamageSiegeRangedAttack"] ||
+                stats["DamageSiegeRangedAttack2"]
+              ) {
+                ranged_stuff = 1
+              }
+              if (melee_stuff === 1 && ranged_stuff === 0) {
+                delete stats["DamageBonusAbstractPriestRangedAttack"]
+              }
+              if (melee_stuff === 0 && ranged_stuff === 1) {
+                delete stats["DamageBonusAbstractPriestMeleeAttack"]
+              }
+              if (melee_stuff === 0 && ranged_stuff === 0) {
+                delete stats["DamageBonusAbstractPriestMeleeAttack"]
+                delete stats["DamageBonusAbstractPriestRangedAttack"]
+              }
+            }
+          })
+          break
+        case "TargetSpeedBoostRangedAttack":
+          ;["TargetSpeedBoostRangedAttack"].forEach(e => {
+            if (stats[e]) {
+              stats[e] *= mod
+            } else {
+              stats[e] = 1 * mod
+            }
+            if (unit.id === "No_Inf_ThrowingAxeman") {
+              delete stats["TargetSpeedBoostRangedAttack"]
+            }
+            let melee_stuff = 0
+            let ranged_stuff = 0
+            if (
+              stats["DamageCavalry"] ||
+              stats["DamageHand"] ||
+              (stats["DamageSiegeMeleeAttack"] && unit.id === "No_Sie_Ram")
+            ) {
+              melee_stuff = 1
+            }
+            if (
+              stats["DamageRanged"] ||
+              stats["DamageSiegeRangedAttack"] ||
+              stats["DamageSiegeRangedAttack2"]
+            ) {
+              ranged_stuff = 1
+            }
+            if (melee_stuff === 1 && ranged_stuff === 0) {
+              delete stats["TargetSpeedBoostRangedAttack"]
+            }
+            if (melee_stuff === 0 && ranged_stuff === 1) {
+              //delete stats["TargetSpeedBoostMeleeAttack"]
+            }
+            if (melee_stuff === 0 && ranged_stuff === 0) {
+              //delete stats["TargetSpeedBoostMeleeAttack"]
+              delete stats["TargetSpeedBoostRangedAttack"]
+            }
+          })
+          break
+        case "TargetSpeedBoostMeleeAttack":
+          ;["TargetSpeedBoostMeleeAttack"].forEach(e => {
+            if (stats[e]) {
+              stats[e] *= mod
+            } else {
+              stats[e] = 1 * mod
+            }
+            let melee_stuff = 0
+            let ranged_stuff = 0
+            if (
+              stats["DamageCavalry"] ||
+              stats["DamageHand"] ||
+              (stats["DamageSiegeMeleeAttack"] && unit.id === "No_Sie_Ram")
+            ) {
+              melee_stuff = 1
+            }
+            if (
+              stats["DamageRanged"] ||
+              stats["DamageSiegeRangedAttack"] ||
+              stats["DamageSiegeRangedAttack2"]
+            ) {
+              ranged_stuff = 1
+            }
+            if (melee_stuff === 1 && ranged_stuff === 0) {
+              //delete stats["TargetSpeedBoostRangedAttack"]
+            }
+            if (melee_stuff === 0 && ranged_stuff === 1) {
+              delete stats["TargetSpeedBoostMeleeAttack"]
+            }
+            if (melee_stuff === 0 && ranged_stuff === 0) {
+              delete stats["TargetSpeedBoostMeleeAttack"]
+              //delete stats["TargetSpeedBoostRangedAttack"]
+            }
+          })
           break
         case "CostAll":
         case "Cost":
@@ -443,6 +862,10 @@ export default {
 
           this.setBaseStat(stats, effect.type)
           stats[effect.type] *= mod
+
+          if (unit.types.includes("Unit")) {
+            delete stats["BuildingWorkRate"]
+          }
       }
     }
   }
