@@ -261,7 +261,8 @@ function getBase(effectName) {
     effectName === "Trade" ||
     effectName === "BuildingWorkRate" ||
     effectName === "WorkRateRepair" ||
-    effectName === "HitPercentDamageMultiplier"
+    effectName === "HitPercentDamageMultiplier" ||
+    effectName === "HealdamageBonusUnit"
     ? 1
     : 0
 }
@@ -283,7 +284,8 @@ function getType(effectName) {
     effectName === "WorkRateRepair" ||
     effectName === "HitPercentDamageMultiplier" ||
     effectName === "ChargeDamageMultiplier" ||
-    effectName === "ChargeSpeedBoost"
+    effectName === "ChargeSpeedBoost" ||
+    effectName === "HealdamageBonusUnit"
   ) {
     return "multiplier" // starts with "x"
   }
@@ -685,13 +687,13 @@ const templates = {
   Build: {
     name: "Buildings Construction Speed",
     icon: "ConstructionSpeed",
-    sort: 145
+    sort: 104
   },
-  WorkRateRepair: { name: "Repair Speed", icon: "ConstructionSpeed", sort: 148 },
+  WorkRateRepair: { name: "Repair Speed", icon: "ConstructionSpeed", sort: 103 },
   BuildWatchPostOrBarracks: {
     name: "Watch Post Construction Speed",
     icon: "WatchPostConstruction",
-    sort: 147
+    sort: 105
   },
   EmpowerDropsite: {
     name: "Empower Dropoff",
@@ -954,6 +956,16 @@ const templates = {
     name: "Charge Cooldown",
     icon: "BuildPoints",
     sort: 178
+  },
+  "HealdamageBonusUnit": {
+    name: "Healing Damage Bonus all Units",
+    icon: "Chaos",
+    sort: 147
+  },
+  "SacrificeHuntable": {
+    name: "Can Sacrifice Huntable",
+    icon: "DamageBonusHuntable",
+    sort: 147
   }
 }
 

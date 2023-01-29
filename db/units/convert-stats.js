@@ -304,6 +304,16 @@ export function parseAction(action, stats, inactiveActions) {
     stats.MinimumRange = action.MinRange
   }
 
+  if (name === "Sacrifice") {
+    if (Array.isArray(action.Rate)) {
+      for (let i = 0; i < action.Rate.length; i++) {
+        const rate = action.Rate[i]
+        stats["Sacrifice" + rate.type] = 1
+      }
+    }
+  
+  }
+
   if (name === "Gather") {
     if (Array.isArray(action.Rate)) {
       for (let keyGather in action.Rate) {
@@ -457,6 +467,9 @@ function convertTactic(tactic, stats, inactiveActions) {
       }
       if (tactic.aoeHealRadius) {
         stats[tactic.name.text + "Area"] = parseFloat(tactic.aoeHealRadius)
+      }
+      if (tactic.damageBonus) {
+        stats["HealdamageBonus" + tactic.damageBonus.type] = parseFloat(tactic.damageBonus.text)
       }
       break
     case "Convert": {
