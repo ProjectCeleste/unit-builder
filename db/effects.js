@@ -262,7 +262,8 @@ function getBase(effectName) {
     effectName === "BuildingWorkRate" ||
     effectName === "WorkRateRepair" ||
     effectName === "HitPercentDamageMultiplier" ||
-    effectName === "HealdamageBonusUnit"
+    effectName === "HealdamageBonusUnit" ||
+    (effectName.includes("Aura") && !effectName.includes("Range"))
     ? 1
     : 0
 }
@@ -285,7 +286,8 @@ function getType(effectName) {
     effectName === "HitPercentDamageMultiplier" ||
     effectName === "ChargeDamageMultiplier" ||
     effectName === "ChargeSpeedBoost" ||
-    effectName === "HealdamageBonusUnit"
+    effectName === "HealdamageBonusUnit" ||
+    (effectName.includes("Aura") && !effectName.includes("Range"))
   ) {
     return "multiplier" // starts with "x"
   }
@@ -966,6 +968,96 @@ const templates = {
     name: "Can Sacrifice Huntable",
     icon: "DamageBonusHuntable",
     sort: 147
+  },
+  MovementSpeedAuraSpeedRange: {
+    name: "Military Speed Aura Buff Range",
+    icon: "DamageArea",
+    sort: 110
+  },
+  MovementSpeedAuraSpeed: {
+    name: "Military Speed Aura Buff",
+    icon: "DamageArea",
+    sort: 111
+  },
+  MovementSpeedAuraVillagerSpeedRange: {
+    name: "Villager Speed Aura Buff Range",
+    icon: "DamageArea",
+    sort: 112
+  },
+  MovementSpeedAuraVillagerSpeed: {
+    name: "Villager Speed Aura Buff",
+    icon: "DamageArea",
+    sort: 112
+  },
+  Servilia_ESpeedRange: {
+    name: "Villager Speed Aura Buff Range",
+    icon: "DamageArea",
+    sort: 112
+  },
+  Servilia_ESpeed: {
+    name: "Villager Speed Aura Buff",
+    icon: "DamageArea",
+    sort: 112
+  },
+  Servilia_RSpeedRange: {
+    name: "Villager Speed Aura Buff Range",
+    icon: "DamageArea",
+    sort: 112
+  },
+  Servilia_RSpeed: {
+    name: "Villager Speed Aura Buff",
+    icon: "DamageArea",
+    sort: 112
+  },
+  Servilia_USpeedRange: {
+    name: "Villager Speed Aura Buff Range",
+    icon: "DamageArea",
+    sort: 112
+  },
+  Servilia_USpeed: {
+    name: "Villager Speed Aura Buff",
+    icon: "DamageArea",
+    sort: 112
+  },
+  Servilia_CSpeedRange: {
+    name: "Villager Speed Aura Buff Range",
+    icon: "DamageArea",
+    sort: 112
+  },
+  Servilia_CSpeed: {
+    name: "Villager Speed Aura Buff",
+    icon: "DamageArea",
+    sort: 112
+  },
+  DamageAuraDamageRange: {
+    name: "Damage Aura Buff Range",
+    icon: "DamageArea",
+    sort: 113
+  },
+  DamageAuraDamage: {
+    name: "Damage Aura Buff",
+    icon: "DamageArea",
+    sort: 114
+  },
+  HealthAuraMaxHPRange: {
+    name: "HP Aura Buff Range",
+    icon: "DamageArea",
+    sort: 115
+  },
+  HealthAuraMaxHP: {
+    name: "HP Aura Buff",
+    icon: "DamageArea",
+    sort: 116
+  },
+  DebuffAuraDamageRange: {
+    name: "Enemy Damage Aura Debuff Range",
+    icon: "DamageArea",
+    sort: 117
+  },
+  DebuffAuraDamage: {
+    name: "Enemy Damage Aura Debuff",
+    icon: "DamageArea",
+    sort: 118
   }
 }
 

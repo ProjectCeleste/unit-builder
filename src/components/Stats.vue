@@ -290,6 +290,22 @@ export default {
             affectedStats.push("PoisonAttackDamageOverTimeDuration")
             affectedStats.push("PoisonAttackDamageOverTimeRate")
             break
+          case "Servilia_E":
+            affectedStats.push("Servilia_ESpeedRange")
+            affectedStats.push("Servilia_ESpeed")
+            break
+          case "Servilia_R":
+            affectedStats.push("Servilia_RSpeedRange")
+            affectedStats.push("Servilia_RSpeed")
+            break
+          case "Servilia_U":
+            affectedStats.push("Servilia_USpeedRange")
+            affectedStats.push("Servilia_USpeed")
+            break
+          case "Servilia_C":
+            affectedStats.push("Servilia_CSpeedRange")
+            affectedStats.push("Servilia_CSpeed")
+            break
           default:
             affectedStats.push(actionName)
         }

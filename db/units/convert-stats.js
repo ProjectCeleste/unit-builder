@@ -390,6 +390,16 @@ export function findDamageType(stats) {
 
 function convertTactic(tactic, stats, inactiveActions) {
   switch (tactic.type) {
+    case "AutoRangedModify": {
+          stats[tactic.name.text + tactic.modifyType + "Range"] =  parseFloat(tactic.maxRange)
+          stats[tactic.name.text + tactic.modifyType] =  parseFloat(tactic.modifyMultiplier)
+        
+        if (tactic.active === "0"){
+          inactiveActions.push(tactic.name.text + tactic.modifyType + "Range")
+          inactiveActions.push(tactic.name.text + tactic.modifyType)
+        }
+      break
+    }
     case "Empower":
       for (let i = 0; i < tactic.rate.length; i++) {
         const rate = tactic.rate[i]
@@ -507,8 +517,8 @@ function convertTactic(tactic, stats, inactiveActions) {
           }
         }
       }
+      break
     }
-
   }
 }
 
