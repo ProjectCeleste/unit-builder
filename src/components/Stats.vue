@@ -149,6 +149,11 @@ export default {
         .filter(e => !e.type.startsWith("ActionEnable"))
         .forEach(e => this.applyEffect(e, stats, this.unit))
 
+      if (stats.ScaleByContainedUnitsRangedAttack) {
+        stats["MaxDmgMaxContained"] =
+          stats["DamageRanged"] * stats["MaximumContained"]
+      }
+
       this.$store.commit("setUnitStats", { id: this.unitId, stats })
       return stats
     }
@@ -166,6 +171,15 @@ export default {
       ) {
         e = "Barracks Construction Speed"
       }
+      if (this.unit.id === "No_Inf_ThrowingAxeman" && name === "DamageRanged") {
+        e = "Melee-Infantry DPS (Ranged)"
+      }
+      if (
+        this.unit.stats.ScaleByContainedUnitsRangedAttack &&
+        name === "DamageRanged"
+      ) {
+        e = "Pierce DPS per unit"
+      }
       /* Enneris only has Bonus vs Buildings from the RangedAttack2*/
       /*if (this.unit.id === "Ro_Shp_Enneris" && name === "DamageBonusBuilding") {
         e = "Special Attack Bonus vs Buildings"
@@ -173,7 +187,11 @@ export default {
       return e
     },
     effectIcon(name) {
-      return effects[name].icon
+      let e = effects[name].icon
+      if (this.unit.id === "No_Inf_ThrowingAxeman" && name === "DamageRanged") {
+        e = "DamageHand"
+      }
+      return e
     },
     formatEffect(name, value) {
       const effect = effects[name]
@@ -253,6 +271,9 @@ export default {
             affectedStats.push("DamageRanged")
             affectedStats.push("RangedAttackDamageArea")
             affectedStats.push("MaximumRange")
+            affectedStats.push("MaxDmgMaxContained")
+            affectedStats.push("AttackIfContainsUnitsRangedAttack")
+            affectedStats.push("ScaleByContainedUnitsRangedAttack")
             break
           case "RangedAttack2":
             affectedStats.push("DamageSiegeRangedAttack2")
@@ -758,9 +779,6 @@ export default {
             } else {
               stats[e] = 1 * mod
             }
-            if (unit.id === "No_Inf_ThrowingAxeman") {
-              delete stats["TargetSpeedBoostRangedAttack"]
-            }
             let melee_stuff = 0
             let ranged_stuff = 0
             if (
@@ -821,6 +839,167 @@ export default {
             if (melee_stuff === 0 && ranged_stuff === 0) {
               delete stats["TargetSpeedBoostMeleeAttack"]
               //delete stats["TargetSpeedBoostRangedAttack"]
+            }
+          })
+          break
+        case "HitPercentRangedAttack":
+          ;["HitPercentRangedAttack"].forEach(e => {
+            if (stats[e]) {
+              stats[e] = ((stats[e] / 100 + 1) * mod - 1) * 100
+            } else {
+              stats[e] = (mod - 1) * 100
+            }
+            let melee_stuff = 0
+            let ranged_stuff = 0
+            if (
+              stats["DamageCavalry"] ||
+              stats["DamageHand"] ||
+              (stats["DamageSiegeMeleeAttack"] && unit.id === "No_Sie_Ram")
+            ) {
+              melee_stuff = 1
+            }
+            if (
+              stats["DamageRanged"] ||
+              stats["DamageSiegeRangedAttack"] ||
+              stats["DamageSiegeRangedAttack2"]
+            ) {
+              ranged_stuff = 1
+            }
+            if (melee_stuff === 1 && ranged_stuff === 0) {
+              delete stats["HitPercentRangedAttack"]
+            }
+            if (melee_stuff === 0 && ranged_stuff === 1) {
+              //delete stats["TargetSpeedBoostMeleeAttack"]
+            }
+            if (melee_stuff === 0 && ranged_stuff === 0) {
+              //delete stats["TargetSpeedBoostMeleeAttack"]
+              delete stats["HitPercentRangedAttack"]
+            }
+          })
+          break
+        case "HitPercentMeleeAttack":
+          ;["HitPercentMeleeAttack"].forEach(e => {
+            if (stats[e]) {
+              stats[e] = ((stats[e] / 100 + 1) * mod - 1) * 100
+            } else {
+              stats[e] = (mod - 1) * 100
+            }
+            let melee_stuff = 0
+            let ranged_stuff = 0
+            if (
+              stats["DamageCavalry"] ||
+              stats["DamageHand"] ||
+              (stats["DamageSiegeMeleeAttack"] && unit.id === "No_Sie_Ram")
+            ) {
+              melee_stuff = 1
+            }
+            if (
+              stats["DamageRanged"] ||
+              stats["DamageSiegeRangedAttack"] ||
+              stats["DamageSiegeRangedAttack2"]
+            ) {
+              ranged_stuff = 1
+            }
+            if (melee_stuff === 1 && ranged_stuff === 0) {
+              //delete stats["TargetSpeedBoostRangedAttack"]
+            }
+            if (melee_stuff === 0 && ranged_stuff === 1) {
+              delete stats["HitPercentMeleeAttack"]
+            }
+            if (melee_stuff === 0 && ranged_stuff === 0) {
+              delete stats["HitPercentMeleeAttack"]
+              //delete stats["TargetSpeedBoostRangedAttack"]
+            }
+          })
+          break
+        case "GatherFood":
+          ;["GatherFood"].forEach(e => {
+            if (stats[e]) {
+              stats[e] *= mod
+            }
+          })
+          break
+        case "GatherGold":
+          ;["GatherGold"].forEach(e => {
+            if (stats[e]) {
+              stats[e] *= mod
+            }
+          })
+          break
+        case "GatherTree":
+          ;["GatherTree"].forEach(e => {
+            if (stats[e]) {
+              stats[e] *= mod
+            }
+          })
+          break
+        case "GatherStone":
+          ;["GatherStone"].forEach(e => {
+            if (stats[e]) {
+              stats[e] *= mod
+            }
+          })
+          break
+        case "GatherHuntable":
+          ;["GatherHuntable"].forEach(e => {
+            if (stats[e]) {
+              stats[e] *= mod
+            }
+          })
+          break
+        case "GatherHerdable":
+          ;["GatherHerdable"].forEach(e => {
+            if (stats[e]) {
+              stats[e] *= mod
+            }
+          })
+          break
+        case "GatherAbstractFruit":
+          ;["GatherAbstractFruit"].forEach(e => {
+            if (stats[e]) {
+              stats[e] *= mod
+            }
+          })
+          break
+        case "GatherAbstractFarm":
+          ;["GatherAbstractFarm"].forEach(e => {
+            if (stats[e]) {
+              stats[e] *= mod
+            }
+          })
+          break
+        case "GatherAbstractFish":
+          ;["GatherAbstractFish"].forEach(e => {
+            if (stats[e]) {
+              stats[e] *= mod
+            }
+          })
+          break
+        case "CarryCapacityFood":
+          ;["CarryCapacityFood"].forEach(e => {
+            if (stats[e]) {
+              stats[e] *= mod
+            }
+          })
+          break
+        case "CarryCapacityWood":
+          ;["CarryCapacityWood"].forEach(e => {
+            if (stats[e]) {
+              stats[e] *= mod
+            }
+          })
+          break
+        case "CarryCapacityGold":
+          ;["CarryCapacityGold"].forEach(e => {
+            if (stats[e]) {
+              stats[e] *= mod
+            }
+          })
+          break
+        case "CarryCapacityStone":
+          ;["CarryCapacityStone"].forEach(e => {
+            if (stats[e]) {
+              stats[e] *= mod
             }
           })
           break

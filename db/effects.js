@@ -149,6 +149,10 @@ export async function convertEffects(effects, civ, isAdvisor) {
       type = "ArmorDamageBonus"
     } else if (type === "TargetSpeedBoost") {
       type += e.action
+    } else if (type === "HitPercentDamageMultiplier") {
+      type += e.action
+    } else if (type === "HitPercent") {
+      type += e.action
     } else if (type === "MaximumRange" && e.action == "RangedAttack2") {
       continue
     } else if (type === "MaximumRange" && e.action == "MeleeAttack") {
@@ -255,13 +259,13 @@ function getBase(effectName) {
     effectName.startsWith("Gather") ||
     effectName.startsWith("Yield") ||
     effectName.startsWith("AttackSpeed") ||
-    effectName === "HitPercent" ||
+    /*effectName.startsWith("HitPercent") ||*/
     effectName.startsWith("TargetSpeedBoost")  ||
     effectName === "ConvertResist" ||
     effectName === "Trade" ||
     effectName === "BuildingWorkRate" ||
     effectName === "WorkRateRepair" ||
-    effectName === "HitPercentDamageMultiplier" ||
+    effectName.startsWith("HitPercentDamageMultiplier") ||
     effectName === "HealdamageBonusUnit" ||
     (effectName.includes("Aura") && !effectName.includes("Range"))
     ? 1
@@ -283,7 +287,7 @@ function getType(effectName) {
     effectName === "BuildWatchPost" ||
     effectName === "Trade" ||
     effectName === "WorkRateRepair" ||
-    effectName === "HitPercentDamageMultiplier" ||
+    effectName.startsWith("HitPercentDamageMultiplier") ||
     effectName === "ChargeDamageMultiplier" ||
     effectName === "ChargeSpeedBoost" ||
     effectName === "HealdamageBonusUnit" ||
@@ -300,7 +304,7 @@ function getType(effectName) {
   ) {
     return "persecond" // ends with "/s"
   }
-  if (effectName === "HitPercent") {
+  if (effectName.startsWith("HitPercent") && !effectName.startsWith("DamageMultiplier")) {
     return "percent" // ends with "%"
   }/*
   if (effectName === "ChargeRange") {
@@ -484,7 +488,7 @@ const templates = {
   RangedAttackDamageArea: { name: "Ranged Splash Area", icon: "DamageArea", sort: 64 },
   MeleeAttackDamageArea: { name: "Melee Splash Area", icon: "DamageArea", sort: 39 },
   BurningAttackDamageArea: { name: "Burning Splash Area", icon: "DamageArea", sort: 98 },
-  RangedAttack2DamageArea: { name: "Special Building Ranged Splash Area", icon: "DamageArea", sort: 83 },
+  RangedAttack2DamageArea: { name: "Special Building Ranged Splash Area", icon: "DamageArea", sort: 86 },
   AreaDamageReduction: {
     name: "Splash Damage Reduction",
     icon: "AreaDamageReduction",
@@ -552,11 +556,23 @@ const templates = {
     icon: "DamageBonusReduction",
     sort: 170
   },
-  HitPercent: { name: "Critical Hit Chance", icon: "CriticalHit", sort: 90 },
+  HitPercent: { name: "Critical Hit Chance", icon: "CriticalHit", sort: 48 },
   HitPercentDamageMultiplier: {
     name: "Critical Hit Damage",
     icon: "CriticalHit",
-    sort: 91
+    sort: 48
+  },
+  HitPercentMeleeAttack: { name: "Critical Hit Chance - Melee", icon: "CriticalHit", sort: 48 },
+  HitPercentDamageMultiplierMeleeAttack: {
+    name: "Critical Hit Damage - Melee",
+    icon: "CriticalHit",
+    sort: 48
+  },
+  HitPercentRangedAttack: { name: "Critical Hit Chance - Ranged", icon: "CriticalHit", sort: 82 },
+  HitPercentDamageMultiplierRangedAttack: {
+    name: "Critical Hit Damage - Ranged",
+    icon: "CriticalHit",
+    sort: 82
   },
   Hitpoints: { name: "Health", icon: "Hitpoints", sort: 0 },
   LOS: { name: "Line-of-sight", icon: "LOS", sort: 180 },
@@ -574,7 +590,7 @@ const templates = {
   MaximumRange2: {
     name: "Special Building Max Range",
     icon: "MaximumRange",
-    sort: 84
+    sort: 87
   },
   MinimumRange: { name: "Minimum Range", icon: "MaximumRange", sort: 65 },
   MaximumRangeConvert: {
@@ -959,12 +975,12 @@ const templates = {
     icon: "BuildPoints",
     sort: 178
   },
-  "HealdamageBonusUnit": {
+  HealdamageBonusUnit: {
     name: "Healing Damage Bonus all Units",
     icon: "Chaos",
     sort: 147
   },
-  "SacrificeHuntable": {
+  SacrificeHuntable: {
     name: "Can Sacrifice Huntable",
     icon: "DamageBonusHuntable",
     sort: 147
@@ -1058,6 +1074,26 @@ const templates = {
     name: "Enemy Damage Aura Debuff",
     icon: "DamageArea",
     sort: 118
+  },
+  PerfectAccuracy: {
+    name: "Ranged Attack Tracks Target",
+    icon: "DamageRanged",
+    sort: 83
+  },
+  AttackIfContainsUnitsRangedAttack: {
+    name: "Only Attack with units inside",
+    icon: "DamageRanged",
+    sort: 84
+  },
+  ScaleByContainedUnitsRangedAttack: {
+    name: "Damage scales with units inside",
+    icon: "DamageRanged",
+    sort: 84
+  },
+  MaxDmgMaxContained: {
+    name: "Damage at max Capacity",
+    icon: "DamageRanged",
+    sort: 187
   }
 }
 

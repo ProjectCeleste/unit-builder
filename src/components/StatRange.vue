@@ -144,7 +144,7 @@ export default {
   }
 
   .input-container {
-    width: 100%;
+    width: 120px;
   }
 
   .display-input {
@@ -172,8 +172,8 @@ export default {
     height: 25px;
     padding: 0;
     margin: 0;
-    padding-right: 15px;
-    padding-left: 15px;
+    padding-right: 5px;
+    padding-left: 5px;
     outline: none;
     box-sizing: border-box;
     background: transparent;

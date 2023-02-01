@@ -152,14 +152,13 @@ export async function convertUnitStats(unit) {
   addEffect("CostGold")
   addEffect("CostStone")
   addEffect("DamageBonusAbstractArtilleryRangedAttack")
+  addEffect("MaxDmgMaxContained")
 
 
   //Too much effort. I am going to just MeleeAttack the TA.
   if (unit.name === "No_Inf_ThrowingAxeman") {
-    stats["DamageBonusAbstractInfantryMeleeAttack"] = stats["DamageBonusAbstractInfantryRangedAttack"]
-    stats["DamageBonusAbstractArcherMeleeAttack"] = stats["DamageBonusAbstractArcherRangedAttack"]
-    delete stats["DamageBonusAbstractInfantryRangedAttack"]
-    delete stats["DamageBonusAbstractArcherRangedAttack"]
+    stats["DamageRanged"] = stats["DamageHand"]
+    delete stats["DamageHand"]
   }
 
   return [stats, inactiveActions]
@@ -417,6 +416,37 @@ function convertTactic(tactic, stats, inactiveActions) {
         const snare = parseFloat(tactic.targetSpeedBoost)
         if (snare !== 1) {
           stats["TargetSpeedBoost" + tactic.anim] = snare
+        }
+      }
+      if (tactic.hitPercentType === "CriticalAttack") {
+        stats["HitPercentDamageMultiplier" + tactic.anim] = parseFloat(tactic.hitPercentDamageMultiplier)
+      }
+      if (tactic.anim === "RangedAttack" && stats["DamageRanged"]) {
+          if (tactic.perfectAccuracy === "1") {
+            stats["PerfectAccuracy"] = 1
+          } else {
+            stats["PerfectAccuracy"] = 0
+          }
+          if(inactiveActions.includes("DamageRanged")){
+            inactiveActions.push("PerfectAccuracy")
+          }
+      }
+      if (tactic.activeIfContainsUnits === "1") {
+        stats["AttackIfContainsUnits" + tactic.anim] = 1
+        if(inactiveActions.includes("DamageRanged")){
+          inactiveActions.push("AttackIfContainsUnits" + tactic.anim)
+        }
+      }
+      if (tactic.scaleByContainedUnits === "1") {
+        stats["ScaleByContainedUnits" + tactic.anim] = 1
+        if (stats["MaximumContained"] ) {
+          stats["MaxDmgMaxContained"] = stats["DamageRanged"] * stats["MaximumContained"] 
+        } else {
+          stats["MaxDmgMaxContained"] = stats["DamageRanged"] 
+        }
+        if(inactiveActions.includes("DamageRanged")){
+          inactiveActions.push("MaxDmgMaxContained")
+          inactiveActions.push("ScaleByContainedUnits" + tactic.anim)
         }
       }
       if (
