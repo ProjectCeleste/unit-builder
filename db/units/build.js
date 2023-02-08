@@ -150,7 +150,9 @@ async function convertConsUnit(power) {
               if (consUnit["Trait1"].startsWith("ConEpic"))     {consUnit.MaxHitpoints = consUnit.MaxHitpoints * 1.821}
             }            
           delete consUnit["Trait1"]
-          consUnit.UnitType.push("Consumable")
+          if (!consUnit.UnitType.includes("Consumable")) {
+            consUnit.UnitType.push("Consumable")
+          }
           const u = await convertUnit(consUnit, deerTech, deerEquip)
             results.push(u)
         }

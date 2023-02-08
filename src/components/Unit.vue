@@ -75,7 +75,7 @@
                 <a
                   :href="
                     'https://search.projectceleste.com/?tab=4&search=' +
-                      selection.unit.name
+                      selection.unit.id
                   "
                 >
                   Consumable Details Found Here
