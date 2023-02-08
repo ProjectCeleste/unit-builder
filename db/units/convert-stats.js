@@ -160,6 +160,25 @@ export async function convertUnitStats(unit) {
     stats["DamageRanged"] = stats["DamageHand"]
     delete stats["DamageHand"]
   }
+  
+  //Microsoft does some scaling up to lvl 40
+  if (unit.UnitType.includes("UnitTypeVillager1")) {
+    stats["DamageHand"] = stats["DamageHand"] * 1.505
+    stats["DamageSiegeMeleeAttack"] = stats["DamageSiegeMeleeAttack"] * 1.505
+  }
+  
+  if (unit.UnitType.includes("UnitTypeShipUtility1")) {
+    stats["DamageRanged"] = stats["DamageRanged"] * 1.353
+  }
+  
+  if (unit.UnitType.includes("UnitTypeShipFishing1")) {
+    stats["DamageRanged"] = stats["DamageRanged"] * 1.353
+  }
+
+  if (unit.UnitType.includes("AbstractWall")) {
+    stats["Hitpoints"] = stats["Hitpoints"] * 1.77
+  }
+   
 
   return [stats, inactiveActions]
 }

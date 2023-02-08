@@ -140,10 +140,17 @@ async function convertConsUnit(power) {
                 if (consUnit["Trait1"].startsWith("ConCommon"))   {action.Damage = action.Damage * 1.17}
                 if (consUnit["Trait1"].startsWith("ConUncommon")) {action.Damage = action.Damage * 1.33}
                 if (consUnit["Trait1"].startsWith("ConRare"))     {action.Damage = action.Damage * 1.55}
-                if (consUnit["Trait1"].startsWith("ConEpic"))     {action.Damage = action.Damage * 1.82}
+                if (consUnit["Trait1"].startsWith("ConEpic"))     {action.Damage = action.Damage * 1.821}
               }            
             }
+            if (consUnit["Trait1"]){
+              if (consUnit["Trait1"].startsWith("ConCommon"))   {consUnit.MaxHitpoints = consUnit.MaxHitpoints * 1.17}
+              if (consUnit["Trait1"].startsWith("ConUncommon")) {consUnit.MaxHitpoints = consUnit.MaxHitpoints * 1.33}
+              if (consUnit["Trait1"].startsWith("ConRare"))     {consUnit.MaxHitpoints = consUnit.MaxHitpoints * 1.55}
+              if (consUnit["Trait1"].startsWith("ConEpic"))     {consUnit.MaxHitpoints = consUnit.MaxHitpoints * 1.821}
+            }            
           delete consUnit["Trait1"]
+          consUnit.UnitType.push("Consumable")
           const u = await convertUnit(consUnit, deerTech, deerEquip)
             results.push(u)
         }
@@ -183,7 +190,8 @@ async function convertUnit(unit, tech, equipment) {
   const u = {
     id: unit.name,
     name: findLang(stringtablex, unit.DisplayNameID),
-    types: unit.UnitType.filter(t => unitTypes.includes(t)),
+    //types: unit.UnitType.filter(t => unitTypes.includes(t)),
+    types: unit.UnitType,
     icon: iconDst,
     slots: convertSlots(unit),
     stats: stats,

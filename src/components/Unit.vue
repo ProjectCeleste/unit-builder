@@ -55,15 +55,43 @@
                 Non-Converting Priest
               </div>
             </div>
-            <div v-else-if="type.indexOf('Abstract') > -1">
-              {{
-                type
-                  .replace("Abstract", "")
-                  .replace("Archer", "Ranged")
-                  .replace("Artillery", "Siege")
-              }}
+            <div v-else-if="type === 'AbstractArcher'">
+              {{ type.replace("AbstractArcher", "Ranged") }}
             </div>
-            <div v-else>
+            <div v-else-if="type === 'AbstractArtillery'">
+              {{ type.replace("AbstractArtillery", "Siege") }}
+            </div>
+            <div v-else-if="type === 'AbstractInfantry'">
+              {{ type.replace("Abstract", "") }}
+            </div>
+            <div v-else-if="type === 'AbstractCavalry'">
+              {{ type.replace("Abstract", "") }}
+            </div>
+            <div v-else-if="type === 'AbstractVillager'">
+              {{ type.replace("Abstract", "") }}
+            </div>
+            <div v-else-if="type === 'Consumable'">
+              <span>
+                <a
+                  :href="
+                    'https://search.projectceleste.com/?tab=4&search=' +
+                      selection.unit.name
+                  "
+                >
+                  Consumable Details Found Here
+                </a>
+              </span>
+            </div>
+            <div v-else-if="type === 'Military'">
+              {{ type }}
+            </div>
+            <div v-else-if="type === 'Building'">
+              {{ type }}
+            </div>
+            <div v-else-if="type === 'Ship'">
+              {{ type }}
+            </div>
+            <div v-else-if="type === 'Unit'">
               {{ type }}
             </div>
           </div>
