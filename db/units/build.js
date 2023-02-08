@@ -1,4 +1,4 @@
-import { downloadImage, getUnits, getTechtree, getEquipments } from "../api.js"
+import { downloadImage, getUnits, getTechtree, getEquipments, getNuggets } from "../api.js"
 import { convertEffects } from "../effects.js"
 import { stringtablex, findLang } from "../lang.js"
 import { unitTypes } from "../unit_types.js"
@@ -17,16 +17,48 @@ export async function buildUnits() {
     const civ = e.civ.toLowerCase()
     if (!results[civ]) {
       results[civ] = []
-    }
+    }  
 
     // Filter out units that already exist in array
+    
     results[civ] = results[civ].concat(
       units.filter(unit => !results[civ].some(u => u.id === unit.id))
     )
   }
+  
+  const powerNuggets = await getNuggets()
+
+  const resultsCons = {}
+
+  for (let i = 0; i < powerNuggets.length; i++) {
+    const power = powerNuggets[i]
+    if (power.type === "TempUnit") {
+      const consUnits = await convertConsUnit(power)
+      const civs = ["greek","egyptian","celtic","persian","babylonian","roman","norse"]
+      
+      for (let i = 0; i < civs.length; i++) { 
+        if (!resultsCons[civs[i]]) {
+          resultsCons[civs[i]] = []   
+        }      
+        resultsCons[civs[i]] = resultsCons[civs[i]].concat(
+          consUnits.filter(consUnit => !resultsCons[civs[i]].some(u => u.id === consUnit.id))
+        )
+      }
+      
+     /*
+      results["celtic"] = results["celtic"].concat(
+        consUnits.filter(unit => !results["celtic"].some(u => u.id === unit.id))
+      )*/
+    }
+  }
 
   for (let civ in results) {
     results[civ].sort(compareUnits).sort(compareUnitTypes)
+  }
+
+  for (let civ in resultsCons) {
+    resultsCons[civ].sort(compareUnits).sort(compareUnitTypes)
+    results[civ] = results[civ].concat(resultsCons[civ])
   }
   
   return { front: results, server: await buildUnitsForServer(results) }
@@ -52,7 +84,7 @@ async function buildUnitsForServer(units) {
 async function convertEquipmentToUnits(equipment) {
   const techtree = await getTechtree()
   const units = await getUnits()
-
+  
   const results = []
   if (equipment.reward) {
     for (let i = 0; i < equipment.reward.rank.length; i++) {
@@ -83,6 +115,45 @@ async function convertEquipmentToUnits(equipment) {
 
   return results
 }
+
+
+async function convertConsUnit(power) {
+  const units = await getUnits()
+  const techtree = await getTechtree()
+  const equipments = await getEquipments()
+
+  //Dummy for Consumable Units
+  var deerTech = findByAttribute(techtree, "name", "Ce_Ct_UnitDeer1")
+  const deerEquip = findByAttribute(equipments, "id", 653)
+
+  const results = []
+
+  for (let j = 0; j < power.createunit.length; j++) {
+    const createUnit = power.createunit[j]
+    if (createUnit.text.startsWith("Con") && !createUnit.text.startsWith("Con_Spyglass") && !createUnit.text.startsWith("Con_Res_") ) {
+      const consUnit = findByAttribute(units, "name", createUnit.text)
+        if (consUnit) {
+          deerTech.Effects.effect[0].target.text = createUnit.text
+            for (let keyAction in consUnit.ProtoAction) {
+              const action = consUnit.ProtoAction[keyAction]
+              if (consUnit["Trait1"]){
+                if (consUnit["Trait1"].startsWith("ConCommon"))   {action.Damage = action.Damage * 1.17}
+                if (consUnit["Trait1"].startsWith("ConUncommon")) {action.Damage = action.Damage * 1.33}
+                if (consUnit["Trait1"].startsWith("ConRare"))     {action.Damage = action.Damage * 1.55}
+                if (consUnit["Trait1"].startsWith("ConEpic"))     {action.Damage = action.Damage * 1.82}
+              }            
+            }
+          delete consUnit["Trait1"]
+          const u = await convertUnit(consUnit, deerTech, deerEquip)
+            results.push(u)
+        }
+    }
+  }
+  
+  return results
+  
+}
+
 
 async function convertUnit(unit, tech, equipment) {
   const icon = unit.Icon.replace(/\\/g, "/").toLowerCase()
@@ -121,6 +192,7 @@ async function convertUnit(unit, tech, equipment) {
 
   return u
 }
+
 
 function convertSlots(unit) {
   const slots = []

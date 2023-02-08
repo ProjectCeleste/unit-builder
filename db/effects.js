@@ -260,7 +260,7 @@ function getBase(effectName) {
     effectName.startsWith("Yield") ||
     effectName.startsWith("AttackSpeed") ||
     /*effectName.startsWith("HitPercent") ||*/
-    effectName.startsWith("TargetSpeedBoost")  ||
+    (effectName.startsWith("TargetSpeedBoost") && !effectName === "TargetSpeedBoostResist") ||
     effectName === "ConvertResist" ||
     effectName === "Trade" ||
     effectName === "BuildingWorkRate" ||
@@ -281,7 +281,7 @@ function getType(effectName) {
     effectName.startsWith("Empower") ||
     effectName.startsWith("Gather") ||
     effectName === "BuildingWorkRate" ||
-    effectName.startsWith("TargetSpeedBoost") ||
+    (effectName.startsWith("TargetSpeedBoost") && !effectName === "TargetSpeedBoostResist") ||
     effectName === "Build" ||
     effectName.startsWith("Yield") ||
     effectName === "BuildWatchPost" ||
@@ -808,6 +808,11 @@ const templates = {
     icon: "DamageBonusAbstractArcher",
     sort: 30
   },
+  DamageBonusAbstractArcherPoisonAttack: {
+    name: "Bonus vs. Ranged - Poison",
+    icon: "DamageBonusAbstractArcher",
+    sort: 55
+  },
   DamageBonusGr_Cav_SarissophoroiRangedAttack: {
     name: "Bonus vs. Sarissophoroi",
     icon: "DamageBonusAbstractCavalry",
@@ -864,6 +869,21 @@ const templates = {
     sort: 60
   },
   DamageBonusUnitTypeVillager1MeleeAttack: {
+    name: "Bonus vs. Villager - Melee",
+    icon: "DamageBonusUnitTypeVillager1",
+    sort: 34
+  },
+  DamageBonusAbstractVillager: {
+    name: "Bonus vs. Villager",
+    icon: "DamageBonusUnitTypeVillager1",
+    sort: 0
+  },
+  DamageBonusAbstractVillagerRangedAttack: {
+    name: "Bonus vs. Villager - Ranged",
+    icon: "DamageBonusUnitTypeVillager1",
+    sort: 60
+  },
+  DamageBonusAbstractVillagerMeleeAttack: {
     name: "Bonus vs. Villager - Melee",
     icon: "DamageBonusUnitTypeVillager1",
     sort: 34

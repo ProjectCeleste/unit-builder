@@ -243,6 +243,7 @@ export function parseAction(action, stats, inactiveActions) {
           }
         }
       }
+      delete stats["DamageBonusAbstractArcherPoisonAttack"]
     } else if (
       ignoredEffects.indexOf("DamageBonus" + action.DamageBonus.type + name) === -1
     ) {
@@ -251,6 +252,7 @@ export function parseAction(action, stats, inactiveActions) {
         inactiveActions.push("DamageBonus" + action.DamageBonus.type + name)
       }
     }
+    delete stats["DamageBonusAbstractArcherPoisonAttack"]
   }
 
   if (name === "Convert") {
