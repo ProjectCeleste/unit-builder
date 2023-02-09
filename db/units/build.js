@@ -137,16 +137,16 @@ async function convertConsUnit(power) {
             for (let keyAction in consUnit.ProtoAction) {
               const action = consUnit.ProtoAction[keyAction]
               if (consUnit["Trait1"]){
-                if (consUnit["Trait1"].startsWith("ConCommon"))   {action.Damage = action.Damage * 1.17}
-                if (consUnit["Trait1"].startsWith("ConUncommon")) {action.Damage = action.Damage * 1.33}
-                if (consUnit["Trait1"].startsWith("ConRare"))     {action.Damage = action.Damage * 1.55}
+                if (consUnit["Trait1"].startsWith("ConCommon"))   {action.Damage = action.Damage * 1.171}
+                if (consUnit["Trait1"].startsWith("ConUncommon")) {action.Damage = action.Damage * 1.331}
+                if (consUnit["Trait1"].startsWith("ConRare"))     {action.Damage = action.Damage * 1.551}
                 if (consUnit["Trait1"].startsWith("ConEpic"))     {action.Damage = action.Damage * 1.821}
               }            
             }
             if (consUnit["Trait1"]){
-              if (consUnit["Trait1"].startsWith("ConCommon"))   {consUnit.MaxHitpoints = consUnit.MaxHitpoints * 1.17}
-              if (consUnit["Trait1"].startsWith("ConUncommon")) {consUnit.MaxHitpoints = consUnit.MaxHitpoints * 1.33}
-              if (consUnit["Trait1"].startsWith("ConRare"))     {consUnit.MaxHitpoints = consUnit.MaxHitpoints * 1.55}
+              if (consUnit["Trait1"].startsWith("ConCommon"))   {consUnit.MaxHitpoints = consUnit.MaxHitpoints * 1.171}
+              if (consUnit["Trait1"].startsWith("ConUncommon")) {consUnit.MaxHitpoints = consUnit.MaxHitpoints * 1.331}
+              if (consUnit["Trait1"].startsWith("ConRare"))     {consUnit.MaxHitpoints = consUnit.MaxHitpoints * 1.551}
               if (consUnit["Trait1"].startsWith("ConEpic"))     {consUnit.MaxHitpoints = consUnit.MaxHitpoints * 1.821}
             }            
           delete consUnit["Trait1"]

@@ -163,8 +163,8 @@ export async function convertUnitStats(unit) {
   
   //Microsoft does some scaling up to lvl 40
   if (unit.UnitType.includes("UnitTypeVillager1")) {
-    stats["DamageHand"] = stats["DamageHand"] * 1.505
-    stats["DamageSiegeMeleeAttack"] = stats["DamageSiegeMeleeAttack"] * 1.505
+    if (stats["DamageHand"]) {stats["DamageHand"] = stats["DamageHand"] * 1.505}
+    if (stats["DamageSiegeMeleeAttack"]) {stats["DamageSiegeMeleeAttack"] = stats["DamageSiegeMeleeAttack"] * 1.505}
   }
   
   if (unit.UnitType.includes("UnitTypeShipUtility1")) {
