@@ -636,6 +636,18 @@ const templates = {
     sort: 47,
     lowerIsBetter: true
   },
+  TargetSpeedBoostPoisonAttack: {
+    name: "Snare - Poison",
+    icon: "TargetSpeedBoost",
+    sort: 70,
+    lowerIsBetter: true
+  },
+  TargetSpeedBoostBurningAttack: {
+    name: "Snare - Burning",
+    icon: "TargetSpeedBoost",
+    sort: 70,
+    lowerIsBetter: true
+  },
   TargetSpeedBoostResist: {
     name: "Snare Resist",
     icon: "SnareResist",

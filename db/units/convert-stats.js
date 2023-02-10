@@ -212,9 +212,11 @@ export function parseAction(action, stats, inactiveActions) {
       let type = "Damage" + action.DamageType
       if (action.Name === "BurningAttack" || action.Name === "PoisonAttack") {
         type = name
+        /*
         inactiveActions.push(type)
         inactiveActions.push(type + "DamageOverTimeDuration")
         inactiveActions.push(type + "DamageOverTimeRate")
+        */
       }
       stats[type] = action.Damage
       if (action.Active === 0) {
@@ -436,7 +438,7 @@ function convertTactic(tactic, stats, inactiveActions) {
       if (tactic.targetSpeedBoost) {
         const snare = parseFloat(tactic.targetSpeedBoost)
         if (snare !== 1) {
-          stats["TargetSpeedBoost" + tactic.anim] = snare
+          stats["TargetSpeedBoost" + tactic.name.text] = snare
         }
       }
       if (tactic.hitPercentType === "CriticalAttack") {

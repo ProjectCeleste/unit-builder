@@ -811,7 +811,10 @@ export default {
           })
           break
         case "TargetSpeedBoostRangedAttack":
-          ;["TargetSpeedBoostRangedAttack"].forEach(e => {
+          ;[
+            "TargetSpeedBoostRangedAttack",
+            "TargetSpeedBoostPoisonAttack"
+          ].forEach(e => {
             if (stats[e]) {
               stats[e] *= mod
             } else {
@@ -819,6 +822,7 @@ export default {
             }
             let melee_stuff = 0
             let ranged_stuff = 0
+            let poison_stuff = 0
             if (
               stats["DamageCavalry"] ||
               stats["DamageHand"] ||
@@ -832,6 +836,12 @@ export default {
               stats["DamageSiegeRangedAttack2"]
             ) {
               ranged_stuff = 1
+            }
+            if (stats["PoisonAttack"]) {
+              poison_stuff = 1
+            }
+            if (poison_stuff === 0) {
+              delete stats["TargetSpeedBoostPoisonAttack"]
             }
             if (melee_stuff === 1 && ranged_stuff === 0) {
               delete stats["TargetSpeedBoostRangedAttack"]

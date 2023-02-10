@@ -95,6 +95,12 @@
               {{ type }}
             </div>
           </div>
+          <div v-if="selection.unit.id.indexOf('Arc_Gaesatae') > -1">
+            Poison does not affect Buildings, Siege or Ships
+          </div>
+          <div v-if="selection.unit.id === 'No_Bldg_Fortress'">
+            Burning attack does not affect Buildings
+          </div>
         </div>
       </div>
     </div>
