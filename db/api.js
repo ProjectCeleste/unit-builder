@@ -78,7 +78,8 @@ export async function getNuggets() {
 export async function getTactics(fileName) {
   const caseExceptions = {
     "catapultShip.tactics": "CatapultShip.tactics",
-    "norseLongHouse.tactics": "norseLonghouse.tactics"
+    "norseLongHouse.tactics": "norseLonghouse.tactics",
+    "Helepolis.tactics": "helepolis.tactics"
   }
   const tactics = await get("/tactics", "source_tactics.json")
   if (caseExceptions[fileName]) {

@@ -70,6 +70,9 @@
             <div v-else-if="type === 'AbstractVillager'">
               {{ type.replace("Abstract", "") }}
             </div>
+            <div v-else-if="type.indexOf('AdvisorUnit') > -1">
+              Advisor Unit
+            </div>
             <div v-else-if="type === 'Consumable'">
               <span>
                 <a
@@ -97,6 +100,9 @@
             <div v-else-if="type === 'Unit'">
               <div v-if="selection.unit.id.indexOf('Arc_Gaesatae') > -1">
                 Poison does not affect Buildings, Siege or Ships
+              </div>
+              <div v-if="selection.unit.id === 'Ce_Spc_Druid'">
+                Heals before Attacking, if it can heal.
               </div>
               {{ type }}
             </div>

@@ -1,4 +1,4 @@
-import { downloadImage, getUnits, getTechtree, getEquipments, getNuggets } from "../api.js"
+import { downloadImage, getUnits, getTechtree, getEquipments, getNuggets, getAdvisors } from "../api.js"
 import { convertEffects } from "../effects.js"
 import { stringtablex, findLang } from "../lang.js"
 import { unitTypes } from "../unit_types.js"
@@ -52,6 +52,41 @@ export async function buildUnits() {
     }
   }
 
+  const advisors = await getAdvisors()
+
+  const resultsAdvisor = {}
+
+
+  for (let i = 0; i < advisors.length; i++) {
+    const a = advisors[i]
+    if (a.techs.tech.startsWith("AdvisorUniqueUnit")) {
+      const civ = convertCivilization(a)
+
+      const advUnits = await convertAdvisorUnit(a)
+      
+      const civs = ["greek","egyptian","celtic","persian","babylonian","roman","norse"]
+
+      if (civ === "undefined") {
+        for (let i = 0; i < civs.length; i++) { 
+          if (!resultsAdvisor[civs[i]]) {
+            resultsAdvisor[civs[i]] = []   
+          }      
+          resultsAdvisor[civs[i]] = resultsAdvisor[civs[i]].concat(
+            advUnits.filter(advUnit => !resultsAdvisor[civs[i]].some(u => u.id === advUnits.id))
+          )
+        }
+      } else {
+        if (!resultsAdvisor[civ]) {
+          resultsAdvisor[civ] = []   
+        }      
+        resultsAdvisor[civ] = resultsAdvisor[civ].concat(
+          advUnits.filter(advUnit => !resultsAdvisor[civ].some(u => u.id === advUnits.id))
+        )
+      }
+
+    }
+  }
+
   for (let civ in results) {
     results[civ].sort(compareUnits).sort(compareUnitTypes)
   }
@@ -59,6 +94,11 @@ export async function buildUnits() {
   for (let civ in resultsCons) {
     resultsCons[civ].sort(compareUnits).sort(compareUnitTypes)
     results[civ] = results[civ].concat(resultsCons[civ])
+  }
+
+  for (let civ in resultsAdvisor) {
+    resultsAdvisor[civ].sort(compareUnits).sort(compareUnitTypes)
+    results[civ] = results[civ].concat(resultsAdvisor[civ])
   }
   
   return { front: results, server: await buildUnitsForServer(results) }
@@ -69,7 +109,7 @@ async function buildUnitsForServer(units) {
   console.log("Building units for server...")
   const apiUnits = await getUnits()
   const result = {}
-  for (let civ in units) {
+  for (let civ in units) {civ
     for (let unit of units[civ]) {
       result[unit.id] = findByAttribute(apiUnits, "name", unit.id).Icon.replace(
         /\\/g,
@@ -121,6 +161,7 @@ async function convertConsUnit(power) {
   const units = await getUnits()
   const techtree = await getTechtree()
   const equipments = await getEquipments()
+  
 
   //Dummy for Consumable Units
   var deerTech = findByAttribute(techtree, "name", "Ce_Ct_UnitDeer1")
@@ -161,6 +202,63 @@ async function convertConsUnit(power) {
   
   return results
   
+}
+
+
+async function convertAdvisorUnit(advisor) {
+  const units = await getUnits()
+  const techtree = await getTechtree()
+  const equipments = await getEquipments()
+
+  //Dummy for Consumable Units
+  var deerTech = findByAttribute(techtree, "name", "Ce_Ct_UnitDeer1")
+  const deerEquip = findByAttribute(equipments, "id", 653)
+
+  const results = []
+  
+
+  const tech = findByAttribute(techtree, "name", advisor.techs.tech)
+  if (tech) {
+    
+    const advUnit = findByAttribute(units, "name", tech.Effects.effect[0].target.text)
+    if (advUnit) {
+      advUnit.name = advUnit.name + '_a'
+      deerTech.Effects.effect[0].target.text = advUnit.name
+        for (let keyAction in advUnit.ProtoAction) {
+          const action = advUnit.ProtoAction[keyAction]
+          if (advUnit["Trait1"]){
+            if (advUnit["Trait1"].startsWith("ConCommon"))   {action.Damage = action.Damage * 1.171}
+            if (advUnit["Trait1"].startsWith("ConUncommon")) {action.Damage = action.Damage * 1.331}
+            if (advUnit["Trait1"].startsWith("ConRare"))     {action.Damage = action.Damage * 1.551}
+            if (advUnit["Trait1"].startsWith("ConEpic"))     {action.Damage = action.Damage * 1.821}
+          }            
+        }
+        if (advUnit["Trait1"]){
+          if (advUnit["Trait1"].startsWith("ConCommon"))   {advUnit.MaxHitpoints = advUnit.MaxHitpoints * 1.171}
+          if (advUnit["Trait1"].startsWith("ConUncommon")) {advUnit.MaxHitpoints = advUnit.MaxHitpoints * 1.331}
+          if (advUnit["Trait1"].startsWith("ConRare"))     {advUnit.MaxHitpoints = advUnit.MaxHitpoints * 1.551}
+          if (advUnit["Trait1"].startsWith("ConEpic"))     {advUnit.MaxHitpoints = advUnit.MaxHitpoints * 1.821}
+        }            
+      delete advUnit["Trait1"]
+      if (!advUnit.UnitType.includes("AdvisorUnit" + advisor.age.toString())) {
+        advUnit.UnitType.push("AdvisorUnit" + advisor.age.toString())
+      }
+      const u = await convertUnit(advUnit, deerTech, deerEquip)
+        results.push(u)
+    }
+  
+  }
+
+  return results
+  
+}
+
+
+function convertCivilization(a) {
+  if (!a.civilization) {
+    return "undefined"
+  }
+  return a.civilization.replace("eCivMatchingType", "").toLowerCase()
 }
 
 
