@@ -222,7 +222,7 @@ async function convertAdvisorUnit(advisor) {
     
     const advUnit = findByAttribute(units, "name", tech.Effects.effect[0].target.text)
     if (advUnit) {
-      advUnit.name = advUnit.name + "_a"
+      advUnit.name = advUnit.name + '_a'
       deerTech.Effects.effect[0].target.text = advUnit.name
         for (let keyAction in advUnit.ProtoAction) {
           const action = advUnit.ProtoAction[keyAction]
@@ -240,8 +240,8 @@ async function convertAdvisorUnit(advisor) {
           if (advUnit["Trait1"].startsWith("ConEpic"))     {advUnit.MaxHitpoints = advUnit.MaxHitpoints * 1.821}
         }            
       delete advUnit["Trait1"]
-      if (!advUnit.UnitType.includes("AdvisorUnit" + advisor.age.toString() + advisor.name)) {
-        advUnit.UnitType.push("AdvisorUnit" + advisor.age.toString() + advisor.name)
+      if (!advUnit.UnitType.includes("AdvisorUnit" + advisor.age.toString())) {
+        advUnit.UnitType.push("AdvisorUnit" + advisor.age.toString())
       }
       const u = await convertUnit(advUnit, deerTech, deerEquip)
         results.push(u)

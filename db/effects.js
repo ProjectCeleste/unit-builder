@@ -56,27 +56,6 @@ export async function convertEffects(effects, civ, isAdvisor) {
           })
         }
       }
-      if (e.type === "Data") {
-        if (e.status !== "obtainable" && isAdvisor && e.subtype === "Enable" && e.relativity === "Absolute") {
-          const civs = ["greek","egyptian","celtic","persian","babylonian","roman","norse"]
-    
-          if (civ === undefined) {
-            for (let i = 0; i < civs.length; i++) { 
-              addExtraUpgrade(e.target.text + "_a", civs[i])
-              res.push({
-                type: "AdvisorUniqueUnit",
-                tech: e.target.text + "_a"
-              })
-            }
-          } else {
-            addExtraUpgrade(e.target.text + "_a", civ)
-            res.push({
-              type: "AdvisorUniqueUnit",
-              tech: e.target.text + "_a"
-            })
-          }
-        }
-      }
       continue
     }
 
@@ -1002,7 +981,6 @@ const templates = {
     sort: 100
   },
   UnlockUpgrade: { name: "Unlocks upgrade", icon: "NONE", sort: 0 },
-  AdvisorUniqueUnit: { name: "Advisor Unique Unit", icon: "NONE", sort: 0 },
   DisableUpgrade: { name: "Disables upgrade", icon: "NONE", sort: 0 },
   ChargeAbility: {
     name: "Can Charge",
