@@ -44,7 +44,7 @@ export async function buildUpgrades() {
     const upgrades = await convertEquipmentToUpgrades({
       civ: extra.civ,
       reward: { rank: [{ tech: extra.techName }] },
-      unlocked: true
+      unlocked: extra.techName === "TechTowerS" ? false : true
     })
     results[extra.civ] = results[extra.civ].concat(
       upgrades.filter(u => !results[extra.civ].some(up => up.id === u.id))

@@ -327,6 +327,30 @@ export default {
             affectedStats.push("Servilia_CSpeedRange")
             affectedStats.push("Servilia_CSpeed")
             break
+          case "Theode_E":
+            affectedStats.push("Theode_EMaxHPRange")
+            affectedStats.push("Theode_EMaxHP")
+            delete stats["HealthAuraMaxHPRange"]
+            delete stats["HealthAuraMaxHP"]
+            break
+          case "Theode_R":
+            affectedStats.push("Theode_RMaxHPRange")
+            affectedStats.push("Theode_RMaxHP")
+            delete stats["HealthAuraMaxHPRange"]
+            delete stats["HealthAuraMaxHP"]
+            break
+          case "Theode_U":
+            affectedStats.push("Theode_UMaxHPRange")
+            affectedStats.push("Theode_UMaxHP")
+            delete stats["HealthAuraMaxHPRange"]
+            delete stats["HealthAuraMaxHP"]
+            break
+          case "Theode_C":
+            affectedStats.push("Theode_CMaxHPRange")
+            affectedStats.push("Theode_CMaxHP")
+            delete stats["HealthAuraMaxHPRange"]
+            delete stats["HealthAuraMaxHP"]
+            break
           default:
             affectedStats.push(actionName)
         }
