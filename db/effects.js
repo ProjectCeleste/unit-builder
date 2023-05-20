@@ -81,17 +81,21 @@ export async function convertEffects(effects, civ, isAdvisor) {
     }
 
     if (type === "WorkRate") {
+      /*console.log(e.action)*/
       switch (e.action) {
         case "Gather":
         case "AutoGather":
         case "Empower":
         case "Convert":
+        case "Convert2":
           if (e.unittype === "BerryBush") {
             type = e.action + "AbstractFruit"
           } else if (e.unittype === "Fish") {
             type = e.action + "AbstractFish"
           } else if (e.unittype === "Wood") {
             type = e.action + "Tree"
+          } else if (e.action === "Convert" || e.action === "Convert2") {
+            type = "Convert" + e.unittype
           } else {
             type = e.action + e.unittype
           }
@@ -105,6 +109,9 @@ export async function convertEffects(effects, civ, isAdvisor) {
         case "Heal":
           type = "RateHeal"
           break
+        case "BurningAttack":
+            /*type = "BurningAttack"*/
+            continue
         case "SelfHeal":
         case "Repair":
           type += e.action
@@ -179,7 +186,8 @@ export async function convertEffects(effects, civ, isAdvisor) {
     } else if (type === "MaximumRange" && e.action == "MeleeAttack") {
       type = "MaximumRangeMeleeAttack"
     } else if (type === "MaximumRange" && e.action == "BurningAttack") {
-      type = "MaximumRange"
+      /*type = "MaximumRange"*/
+      continue
     } else if (type === "DamageArea") {
       type = e.action + "DamageArea"
     } else if (
@@ -238,7 +246,7 @@ export async function convertEffects(effects, civ, isAdvisor) {
 }
 
 export function addEffect(name) {
-  if (name.startsWith("Convert") && name !== "ConvertResist" && name !== "ConvertConvertableBuilding") {
+  if (name.startsWith("Convert") && name !== "ConvertResist" && name !== "ConvertConvertableBuilding" && name !== "Convert2ConvertableBuilding") {
     addEffect(name.replace("Convert", "Chaos"))
   }
   if (!effects[name]) {
@@ -345,6 +353,8 @@ function getType(effectName) {
 }
 
 const templates = {
+  ActionEnableConvert: { name: "Convert", icon: "NONE", sort: 0 },
+  ActionEnableConvert2: { name: "Convert2", icon: "NONE", sort: 0 },
   ActionEnablePoisonAttack: { name: "Poison Attack", icon: "NONE", sort: 0 },
   ActionEnableSpawnDeer_C: {
     name: "Spawn Sacred Deer every 30s",
@@ -406,6 +416,26 @@ const templates = {
     icon: "NONE",
     sort: 0
   },
+  ActionEnableTheode_C: {
+    name: "Chief stuff C",
+    icon: "NONE",
+    sort: 0
+  },
+  ActionEnableTheode_U: {
+    name: "Chief stuff U",
+    icon: "NONE",
+    sort: 0
+  },
+  ActionEnableTheode_R: {
+    name: "Chief stuff R",
+    icon: "NONE",
+    sort: 0
+  },
+  ActionEnableTheode_E: {
+    name: "Chief stuff E",
+    icon: "NONE",
+    sort: 0
+  },
   ActionEnableBurningAttack: {
     name: "Burning Damage over 8s",
     icon: "NONE",
@@ -413,6 +443,11 @@ const templates = {
   },
   ActionEnableSelfHeal: {
     name: "Enables Self-Heal Action",
+    icon: "WorkRateSelfHeal",
+    sort: 0
+  },
+  ActionEnableHealthAura: {
+    name: "Enables Health Aura",
     icon: "WorkRateSelfHeal",
     sort: 0
   },
@@ -598,6 +633,11 @@ const templates = {
   Hitpoints: { name: "Health", icon: "Hitpoints", sort: 0 },
   LOS: { name: "Line-of-sight", icon: "LOS", sort: 180 },
   MaximumRange: { name: "Maximum Range", icon: "MaximumRange", sort: 66 },
+  WorkRateBurningAttack: {
+    name: "Work Rate Burning Attack??",
+    icon: "MaximumRange",
+    sort: 66
+  },
   MaximumRangeBurningAttack: {
     name: "Maximum Range",
     icon: "MaximumRange",
@@ -619,7 +659,17 @@ const templates = {
     icon: "MaximumRange",
     sort: 140
   },
+  MaximumRangeConvert2: {
+    name: "Maximum Conversion Range",
+    icon: "MaximumRange",
+    sort: 140
+  },
   MaximumRangeChaos: {
+    name: "Maximum Chaos Range",
+    icon: "MaximumRange",
+    sort: 130
+  },
+  MaximumRangeChaos2: {
     name: "Maximum Chaos Range",
     icon: "MaximumRange",
     sort: 130
@@ -690,7 +740,19 @@ const templates = {
     sort: 134,
     lowerIsBetter: true
   },
+  Convert2StandardConvertable: {
+    name: "Conversion Rate",
+    icon: "ConvertStandardConvertable",
+    sort: 134,
+    lowerIsBetter: true
+  },
   ConvertConvertableCavalry: {
+    name: "Convert Cavalry Rate",
+    icon: "ConvertStandardConvertable",
+    sort: 136,
+    lowerIsBetter: true
+  },
+  Convert2ConvertableCavalry: {
     name: "Convert Cavalry Rate",
     icon: "ConvertStandardConvertable",
     sort: 136,
@@ -702,27 +764,59 @@ const templates = {
     sort: 137,
     lowerIsBetter: true
   },
+  Convert2ConvertableSiege: {
+    name: "Convert Siege Rate",
+    icon: "ConvertStandardConvertable",
+    sort: 137,
+    lowerIsBetter: true
+  },
   ConvertConvertableInfantry: {
     name: "Convert Infantry Rate",
     icon: "ConvertStandardConvertable",
     sort: 135,
     lowerIsBetter: true
   },
+  Convert2ConvertableInfantry: {
+    name: "Convert Infantry Rate",
+    icon: "ConvertStandardConvertable",
+    sort: 135,
+    lowerIsBetter: true
+  },
   ChaosStandardConvertable: { name: "Chaos Rate", icon: "Chaos", sort: 124 , lowerIsBetter: true},
+  Chaos2StandardConvertable: { name: "Chaos Rate", icon: "Chaos", sort: 124 , lowerIsBetter: true},
   ChaosConvertableCavalry: {
     name: "Cavalry Chaos Rate",
     icon: "Chaos",
     sort: 126,
     lowerIsBetter: true
   },
+  Chaos2ConvertableCavalry: {
+    name: "Cavalry Chaos Rate",
+    icon: "Chaos",
+    sort: 126,
+    lowerIsBetter: true
+  },
   ChaosConvertableSiege: { name: "Siege Chaos Rate", icon: "Chaos", sort: 127 , lowerIsBetter: true},
+  Chaos2ConvertableSiege: { name: "Siege Chaos Rate", icon: "Chaos", sort: 127 , lowerIsBetter: true},
   ChaosConvertableInfantry: {
     name: "Infantry Chaos Rate",
     icon: "Chaos",
     sort: 125,
     lowerIsBetter: true
   },
+  Chaos2ConvertableInfantry: {
+    name: "Infantry Chaos Rate",
+    icon: "Chaos",
+    sort: 125,
+    lowerIsBetter: true
+  },
   ConvertConvertableBuilding: {
+    name: "Convert Building Rate",
+    icon: "ConvertStandardConvertable",
+    sort: 138,
+    lowerIsBetter: true
+  },
+  Convert2ConvertableBuilding: {
     name: "Convert Building Rate",
     icon: "ConvertStandardConvertable",
     sort: 138,
@@ -1115,6 +1209,46 @@ const templates = {
     sort: 115
   },
   HealthAuraMaxHP: {
+    name: "HP Aura Buff",
+    icon: "DamageArea",
+    sort: 116
+  },
+  Theode_CMaxHPRange: {
+    name: "HP Aura Buff Range",
+    icon: "DamageArea",
+    sort: 115
+  },
+  Theode_CMaxHP: {
+    name: "HP Aura Buff",
+    icon: "DamageArea",
+    sort: 116
+  },
+  Theode_UMaxHPRange: {
+    name: "HP Aura Buff Range",
+    icon: "DamageArea",
+    sort: 115
+  },
+  Theode_UMaxHP: {
+    name: "HP Aura Buff",
+    icon: "DamageArea",
+    sort: 116
+  },
+  Theode_RMaxHPRange: {
+    name: "HP Aura Buff Range",
+    icon: "DamageArea",
+    sort: 115
+  },
+  Theode_RMaxHP: {
+    name: "HP Aura Buff",
+    icon: "DamageArea",
+    sort: 116
+  },
+  Theode_EMaxHPRange: {
+    name: "HP Aura Buff Range",
+    icon: "DamageArea",
+    sort: 115
+  },
+  Theode_EMaxHP: {
     name: "HP Aura Buff",
     icon: "DamageArea",
     sort: 116
