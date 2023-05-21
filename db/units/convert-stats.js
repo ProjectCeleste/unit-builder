@@ -57,19 +57,24 @@ export async function convertUnitStats(unit) {
         stats["ConvertResist"] = 2
     }
     else if (unit.UnitType.includes('AbstractPriest') || 
-             unit.UnitType.includes('AbstractArtillery')) {
-              stats["ConvertResist"] = 2
-      }
+            unit.UnitType.includes('AbstractArtillery')) {
+            stats["ConvertResist"] = 2
+    }
     else if (unit.UnitType.includes("ConvertableInfantry") || 
-      unit.UnitType.includes("ConvertableCavalry") || 
-      unit.UnitType.includes("ConvertableSiege") || 
-      unit.UnitType.includes("ConvertableBuilding") || 
-      unit.UnitType.includes("StandardConvertable")) {
-        stats["ConvertResist"] = 1
-      }
+    unit.UnitType.includes("ConvertableCavalry") || 
+    unit.UnitType.includes("ConvertableSiege") || 
+    unit.UnitType.includes("ConvertableBuilding") || 
+    unit.UnitType.includes("StandardConvertable")) {
+      stats["ConvertResist"] = 1
+    }
     else {
-        stats["ConvertResist"] = 1000
-      }
+      stats["ConvertResist"] = 1000
+  }
+  if (unit.name === 'Eg_Spc_PriestSet' ) {
+    /*stats["ChaosStandardConvertable"] = 10*/
+    inactiveActions.push("MaximumRangeConvert")
+    inactiveActions.push("MaximumRangeConvert2")
+  }
     
 
   if (unit.MaxVelocity) {
@@ -538,7 +543,7 @@ function convertTactic(tactic, stats, inactiveActions) {
     case "Convert": {
       if (tactic.anim === "Chaos") {
         stats.ChaosStandardConvertable = stats.ConvertStandardConvertable
-        delete stats.ConvertStandardConvertable
+        /*delete stats.ConvertStandardConvertable*/
         if (stats.ConvertConvertableCavalry !== undefined) {
           stats.ChaosConvertableCavalry = stats.ConvertConvertableCavalry
           delete stats.ConvertConvertableCavalry

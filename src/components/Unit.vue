@@ -43,13 +43,13 @@
           <div v-for="type in selection.unit.types" :key="type">
             <div v-if="type.indexOf('UnitType') > -1"></div>
             <div v-else-if="type.indexOf('AbstractPriest') > -1">
-              <div v-if="selection.unit.stats.ConvertStandardConvertable > 0">
-                Converting Priest
+              <div v-if="selection.unit.stats.ChaosStandardConvertable > 0">
+                Chaos Priest
               </div>
               <div
-                v-else-if="selection.unit.stats.ChaosStandardConvertable > 0"
+                v-else-if="selection.unit.stats.ConvertStandardConvertable > 0"
               >
-                Chaos Priest
+                Converting Priest
               </div>
               <div v-else>
                 Non-Converting Priest

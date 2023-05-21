@@ -188,6 +188,10 @@ export async function convertEffects(effects, civ, isAdvisor) {
     } else if (type === "MaximumRange" && e.action == "BurningAttack") {
       /*type = "MaximumRange"*/
       continue
+    } else if (type === "MaximumRange" && e.action == "Convert") {
+      type = "MaximumRangeConvert"
+    } else if (type === "MaximumRange" && e.action == "Convert2") {
+      continue
     } else if (type === "DamageArea") {
       type = e.action + "DamageArea"
     } else if (
@@ -246,9 +250,13 @@ export async function convertEffects(effects, civ, isAdvisor) {
 }
 
 export function addEffect(name) {
-  if (name.startsWith("Convert") && name !== "ConvertResist" && name !== "ConvertConvertableBuilding" && name !== "Convert2ConvertableBuilding") {
+  if ((name.startsWith("Convert")) && name !== "ConvertResist" && name !== "ConvertConvertableBuilding" && name !== "Convert2ConvertableBuilding") {
     addEffect(name.replace("Convert", "Chaos"))
   }
+  /*
+  if (name.startsWith("Chaos")) {
+    console.log(name)
+  }*/
   if (!effects[name]) {
     const template = getTemplate(name)
     effects[name] = {
