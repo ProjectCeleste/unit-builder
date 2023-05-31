@@ -161,16 +161,22 @@ export async function convertEffects(effects, civ, isAdvisor) {
     } else if (type === "Armor") {
       type += e.damagetype
     } else if (type === "Haste") {
-      type = "AttackSpeed"
+      /*type = "AttackSpeed"*/
       switch (e.action) {
         case "RangedAttack":
-          type += "DamageRanged"
+          type = "AttackSpeedDamageRanged"
           break
         case "BurningAttack":
           type = "AttackSpeedDamageRanged"
           break
         case "RangedAttack2":
-          type += "DamageRanged"
+          type = "AttackSpeedDamageRanged"
+          break
+        case "MeleeAttack":
+          type = "AttackSpeedDamageMelee"
+          break
+        case "BuildingAttack":
+          type = "AttackSpeedDamageBuilding"
           break
       }
     } else if (type === "DamageBonusReduction") {
@@ -1059,6 +1065,16 @@ const templates = {
     sort: 36
   },
   AttackSpeed: { name: "Attack Rate", icon: "DamageOverTime", sort: 0 },
+  AttackSpeedDamageBuilding: {
+    name: "Attack Rate",
+    icon: "DamageOverTime",
+    sort: 0
+  },
+  AttackSpeedDamageMelee: {
+    name: "Attack Rate",
+    icon: "DamageOverTime",
+    sort: 0
+  },
   AttackSpeedDamageRanged: {
     name: "Attack Rate",
     icon: "DamageOverTime",

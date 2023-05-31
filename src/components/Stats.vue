@@ -386,7 +386,6 @@ export default {
 
       switch (effect.type) {
         case "Damage":
-        case "AttackSpeed":
           // If type is Damage, apply to all damage subtypes
           for (let keyDmg in stats) {
             if (
@@ -394,6 +393,20 @@ export default {
               !keyDmg.startsWith("DamageBonus") &&
               keyDmg != "DamageArea"
             ) {
+              stats[keyDmg] *= mod
+            }
+          }
+          break
+        case "AttackSpeedDamageBuilding":
+          break
+        case "AttackSpeedDamageMelee":
+          for (let keyDmg in stats) {
+            if (
+              keyDmg === "DamageHand" ||
+              keyDmg === "DamageCavalry" ||
+              keyDmg === "DamageSiegeMeleeAttack"
+            ) {
+              this.setBaseStat(stats, keyDmg)
               stats[keyDmg] *= mod
             }
           }
