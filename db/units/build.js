@@ -177,19 +177,45 @@ async function convertConsUnit(power) {
           deerTech.Effects.effect[0].target.text = createUnit.text
             for (let keyAction in consUnit.ProtoAction) {
               const action = consUnit.ProtoAction[keyAction]
+              /*
               if (consUnit["Trait1"]){
                 if (consUnit["Trait1"].startsWith("ConCommon"))   {action.Damage = action.Damage * 1.171}
                 if (consUnit["Trait1"].startsWith("ConUncommon")) {action.Damage = action.Damage * 1.331}
                 if (consUnit["Trait1"].startsWith("ConRare"))     {action.Damage = action.Damage * 1.551}
                 if (consUnit["Trait1"].startsWith("ConEpic"))     {action.Damage = action.Damage * 1.821}
-              }            
-            }
+              }*/           
+              if (consUnit.UnitType.includes("UnitUpgradeLevel13")) {action.Damage = action.Damage * 1.167}
+              if (consUnit.UnitType.includes("UnitUpgradeLevel23")) {action.Damage = action.Damage * 1.255}
+              if (consUnit.UnitType.includes("UnitUpgradeLevel33")) {action.Damage = action.Damage * 1.347}
+              if (consUnit.UnitType.includes("UnitUpgradeLevel43")) {action.Damage = action.Damage * 1.43575} /* 1,4551 is implied when 43 levels....but for some reason that isnt the case.*/
+
+              if (consUnit.UnitType.includes("UnitUpgrade1CraftedUncommon")) {action.Damage = action.Damage * 1.0598}
+              if (consUnit.UnitType.includes("UnitUpgrade2Rare")) {action.Damage = action.Damage * 1.1496}
+              if (consUnit.UnitType.includes("UnitUpgrade2Rare")) {action.Damage = action.Damage * 1.1496}
+              if (consUnit.UnitType.includes("UnitUpgrade3Epic")) {action.Damage = action.Damage * 1.2693}
+              
+              if (consUnit.UnitType.includes("AbstractUniqueUnit")) {action.Damage = action.Damage * 1.15}
+              
+            }/*
             if (consUnit["Trait1"]){
               if (consUnit["Trait1"].startsWith("ConCommon"))   {consUnit.MaxHitpoints = consUnit.MaxHitpoints * 1.171}
               if (consUnit["Trait1"].startsWith("ConUncommon")) {consUnit.MaxHitpoints = consUnit.MaxHitpoints * 1.331}
               if (consUnit["Trait1"].startsWith("ConRare"))     {consUnit.MaxHitpoints = consUnit.MaxHitpoints * 1.551}
               if (consUnit["Trait1"].startsWith("ConEpic"))     {consUnit.MaxHitpoints = consUnit.MaxHitpoints * 1.821}
-            }            
+            }  */ 
+            if (consUnit.UnitType.includes("UnitUpgradeLevel13")) {consUnit.MaxHitpoints = consUnit.MaxHitpoints * 1.167}
+            if (consUnit.UnitType.includes("UnitUpgradeLevel23")) {consUnit.MaxHitpoints = consUnit.MaxHitpoints * 1.255}
+            if (consUnit.UnitType.includes("UnitUpgradeLevel33")) {consUnit.MaxHitpoints = consUnit.MaxHitpoints * 1.347}
+            if (consUnit.UnitType.includes("UnitUpgradeLevel43")) {consUnit.MaxHitpoints = consUnit.MaxHitpoints * 1.43575} /* 1,4551 is implied when 43 levels....but for some reason that isnt the case.*/
+
+            if (consUnit.UnitType.includes("UnitUpgrade1CraftedUncommon")) {consUnit.MaxHitpoints = consUnit.MaxHitpoints * 1.0598}
+            if (consUnit.UnitType.includes("UnitUpgrade2Rare")) {consUnit.MaxHitpoints = consUnit.MaxHitpoints * 1.1496}
+            if (consUnit.UnitType.includes("UnitUpgrade2Rare")) {consUnit.MaxHitpoints = consUnit.MaxHitpoints * 1.1496}
+            if (consUnit.UnitType.includes("UnitUpgrade3Epic")) {consUnit.MaxHitpoints = consUnit.MaxHitpoints * 1.2693}
+            
+            if (consUnit.UnitType.includes("AbstractUniqueUnit")) {consUnit.MaxHitpoints = consUnit.MaxHitpoints * 1.15}   
+                        
+
           delete consUnit["Trait1"]
           if (!consUnit.UnitType.includes("Consumable")) {
             consUnit.UnitType.push("Consumable")
@@ -226,19 +252,47 @@ async function convertAdvisorUnit(advisor) {
       deerTech.Effects.effect[0].target.text = advUnit.name
         for (let keyAction in advUnit.ProtoAction) {
           const action = advUnit.ProtoAction[keyAction]
+          /*
           if (advUnit["Trait1"]){
             if (advUnit["Trait1"].startsWith("ConCommon"))   {action.Damage = action.Damage * 1.171}
             if (advUnit["Trait1"].startsWith("ConUncommon")) {action.Damage = action.Damage * 1.331}
             if (advUnit["Trait1"].startsWith("ConRare"))     {action.Damage = action.Damage * 1.551}
             if (advUnit["Trait1"].startsWith("ConEpic"))     {action.Damage = action.Damage * 1.821}
-          }            
+          } */           
+          
+          if (advUnit.UnitType.includes("UnitUpgradeLevel13")) {action.Damage = action.Damage * 1.167}
+          if (advUnit.UnitType.includes("UnitUpgradeLevel23")) {action.Damage = action.Damage * 1.255}
+          if (advUnit.UnitType.includes("UnitUpgradeLevel33")) {action.Damage = action.Damage * 1.347}
+          if (advUnit.UnitType.includes("UnitUpgradeLevel43")) {action.Damage = action.Damage * 1.43575} /* 1,4551 is implied when 43 levels....but for some reason that isnt the case.*/
+
+          if (advUnit.UnitType.includes("UnitUpgrade1CraftedUncommon")) {action.Damage = action.Damage * 1.0598}
+          if (advUnit.UnitType.includes("UnitUpgrade2Rare")) {action.Damage = action.Damage * 1.1496}
+          if (advUnit.UnitType.includes("UnitUpgrade2Rare")) {action.Damage = action.Damage * 1.1496}
+          if (advUnit.UnitType.includes("UnitUpgrade3Epic")) {action.Damage = action.Damage * 1.2693}
+          
+          if (advUnit.UnitType.includes("AbstractUniqueUnit")) {action.Damage = action.Damage * 1.15}
+
         }
+        /*
         if (advUnit["Trait1"]){
           if (advUnit["Trait1"].startsWith("ConCommon"))   {advUnit.MaxHitpoints = advUnit.MaxHitpoints * 1.171}
           if (advUnit["Trait1"].startsWith("ConUncommon")) {advUnit.MaxHitpoints = advUnit.MaxHitpoints * 1.331}
           if (advUnit["Trait1"].startsWith("ConRare"))     {advUnit.MaxHitpoints = advUnit.MaxHitpoints * 1.551}
           if (advUnit["Trait1"].startsWith("ConEpic"))     {advUnit.MaxHitpoints = advUnit.MaxHitpoints * 1.821}
-        }            
+        } */
+
+        if (advUnit.UnitType.includes("UnitUpgradeLevel13")) {advUnit.MaxHitpoints = advUnit.MaxHitpoints * 1.167}
+        if (advUnit.UnitType.includes("UnitUpgradeLevel23")) {advUnit.MaxHitpoints = advUnit.MaxHitpoints * 1.255}
+        if (advUnit.UnitType.includes("UnitUpgradeLevel33")) {advUnit.MaxHitpoints = advUnit.MaxHitpoints * 1.347}
+        if (advUnit.UnitType.includes("UnitUpgradeLevel43")) {advUnit.MaxHitpoints = advUnit.MaxHitpoints * 1.43575} /* 1,4551 is implied when 43 levels....but for some reason that isnt the case.*/
+
+        if (advUnit.UnitType.includes("UnitUpgrade1CraftedUncommon")) {advUnit.MaxHitpoints = advUnit.MaxHitpoints * 1.0598}
+        if (advUnit.UnitType.includes("UnitUpgrade2Rare")) {advUnit.MaxHitpoints = advUnit.MaxHitpoints * 1.1496}
+        if (advUnit.UnitType.includes("UnitUpgrade2Rare")) {advUnit.MaxHitpoints = advUnit.MaxHitpoints * 1.1496}
+        if (advUnit.UnitType.includes("UnitUpgrade3Epic")) {advUnit.MaxHitpoints = advUnit.MaxHitpoints * 1.2693}
+        
+        if (advUnit.UnitType.includes("AbstractUniqueUnit")) {advUnit.MaxHitpoints = advUnit.MaxHitpoints * 1.15}   
+
       delete advUnit["Trait1"]
       if (!advUnit.UnitType.includes("AdvisorUnit" + advisor.age.toString() + advisor.name)) {
         advUnit.UnitType.push("AdvisorUnit" + advisor.age.toString() + advisor.name)
