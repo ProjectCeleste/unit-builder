@@ -391,6 +391,7 @@ export default {
             if (
               keyDmg.startsWith("Damage") &&
               !keyDmg.startsWith("DamageBonus") &&
+              !keyDmg.startsWith("DamageAura") &&
               keyDmg != "DamageArea"
             ) {
               stats[keyDmg] *= mod
