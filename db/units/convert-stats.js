@@ -103,6 +103,11 @@ export async function convertUnitStats(unit) {
 
   if (unit.TrainPoints && unit.TrainPoints !== -1) {
     stats.TrainPoints = unit.TrainPoints
+    if(unit.name.startsWith("Ba")){
+      stats.Training_Garden4Age2  = unit.TrainPoints
+      stats.Training_Garden8Age3  = unit.TrainPoints
+      stats.Training_Garden12Age4  = unit.TrainPoints
+    }
   } else if (unit.BuildPoints && unit.BuildPoints !== -1) {
     stats.BuildPoints = unit.BuildPoints
   }

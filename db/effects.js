@@ -1304,8 +1304,23 @@ const templates = {
   },
   MaxDmgMaxContained: {
     name: "Damage at max Capacity",
-    icon: "DamageRanged",
+    icon: "BuildPoints",
     sort: 187
+  },
+  Training_Garden4Age2: {
+    name: "Train Time 4x Age II Gardens",
+    icon: "BuildPoints",
+    sort: 196
+  },
+  Training_Garden8Age3: {
+    name: "Train Time 8x Age III Gardens",
+    icon: "BuildPoints",
+    sort: 197
+  },
+  Training_Garden12Age4: {
+    name: "Train Time 12x Age IV Gardens",
+    icon: "BuildPoints",
+    sort: 198
   }
 }
 

@@ -153,6 +153,11 @@ export default {
         stats["MaxDmgMaxContained"] =
           stats["DamageRanged"] * stats["MaximumContained"]
       }
+      if (stats.Training_Garden4Age2) {
+        stats["Training_Garden4Age2"] = stats["TrainPoints"] * 0.888487048
+        stats["Training_Garden8Age3"] = stats["TrainPoints"] * 0.730690205
+        stats["Training_Garden12Age4"] = stats["TrainPoints"] * 0.556837418
+      }
 
       this.$store.commit("setUnitStats", { id: this.unitId, stats })
       return stats
