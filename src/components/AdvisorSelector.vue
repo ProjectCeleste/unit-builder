@@ -133,20 +133,6 @@ export default {
         rarity: this.selectedRarity,
         effects: rarity.effects.slice()
       }
-      /*if (advisor.rarities[0].effects[0]) {
-        if (advisor.rarities[0].effects[0].type === "AdvisorUniqueUnit") {
-          const units = civs[this.civ]
-          const unit = findByAttribute(
-            units,
-            "id",
-            advisor.rarities[0].effects[0].tech
-          )
-          if (unit) {
-            console.log(unit)
-            this.$emit("advisorUnit", unit)
-          }
-        }
-      }*/
       this.$emit("update:modelValue", a)
     },
     onRaritySelected(r) {

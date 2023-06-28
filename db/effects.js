@@ -9,14 +9,14 @@ const ignoredEffects = [
   "Market",
   "TributePenalty",
   "UpdateVisual",
-  "CostBuildingTechs",
+  /*"CostBuildingTechs",*/
   "CostBuildingAll",
   "ResourceTrickleRate",
   "Resource",
   "PopulationCapExtra"
 ]
 
-const ignoredTargets = ["TechAll"]
+/*const ignoredTargets = ["TechAll"]*/
 
 export async function convertEffects(effects, civ, isAdvisor) {
   if (!Array.isArray(effects)) {
@@ -56,7 +56,7 @@ export async function convertEffects(effects, civ, isAdvisor) {
           })
         }
       }
-      if (e.type === "Data") {
+      /*if (e.type === "Data") {
         if (e.status !== "obtainable" && isAdvisor && e.subtype === "Enable" && e.relativity === "Absolute") {
           const civs = ["greek","egyptian","celtic","persian","babylonian","roman","norse"]
     
@@ -76,7 +76,7 @@ export async function convertEffects(effects, civ, isAdvisor) {
             })
           }
         }
-      }
+      }*/
       continue
     }
 
@@ -222,8 +222,12 @@ export async function convertEffects(effects, civ, isAdvisor) {
     }
 
     if (e.target && e.target.type !== "Player") {
-      if (ignoredTargets.includes(e.target.type)) {
+      /*if (ignoredTargets.includes(e.target.type)) {
         continue
+      }*/
+      if (e.target.type === "TechAll") {
+        effect.target = e.target.type
+        addUnitType(e.target.type)
       }
       if (type === "ConvertConvertableBuilding") {
         effect.target = "Eg_Spc_PriestPtah"
@@ -1321,6 +1325,23 @@ const templates = {
     name: "Train Time 12x Age IV Gardens",
     icon: "BuildPoints",
     sort: 198
+  },
+  ResearchPoints: {
+    name: "Research Time",
+    icon: "BuildPoints",
+    sort: 199
+  },
+  CostBuildingTechs: {
+    name: "Tech Cost",
+    icon: "CostWood",
+    sort: 0,
+    lowerIsBetter: true
+  },
+  CostBuildingAll: {
+    name: "Tech Cost",
+    icon: "CostWood",
+    sort: 0,
+    lowerIsBetter: true
   }
 }
 

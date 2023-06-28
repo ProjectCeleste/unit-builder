@@ -48,7 +48,13 @@ export default {
     },
     civ: { type: String, required: true },
     unit: { type: Object, required: true },
-    unlockedTech: { type: Array, default: () => [] }
+    unlockedTech: { type: Array, default: () => [] },
+    milestonesSelection: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
   },
   emits: ["update:modelValue"],
   data() {

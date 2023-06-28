@@ -151,6 +151,7 @@
         :civ="selection.civ"
         :unlocked-tech="unlockedTech"
         class="card-content"
+        :milestones-selection="milestones"
       />
     </Collapse>
     <Collapse v-if="selection.unit.name !== 'None'" title="Stats">

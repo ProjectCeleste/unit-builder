@@ -151,11 +151,11 @@ async function convertUpgrade(tech, civ) {
 }
 
 function includeEffect(tech, effect) {
-  if (tech.name === "TechPhilosophy") {
+  /*if (tech.name === "TechPhilosophy") {
     if (effect.target === "Unit") {
       return false
     }
-  }
+  }*/
   return true
 }
 
