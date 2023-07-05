@@ -287,11 +287,6 @@ export default {
             affectedStats.push("MaximumRange2")
             affectedStats.push("DamageBonusBuildingRangedAttack2")
             break
-          case "Heal":
-            affectedStats.push("RateHeal")
-            affectedStats.push("MaximumRangeHeal")
-            affectedStats.push("HealArea")
-            break
           case "AreaHeal":
             affectedStats.push("RateAreaHealInCombat")
             affectedStats.push("MaximumRangeAreaHeal")
@@ -299,6 +294,12 @@ export default {
             delete stats["RateHealInCombat"]
             delete stats["MaximumRangeHeal"]
             delete stats["HealArea"]
+            break
+          case "Heal":
+            affectedStats.push("RateHeal")
+            affectedStats.push("RateHealInCombat")
+            affectedStats.push("MaximumRangeHeal")
+            affectedStats.push("HealArea")
             break
           case "Charge":
             affectedStats.push("ChargeDamageMultiplier")

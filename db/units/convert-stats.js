@@ -535,6 +535,15 @@ function convertTactic(tactic, stats, inactiveActions) {
       }
       if (tactic.affectsTargetsInCombat === "") {
         const healType = "Rate" + tactic.name.text
+        if (tactic.active === "0") {
+          inactiveActions.push(healType + "InCombat")
+          inactiveActions.push("MaximumRange" + tactic.name.text)
+        }
+        if (!stats[healType]) {
+          stats[healType] = parseFloat(tactic.rate[0].text)
+          stats[healType + "InCombat"] = parseFloat(tactic.rate[0].text)
+          stats["MaximumRange" + tactic.name.text] = parseFloat(tactic.maxRange)
+        }
         stats[healType + "InCombat"] = stats[healType]
         delete stats[healType]
       }
