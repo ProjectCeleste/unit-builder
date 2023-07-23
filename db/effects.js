@@ -359,6 +359,7 @@ function getType(effectName) {
   }*/
   if (
     effectName === "TrainPoints" ||
+    effectName.startsWith("Training_Garden") ||
     effectName === "BuildPoints" ||
     (effectName.startsWith("Convert") && effectName !== "ConvertResist") ||
     effectName.startsWith("Chaos") ||
@@ -963,6 +964,11 @@ const templates = {
     icon: "DamageBonusAbstractCavalry",
     sort: 56
   },
+  DamageBonusUnitTypeMobileStorehouse1: {
+    name: "Bonus vs. Storehouse",
+    icon: "DamageBonusBuilding",
+    sort: 31
+  },
   DamageBonusUnitTypeMobileStorehouse1MeleeAttack: {
     name: "Bonus vs. Storehouse",
     icon: "DamageBonusBuilding",
@@ -1314,17 +1320,20 @@ const templates = {
   Training_Garden4Age2: {
     name: "Train Time 4x Age II Gardens",
     icon: "BuildPoints",
-    sort: 196
+    sort: 196,
+    lowerIsBetter: true
   },
   Training_Garden8Age3: {
     name: "Train Time 8x Age III Gardens",
     icon: "BuildPoints",
-    sort: 197
+    sort: 197,
+    lowerIsBetter: true
   },
   Training_Garden12Age4: {
     name: "Train Time 12x Age IV Gardens",
     icon: "BuildPoints",
-    sort: 198
+    sort: 198,
+    lowerIsBetter: true
   },
   ResearchPoints: {
     name: "Research Time",
