@@ -315,6 +315,8 @@ export function parseAction(action, stats, inactiveActions) {
         if (action.Active === 0) {
           inactiveActions.push("MaximumRange2")
         }
+      } else if (name === "BurningAttack") {
+        //do nothing
       } else {
         stats.MaximumRange = action.MaxRange[0]
         if (action.Active === 0) {
