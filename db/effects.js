@@ -563,7 +563,7 @@ const templates = {
   RangedAttackDamageArea: { name: "Ranged Splash Area", icon: "DamageArea", sort: 64 },
   MeleeAttackDamageArea: { name: "Melee Splash Area", icon: "DamageArea", sort: 39 },
   BurningAttackDamageArea: { name: "Burning Splash Area", icon: "DamageArea", sort: 98 },
-  RangedAttack2DamageArea: { name: "Special Building Ranged Splash Area", icon: "DamageArea", sort: 86 },
+  RangedAttack2DamageArea: { name: "Special Building Ranged Splash Area", icon: "DamageArea", sort: 153 },
   AreaDamageReduction: {
     name: "Splash Damage Reduction",
     icon: "AreaDamageReduction",
@@ -670,9 +670,9 @@ const templates = {
   MaximumRange2: {
     name: "Special Building Max Range",
     icon: "MaximumRange",
-    sort: 87
+    sort: 154
   },
-  MinimumRange: { name: "Minimum Range", icon: "MaximumRange", sort: 65 },
+  MinimumRange: { name: "Minimum Range", icon: "MaximumRange", sort: 65, lowerIsBetter: true },
   MaximumRangeConvert: {
     name: "Maximum Conversion Range",
     icon: "MaximumRange",
@@ -922,7 +922,7 @@ const templates = {
   DamageBonusBuildingRangedAttack2: {
     name: "Bonus vs. Building - Special Ranged",
     icon: "DamageBonusBuilding",
-    sort: 81
+    sort: 151
   },
   DamageBonusShip: {
     name: "Bonus vs. Ship",
@@ -1112,7 +1112,7 @@ const templates = {
   DamageSiegeRangedAttack2: {
     name: "Special Building Ranged Crush DPS",
     icon: "DamageSiege",
-    sort: 80
+    sort: 150
   },
   MaximumContained: {
     name: "Transport Capacity",
@@ -1351,6 +1351,41 @@ const templates = {
     icon: "CostWood",
     sort: 0,
     lowerIsBetter: true
+  },
+  CaravanGoldPerSec300: {
+    name: "Gold/Sec for Size 300m",
+    icon: "CostGold",
+    sort: 160
+  },
+  CaravanGoldPerSec500: {
+    name: "Gold/Sec for VOK 500m",
+    icon: "CostGold",
+    sort: 161
+  },
+  CaravanGoldPerSec300_50: {
+    name: "Gold/Sec Trade 50 & Size 300m",
+    icon: "CostGold",
+    sort: 163
+  },
+  CaravanGoldPerSec300_100: {
+    name: "Gold/Sec Trade 100 & Size 300m",
+    icon: "CostGold",
+    sort: 162
+  },
+  FishBoatTimeToFish: {
+    name: "Time to Fish",
+    icon: "BuildPoints",
+    sort: 25
+  },
+  FishBoatTimeToTravel_100Size: {
+    name: "Time to Travel from 100m",
+    icon: "BuildPoints",
+    sort: 26
+  },
+  FishBoatFishPerSec_100Size: {
+    name: "Food/Sec from 100m",
+    icon: "CostFood",
+    sort: 27
   }
 }
 

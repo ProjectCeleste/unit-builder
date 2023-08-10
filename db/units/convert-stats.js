@@ -163,12 +163,29 @@ export async function convertUnitStats(unit) {
   addEffect("CostStone")
   addEffect("DamageBonusAbstractArtilleryRangedAttack")
   addEffect("MaxDmgMaxContained")
-
+  addEffect("CaravanGoldPerSec300")
+  addEffect("CaravanGoldPerSec500")
+  addEffect("CaravanGoldPerSec300_100")
+  addEffect("CaravanGoldPerSec300_50")
+  addEffect("FishBoatTimeToFish")
+  addEffect("FishBoatTimeToTravel_100Size")
+  addEffect("FishBoatFishPerSec_100Size")
 
   //Too much effort. I am going to just MeleeAttack the TA.
   if (unit.name === "No_Inf_ThrowingAxeman") {
     stats["DamageRanged"] = stats["DamageHand"]
     delete stats["DamageHand"]
+  }
+  if (unit.name.endsWith("Civ_Caravan")) {
+    stats["CaravanGoldPerSec300"] = 1
+    stats["CaravanGoldPerSec500"] = 1
+    stats["CaravanGoldPerSec300_50"] = 1
+    stats["CaravanGoldPerSec300_100"] = 1
+  }
+  if (unit.name.endsWith("Civ_FishingBoat")) {
+    stats["FishBoatTimeToFish"] = 1
+    stats["FishBoatTimeToTravel_100Size"] = 1
+    stats["FishBoatFishPerSec_100Size"] = 1
   }
   
   //Microsoft does some scaling up to lvl 40

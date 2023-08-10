@@ -158,6 +158,34 @@ export default {
         stats["Training_Garden8Age3"] = stats["TrainPoints"] * 0.730690205
         stats["Training_Garden12Age4"] = stats["TrainPoints"] * 0.556837418
       }
+      if (stats.CaravanGoldPerSec300) {
+        stats.CaravanGoldPerSec300 =
+          stats["CarryCapacityGold"] /
+          ((Math.sqrt((stats["CarryCapacityGold"] * 300) / stats["Trade"]) *
+            2) /
+            stats["MaximumVelocity"])
+        stats["CaravanGoldPerSec500"] =
+          stats["CarryCapacityGold"] /
+          ((Math.sqrt((stats["CarryCapacityGold"] * 500) / stats["Trade"]) *
+            2) /
+            stats["MaximumVelocity"])
+        stats["CaravanGoldPerSec300_50"] =
+          50 /
+          ((Math.sqrt((50 * 300) / stats["Trade"]) * 2) /
+            stats["MaximumVelocity"])
+        stats["CaravanGoldPerSec300_100"] =
+          100 /
+          ((Math.sqrt((100 * 300) / stats["Trade"]) * 2) /
+            stats["MaximumVelocity"])
+      }
+      if (stats.FishBoatTimeToFish) {
+        stats.FishBoatTimeToFish =
+          stats.CarryCapacityFood / stats.GatherAbstractFish
+        stats.FishBoatTimeToTravel_100Size = 200 / stats.MaximumVelocity
+        stats.FishBoatFishPerSec_100Size =
+          stats.CarryCapacityFood /
+          (stats.FishBoatTimeToFish + stats.FishBoatTimeToTravel_100Size)
+      }
 
       this.$store.commit("setUnitStats", { id: this.unitId, stats })
       return stats
