@@ -163,6 +163,7 @@ export async function convertUnitStats(unit) {
   addEffect("CostStone")
   addEffect("DamageBonusAbstractArtilleryRangedAttack")
   addEffect("MaxDmgMaxContained")
+  addEffect("CaravanGoldPerSec150")
   addEffect("CaravanGoldPerSec300")
   addEffect("CaravanGoldPerSec500")
   addEffect("CaravanGoldPerSec300_100")
@@ -176,7 +177,8 @@ export async function convertUnitStats(unit) {
     stats["DamageRanged"] = stats["DamageHand"]
     delete stats["DamageHand"]
   }
-  if (unit.name.endsWith("Civ_Caravan")) {
+  if (unit.name.endsWith("Civ_Caravan") || unit.name.endsWith("Civ_UtilityBoat")) {
+    stats["CaravanGoldPerSec150"] = 1
     stats["CaravanGoldPerSec300"] = 1
     stats["CaravanGoldPerSec500"] = 1
     stats["CaravanGoldPerSec300_50"] = 1

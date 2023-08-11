@@ -159,6 +159,11 @@ export default {
         stats["Training_Garden12Age4"] = stats["TrainPoints"] * 0.556837418
       }
       if (stats.CaravanGoldPerSec300) {
+        stats.CaravanGoldPerSec150 =
+          stats["CarryCapacityGold"] /
+          ((Math.sqrt((stats["CarryCapacityGold"] * 150) / stats["Trade"]) *
+            2) /
+            stats["MaximumVelocity"])
         stats.CaravanGoldPerSec300 =
           stats["CarryCapacityGold"] /
           ((Math.sqrt((stats["CarryCapacityGold"] * 300) / stats["Trade"]) *

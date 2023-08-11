@@ -1352,23 +1352,28 @@ const templates = {
     sort: 0,
     lowerIsBetter: true
   },
+  CaravanGoldPerSec150: {
+    name: "Gold/Sec Small Map (150m)",
+    icon: "CostGold",
+    sort: 159
+  },
   CaravanGoldPerSec300: {
-    name: "Gold/Sec for Size 300m",
+    name: "Gold/Sec Average Map (300m)",
     icon: "CostGold",
     sort: 160
   },
   CaravanGoldPerSec500: {
-    name: "Gold/Sec for VOK 500m",
+    name: "Gold/Sec Huge Map (500m)",
     icon: "CostGold",
     sort: 161
   },
   CaravanGoldPerSec300_50: {
-    name: "Gold/Sec Trade 50 & Size 300m",
+    name: "Gold/Sec Trade 50 on Avg Map",
     icon: "CostGold",
     sort: 163
   },
   CaravanGoldPerSec300_100: {
-    name: "Gold/Sec Trade 100 & Size 300m",
+    name: "Gold/Sec Trade 100 on Avg Map",
     icon: "CostGold",
     sort: 162
   },
