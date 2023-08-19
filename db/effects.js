@@ -338,6 +338,7 @@ function getType(effectName) {
     effectName === "ChargeDamageMultiplier" ||
     effectName === "ChargeSpeedBoost" ||
     effectName === "HealdamageBonusUnit" ||
+    effectName === "CaravanGoldCoop" ||
     (effectName.includes("Aura") && !effectName.includes("Range"))
   ) {
     return "multiplier" // starts with "x"
@@ -1353,29 +1354,34 @@ const templates = {
     lowerIsBetter: true
   },
   CaravanGoldPerSec150: {
-    name: "Gold/Sec Small Map (150m)",
+    name: "Gold/Sec Solo Small Map (150m)",
     icon: "CostGold",
     sort: 159
   },
   CaravanGoldPerSec300: {
-    name: "Gold/Sec Average Map (300m)",
+    name: "Gold/Sec Solo Average Map (300m)",
     icon: "CostGold",
     sort: 160
   },
   CaravanGoldPerSec500: {
-    name: "Gold/Sec Huge Map (500m)",
+    name: "Gold/Sec Solo Huge Map (500m)",
     icon: "CostGold",
     sort: 161
   },
   CaravanGoldPerSec300_50: {
-    name: "Gold/Sec Trade 50 on Avg Map",
+    name: "Gold/Sec Solo Trade 50 on Avg Map",
     icon: "CostGold",
     sort: 163
   },
   CaravanGoldPerSec300_100: {
-    name: "Gold/Sec Trade 100 on Avg Map",
+    name: "Gold/Sec Solo Trade 100 on Avg Map",
     icon: "CostGold",
     sort: 162
+  },
+  CaravanGoldCoop: {
+    name: "Gold/Sec Coop 50% Trade Bonus",
+    icon: "CostGold",
+    sort: 164
   },
   FishBoatTimeToFish: {
     name: "Time to Fish",

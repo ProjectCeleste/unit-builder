@@ -168,6 +168,7 @@ export async function convertUnitStats(unit) {
   addEffect("CaravanGoldPerSec500")
   addEffect("CaravanGoldPerSec300_100")
   addEffect("CaravanGoldPerSec300_50")
+  addEffect("CaravanGoldCoop")
   addEffect("FishBoatTimeToFish")
   addEffect("FishBoatTimeToTravel_100Size")
   addEffect("FishBoatFishPerSec_100Size")
@@ -183,6 +184,7 @@ export async function convertUnitStats(unit) {
     stats["CaravanGoldPerSec500"] = 1
     stats["CaravanGoldPerSec300_50"] = 1
     stats["CaravanGoldPerSec300_100"] = 1
+    stats["CaravanGoldCoop"] = 1.224744871
   }
   if (unit.name.endsWith("Civ_FishingBoat")) {
     stats["FishBoatTimeToFish"] = 1
