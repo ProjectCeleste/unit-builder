@@ -1368,30 +1368,42 @@ const templates = {
     icon: "CostGold",
     sort: 161
   },
+  CaravanGoldPerSec300_50_Carry: {
+    name: "Short Dist Gold Carry/Trip 50+%Trade",
+    icon: "CarryCapacityGold",
+    sort: 164
+  },
   CaravanGoldPerSec300_50: {
-    name: "Gold/Sec Solo Trade 50 on Avg Map",
+    name: "Gold/Sec Solo Avg Map 50+%Trade",
     icon: "CostGold",
-    sort: 163
+    sort: 165
+  },
+  CaravanGoldPerSec300_100_Carry: {
+    name: "Short Dist Gold Carry/Trip 100+%Trade",
+    icon: "CarryCapacityGold",
+    sort: 162
   },
   CaravanGoldPerSec300_100: {
-    name: "Gold/Sec Solo Trade 100 on Avg Map",
+    name: "Gold/Sec Solo Avg Map 50+%Trade",
     icon: "CostGold",
-    sort: 162
+    sort: 163
   },
   CaravanGoldCoop: {
     name: "Gold/Sec Coop 50% Trade Bonus",
     icon: "CostGold",
-    sort: 164
+    sort: 167
   },
   FishBoatTimeToFish: {
     name: "Time to Fish",
     icon: "BuildPoints",
-    sort: 25
+    sort: 25,
+    lowerIsBetter: true
   },
   FishBoatTimeToTravel_100Size: {
     name: "Time to Travel from 100m",
     icon: "BuildPoints",
-    sort: 26
+    sort: 26,
+    lowerIsBetter: true
   },
   FishBoatFishPerSec_100Size: {
     name: "Food/Sec from 100m",

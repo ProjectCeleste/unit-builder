@@ -174,13 +174,31 @@ export default {
           ((Math.sqrt((stats["CarryCapacityGold"] * 500) / stats["Trade"]) *
             2) /
             stats["MaximumVelocity"])
+      }
+      if (stats.CaravanGoldPerSec300_50_Carry) {
+        stats["CaravanGoldPerSec300_50_Carry"] = Math.min(
+          62.5 * stats["Trade"],
+          150
+        )
         stats["CaravanGoldPerSec300_50"] =
-          50 /
-          ((Math.sqrt((50 * 300) / stats["Trade"]) * 2) /
+          stats["CaravanGoldPerSec300_50_Carry"] /
+          ((Math.sqrt(
+            (stats["CaravanGoldPerSec300_50_Carry"] * 300) / stats["Trade"]
+          ) *
+            2) /
             stats["MaximumVelocity"])
+      }
+      if (stats.CaravanGoldPerSec300_100_Carry) {
+        stats["CaravanGoldPerSec300_100_Carry"] = Math.min(
+          (100 * stats["Trade"]) / 1.5,
+          300
+        )
         stats["CaravanGoldPerSec300_100"] =
-          100 /
-          ((Math.sqrt((100 * 300) / stats["Trade"]) * 2) /
+          stats["CaravanGoldPerSec300_100_Carry"] /
+          ((Math.sqrt(
+            (stats["CaravanGoldPerSec300_100_Carry"] * 300) / stats["Trade"]
+          ) *
+            2) /
             stats["MaximumVelocity"])
       }
       if (stats.FishBoatTimeToFish) {
