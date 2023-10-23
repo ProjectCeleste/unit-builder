@@ -1082,12 +1082,12 @@ const templates = {
     sort: 0
   },
   AttackSpeedDamageMelee: {
-    name: "Attack Rate",
+    name: "Attack Rate - Melee",
     icon: "DamageOverTime",
     sort: 0
   },
   AttackSpeedDamageRanged: {
-    name: "Attack Rate",
+    name: "Attack Rate - Ranged",
     icon: "DamageOverTime",
     sort: 0
   },
