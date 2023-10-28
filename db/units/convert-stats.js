@@ -367,6 +367,10 @@ export function parseAction(action, stats, inactiveActions) {
     stats.MinimumRange = action.MinRange
   }
 
+  if (name === "SelfHeal") {
+    stats.WorkRateSelfHeal = action.Rate[0].amount
+  }
+
   if (name === "Sacrifice") {
     if (Array.isArray(action.Rate)) {
       for (let i = 0; i < action.Rate.length; i++) {
@@ -561,8 +565,10 @@ function convertTactic(tactic, stats, inactiveActions) {
         if (tactic.active !== "1") {
           break
         }
-        stats.WorkRateSelfHeal = parseFloat(tactic.rate[0].text)
-        break
+        if (!stats.WorkRateSelfHeal) {
+          stats.WorkRateSelfHeal = parseFloat(tactic.rate[0].text)
+          break          
+        }
       }
       if (tactic.affectsTargetsInCombat === "") {
         const healType = "Rate" + tactic.name.text
