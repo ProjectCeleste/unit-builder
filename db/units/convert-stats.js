@@ -499,6 +499,9 @@ function convertTactic(tactic, stats, inactiveActions) {
             inactiveActions.push("PerfectAccuracy")
           }
       }
+      if (tactic.timer !== null) {
+        stats["AttackCooldown" + tactic.anim] = parseFloat(tactic.timer)
+      }
       if (tactic.activeIfContainsUnits === "1") {
         stats["AttackIfContainsUnits" + tactic.anim] = 1
         if(inactiveActions.includes("DamageRanged")){

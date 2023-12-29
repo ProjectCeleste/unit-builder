@@ -1308,6 +1308,11 @@ const templates = {
     icon: "DamageRanged",
     sort: 84
   },
+  AttackCooldownRangedAttack: {
+    name: "Ranged Attack Cooldown",
+    icon: "BuildPoints",
+    sort: 62
+  },
   ScaleByContainedUnitsRangedAttack: {
     name: "Damage scales with units inside",
     icon: "DamageRanged",
