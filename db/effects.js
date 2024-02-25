@@ -516,6 +516,11 @@ const templates = {
   YieldTree: { name: "Wood Conservation", icon: "YieldTree", sort: 18 },
   YieldGold: { name: "Gold Conservation", icon: "YieldGold", sort: 19 },
   YieldStone: { name: "Stone Conservation", icon: "YieldStone", sort: 20 },
+  YieldAbstractFarm: {
+    name: "Farm Conservation",
+    icon: "YieldAbstractFruit",
+    sort: 17
+  },
   YieldAbstractFish: {
     name: "Fish Conservation",
     icon: "YieldAbstractFish",

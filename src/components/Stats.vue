@@ -442,6 +442,20 @@ export default {
       }
 
       switch (effect.type) {
+        case "PoisonAttack":
+          for (let keyDmg in stats) {
+            if (keyDmg === "PoisonAttack") {
+              stats[keyDmg] *= mod
+            }
+          }
+          break
+        case "BurningAttack":
+          for (let keyDmg in stats) {
+            if (keyDmg === "BurningAttack") {
+              stats[keyDmg] *= mod
+            }
+          }
+          break
         case "Damage":
           // If type is Damage, apply to all damage subtypes
           for (let keyDmg in stats) {
