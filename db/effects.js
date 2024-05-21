@@ -565,11 +565,11 @@ const templates = {
     icon: "CarryCapacityStone",
     sort: 24
   },
-  DamageArea: { name: "Splash Area", icon: "DamageArea", sort: 64 },
-  RangedAttackDamageArea: { name: "Ranged Splash Area", icon: "DamageArea", sort: 64 },
-  MeleeAttackDamageArea: { name: "Melee Splash Area", icon: "DamageArea", sort: 39 },
-  BurningAttackDamageArea: { name: "Burning Splash Area", icon: "DamageArea", sort: 98 },
-  RangedAttack2DamageArea: { name: "Special Building Ranged Splash Area", icon: "DamageArea", sort: 153 },
+  DamageArea: { name: "Damage Area", icon: "DamageArea", sort: 64 },
+  RangedAttackDamageArea: { name: "Ranged Damage Area", icon: "DamageArea", sort: 64 },
+  MeleeAttackDamageArea: { name: "Melee Damage Area", icon: "DamageArea", sort: 39 },
+  BurningAttackDamageArea: { name: "Burning Damage Area", icon: "DamageArea", sort: 98 },
+  RangedAttack2DamageArea: { name: "Special Building Ranged Damage Area", icon: "DamageArea", sort: 153 },
   AreaDamageReduction: {
     name: "Splash Damage Reduction",
     icon: "AreaDamageReduction",
