@@ -338,7 +338,8 @@ function getType(effectName) {
     effectName === "ChargeDamageMultiplier" ||
     effectName === "ChargeSpeedBoost" ||
     effectName === "HealdamageBonusUnit" ||
-    effectName === "CaravanGoldCoop" ||
+    effectName === "CaravanGoldCoop" || 
+    effectName.endsWith("RiteBuff") ||
     (effectName.includes("Aura") && !effectName.includes("Range"))
   ) {
     return "multiplier" // starts with "x"
@@ -1419,6 +1420,26 @@ const templates = {
     name: "Food/Sec from 100m",
     icon: "CostFood",
     sort: 27
+  },
+  AndrastaRiteBuff: {
+    name: "Andrasta Rite Damage Buff",
+    icon: "Chaos",
+    sort: 205
+  },
+  RatisRiteBuff: {
+    name: "Ratis Rite Bonus vs Building Buff",
+    icon: "DamageBonusBuilding",
+    sort: 206
+  },
+  RudiobusRiteBuff: {
+    name: "Rudiobus Rite Movement Buff",
+    icon: "MaximumVelocity",
+    sort: 207
+  },
+  DamaraRiteBuff: {
+    name: "Damara Rite Train Time Buff",
+    icon: "BuildPoints",
+    sort: 208
   }
 }
 

@@ -100,6 +100,11 @@ export async function convertUnitStats(unit) {
       stats["Build"] = 0
     }
   }
+  if(unit.name.startsWith("Ce") && unit.UnitType.includes("Military")) {
+    stats.AndrastaRiteBuff  = 1.15
+    stats.RatisRiteBuff  = 1.5
+    stats.RudiobusRiteBuff  = 1.15
+  }
 
   if (unit.TrainPoints && unit.TrainPoints !== -1) {
     stats.TrainPoints = unit.TrainPoints
@@ -107,6 +112,9 @@ export async function convertUnitStats(unit) {
       stats.Training_Garden4Age2  = unit.TrainPoints
       stats.Training_Garden8Age3  = unit.TrainPoints
       stats.Training_Garden12Age4  = unit.TrainPoints
+    }
+    if(unit.name.startsWith("Ce")){
+      stats.DamaraRiteBuff  = 0.7
     }
   } else if (unit.BuildPoints && unit.BuildPoints !== -1) {
     stats.BuildPoints = unit.BuildPoints
