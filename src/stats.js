@@ -49,11 +49,16 @@ export function upgradeAppliesToUnit(u, unit) {
   let appliedCount = 0
   let compensatedCount = 0
   for (let i = 0; i < u.effects.length; i++) {
-    const e = u.effects[i]
-    if (effectAppliesToUnit(e, unit)) {
-      appliedCount++
-      if (checkCompensation(u.effects, e.type, unit)) {
-        compensatedCount++
+    //for some reason engineer shows as having dmg, but it doesnt really
+    if (u.id === "TechMeleeAttack1" && unit.id === "Ro_Civ_Engineer") {
+      continue
+    } else {
+      const e = u.effects[i]
+      if (effectAppliesToUnit(e, unit)) {
+        appliedCount++
+        if (checkCompensation(u.effects, e.type, unit)) {
+          compensatedCount++
+        }
       }
     }
   }
