@@ -68,6 +68,7 @@ async function convertEquipmentToUpgrades(equipment) {
     const civ = equipment.civ.toLowerCase()
     for (let i = 0; i < equipment.reward.rank.length; i++) {
       const reward = equipment.reward.rank[i]
+      //console.log(reward.tech)
       const tech = findByAttribute(techtree, "name", reward.tech)
       if (tech && !techIgnored(tech)) {
         const upgrade = await convertUpgrade(tech, civ)
@@ -183,7 +184,8 @@ function techIgnored(tech) {
     "PersiaTechAdvisorBahram_E",
     "Ro_Ct_UnitCenturion1",
     "Ro_Ct_UnitDecurion1",
-    "Ro_Ct_UnitEngineer1"
+    "Ro_Ct_UnitEngineer1",
+    "In_Ct_UnitBladeChariot1"
   ]
   return ignored.includes(tech.name)
 }

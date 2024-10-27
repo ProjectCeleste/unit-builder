@@ -79,9 +79,9 @@ export async function convertEffects(effects, civ, isAdvisor) {
       }*/
       continue
     }
-
+    //console.log(e.action)
     if (type === "WorkRate") {
-      /*console.log(e.action)*/
+      //console.log(e.action)
       switch (e.action) {
         case "Gather":
         case "AutoGather":
@@ -129,6 +129,8 @@ export async function convertEffects(effects, civ, isAdvisor) {
           break
         case "AreaHeal":
           continue
+        case "ShrineGather":
+          continue
       }
     } else if (type === "Damage") {
       switch (e.action) {
@@ -156,7 +158,10 @@ export async function convertEffects(effects, civ, isAdvisor) {
       type += e.resource.charAt(0).toUpperCase() + e.resource.slice(1)
     } else if (type === "Cost") {
       type += e.resource
-    } else if (type === "DamageBonus" || type === "Yield") {
+    } /*else if (type === "DamageBonus" || type === "Yield") {
+      type += e.unittype
+    } */
+      else if (type === "DamageBonus" || type === "Yield") {
       type += e.unittype
     } else if (type === "Armor") {
       type += e.damagetype
@@ -198,6 +203,8 @@ export async function convertEffects(effects, civ, isAdvisor) {
       type = "MaximumRangeConvert"
     } else if (type === "MaximumRange" && e.action == "Convert2") {
       continue
+    } else if (type === "GathererLimit") {
+      type = "GathererLimit"
     } else if (type === "DamageArea") {
       type = e.action + "DamageArea"
     } else if (
@@ -1081,6 +1088,26 @@ const templates = {
     icon: "DamageBonusHuntable",
     sort: 36
   },
+  DamageBonusDeerRedMeleeAttack: {
+    name: "Bonus vs. Deer (Red)",
+    icon: "DamageBonusHuntable",
+    sort: 36
+  },
+  DamageBonusGazelleMeleeAttack: {
+    name: "Bonus vs. Gazelle",
+    icon: "DamageBonusHuntable",
+    sort: 36
+  },
+  DamageBonusIn_SacredCowMeleeAttack: {
+    name: "Bonus vs. Sacred Cow",
+    icon: "DamageBonusHuntable",
+    sort: 36
+  },
+  DamageBonusIn_SacredCowRangedAttack: {
+    name: "Bonus vs. Sacred Cow",
+    icon: "DamageBonusHuntable",
+    sort: 60
+  },
   AttackSpeed: { name: "Attack Rate", icon: "DamageOverTime", sort: 0 },
   AttackSpeedDamageBuilding: {
     name: "Attack Rate",
@@ -1440,6 +1467,11 @@ const templates = {
     name: "Damara Rite Train Time Buff",
     icon: "BuildPoints",
     sort: 208
+  },
+  GathererLimit: {
+    name: "Gatherer Limit",
+    icon: "PopulationCount",
+    sort: 209
   }
 }
 

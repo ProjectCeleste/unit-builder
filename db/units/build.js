@@ -34,7 +34,7 @@ export async function buildUnits() {
     const power = powerNuggets[i]
     if (power.type === "TempUnit") {
       const consUnits = await convertConsUnit(power)
-      const civs = ["greek","egyptian","celtic","persian","babylonian","roman","norse"]
+      const civs = ["greek","egyptian","celtic","persian","babylonian","roman","norse","indian"]
       
       for (let i = 0; i < civs.length; i++) { 
         if (!resultsCons[civs[i]]) {
@@ -64,7 +64,7 @@ export async function buildUnits() {
 
       const advUnits = await convertAdvisorUnit(a)
       
-      const civs = ["greek","egyptian","celtic","persian","babylonian","roman","norse"]
+      const civs = ["greek","egyptian","celtic","persian","babylonian","roman","norse","indian"]
 
       if (civ === "undefined") {
         for (let i = 0; i < civs.length; i++) { 
@@ -343,6 +343,13 @@ async function convertUnit(unit, tech, equipment) {
       stats[e.type] = e.amount
     }
   })
+  if (unit.name === "In_Arc_BladeChariot") {
+    delete stats["AttackSpeedDamageRanged"]
+    delete stats["DamageRangedAttack"]
+  }
+  if (unit.name === "In_Civ_Villager" || unit.name === "In_Civ_GathererElephant") {
+    delete stats["GatherHerdable"]
+  }
 
   const u = {
     id: unit.name,

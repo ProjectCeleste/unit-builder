@@ -128,6 +128,9 @@ export async function convertUnitStats(unit) {
       stats["CarryCapacity" + resource] = cap.quantity
     }
   }
+  if (unit.GathererLimit) {
+    stats["GathererLimit"] = unit.GathererLimit
+  } 
 
   if (unit.Tactics) {
     const tactics = await getTactics(unit.Tactics)
@@ -241,7 +244,13 @@ export function parseAction(action, stats, inactiveActions) {
     "DamageBonusAbstractInfantryPoisonAttack",
     "DamageBonusShipBurningAttack",
     "DamageBonusAbstractArtilleryBuildingAttack",
-    "DamageBonusBuildingBuildingAttack"
+    "DamageBonusBuildingBuildingAttack"/*,
+    "DamageBonusDeerHunting",
+    "DamageBonusAntelopeHunting",
+    "DamageBonusDeerAlpineHunting",
+    "DamageBonusDeerRedHunting",
+    "DamageBonusCamelHunting",
+    "DamageBonusGazelleHunting"*/
   ]
 
   const name = action.Name
@@ -305,9 +314,17 @@ export function parseAction(action, stats, inactiveActions) {
       for (let keyDmgBonus in action.DamageBonus) {
         const bonus = action.DamageBonus[keyDmgBonus]
         if (ignoredEffects.indexOf("DamageBonus" + bonus.type + name) === -1) {
-          stats["DamageBonus" + bonus.type + name] = bonus.amount
-          if (action.Active === 0) {
-            inactiveActions.push("DamageBonus" + bonus.type + name)
+          if(name === "Hunting") {
+            stats["DamageBonus" + bonus.type + "MeleeAttack"] = bonus.amount
+            if (action.Active === 0) {
+              inactiveActions.push("DamageBonus" + bonus.type + "MeleeAttack")
+            } 
+          }
+          else {
+            stats["DamageBonus" + bonus.type + name] = bonus.amount
+            if (action.Active === 0) {
+              inactiveActions.push("DamageBonus" + bonus.type + name)
+            }
           }
         }
       }
