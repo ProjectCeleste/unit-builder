@@ -140,13 +140,13 @@ export default {
             for (let k = 0; k < this.unit.types.length; k++) {
               if (this.unit.types[k] === milestoneEffects[j].target) {
                 activeType = 1
-                if (
+                /*if (
                   this.unit.id === "In_Civ_GathererElephant" &&
                   this.unit.types[k] === "AbstractVillager" &&
                   civ !== "indian"
                 ) {
                   activeType = 0
-                }
+                }*/
               }
             }
             if (activeType === 1) {
