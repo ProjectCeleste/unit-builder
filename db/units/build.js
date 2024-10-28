@@ -350,6 +350,9 @@ async function convertUnit(unit, tech, equipment) {
   if (unit.name === "In_Civ_Villager" || unit.name === "In_Civ_GathererElephant") {
     delete stats["GatherHerdable"]
   }
+  if (unit.name ==="Ro_Civ_Engineer") {
+    stats["DamageSiegeBuildingAttack"] = stats.DamageHand
+  }
 
   const u = {
     id: unit.name,

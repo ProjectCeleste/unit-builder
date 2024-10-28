@@ -111,6 +111,15 @@ export default {
         })
       }
 
+      for (let i = 0; i < this.advisors.length; i++) {
+        const advisorEffects = this.advisors[i].effects.filter(e =>
+          effectAppliesToUnit(e, this.unit)
+        )
+        for (let j = 0; j < advisorEffects.length; j++) {
+          this.applyEffect(advisorEffects[j], stats, this.unit)
+        }
+      }
+
       for (let key in this.gear) {
         const gear = this.gear[key]
         for (let i = 0; i < gear.stats.effects.length; i++) {
@@ -127,17 +136,22 @@ export default {
             effectAppliesToUnit(e, this.unit)
           )
           for (let j = 0; j < milestoneEffects.length; j++) {
-            this.applyEffect(milestoneEffects[j], stats, this.unit)
+            let activeType = 0
+            for (let k = 0; k < this.unit.types.length; k++) {
+              if (this.unit.types[k] === milestoneEffects[j].target) {
+                activeType = 1
+                if (
+                  this.unit.id === "In_Civ_GathererElephant" &&
+                  this.unit.types[k] === "AbstractVillager"
+                ) {
+                  activeType = 0
+                }
+              }
+            }
+            if (activeType === 1) {
+              this.applyEffect(milestoneEffects[j], stats, this.unit)
+            }
           }
-        }
-      }
-
-      for (let i = 0; i < this.advisors.length; i++) {
-        const advisorEffects = this.advisors[i].effects.filter(e =>
-          effectAppliesToUnit(e, this.unit)
-        )
-        for (let j = 0; j < advisorEffects.length; j++) {
-          this.applyEffect(advisorEffects[j], stats, this.unit)
         }
       }
 
@@ -493,6 +507,14 @@ export default {
               stats[e] *= mod
             }
           })
+          break
+        case "DamageBuildingAttack":
+          for (let keyDmg in stats) {
+            if (keyDmg === "DamageSiegeBuildingAttack") {
+              this.setBaseStat(stats, keyDmg)
+              stats[keyDmg] *= mod
+            }
+          }
           break
         case "DamageMeleeAttack":
           for (let keyDmg in stats) {

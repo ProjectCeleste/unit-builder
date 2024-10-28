@@ -68,9 +68,16 @@ async function convertEquipmentToUpgrades(equipment) {
     const civ = equipment.civ.toLowerCase()
     for (let i = 0; i < equipment.reward.rank.length; i++) {
       const reward = equipment.reward.rank[i]
-      //console.log(reward.tech)
       const tech = findByAttribute(techtree, "name", reward.tech)
       if (tech && !techIgnored(tech)) {
+        if(tech.name.startsWith("IndiaTechRMMonastery")) {
+          for (let i = 0; i < tech.Effects.effect.length; i++) {
+            //console.log(tech.Effects.effect[i].text)
+            const toggleTech = findByAttribute(techtree, "name", tech.Effects.effect[i].text)
+            const toggleUpgrade = await convertUpgrade(toggleTech, civ)
+            results.push(toggleUpgrade)
+          }
+        }
         const upgrade = await convertUpgrade(tech, civ)
         if (equipment.unlocked !== undefined) {
           upgrade.unlocked = equipment.unlocked
@@ -78,7 +85,7 @@ async function convertEquipmentToUpgrades(equipment) {
         if (includeUpgrade(upgrade)) {
           if (tech.name === "PersiaTechVillagerUnlock1") {
             results.push(upgrade)
-          }
+          }    
           else if (
             tech.Prereqs &&
             tech.Prereqs.techStatus &&

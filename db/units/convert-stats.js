@@ -24,6 +24,7 @@ export async function convertUnitStats(unit) {
     for (let keyAction in unit.ProtoAction) {
       const action = unit.ProtoAction[keyAction]
       parseAction(action, stats, inactiveActions)
+      //console.log(unit)
     }
   } else if (unit.ProtoAction) {
     parseAction(unit.ProtoAction, stats, inactiveActions)
@@ -257,7 +258,10 @@ export function parseAction(action, stats, inactiveActions) {
   if (action.DamageType) {
     if (action.DamageType === "Siege") {
       let actionName = name
-      if (actionName === "ChopAttack" || actionName === "BuildingAttack") {
+      if (actionName === "BuildingAttack") {
+        actionName = "BuildingAttack"
+      }
+      if (actionName === "ChopAttack") {
         actionName = "MeleeAttack"
       }
       stats["Damage" + action.DamageType + actionName] = action.Damage

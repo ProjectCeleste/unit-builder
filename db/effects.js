@@ -146,7 +146,7 @@ export async function convertEffects(effects, civ, isAdvisor) {
           type = "RangedAttack"
           break
         case "BuildingAttack":
-          type += "MeleeAttack"
+          type += "BuildingAttack"
           break
         case undefined:
         case null:
@@ -633,6 +633,7 @@ const templates = {
   BuildLimit: { name: "Build Limit", icon: "BuildLimit", sort: 191 },
   Damage: { name: "Damage", icon: "DamageHand", sort: 0 },
   DamageMeleeAttack: { name: "Melee Damage", icon: "DamageHand", sort: 0 },
+  DamageBuildingAttack: { name: "Crush Damage", icon: "DamageHand", sort: 0 },
   DamageRangedAttack: { name: "Pierce Damage", icon: "DamageRanged", sort: 0 },
   PoisonAttack: { name: "Total Poison Damage Over Time", icon: "DamageOverTime", sort: 92 },
   BurningAttack: { name: "Total Burning Damage Over Time", icon: "DamageOverTime", sort: 95 },
@@ -1134,7 +1135,12 @@ const templates = {
   DamageCavalry: { name: "Melee-Cavalry DPS", icon: "DamageCavalry", sort: 25 },
   DamageSiege: { name: "Crush DPS", icon: "DamageSiege", sort: 25 },
   DamageSiegeMeleeAttack: {
-    name: "Melee Crush DPS",
+    name: "Melee Unit DPS",
+    icon: "DamageSiege",
+    sort: 25
+  },
+  DamageSiegeBuildingAttack: {
+    name: "Building Crush DPS",
     icon: "DamageSiege",
     sort: 25
   },
