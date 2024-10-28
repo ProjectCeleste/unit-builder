@@ -142,7 +142,8 @@ export default {
                 activeType = 1
                 if (
                   this.unit.id === "In_Civ_GathererElephant" &&
-                  this.unit.types[k] === "AbstractVillager"
+                  this.unit.types[k] === "AbstractVillager" &&
+                  civ !== "indian"
                 ) {
                   activeType = 0
                 }
