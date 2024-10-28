@@ -246,6 +246,12 @@ export default {
         e = "Melee-Infantry DPS (Ranged)"
       }
       if (
+        this.unit.id === "Ro_Civ_Engineer" &&
+        name === "DamageSiegeBuildingAttack"
+      ) {
+        e = "Melee vs Siege DPS"
+      }
+      if (
         this.unit.stats.ScaleByContainedUnitsRangedAttack &&
         name === "DamageRanged"
       ) {
