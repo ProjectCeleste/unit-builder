@@ -57,6 +57,9 @@ export async function convertUnitStats(unit) {
   if (unit.name === 'Ro_Inf_Centurion' || unit.name === 'Ro_Cav_Decurion') {
         stats["ConvertResist"] = 2
     }
+    else if (unit.name === 'In_Cav_Juggernaut') {
+            stats["ConvertResist"] = 0.9
+    }
     else if (unit.UnitType.includes('AbstractPriest') || 
             unit.UnitType.includes('AbstractArtillery')) {
             stats["ConvertResist"] = 2
