@@ -135,6 +135,9 @@ export async function convertUnitStats(unit) {
   if (unit.GathererLimit) {
     stats["GathererLimit"] = unit.GathererLimit
   } 
+  if (unit.InitialResource) {
+    stats["InitialResource" + unit.InitialResource["resourcetype"]] = unit.InitialResource["quantity"]
+  } 
 
   if (unit.Tactics) {
     const tactics = await getTactics(unit.Tactics)
@@ -232,9 +235,14 @@ export async function convertUnitStats(unit) {
   if (unit.UnitType.includes("AbstractWall")) {
     stats["Hitpoints"] = stats["Hitpoints"] * 1.77
   }
-
+  
   if (unit.UnitType.includes("Herdable")) {
-    stats.AutoGatherGoldIndia = stats.AutoGatherGold
+    for (let i = 0; i < inactiveActions.length; i++) {
+      if (inactiveActions[i] === "AutoGatherGold") {
+        inactiveActions.splice(i)
+      }
+    }
+  //  stats.AutoGatherGoldIndia = stats.AutoGatherGold
   }
    
 

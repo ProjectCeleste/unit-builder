@@ -96,6 +96,18 @@ export default {
       if (stats["ConvertResist"] === 1000) {
         stats["ConvertResist"] = Infinity
       }
+      if (stats["InitialResourceFood"] === 999) {
+        stats["InitialResourceFood"] = Infinity
+      }
+      if (stats["InitialResourceWood"] === 999) {
+        stats["InitialResourceWood"] = Infinity
+      }
+      if (stats["InitialResourceGold"] === 999) {
+        stats["InitialResourceGold"] = Infinity
+      }
+      if (stats["InitialResourceStone"] === 999) {
+        stats["InitialResourceStone"] = Infinity
+      }
       // Remove stats from inactive actions
       this.unit.inactiveActions.forEach(a => {
         for (let key in stats) {
@@ -256,6 +268,9 @@ export default {
         name === "DamageRanged"
       ) {
         e = "Pierce DPS per unit"
+      }
+      if (this.unit.types.includes("Herdable") && name === "AutoGatherGold") {
+        e = "Generating Gold (Indian Civ only)"
       }
       /* Enneris only has Bonus vs Buildings from the RangedAttack2*/
       /*if (this.unit.id === "Ro_Shp_Enneris" && name === "DamageBonusBuilding") {

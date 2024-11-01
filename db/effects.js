@@ -270,9 +270,9 @@ export function addEffect(name) {
   if ((name.startsWith("Convert")) && name !== "ConvertResist" && name !== "ConvertConvertableBuilding" && name !== "Convert2ConvertableBuilding") {
     addEffect(name.replace("Convert", "Chaos"))
   }
-  if (name == "AutoGatherGold") {
+  /*if (name == "AutoGatherGold") {
     addEffect(name.replace("AutoGatherGold", "AutoGatherGoldIndia"))
-  }
+  }*/
   /*
   if (name.startsWith("Chaos")) {
     console.log(name)
@@ -554,7 +554,7 @@ const templates = {
   },
   AutoGatherFood: { name: "Generating Food", icon: "GatherFood", sort: 10 },
   AutoGatherGold: { name: "Generating Gold", icon: "GatherGold", sort: 12 },
-  AutoGatherGoldIndia: { name: "Generating Gold (only India)", icon: "GatherGold", sort: 12 },
+  //AutoGatherGoldIndia: { name: "Generating Gold (only India)", icon: "GatherGold", sort: 12 },
   AutoGatherShrineGather: { name: "Generating Extra Gold at Indian Shrine", icon: "GatherGold", sort: 13 },
   AutoGatherTree: { name: "Generating Wood", icon: "GatherTree", sort: 11 },
   AutoGatherStone: { name: "Generating Stone", icon: "GatherStone", sort: 13 },
@@ -1482,7 +1482,27 @@ const templates = {
   GathererLimit: {
     name: "Gatherer Limit",
     icon: "PopulationCount",
-    sort: 209
+    sort: 210
+  },
+  InitialResourceFood: {
+    name: "Food Contained",
+    icon: "CostFood",
+    sort: 210
+  },
+  InitialResourceWood: {
+    name: "Wood Contained",
+    icon: "CostWood",
+    sort: 210
+  },
+  InitialResourceGold: {
+    name: "Gold Contained",
+    icon: "CostGold",
+    sort: 210
+  },
+  InitialResourceStone: {
+    name: "Stone Contained",
+    icon: "CostStone",
+    sort: 210
   }
 }
 
