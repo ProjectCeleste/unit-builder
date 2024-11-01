@@ -232,6 +232,10 @@ export async function convertUnitStats(unit) {
   if (unit.UnitType.includes("AbstractWall")) {
     stats["Hitpoints"] = stats["Hitpoints"] * 1.77
   }
+
+  if (unit.UnitType.includes("Herdable")) {
+    stats.AutoGatherGoldIndia = stats.AutoGatherGold
+  }
    
 
   return [stats, inactiveActions]
@@ -448,9 +452,14 @@ export function parseAction(action, stats, inactiveActions) {
       stats["AutoGather" + rate.type] = rate.amount
     }
     if (action.Active === 0) {
-      inactiveActions.push("AutoGatherTree")
+      if (rate.type === "Wood") {
+        inactiveActions.push("AutoGatherTree")
+      }
       inactiveActions.push("AutoGather" + rate.type)
     }
+  } else if (name === "ShrineGather") {
+    const rate = action.Rate[0]
+    stats["AutoGatherShrineGather"] = rate.amount
   } else if (name === "Build") {
     const rate = action.Rate[0]
     let type = "Build"

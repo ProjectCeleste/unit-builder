@@ -174,7 +174,8 @@ async function convertConsUnit(power) {
     if ((createUnit.text.startsWith("Con") && !createUnit.text.startsWith("Con_Spyglass") && !createUnit.text.startsWith("Con_Res_") )
         || createUnit.text === 'NPC_Halloween_HeadlessHorseman'
         || createUnit.text === 'NPC_Halloween_Unit_SoulGuardian'
-        || createUnit.text === 'NPC_Halloween_Unit_EmeraldGuardian') {
+        || createUnit.text === 'NPC_Halloween_Unit_EmeraldGuardian'
+        || createUnit.text === 'Cow') {
       const consUnit = findByAttribute(units, "name", createUnit.text)
         if (consUnit) {
           deerTech.Effects.effect[0].target.text = createUnit.text
