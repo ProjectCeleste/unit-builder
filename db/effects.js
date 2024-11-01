@@ -336,7 +336,7 @@ function getType(effectName) {
   if (
     effectName.startsWith("DamageBonus") ||
     effectName.startsWith("Empower") ||
-    effectName.startsWith("Gather") ||
+    (effectName.startsWith("Gather") && !effectName === "GathererLimit") ||
     effectName === "BuildingWorkRate" ||
     (effectName.startsWith("TargetSpeedBoost") && !effectName === "TargetSpeedBoostResist") ||
     effectName === "Build" ||
