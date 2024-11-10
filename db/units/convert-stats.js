@@ -138,6 +138,14 @@ export async function convertUnitStats(unit) {
   if (unit.InitialResource) {
     stats["InitialResource" + unit.InitialResource["resourcetype"]] = unit.InitialResource["quantity"]
   } 
+  if (unit.TargetSpeedBoostResist) {
+    if (unit.TargetSpeedBoostResist === 0) {
+      delete stats["TargetSpeedBoostResist"]
+    } 
+    else {
+      stats["TargetSpeedBoostResist"] = 1-1/unit.TargetSpeedBoostResist
+    } 
+  } 
 
   if (unit.Tactics) {
     const tactics = await getTactics(unit.Tactics)

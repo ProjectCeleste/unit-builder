@@ -584,7 +584,7 @@ const templates = {
   BurningAttackDamageArea: { name: "Burning Damage Area", icon: "DamageArea", sort: 98 },
   RangedAttack2DamageArea: { name: "Special Building Ranged Damage Area", icon: "DamageArea", sort: 153 },
   AreaDamageReduction: {
-    name: "Splash Damage Reduction",
+    name: "Splash Damage Armor",
     icon: "AreaDamageReduction",
     sort: 171
   },
