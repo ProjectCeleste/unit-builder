@@ -236,6 +236,14 @@ export default {
           stats.CarryCapacityFood /
           (stats.FishBoatTimeToFish + stats.FishBoatTimeToTravel_100Size)
       }
+      if (this.advisors[3]) {
+        if (
+          this.advisors[3].id === "Singh_C_IV" &&
+          this.unit.id === "In_Bldg_Shrine"
+        ) {
+          delete stats["AutoGatherGold"]
+        }
+      }
 
       this.$store.commit("setUnitStats", { id: this.unitId, stats })
       return stats
