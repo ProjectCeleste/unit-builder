@@ -130,7 +130,7 @@ export async function convertEffects(effects, civ, isAdvisor) {
         case "AreaHeal":
           continue
         case "ShrineGather":
-          continue
+          type = "AutoGatherShrineGather"
       }
     } else if (type === "Damage") {
       switch (e.action) {

@@ -243,6 +243,9 @@ export default {
         ) {
           delete stats["AutoGatherGold"]
         }
+        if (this.advisors[3].id === "Singh_C_IV") {
+          delete stats["AutoGatherShrineGather"]
+        }
       }
 
       this.$store.commit("setUnitStats", { id: this.unitId, stats })
