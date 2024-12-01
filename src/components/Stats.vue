@@ -246,6 +246,16 @@ export default {
         if (this.advisors[3].id === "Singh_C_IV") {
           delete stats["AutoGatherShrineGather"]
         }
+        if (this.advisors[3].id === "Chanakya_L_IV") {
+          if (this.advisors[2]) {
+            if (
+              this.advisors[2].id === "Mehrab_C_III" &&
+              this.unit.id === "In_Spc_Guru"
+            ) {
+              this.applyEffect(this.advisors[2].effects[0], stats, this.unit)
+            }
+          }
+        }
       }
 
       this.$store.commit("setUnitStats", { id: this.unitId, stats })
