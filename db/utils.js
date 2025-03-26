@@ -55,6 +55,9 @@ export function convertMarkup(text) {
       '<span class="is-neutral">$1</span>'
     )
     .replace(/<\/color>/g, "") // Fix for persian spearman champion
+    .replace("{E^", "") // Fix for Gatherer Elephant
+    .replace("^}{C08^", " ") // Fix for Gatherer Elephant
+    .replace("^}", " ") // Fix for Gatherer Elephant
 }
 
 export function convertRarity(rarity) {
