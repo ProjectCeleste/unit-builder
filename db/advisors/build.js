@@ -89,7 +89,7 @@ async function convertAdvisor(a) {
     description: findLang(stringtablex, a.displaydescriptionid),
     rarity: convertRarity(a.rarity),
     effects: effects.filter(duplicateEffects)
-  })
+  }) 
 
   return advisor
 }
