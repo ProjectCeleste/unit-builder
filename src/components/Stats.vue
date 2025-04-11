@@ -246,6 +246,9 @@ export default {
             stats.HitPercentDamageMultiplierMeleeAttack *
             stats.DamageHand
       }
+      if (!stats.HitPercentMeleeAttack && stats.DamageHand) {
+        stats.DamageHandInclCrit = stats.DamageHand
+      }
       if (stats.HitPercentMeleeAttack && stats.DamageCavalry) {
         if (stats.HitPercentMeleeAttack > 100) {
           stats.HitPercentMeleeAttack = 100
@@ -256,6 +259,9 @@ export default {
             stats.HitPercentDamageMultiplierMeleeAttack *
             stats.DamageCavalry
       }
+      if (!stats.HitPercentMeleeAttack && stats.DamageCavalry) {
+        stats.DamageCavalryInclCrit = stats.DamageCavalry
+      }
       if (stats.HitPercentMeleeAttack && stats.DamageSiege) {
         if (stats.HitPercentMeleeAttack > 100) {
           stats.HitPercentMeleeAttack = 100
@@ -265,6 +271,9 @@ export default {
           (stats.HitPercentMeleeAttack / 100) *
             stats.HitPercentDamageMultiplierMeleeAttack *
             stats.DamageSiege
+      }
+      if (!stats.HitPercentMeleeAttack && stats.DamageSiege) {
+        stats.DamageSiegeInclCrit = stats.DamageSiege
       }
       if (stats.HitPercentMeleeAttack && stats.DamageSiegeMeleeAttack) {
         if (stats.HitPercentMeleeAttack > 100) {
@@ -277,6 +286,9 @@ export default {
             stats.HitPercentDamageMultiplierMeleeAttack *
             stats.DamageSiegeMeleeAttack
       }
+      if (!stats.HitPercentMeleeAttack && stats.DamageSiegeMeleeAttack) {
+        stats.DamageSiegeMeleeAttackInclCrit = stats.DamageSiegeMeleeAttack
+      }
       if (stats.HitPercentMeleeAttack && stats.DamageSiegeBuildingAttack) {
         if (stats.HitPercentMeleeAttack > 100) {
           stats.HitPercentMeleeAttack = 100
@@ -288,6 +300,10 @@ export default {
             stats.HitPercentDamageMultiplierMeleeAttack *
             stats.DamageSiegeBuildingAttack
       }
+      if (!stats.HitPercentMeleeAttack && stats.DamageSiegeBuildingAttack) {
+        stats.DamageSiegeBuildingAttackInclCrit =
+          stats.DamageSiegeBuildingAttack
+      }
       if (stats.HitPercentRangedAttack && stats.DamageRanged) {
         if (stats.HitPercentRangedAttack > 100) {
           stats.HitPercentRangedAttack = 100
@@ -297,6 +313,9 @@ export default {
           (stats.HitPercentRangedAttack / 100) *
             stats.HitPercentDamageMultiplierRangedAttack *
             stats.DamageRanged
+      }
+      if (!stats.HitPercentRangedAttack && stats.DamageRanged) {
+        stats.DamageRangedInclCrit = stats.DamageRanged
       }
       if (stats.HitPercentRangedAttack && stats.DamageSiegeRangedAttack) {
         if (stats.HitPercentRangedAttack > 100) {
@@ -309,6 +328,9 @@ export default {
             stats.HitPercentDamageMultiplierRangedAttack *
             stats.DamageSiegeRangedAttack
       }
+      if (!stats.HitPercentRangedAttack && stats.DamageSiegeRangedAttack) {
+        stats.DamageSiegeRangedAttackInclCrit = stats.DamageSiegeRangedAttack
+      }
       if (stats.HitPercentRangedAttack && stats.DamageSiegeRangedAttack2) {
         if (stats.HitPercentRangedAttack > 100) {
           stats.HitPercentRangedAttack = 100
@@ -319,6 +341,9 @@ export default {
           (stats.HitPercentRangedAttack / 100) *
             stats.HitPercentDamageMultiplierRangedAttack *
             stats.DamageSiegeRangedAttack2
+      }
+      if (!stats.HitPercentRangedAttack && stats.DamageSiegeRangedAttack2) {
+        stats.DamageSiegeRangedAttack2InclCrit = stats.DamageSiegeRangedAttack2
       }
       if (this.advisors[3]) {
         if (
