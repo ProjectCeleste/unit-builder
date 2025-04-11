@@ -1503,6 +1503,37 @@ const templates = {
     name: "Stone Contained",
     icon: "CostStone",
     sort: 210
+  },
+  DamageHandInclCrit: { name: "Melee-Infantry DPS incl Crit", icon: "DamageHand", sort: 225 },
+  DamageRangedInclCrit: { name: "Pierce DPS incl Crit", icon: "DamageRanged", sort: 250 },
+  DamageCavalryInclCrit: { name: "Melee-Cavalry DPS incl Crit", icon: "DamageCavalry", sort: 225 },
+  DamageSiegeInclCrit: { name: "Crush DPS incl Crit", icon: "DamageSiege", sort: 225 },
+  DamageSiegeMeleeAttackInclCrit: {
+    name: "Melee Unit DPS incl Crit",
+    icon: "DamageSiege",
+    sort: 225
+  },
+  DamageSiegeBuildingAttackInclCrit: {
+    name: "Building Crush DPS incl Crit",
+    icon: "DamageSiege",
+    sort: 225
+  },
+  DamageSiegeRangedAttackInclCrit: {
+    name: "Ranged Crush DPS incl Crit",
+    icon: "DamageSiege",
+    sort: 250
+  },
+  DamageSiegeRangedAttack2InclCrit: {
+    name: "Special Building Ranged Crush DPS incl Crit",
+    icon: "DamageSiege",
+    sort: 350
+  },
+  RateHealInfMonkey: { name: "Heal Infantry Monkey", icon: "RateHeal", sort: 144 },
+  RateHealRangeMonkey: { name: "Heal Ranged Monkey", icon: "RateHeal", sort: 145 },
+  MaximumRangeMonkeyHeal: {
+    name: "Maximum Monkey Heal Range",
+    icon: "MaximumRange",
+    sort: 150
   }
 }
 

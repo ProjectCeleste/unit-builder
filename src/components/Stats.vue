@@ -236,6 +236,90 @@ export default {
           stats.CarryCapacityFood /
           (stats.FishBoatTimeToFish + stats.FishBoatTimeToTravel_100Size)
       }
+      if (stats.HitPercentMeleeAttack && stats.DamageHand) {
+        if (stats.HitPercentMeleeAttack > 100) {
+          stats.HitPercentMeleeAttack = 100
+        }
+        stats.DamageHandInclCrit =
+          (1 - stats.HitPercentMeleeAttack / 100) * stats.DamageHand +
+          (stats.HitPercentMeleeAttack / 100) *
+            stats.HitPercentDamageMultiplierMeleeAttack *
+            stats.DamageHand
+      }
+      if (stats.HitPercentMeleeAttack && stats.DamageCavalry) {
+        if (stats.HitPercentMeleeAttack > 100) {
+          stats.HitPercentMeleeAttack = 100
+        }
+        stats.DamageCavalryInclCrit =
+          (1 - stats.HitPercentMeleeAttack / 100) * stats.DamageCavalry +
+          (stats.HitPercentMeleeAttack / 100) *
+            stats.HitPercentDamageMultiplierMeleeAttack *
+            stats.DamageCavalry
+      }
+      if (stats.HitPercentMeleeAttack && stats.DamageSiege) {
+        if (stats.HitPercentMeleeAttack > 100) {
+          stats.HitPercentMeleeAttack = 100
+        }
+        stats.DamageSiegeInclCrit =
+          (1 - stats.HitPercentMeleeAttack / 100) * stats.DamageSiege +
+          (stats.HitPercentMeleeAttack / 100) *
+            stats.HitPercentDamageMultiplierMeleeAttack *
+            stats.DamageSiege
+      }
+      if (stats.HitPercentMeleeAttack && stats.DamageSiegeMeleeAttack) {
+        if (stats.HitPercentMeleeAttack > 100) {
+          stats.HitPercentMeleeAttack = 100
+        }
+        stats.DamageSiegeMeleeAttackInclCrit =
+          (1 - stats.HitPercentMeleeAttack / 100) *
+            stats.DamageSiegeMeleeAttack +
+          (stats.HitPercentMeleeAttack / 100) *
+            stats.HitPercentDamageMultiplierMeleeAttack *
+            stats.DamageSiegeMeleeAttack
+      }
+      if (stats.HitPercentMeleeAttack && stats.DamageSiegeBuildingAttack) {
+        if (stats.HitPercentMeleeAttack > 100) {
+          stats.HitPercentMeleeAttack = 100
+        }
+        stats.DamageSiegeBuildingAttackInclCrit =
+          (1 - stats.HitPercentMeleeAttack / 100) *
+            stats.DamageSiegeBuildingAttack +
+          (stats.HitPercentMeleeAttack / 100) *
+            stats.HitPercentDamageMultiplierMeleeAttack *
+            stats.DamageSiegeBuildingAttack
+      }
+      if (stats.HitPercentRangedAttack && stats.DamageRanged) {
+        if (stats.HitPercentRangedAttack > 100) {
+          stats.HitPercentRangedAttack = 100
+        }
+        stats.DamageRangedInclCrit =
+          (1 - stats.HitPercentRangedAttack / 100) * stats.DamageRanged +
+          (stats.HitPercentRangedAttack / 100) *
+            stats.HitPercentDamageMultiplierRangedAttack *
+            stats.DamageRanged
+      }
+      if (stats.HitPercentRangedAttack && stats.DamageSiegeRangedAttack) {
+        if (stats.HitPercentRangedAttack > 100) {
+          stats.HitPercentRangedAttack = 100
+        }
+        stats.DamageSiegeRangedAttackInclCrit =
+          (1 - stats.HitPercentRangedAttack / 100) *
+            stats.DamageSiegeRangedAttack +
+          (stats.HitPercentRangedAttack / 100) *
+            stats.HitPercentDamageMultiplierRangedAttack *
+            stats.DamageSiegeRangedAttack
+      }
+      if (stats.HitPercentRangedAttack && stats.DamageSiegeRangedAttack2) {
+        if (stats.HitPercentRangedAttack > 100) {
+          stats.HitPercentRangedAttack = 100
+        }
+        stats.DamageSiegeRangedAttack2InclCrit =
+          (1 - stats.HitPercentRangedAttack / 100) *
+            stats.DamageSiegeRangedAttack2 +
+          (stats.HitPercentRangedAttack / 100) *
+            stats.HitPercentDamageMultiplierRangedAttack *
+            stats.DamageSiegeRangedAttack2
+      }
       if (this.advisors[3]) {
         if (
           this.advisors[3].id === "Singh_C_IV" &&
@@ -390,6 +474,7 @@ export default {
             break
           case "RangedAttack2":
             affectedStats.push("DamageSiegeRangedAttack2")
+            affectedStats.push("DamageSiegeRangedAttack2InclCrit")
             affectedStats.push("DamagePierceRangedAttack2")
             affectedStats.push("RangedAttack2DamageArea")
             affectedStats.push("MaximumRange2")

@@ -109,6 +109,39 @@ export async function convertUnitStats(unit) {
     stats.RatisRiteBuff  = 1.5
     stats.RudiobusRiteBuff  = 1.15
   }
+  
+  if (unit.UnitType.includes("Military")) {
+    if (stats["DamageHand"]) {
+      stats["DamageHandInclCrit"] = stats["DamageHand"]
+    }
+    if (stats["DamageRanged"]) {
+      stats["DamageRangedInclCrit"] = stats["DamageRanged"]
+    }
+    if (stats["DamageCavalry"]) {
+      stats["DamageCavalryInclCrit"] = stats["DamageCavalry"]
+    }
+    if (stats["DamageSiege"]) {
+      stats["DamageSiegeInclCrit"] = stats["DamageSiege"]
+    }
+    if (stats["DamageSiegeMeleeAttack"]) {
+      stats["DamageSiegeMeleeAttackInclCrit"] = stats["DamageSiegeMeleeAttack"]
+      if (inactiveActions.includes("DamageSiegeMeleeAttack")){
+        inactiveActions.push("DamageSiegeMeleeAttackInclCrit")
+      }
+    }
+    if (stats["DamageSiegeRangedAttack"]) {
+      stats["DamageSiegeRangedAttackInclCrit"] = stats["DamageSiegeRangedAttack"]
+      if (inactiveActions.includes("DamageSiegeRangedAttack")){
+        inactiveActions.push("DamageSiegeRangedAttackInclCrit")
+      }
+    }
+    if (stats["DamageSiegeRangedAttack2"]) {
+      stats["DamageSiegeRangedAttack2InclCrit"] = stats["DamageSiegeRangedAttack2"]
+      if (inactiveActions.includes("DamageSiegeRangedAttack2")){
+        inactiveActions.push("DamageSiegeRangedAttack2InclCrit")
+      }
+    }
+  }
 
   if (unit.TrainPoints && unit.TrainPoints !== -1) {
     stats.TrainPoints = unit.TrainPoints
@@ -251,6 +284,7 @@ export async function convertUnitStats(unit) {
       }
     }
   //  stats.AutoGatherGoldIndia = stats.AutoGatherGold
+
   }
    
 
@@ -628,6 +662,33 @@ function convertTactic(tactic, stats, inactiveActions) {
         if (!stats.WorkRateSelfHeal) {
           stats.WorkRateSelfHeal = parseFloat(tactic.rate[0].text)
           break          
+        }
+      }
+      if (tactic.name.text === "Heal") {
+        if (tactic.active !== "1") {
+          break
+        }
+        if (Array.isArray(tactic.rate)) {
+          for (let i = 0; i < tactic.rate.length; i++) {
+            const rate = tactic.rate[i]
+
+            if(tactic.active !== "0"){
+              if (rate.type === "In_Inf_Monkey1"){
+                if (!stats.RateHealInfMonkey){
+                  stats.RateHealInfMonkey = parseFloat(rate.text)
+                  stats["MaximumRangeMonkeyHeal"] = parseFloat(tactic.maxRange)
+                }
+              }
+              if (rate.type === "In_Arc_Monkey2"){
+                if (!stats.RateHealRangeMonkey){
+                  stats.RateHealRangeMonkey = parseFloat(rate.text)
+                  if (!stats.MaximumRangeMonkeyHeal){
+                    stats["MaximumRangeMonkeyHeal"] = parseFloat(tactic.maxRange)
+                  }
+                }
+              }
+            }
+          }
         }
       }
       if (tactic.affectsTargetsInCombat === "") {
