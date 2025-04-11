@@ -374,7 +374,12 @@ export default {
   methods: {
     effectName(name) {
       let e = effects[name].name
-      if (name === "RateHeal" || name === "RateAreaHeal") {
+      if (
+        name === "RateHeal" ||
+        name === "RateAreaHeal" ||
+        name === "RateHealInfMonkey" ||
+        name === "RateHealRangeMonkey"
+      ) {
         e += " (Out of Combat)"
       }
       /* Norse Inf Scout1 actually builds a Barracks and not a Watchpost but same advisors affects him*/
