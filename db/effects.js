@@ -1528,8 +1528,8 @@ const templates = {
     icon: "DamageSiege",
     sort: 350
   },
-  RateHealInfMonkey: { name: "Heal Infantry Monkey", icon: "RateHeal", sort: 144 },
-  RateHealRangeMonkey: { name: "Heal Ranged Monkey", icon: "RateHeal", sort: 145 },
+  RateHealInfMonkey: { name: "Heal Club Monkey", icon: "RateHeal", sort: 144 },
+  RateHealRangeMonkey: { name: "Heal Fire Monkey", icon: "RateHeal", sort: 145 },
   MaximumRangeMonkeyHeal: {
     name: "Maximum Monkey Heal Range",
     icon: "MaximumRange",
