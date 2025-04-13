@@ -654,19 +654,19 @@ const templates = {
   HitPercent: { name: "Critical Hit Chance", icon: "CriticalHit", sort: 48 },
   HitPercentDamageMultiplier: {
     name: "Critical Hit Damage",
-    icon: "CriticalHit",
+    icon: "CriticalDamage",
     sort: 48
   },
   HitPercentMeleeAttack: { name: "Critical Hit Chance - Melee", icon: "CriticalHit", sort: 48 },
   HitPercentDamageMultiplierMeleeAttack: {
     name: "Critical Hit Damage - Melee",
-    icon: "CriticalHit",
+    icon: "CriticalDamage",
     sort: 48
   },
   HitPercentRangedAttack: { name: "Critical Hit Chance - Ranged", icon: "CriticalHit", sort: 82 },
   HitPercentDamageMultiplierRangedAttack: {
     name: "Critical Hit Damage - Ranged",
-    icon: "CriticalHit",
+    icon: "CriticalDamage",
     sort: 82
   },
   Hitpoints: { name: "Health", icon: "Hitpoints", sort: 0 },
