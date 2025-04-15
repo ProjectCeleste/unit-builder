@@ -578,7 +578,7 @@ function convertTactic(tactic, stats, inactiveActions) {
         }
       }
       if (tactic.hitPercentType === "CriticalAttack") {
-        stats["HitPercentDamageMultiplier" + tactic.anim] = parseFloat(tactic.hitPercentDamageMultiplier)
+        stats["HitPercentDamageTotal" + tactic.anim] = parseFloat(tactic.hitPercentDamageMultiplier)*100
       }
       if (tactic.anim === "RangedAttack" && stats["DamageRanged"]) {
           if (tactic.perfectAccuracy === "1") {

@@ -344,7 +344,7 @@ function getType(effectName) {
     effectName === "BuildWatchPost" ||
     effectName === "Trade" ||
     effectName === "WorkRateRepair" ||
-    effectName.startsWith("HitPercentDamageMultiplier") ||
+    //effectName.startsWith("HitPercentDamageMultiplier") ||
     effectName === "ChargeDamageMultiplier" ||
     effectName === "ChargeSpeedBoost" ||
     effectName === "HealdamageBonusUnit" ||
@@ -363,8 +363,9 @@ function getType(effectName) {
   ) {
     return "persecond" // ends with "/s"
   }
-  if (effectName.startsWith("HitPercent") && !effectName.startsWith("DamageMultiplier")) {
-    return "percent" // ends with "%"
+  if (effectName.startsWith("HitPercent") //&& !effectName.startsWith("DamageMultiplier")//
+    ) {
+    return "percent" // ends with "%" and starts with a "+"
   }/*
   if (effectName === "ChargeRange") {
     return "normal" // ends with "%"
@@ -651,20 +652,35 @@ const templates = {
     icon: "DamageBonusReduction",
     sort: 170
   },
-  HitPercent: { name: "Critical Hit Chance", icon: "CriticalHit", sort: 48 },
+  HitPercent: { name: "Critical Hit Chance", icon: "CriticalHit", sort: 47 },
   HitPercentDamageMultiplier: {
+    name: "Critical Hit Damage Bonus",
+    icon: "CriticalDamage",
+    sort: 48
+  },
+  HitPercentDamageTotal: {
     name: "Critical Hit Damage",
     icon: "CriticalDamage",
-    sort: 48
+    sort: 49
   },
-  HitPercentMeleeAttack: { name: "Critical Hit Chance - Melee", icon: "CriticalHit", sort: 48 },
+  HitPercentMeleeAttack: { name: "Critical Hit Chance - Melee", icon: "CriticalHit", sort: 47 },
   HitPercentDamageMultiplierMeleeAttack: {
-    name: "Critical Hit Damage - Melee",
+    name: "Critical Hit Damage Bonus - Melee",
     icon: "CriticalDamage",
     sort: 48
   },
-  HitPercentRangedAttack: { name: "Critical Hit Chance - Ranged", icon: "CriticalHit", sort: 82 },
+  HitPercentDamageTotalMeleeAttack: {
+    name: "Critical Hit Damage - Melee",
+    icon: "CriticalDamage",
+    sort: 49
+  },
+  HitPercentRangedAttack: { name: "Critical Hit Chance - Ranged", icon: "CriticalHit", sort: 80 },
   HitPercentDamageMultiplierRangedAttack: {
+    name: "Critical Hit Damage Bonus - Ranged",
+    icon: "CriticalDamage",
+    sort: 81
+  },
+  HitPercentDamageTotalRangedAttack: {
     name: "Critical Hit Damage - Ranged",
     icon: "CriticalDamage",
     sort: 82
@@ -743,7 +759,7 @@ const templates = {
   TargetSpeedBoostMeleeAttack: {
     name: "Snare - Melee",
     icon: "TargetSpeedBoost",
-    sort: 47,
+    sort: 46,
     lowerIsBetter: true
   },
   TargetSpeedBoostPoisonAttack: {
