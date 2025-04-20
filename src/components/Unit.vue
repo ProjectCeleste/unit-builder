@@ -70,6 +70,9 @@
             <div v-else-if="type === 'AbstractVillager'">
               {{ type.replace("Abstract", "") }}
             </div>
+            <div v-else-if="type === 'Huntable'">
+              {{ type }}
+            </div>
             <div v-else-if="type.indexOf('AdvisorUnit') > -1">
               Advisor Unit
             </div>

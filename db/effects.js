@@ -191,7 +191,23 @@ export async function convertEffects(effects, civ, isAdvisor) {
     } else if (type === "HitPercentDamageMultiplier") {
       type += e.action
     } else if (type === "HitPercent") {
-      type += e.action
+      switch (e.action) {
+        case "RangedAttack":
+          type = "HitPercentRangedAttack"
+          break
+        case "BurningAttack":
+          type = "HitPercentRangedAttack"
+          break
+        case "RangedAttack2":
+          type = "HitPercentRangedAttack"
+          break
+        case "MeleeAttack":
+          type = "HitPercentMeleeAttack"
+          break
+        case "BuildingAttack":
+          type = "HitPercentMeleeAttack"
+          break
+      }
     } else if (type === "MaximumRange" && e.action == "RangedAttack2") {
       continue
     } else if (type === "MaximumRange" && e.action == "MeleeAttack") {
@@ -525,31 +541,31 @@ const templates = {
   GatherAbstractFruit: { name: "Gathering Berries", icon: "Berry", sort: 2 },
   GatherAbstractFarm: { name: "Gathering Farms", icon: "GatherFood", sort: 5 },
   GatherAbstractFish: { name: "Gathering Fish", icon: "Fish", sort: 6 },
-  YieldTree: { name: "Wood Conservation", icon: "YieldTree", sort: 18 },
-  YieldGold: { name: "Gold Conservation", icon: "YieldGold", sort: 19 },
-  YieldStone: { name: "Stone Conservation", icon: "YieldStone", sort: 20 },
+  YieldTree: { name: "Wood Conservation (+ Yield)", icon: "YieldTree", sort: 18 },
+  YieldGold: { name: "Gold Conservation (+ Yield)", icon: "YieldGold", sort: 19 },
+  YieldStone: { name: "Stone Conservation (+ Yield)", icon: "YieldStone", sort: 20 },
   YieldAbstractFarm: {
-    name: "Farm Conservation",
+    name: "Farm Conservation (+ Yield)",
     icon: "YieldAbstractFruit",
     sort: 17
   },
   YieldAbstractFish: {
-    name: "Fish Conservation",
+    name: "Fish Conservation (+ Yield)",
     icon: "YieldAbstractFish",
     sort: 17
   },
   YieldHuntable: {
-    name: "Huntable Conservation",
+    name: "Huntable Conservation (+ Yield)",
     icon: "YieldHuntable",
     sort: 16
   },
   YieldHerdable: {
-    name: "Herdable Conservation",
+    name: "Herdable Conservation (+ Yield)",
     icon: "YieldHerdable",
     sort: 15
   },
   YieldAbstractFruit: {
-    name: "Berry Bushes Conservation",
+    name: "Berries Conservation (+ Yield)",
     icon: "YieldAbstractFruit",
     sort: 14
   },
@@ -654,34 +670,34 @@ const templates = {
   },
   HitPercent: { name: "Critical Hit Chance", icon: "CriticalHit", sort: 47 },
   HitPercentDamageMultiplier: {
-    name: "Critical Hit Damage Bonus",
+    name: "Critical Hit Dmg. Bonus",
     icon: "CriticalDamage",
     sort: 48
   },
   HitPercentDamageTotal: {
-    name: "Critical Hit Damage",
+    name: "Critical Hit Dmg.",
     icon: "CriticalDamage",
     sort: 49
   },
   HitPercentMeleeAttack: { name: "Critical Hit Chance - Melee", icon: "CriticalHit", sort: 47 },
   HitPercentDamageMultiplierMeleeAttack: {
-    name: "Critical Hit Damage Bonus - Melee",
+    name: "Critical Hit Dmg. Bonus - Melee",
     icon: "CriticalDamage",
     sort: 48
   },
   HitPercentDamageTotalMeleeAttack: {
-    name: "Critical Hit Damage - Melee",
+    name: "Critical Hit Dmg. - Melee",
     icon: "CriticalDamage",
     sort: 49
   },
   HitPercentRangedAttack: { name: "Critical Hit Chance - Ranged", icon: "CriticalHit", sort: 80 },
   HitPercentDamageMultiplierRangedAttack: {
-    name: "Critical Hit Damage Bonus - Ranged",
+    name: "Critical Hit Dmg. Bonus - Ranged",
     icon: "CriticalDamage",
     sort: 81
   },
   HitPercentDamageTotalRangedAttack: {
-    name: "Critical Hit Damage - Ranged",
+    name: "Critical Hit Dmg. - Ranged",
     icon: "CriticalDamage",
     sort: 82
   },

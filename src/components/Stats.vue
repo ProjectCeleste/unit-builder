@@ -248,8 +248,9 @@ export default {
           }
           stats.DamageHandInclCrit =
             (1 - stats.HitPercentMeleeAttack / 100) * stats.DamageHand +
-            (stats.HitPercentMeleeAttack / 100) *
-              stats.HitPercentDamageTotalMeleeAttack *
+            (((stats.HitPercentMeleeAttack / 100) *
+              stats.HitPercentDamageTotalMeleeAttack) /
+              100) *
               stats.DamageHand
         }
         if (!stats.HitPercentMeleeAttack && stats.DamageHand) {
@@ -261,8 +262,9 @@ export default {
           }
           stats.DamageCavalryInclCrit =
             (1 - stats.HitPercentMeleeAttack / 100) * stats.DamageCavalry +
-            (stats.HitPercentMeleeAttack / 100) *
-              stats.HitPercentDamageTotalMeleeAttack *
+            (((stats.HitPercentMeleeAttack / 100) *
+              stats.HitPercentDamageTotalMeleeAttack) /
+              100) *
               stats.DamageCavalry
         }
         if (!stats.HitPercentMeleeAttack && stats.DamageCavalry) {
@@ -274,8 +276,9 @@ export default {
           }
           stats.DamageSiegeInclCrit =
             (1 - stats.HitPercentMeleeAttack / 100) * stats.DamageSiege +
-            (stats.HitPercentMeleeAttack / 100) *
-              stats.HitPercentDamageTotalMeleeAttack *
+            (((stats.HitPercentMeleeAttack / 100) *
+              stats.HitPercentDamageTotalMeleeAttack) /
+              100) *
               stats.DamageSiege
         }
         if (!stats.HitPercentMeleeAttack && stats.DamageSiege) {
@@ -288,8 +291,9 @@ export default {
           stats.DamageSiegeMeleeAttackInclCrit =
             (1 - stats.HitPercentMeleeAttack / 100) *
               stats.DamageSiegeMeleeAttack +
-            (stats.HitPercentMeleeAttack / 100) *
-              stats.HitPercentDamageTotalMeleeAttack *
+            (((stats.HitPercentMeleeAttack / 100) *
+              stats.HitPercentDamageTotalMeleeAttack) /
+              100) *
               stats.DamageSiegeMeleeAttack
         }
         if (!stats.HitPercentMeleeAttack && stats.DamageSiegeMeleeAttack) {
@@ -302,8 +306,9 @@ export default {
           stats.DamageSiegeBuildingAttackInclCrit =
             (1 - stats.HitPercentMeleeAttack / 100) *
               stats.DamageSiegeBuildingAttack +
-            (stats.HitPercentMeleeAttack / 100) *
-              stats.HitPercentDamageTotalMeleeAttack *
+            (((stats.HitPercentMeleeAttack / 100) *
+              stats.HitPercentDamageTotalMeleeAttack) /
+              100) *
               stats.DamageSiegeBuildingAttack
         }
         if (!stats.HitPercentMeleeAttack && stats.DamageSiegeBuildingAttack) {
@@ -316,8 +321,9 @@ export default {
           }
           stats.DamageRangedInclCrit =
             (1 - stats.HitPercentRangedAttack / 100) * stats.DamageRanged +
-            (stats.HitPercentRangedAttack / 100) *
-              stats.HitPercentDamageTotalRangedAttack *
+            (((stats.HitPercentRangedAttack / 100) *
+              stats.HitPercentDamageTotalRangedAttack) /
+              100) *
               stats.DamageRanged
         }
         if (!stats.HitPercentRangedAttack && stats.DamageRanged) {
@@ -330,8 +336,9 @@ export default {
           stats.DamageSiegeRangedAttackInclCrit =
             (1 - stats.HitPercentRangedAttack / 100) *
               stats.DamageSiegeRangedAttack +
-            (stats.HitPercentRangedAttack / 100) *
-              stats.HitPercentDamageTotalRangedAttack *
+            (((stats.HitPercentRangedAttack / 100) *
+              stats.HitPercentDamageTotalRangedAttack) /
+              100) *
               stats.DamageSiegeRangedAttack
         }
         if (!stats.HitPercentRangedAttack && stats.DamageSiegeRangedAttack) {
@@ -344,8 +351,9 @@ export default {
           stats.DamageSiegeRangedAttack2InclCrit =
             (1 - stats.HitPercentRangedAttack / 100) *
               stats.DamageSiegeRangedAttack2 +
-            (stats.HitPercentRangedAttack / 100) *
-              stats.HitPercentDamageTotalRangedAttack *
+            (((stats.HitPercentRangedAttack / 100) *
+              stats.HitPercentDamageTotalRangedAttack) /
+              100) *
               stats.DamageSiegeRangedAttack2
         }
         if (!stats.HitPercentRangedAttack && stats.DamageSiegeRangedAttack2) {
