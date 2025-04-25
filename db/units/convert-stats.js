@@ -129,6 +129,12 @@ export async function convertUnitStats(unit) {
         inactiveActions.push("DamageSiegeMeleeAttackInclCrit")
       }
     }
+    if (stats["DamageSiegeBuildingAttack"]) {
+      stats["DamageSiegeBuildingAttackInclCrit"] = stats["DamageSiegeBuildingAttack"]
+      if (inactiveActions.includes("DamageSiegeBuildingAttack")){
+        inactiveActions.push("DamageSiegeBuildingAttackInclCrit")
+      }
+    }
     if (stats["DamageSiegeRangedAttack"]) {
       stats["DamageSiegeRangedAttackInclCrit"] = stats["DamageSiegeRangedAttack"]
       if (inactiveActions.includes("DamageSiegeRangedAttack")){
