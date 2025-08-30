@@ -40,6 +40,7 @@
 
 <script>
 import Icon from "./Icon.vue"
+import upgrades from "../data/upgrades.json"
 
 export default {
   name: "Upgrade",
@@ -81,6 +82,43 @@ export default {
       }
     },
     unlockedTech(val) {
+      var fixGuardTowerSGreek = upgrades["greek"].filter(
+        u => u.id === "TechTower2"
+      )
+      var fixGuardTowerSCeltic = upgrades["celtic"].filter(
+        u => u.id === "TechTower2"
+      )
+      if (fixGuardTowerSGreek[0].chain.chain.id != undefined) {
+        if (
+          fixGuardTowerSGreek[0].chain.chain.id === "TechTowerS" &&
+          this.unlockedTech.includes("TechTowerS")
+        ) {
+          fixGuardTowerSGreek[0].chain.chain.unlocked = false
+          fixGuardTowerSCeltic[0].chain.chain.unlocked = false
+          const newSelected = this.modelValue.selected
+          this.$emit("update:modelValue", {
+            selected: newSelected,
+            effects: newSelected ? this.upgrade.chain.effects : [],
+            chain: fixGuardTowerSGreek[0].chain.chain
+              ? undefined
+              : this.modelValue.chain
+          })
+        } else if (
+          fixGuardTowerSGreek[0].chain.chain.id === "TechTowerS" &&
+          !this.unlockedTech.includes("TechTowerS")
+        ) {
+          fixGuardTowerSGreek[0].chain.chain.unlocked = true
+          fixGuardTowerSCeltic[0].chain.chain.unlocked = true
+          const newSelected = this.modelValue.selected
+          this.$emit("update:modelValue", {
+            selected: newSelected,
+            effects: newSelected ? this.upgrade.chain.effects : [],
+            chain: fixGuardTowerSGreek[0].chain.chain
+              ? undefined
+              : this.modelValue.chain
+          })
+        }
+      }
       if (
         this.upgrade.chain &&
         this.upgrade.chain.unlocked &&

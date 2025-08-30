@@ -671,6 +671,26 @@ function convertTactic(tactic, stats, inactiveActions) {
         }
       }
       if (tactic.name.text === "Heal") {
+        if (tactic.affectsTargetsInCombat === "") {
+          const healType = "Rate" + tactic.name.text
+          if (tactic.active === "0") {
+            inactiveActions.push(healType + "InCombat")
+            inactiveActions.push("MaximumRange" + tactic.name.text)
+          }
+          if (!stats[healType]) {
+            stats[healType] = parseFloat(tactic.rate[0].text)
+            stats[healType + "InCombat"] = parseFloat(tactic.rate[0].text)
+            stats["MaximumRange" + tactic.name.text] = parseFloat(tactic.maxRange)
+          }
+          stats[healType + "InCombat"] = stats[healType]
+          delete stats[healType]
+        }
+        if (tactic.aoeHealRadius) {
+          stats[tactic.name.text + "Area"] = parseFloat(tactic.aoeHealRadius)
+        }
+        if (tactic.damageBonus) {
+          stats["HealdamageBonus" + tactic.damageBonus.type] = parseFloat(tactic.damageBonus.text)
+        }
         if (tactic.active !== "1") {
           break
         }
@@ -697,63 +717,106 @@ function convertTactic(tactic, stats, inactiveActions) {
           }
         }
       }
-      if (tactic.affectsTargetsInCombat === "") {
-        const healType = "Rate" + tactic.name.text
-        if (tactic.active === "0") {
-          inactiveActions.push(healType + "InCombat")
-          inactiveActions.push("MaximumRange" + tactic.name.text)
-        }
-        if (!stats[healType]) {
-          stats[healType] = parseFloat(tactic.rate[0].text)
-          stats[healType + "InCombat"] = parseFloat(tactic.rate[0].text)
-          stats["MaximumRange" + tactic.name.text] = parseFloat(tactic.maxRange)
-        }
-        stats[healType + "InCombat"] = stats[healType]
-        delete stats[healType]
-      }
-      if (tactic.aoeHealRadius) {
-        stats[tactic.name.text + "Area"] = parseFloat(tactic.aoeHealRadius)
-      }
-      if (tactic.damageBonus) {
-        stats["HealdamageBonus" + tactic.damageBonus.type] = parseFloat(tactic.damageBonus.text)
-      }
       break
     case "Convert": {
-      if (tactic.anim === "Chaos") {
-        stats.ChaosStandardConvertable = stats.ConvertStandardConvertable
-        /*delete stats.ConvertStandardConvertable*/
-        if (stats.ConvertConvertableCavalry !== undefined) {
-          stats.ChaosConvertableCavalry = stats.ConvertConvertableCavalry
-          delete stats.ConvertConvertableCavalry
-        }
-        if (stats.ConvertConvertableSiege !== undefined) {
-          stats.ChaosConvertableSiege = stats.ConvertConvertableSiege
-          delete stats.ConvertConvertableSiege
-        }
-        if (stats.ConvertConvertableInfantry !== undefined) {
-          stats.ChaosConvertableInfantry = stats.ConvertConvertableInfantry
-          delete stats.ConvertConvertableInfantry
-        }
-        if (stats.MaximumRangeConvert !== undefined) {
-          stats.MaximumRangeChaos = stats.MaximumRangeConvert
-          delete stats.MaximumRangeConvert
+      if (tactic.aoe === "") {
+        stats.ConvertAOE = 1
+        if(tactic.active === "0"){
+          inactiveActions.push("ConvertAOE")
         }
       }
+      if (tactic.name.text === "Convert") {
+        if (tactic.anim === "Chaos") {
+          stats.ChaosStandardConvertable = stats.ConvertStandardConvertable
+          /*delete stats.ConvertStandardConvertable*/
+          if (stats.ConvertConvertableCavalry !== undefined) {
+            stats.ChaosConvertableCavalry = stats.ConvertConvertableCavalry
+            delete stats.ConvertConvertableCavalry
+          }
+          if (stats.ConvertConvertableSiege !== undefined) {
+            stats.ChaosConvertableSiege = stats.ConvertConvertableSiege
+            delete stats.ConvertConvertableSiege
+          }
+          if (stats.ConvertConvertableInfantry !== undefined) {
+            stats.ChaosConvertableInfantry = stats.ConvertConvertableInfantry
+            delete stats.ConvertConvertableInfantry
+          }
+          if (stats.MaximumRangeConvert !== undefined) {
+            stats.MaximumRangeChaos = stats.MaximumRangeConvert
+            delete stats.MaximumRangeConvert
+          }
+        }
 
-      else {
-        if (Array.isArray(tactic.rate)) {
-          for (let i = 0; i < tactic.rate.length; i++) {
-            const rate = tactic.rate[i]
+        else {
+          if (Array.isArray(tactic.rate)) {
+            for (let i = 0; i < tactic.rate.length; i++) {
+              const rate = tactic.rate[i]
 
-            if(tactic.active !== "0"){
               if (!stats[tactic.type + rate.type]){
                 stats[tactic.type + rate.type] = parseFloat(rate.text)
+                if(tactic.active === "0"){
+                inactiveActions.push(tactic.type + rate.type)
+                }
               }
             }
           }
         }
+
+        break
       }
-      break
+      if (tactic.name.text === "Convert2") {
+        if (tactic.anim === "Chaos") {
+          stats.Chaos2StandardConvertable = stats.Convert2StandardConvertable
+            if(tactic.active === "0"){
+              inactiveActions.push("Chaos2StandardConvertable")
+            }
+          /*delete stats.Convert2StandardConvertable*/
+          if (stats.Convert2ConvertableCavalry !== undefined) {
+            stats.Chaos2ConvertableCavalry = stats.Convert2ConvertableCavalry
+            delete stats.Convert2ConvertableCavalry
+            if(tactic.active === "0"){
+              inactiveActions.push("Chaos2ConvertableCavalry")
+            }
+          }
+          if (stats.Convert2ConvertableSiege !== undefined) {
+            stats.Chaos2ConvertableSiege = stats.Convert2ConvertableSiege
+            delete stats.Convert2ConvertableSiege
+            if(tactic.active === "0"){
+              inactiveActions.push("Chaos2ConvertableSiege")
+            }
+          }
+          if (stats.ConvertConvertableInfantry !== undefined) {
+            stats.Chaos2ConvertableInfantry = stats.Convert2ConvertableInfantry
+            delete stats.Convert2ConvertableInfantry
+            if(tactic.active === "0"){
+              inactiveActions.push("Chaos2ConvertableInfantry")
+            }
+          }
+          if (stats.MaximumRangeConvert !== undefined) {
+            stats.MaximumRangeChaos2 = stats.MaximumRangeConvert2
+            delete stats.MaximumRangeConvert2
+            if(tactic.active === "0"){
+              inactiveActions.push("MaximumRangeChaos2")
+            }
+          }
+        }
+
+        else {
+          if (Array.isArray(tactic.rate)) {
+            for (let i = 0; i < tactic.rate.length; i++) {
+              const rate = tactic.rate[i]
+
+              if (!stats["Convert2" + rate.type]){
+                stats["Convert2" + rate.type] = parseFloat(rate.text)
+                if(tactic.active === "0"){
+                  inactiveActions.push("Convert2" + rate.type)
+                }
+              }
+            }
+          }
+        }
+        break
+      }
     }
   }
 }

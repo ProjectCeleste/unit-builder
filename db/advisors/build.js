@@ -86,7 +86,7 @@ async function convertAdvisor(a) {
   */
 
   advisor.rarities.push({
-    description: findLang(stringtablex, a.displaydescriptionid).replace(/\\n/g," "),
+    description: findLang(stringtablex, a.displaydescriptionid) ? findLang(stringtablex, a.displaydescriptionid).replace(/\\n/g," ") : undefined,
     rarity: convertRarity(a.rarity),
     effects: effects.filter(duplicateEffects)
   }) 

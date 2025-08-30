@@ -445,22 +445,22 @@ const templates = {
     sort: 0
   },
   ActionEnableServilia_C: {
-    name: "Increase Villagers and Caravan Speed by 4%",
+    name: "Increase Villagers and Caravan Speed Common",
     icon: "NONE",
     sort: 0
   },
   ActionEnableServilia_U: {
-    name: "Increase Villagers and Caravan Speed by 6%",
+    name: "Increase Villagers and Caravan Speed Uncommon",
     icon: "NONE",
     sort: 0
   },
   ActionEnableServilia_R: {
-    name: "Increase Villagers and Caravan Speed by 8%",
+    name: "Increase Villagers and Caravan Speed Rare",
     icon: "NONE",
     sort: 0
   },
   ActionEnableServilia_E: {
-    name: "Increase Villagers and Caravan Speed by 10%",
+    name: "Increase Villagers and Caravan Speed Epic",
     icon: "NONE",
     sort: 0
   },
@@ -734,6 +734,16 @@ const templates = {
     name: "Maximum Conversion Range",
     icon: "MaximumRange",
     sort: 140
+  },
+  ConvertAOE: {
+    name: "Convert in AOE flag",
+    icon: "NONE",
+    sort: 141
+  },
+  ChaosAOE: {
+    name: "Convert in AOE flag",
+    icon: "MaximumRange",
+    sort: 131
   },
   MaximumRangeChaos: {
     name: "Maximum Chaos Range",
@@ -1321,7 +1331,7 @@ const templates = {
   },
   HealthAuraMaxHP: {
     name: "HP Aura Buff",
-    icon: "DamageArea",
+    icon: "Hitpoints",
     sort: 116
   },
   Theode_CMaxHPRange: {
@@ -1331,7 +1341,7 @@ const templates = {
   },
   Theode_CMaxHP: {
     name: "HP Aura Buff",
-    icon: "DamageArea",
+    icon: "Hitpoints",
     sort: 116
   },
   Theode_UMaxHPRange: {
@@ -1341,7 +1351,7 @@ const templates = {
   },
   Theode_UMaxHP: {
     name: "HP Aura Buff",
-    icon: "DamageArea",
+    icon: "Hitpoints",
     sort: 116
   },
   Theode_RMaxHPRange: {
@@ -1351,7 +1361,7 @@ const templates = {
   },
   Theode_RMaxHP: {
     name: "HP Aura Buff",
-    icon: "DamageArea",
+    icon: "Hitpoints",
     sort: 116
   },
   Theode_EMaxHPRange: {
@@ -1361,7 +1371,7 @@ const templates = {
   },
   Theode_EMaxHP: {
     name: "HP Aura Buff",
-    icon: "DamageArea",
+    icon: "Hitpoints",
     sort: 116
   },
   DebuffAuraDamageRange: {
@@ -1376,12 +1386,12 @@ const templates = {
   },
   PerfectAccuracy: {
     name: "Ranged Attack Tracks Target",
-    icon: "DamageRanged",
+    icon: "NONE",
     sort: 83
   },
   AttackIfContainsUnitsRangedAttack: {
     name: "Only Attack with units inside",
-    icon: "DamageRanged",
+    icon: "NONE",
     sort: 84
   },
   AttackCooldownRangedAttack: {
@@ -1391,12 +1401,12 @@ const templates = {
   },
   ScaleByContainedUnitsRangedAttack: {
     name: "Damage scales with units inside",
-    icon: "DamageRanged",
+    icon: "NONE",
     sort: 84
   },
   MaxDmgMaxContained: {
     name: "Damage at max Capacity",
-    icon: "BuildPoints",
+    icon: "DamageRanged",
     sort: 187
   },
   Training_Garden4Age2: {
@@ -1566,6 +1576,11 @@ const templates = {
     name: "Maximum Monkey Heal Range",
     icon: "MaximumRange",
     sort: 150
+  },
+  AllowedAge: {
+    name: "Allowed Age",
+    icon: "NONE",
+    sort: 215
   }
 }
 

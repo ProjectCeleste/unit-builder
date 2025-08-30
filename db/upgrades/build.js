@@ -15,7 +15,7 @@ const ignoredRequirements = [
 const extraUpgrades = []
 
 export function addExtraUpgrade(techName, civ) {
-  if (!extraUpgrades.some(u => u.techName === techName)) {
+  if (!extraUpgrades.some(u => u.techName === techName && u.civ === civ)) {
     extraUpgrades.push({ techName, civ: civ.toLowerCase() })
   }
 }
@@ -41,10 +41,12 @@ export async function buildUpgrades() {
 
   for (let i = 0; i < extraUpgrades.length; i++) {
     const extra = extraUpgrades[i]
+    //console.log(extra)
     const upgrades = await convertEquipmentToUpgrades({
       civ: extra.civ,
       reward: { rank: [{ tech: extra.techName }] },
-      unlocked: extra.techName === "TechTowerS" ? false : true
+      //unlocked: extra.techName === "TechTowerS" ? true : true
+      unlocked: true
     })
     results[extra.civ] = results[extra.civ].concat(
       upgrades.filter(u => !results[extra.civ].some(up => up.id === u.id))
@@ -136,12 +138,24 @@ async function convertUpgrade(tech, civ) {
   }
 
   const icon = tech.Icon.replace(/\\/g, "/").toLowerCase()
-  const iconDst = convertIconName(icon)
+  var iconDst = convertIconName(icon)
   await downloadImage(
     icon + ".png",
     "../src/assets/upgrades/" + iconDst + ".png"
   )
 
+
+  //console.log(icon)
+  
+  if (tech.name.startsWith("EgyptTechAdvisorKhepri")) {
+    iconDst = convertIconName("TownCenter64_ua")
+    await downloadImage(
+      "UserInterface/Icons/Buildings/TownCenter64_ua.png",
+    "../src/assets/upgrades/" + iconDst + ".png"
+    )
+  }
+  
+  
   const upgrade = {
     id: tech.name,
     name: findLang(stringtablex, tech.DisplayNameID),
@@ -149,6 +163,13 @@ async function convertUpgrade(tech, civ) {
     icon: iconDst,
     cost: convertUpgradeCost(tech),
     effects: effects
+  }
+
+  if (upgrade.description.text === "No Description") {
+    if (tech.name.startsWith("EgyptTechAdvisorKhepri")) {
+      upgrade.description.text = tech.name.replace("EgyptTechAdvisorKhepri0", 'Improves <span class="is-highlight">Military </span> with Town Center ') 
+      upgrade.description.effects[0] = '<span class="is-positive">+3% Health</span>'
+    }
   }
 
   if (tech.ResearchPoints) {
@@ -192,14 +213,28 @@ function techIgnored(tech) {
     "Ro_Ct_UnitCenturion1",
     "Ro_Ct_UnitDecurion1",
     "Ro_Ct_UnitEngineer1",
-    "In_Ct_UnitBladeChariot1"
+    "In_Ct_UnitBladeChariot1",
+    "IndiaTechAdvisorChanakya1A_Shadow",
+    "IndiaTechAdvisorChanakya1B_Shadow",
+    "IndiaTechAdvisorChanakya2A_Shadow",
+    "IndiaTechAdvisorChanakya2B_Shadow",
+    "IndiaTechAdvisorChanakya2C_Shadow",
+    "IndiaTechAdvisorChanakya3A_Shadow",
+    "IndiaTechAdvisorChanakya3B_Shadow",
+    "IndiaTechAdvisorChanakya3C_Shadow",
+    /*"EgyptTechAdvisorKhepri01",
+    "EgyptTechAdvisorKhepri02",
+    "EgyptTechAdvisorKhepri03",
+    "EgyptTechAdvisorKhepri04",
+    "EgyptTechAdvisorKhepri05"*/
   ]
   return ignored.includes(tech.name)
 }
 
 function formatUpgradeDescription(textID) {
-  const text = findLang(stringtablex, textID)
-  const split = text.split("*")
+  const text = findLang(stringtablex, textID) ?  findLang(stringtablex, textID) : "No Description"
+  const split =  text.split("*")
+  
   const description = convertMarkup(split[0])
 
   const effects = []

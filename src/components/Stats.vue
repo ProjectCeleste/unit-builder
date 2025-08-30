@@ -362,7 +362,7 @@ export default {
         }
       }
       if (this.advisors[3]) {
-        if (
+        /*if (
           this.advisors[3].id === "Singh_C_IV" &&
           this.unit.id === "In_Bldg_Shrine"
         ) {
@@ -370,7 +370,7 @@ export default {
         }
         if (this.advisors[3].id === "Singh_C_IV") {
           delete stats["AutoGatherShrineGather"]
-        }
+        }*/
         if (this.advisors[3].id === "Chanakya_L_IV") {
           if (this.advisors[2]) {
             if (

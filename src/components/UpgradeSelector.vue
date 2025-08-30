@@ -151,6 +151,30 @@ export default {
     },
     updateDisabledTech() {
       this.disabledTech = []
+      //disable Chanakya upgrades
+
+      var disableChanakyaUpgrades = upgrades["indian"].filter(u =>
+        u.id.includes("IndiaTechMonastery")
+      )
+      for (let upgrade of disableChanakyaUpgrades) {
+        if (this.unlockedTech.includes("IndiaTechAdvisorChanakya1A_Shadow")) {
+          if (this.upgradeValues[upgrade.id]) {
+            if (this.upgradeValues[upgrade.id].selected === true) {
+              this.upgradeValues[upgrade.id].selected = false
+              this.upgradeValues[upgrade.id].effects = []
+              this.upgradeValues[upgrade.id].selected = undefined
+              this.$emit("update:modelValue", {
+                selected: false,
+                effects: [],
+                chain: undefined
+              })
+            }
+          }
+          if (this.disabledTech.push(upgrade.id) === -1) {
+            this.disabledTech.push(upgrade.id)
+          }
+        }
+      }
       for (let key in this.upgradeValues) {
         this.checkContainsDisableTech(this.upgradeValues[key])
       }
