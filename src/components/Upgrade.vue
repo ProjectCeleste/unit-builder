@@ -95,14 +95,14 @@ export default {
         ) {
           fixGuardTowerSGreek[0].chain.chain.unlocked = false
           fixGuardTowerSCeltic[0].chain.chain.unlocked = false
-          const newSelected = this.modelValue.selected
+          /*const newSelected = this.modelValue.selected
           this.$emit("update:modelValue", {
             selected: newSelected,
             effects: newSelected ? this.upgrade.chain.effects : [],
             chain: fixGuardTowerSGreek[0].chain.chain
               ? undefined
               : this.modelValue.chain
-          })
+          })*/
         } else if (
           fixGuardTowerSGreek[0].chain.chain.id === "TechTowerS" &&
           !this.unlockedTech.includes("TechTowerS")
@@ -113,9 +113,7 @@ export default {
           this.$emit("update:modelValue", {
             selected: newSelected,
             effects: newSelected ? this.upgrade.chain.effects : [],
-            chain: fixGuardTowerSGreek[0].chain.chain
-              ? undefined
-              : this.modelValue.chain
+            chain: undefined
           })
         }
       }
