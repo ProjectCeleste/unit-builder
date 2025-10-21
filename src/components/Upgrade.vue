@@ -93,6 +93,8 @@ export default {
           fixGuardTowerSGreek[0].chain.chain.id === "TechTowerS" &&
           this.unlockedTech.includes("TechTowerS")
         ) {
+          /*unlocked means the complete opposite of what you would expect
+          false means that it is an unlocked upgrade*/
           fixGuardTowerSGreek[0].chain.chain.unlocked = false
           fixGuardTowerSCeltic[0].chain.chain.unlocked = false
           /*const newSelected = this.modelValue.selected
@@ -107,14 +109,16 @@ export default {
           fixGuardTowerSGreek[0].chain.chain.id === "TechTowerS" &&
           !this.unlockedTech.includes("TechTowerS")
         ) {
+          /*unlocked means the complete opposite of what you would expect
+          true means that it is a locked upgrade*/
           fixGuardTowerSGreek[0].chain.chain.unlocked = true
           fixGuardTowerSCeltic[0].chain.chain.unlocked = true
-          const newSelected = this.modelValue.selected
+          /*const newSelected = this.modelValue.selected
           this.$emit("update:modelValue", {
             selected: newSelected,
             effects: newSelected ? this.upgrade.chain.effects : [],
             chain: undefined
-          })
+          })*/
         }
       }
       if (
