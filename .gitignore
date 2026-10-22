@@ -34,3 +34,5 @@ src/assets/milestones/*
 src/assets/upgrades
 db/techtreex.xml
 db/tactics
+# vite-plugin-pwa dev output
+dev-dist

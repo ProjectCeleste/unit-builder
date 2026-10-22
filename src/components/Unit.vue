@@ -4,9 +4,7 @@
       <div
         class="card-header is-flex is-flex-direction-row is-justify-content-space-between"
       >
-        <h4 class="title is-size-5">
-          Select a unit
-        </h4>
+        <h4 class="title is-size-5">Select a unit</h4>
         <Button
           v-if="showDelete"
           icon="close"
@@ -51,9 +49,7 @@
               >
                 Converting Priest
               </div>
-              <div v-else>
-                Non-Converting Priest
-              </div>
+              <div v-else>Non-Converting Priest</div>
             </div>
             <div v-else-if="type === 'AbstractArcher'">
               {{ type.replace("AbstractArcher", "Ranged") }}
@@ -73,15 +69,13 @@
             <div v-else-if="type === 'Huntable'">
               {{ type }}
             </div>
-            <div v-else-if="type.indexOf('AdvisorUnit') > -1">
-              Advisor Unit
-            </div>
+            <div v-else-if="type.indexOf('AdvisorUnit') > -1">Advisor Unit</div>
             <div v-else-if="type === 'Consumable'">
               <span>
                 <a
                   :href="
                     'https://search.projectceleste.com/?tab=4&search=' +
-                      selection.unit.id
+                    selection.unit.id
                   "
                 >
                   Consumable Details Found Here

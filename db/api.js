@@ -1,12 +1,9 @@
 const API_URL = "https://api.projectceleste.com/gamedb"
 const IMAGES_URL = "https://images.projectceleste.com/Art/"
 
-import axios from "axios"
 import fs from "fs"
 import https from "https"
 import { saveFile } from "./utils.js"
-
-axios.defaults.baseURL = API_URL
 
 const DB_PATH = "../src/gamedb_data/"
 
@@ -15,9 +12,12 @@ const cache = {}
 async function get(url, file) {
   if (!cache[url]) {
     console.log("GET " + url)
-    const res = await axios.get(url)
-    cache[url] = res.data
-    saveFile(DB_PATH + file, res.data)
+    const res = await fetch(API_URL + url)
+    if (!res.ok) {
+      throw new Error("GET " + url + " returned code " + res.status)
+    }
+    cache[url] = await res.json()
+    saveFile(DB_PATH + file, cache[url])
   }
   return cache[url]
 }

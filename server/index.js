@@ -1,11 +1,15 @@
 import express from "express"
-import bodyParser from "body-parser"
 import Keyv from "keyv"
+import KeyvSqlite from "@keyv/sqlite"
 import fs from "fs"
 import crypto from "crypto"
 const app = express()
 const port = process.argv[2] ? parseInt(process.argv[2]) : 8080
-const keyv = new Keyv("sqlite://build-db.sqlite")
+// Keyv < 5 used the "keyv" namespace by default; keep it so existing builds stay readable
+const keyv = new Keyv({
+  store: new KeyvSqlite("sqlite://build-db.sqlite"),
+  namespace: "keyv"
+})
 const sixMonths = 15552000000
 const units = JSON.parse(fs.readFileSync("./units.json", "utf8"))
 const gear = JSON.parse(fs.readFileSync("./gear.json", "utf8"))
@@ -15,7 +19,7 @@ keyv.on("error", err => {
   process.exit(1)
 })
 
-app.use(bodyParser.json())
+app.use(express.json())
 app.use(async (req, res, next) => {
   if (req.query.build && !req.originalUrl.startsWith("/builds")) {
     try {

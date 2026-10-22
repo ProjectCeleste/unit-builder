@@ -47,7 +47,7 @@ import Dropdown from "./Dropdown.vue"
 import CivSelector from "./CivSelector.vue"
 import Icon from "./Icon.vue"
 
-const civs = require("../data/units.json")
+import civs from "../data/units.json"
 
 export default {
   name: "UnitSelector",

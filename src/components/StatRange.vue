@@ -41,9 +41,7 @@
     <span v-if="!effect.absolute && effect.type !== 'WorkRateSelfHeal'">
       %
     </span>
-    <span v-if="effect.type === 'ArmorVulnerability'">
-      %
-    </span>
+    <span v-if="effect.type === 'ArmorVulnerability'"> % </span>
     <span v-if="effect.type === 'WorkRateSelfHeal'">/s</span>
   </form>
 </template>
@@ -191,7 +189,7 @@ export default {
       background: #ebebeb;
       border-radius: 50%;
       cursor: pointer;
-      margin-top: (-14px / 2);
+      margin-top: -7px;
       border: none;
     }
 

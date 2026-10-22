@@ -45,6 +45,15 @@
   <meta property="twitter:description" content="Build, compare and share your Age of Empires Online units.">
   <meta property="twitter:image:src" content="https://unitstats.projectceleste.com/assets/meta/favicon-512.png">
   <meta property="twitter:card" content="summary">
+
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#488489">
+  <meta name="apple-mobile-web-app-capable" content="no">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Unit Builder - Age of Empires Online">
+  <link rel="mask-icon" href="/assets/meta/maskable_icon.png" color="#488489">
+  <meta name="msapplication-TileColor" content="#488489">
 </head>
 
 <body>
@@ -53,7 +62,7 @@
       Please enable it to continue.</strong>
   </noscript>
   <section id="app"></section>
-  <!-- built files will be auto injected -->
+  <script type="module" src="/src/main.js"></script>
 </body>
 
 </html>

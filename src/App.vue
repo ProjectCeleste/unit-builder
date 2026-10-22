@@ -4,8 +4,8 @@
     class="mb-2"
     :can-add-unit="canAddUnit"
     :share-visible="shareVisible"
-    @unitAdded="onUnitAdded"
-    @shareClicked="postBuild()"
+    @unit-added="onUnitAdded"
+    @share-clicked="postBuild()"
   />
   <div class="my-1 is-flex is-flex-direction-row is-flex-grow-1">
     <Unit
@@ -14,7 +14,7 @@
       v-model="units[i]"
       :unit-id="i"
       :show-delete="Object.keys(units).length > 1"
-      @unitDeleted="onUnitDeleted(i)"
+      @unit-deleted="onUnitDeleted(i)"
     />
   </div>
   <LegalNotice class="mt-3" />
@@ -190,7 +190,7 @@ html {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-color: $body-background-color;
-  background-image: url("~@/assets/background.webp");
+  background-image: url("@/assets/background.webp");
 
   min-height: 100vh;
 }
@@ -208,8 +208,10 @@ html {
     position: fixed;
     left: 0.75rem;
     bottom: 0.75rem;
-    box-shadow: 0 2px 4px -1px rgba(25, 43, 51, 0.2),
-      0 4px 5px 0 rgba(25, 43, 51, 0.14), 0 1px 10px 0 rgba(25, 43, 51, 0.12);
+    box-shadow:
+      0 2px 4px -1px rgba(25, 43, 51, 0.2),
+      0 4px 5px 0 rgba(25, 43, 51, 0.14),
+      0 1px 10px 0 rgba(25, 43, 51, 0.12);
   }
 }
 

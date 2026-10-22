@@ -1,0 +1,6 @@
+dist/
+server/front/
+src/data/
+src/gamedb_data/
+src/styles/sprites/
+*.json

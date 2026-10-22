@@ -1,9 +1,10 @@
 {
     "type": "module",
+    "private": true,
+    "engines": {
+        "node": ">=24"
+    },
     "scripts": {
         "generate": "node main.js"
-    },
-    "dependencies": {
-        "axios": "^0.21.1"
     }
 }

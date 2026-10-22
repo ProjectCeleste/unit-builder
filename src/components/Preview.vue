@@ -67,9 +67,7 @@
           <span v-if="!effect.absolute && effect.type !== 'WorkRateSelfHeal'">
             %
           </span>
-          <span v-if="effect.type === 'ArmorVulnerability'">
-            %
-          </span>
+          <span v-if="effect.type === 'ArmorVulnerability'"> % </span>
           <span v-if="effect.type === 'WorkRateSelfHeal'">/s</span>
         </template>
       </div>

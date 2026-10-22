@@ -27,7 +27,7 @@
     <Upgrade
       v-if="
         upgrade.chain &&
-          (!upgrade.chain.unlocked || unlockedTech.includes(upgrade.chain.id))
+        (!upgrade.chain.unlocked || unlockedTech.includes(upgrade.chain.id))
       "
       v-model="chain"
       :upgrade="upgrade.chain"

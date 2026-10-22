@@ -62,14 +62,8 @@ const onEvent = ({ el, event, handler, middleware }) => {
   execHandler({ event, handler, middleware })
 }
 const beforeMount = (el, { value }) => {
-  const {
-    events,
-    handler,
-    middleware,
-    isActive,
-    detectIframe,
-    capture
-  } = processDirectiveArguments(value)
+  const { events, handler, middleware, isActive, detectIframe, capture } =
+    processDirectiveArguments(value)
   if (!isActive) {
     return
   }

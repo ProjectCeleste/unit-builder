@@ -8,11 +8,18 @@
 </p>
 
 ## Project setup
+
+Requires Node.js 24 (see `.nvmrc`).
+
 ```
+nvm install 24
+nvm use 24
 npm install
 ```
 
 ### Generate database, meta, images and optimization
+
+Downloads the game data and art, then regenerates `src/data`, the sitemap, the app icons and the sprite sheets.
 
 ```
 npm run generate
@@ -20,7 +27,7 @@ npm run generate
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+npm run dev
 ```
 
 ### Compiles and minifies for pre-production
@@ -39,13 +46,18 @@ npm run build
 npm run build-prod
 ```
 
+### Previews the production build locally
+```
+npm run preview
+```
+
 ### Lints and fixes files
 ```
 npm run lint
 ```
 
 ### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+See [Vite Configuration Reference](https://vite.dev/config/).
 
 ### Server for build sharing
 
@@ -54,6 +66,8 @@ The server for build sharing is located in the `server` directory. For deploymen
 Builds are stored using sqlite, in a file named "build-db.sqlite" located in the server's working directory, and expire after 6 months. It is recommended to clear this file with each new deployment to avoid old builds causing errors in case something has changed in the game files.
 
 The server should be running behind an apache or nginx proxy configured with gzip and caching.
+
+The server requires Node.js 24 as well.
 
 **Caching exceptions:**
 - `front/service-worker.js` and `front/sitemap.xml` should NOT be cached

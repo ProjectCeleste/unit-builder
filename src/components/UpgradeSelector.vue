@@ -113,7 +113,8 @@ export default {
         this.$nextTick(() => {
           const borderWidth = 4
           const scrollbarWidth = 17
-          const parentBounds = this.$el.parentElement.parentElement.parentElement.getBoundingClientRect()
+          const parentBounds =
+            this.$el.parentElement.parentElement.parentElement.getBoundingClientRect()
           this.x = event.clientX - parentBounds.left + 15 + borderWidth / 2
 
           const boundRight =
