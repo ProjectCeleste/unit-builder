@@ -250,8 +250,11 @@ export default {
     },
     modelValue: {
       deep: true,
-      handler(val) {
+      handler() {
+        // Read the latest value when the tick runs: applying the value captured
+        // here can overwrite newer state and make units sync back and forth forever
         this.$nextTick(() => {
+          const val = this.modelValue
           this.selection = val.selection
           this.gear = val.gear
           this.advisors = val.advisors
